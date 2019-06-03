@@ -1,0 +1,19 @@
+Package: rcompass
+Type: Package
+Title: R Client for the COMPASS GrapgQL API
+Author: paolo.sonego <paolo.sonego@gmail.com>
+Maintainer: paolo.sonego <paolo.sonego@gmail.com>
+Version: 0.0.1
+License: GPL-3
+BugReports: https://github.com/onertipaday/rcompass/issues
+Description: Provides functions for querying data from 
+    COMPASS (COMpendia Programmatic Access Support Software).
+LazyData: true
+Encoding: UTF-8
+Depends:
+    R (>= 3.6.0)
+Imports:
+    jsonlite,
+    httr
+RoxygenNote: 6.1.1
+Language: en-US
