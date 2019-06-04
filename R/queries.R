@@ -286,6 +286,39 @@ parze(cont(do_POST(base_url, my_query)))$data$biofeatureAnnotations$edges$node$a
 
 
 
+
+#' get biofeature ids by name
+#'
+#' @param compendium a character - the selected compendium
+#' @param name  a character - the biofeature name
+#'
+#' @return a character vector
+#' @export
+#'
+#' @examples
+#' get_biofeature_by_name()
+get_biofeature_by_name <- function(compendium="vitis_vinifera",
+                                       name="VIT_00s0332g00060"){
+  my_query <- paste0('{
+  biofeatures(compendium:\"', compendium, '\",
+                        name:\"',name, '\") {
+    edges {
+      node {
+        name,
+        biofeaturevaluesSet(bioFeatureField_Name:"sequence") {
+          edges {
+            node {
+              value
+            }
+          }
+        }
+      }
+    }
+  }
+}')
+  gsub("<br>",";", parze(cont(do_POST(base_url, my_query)))$data)
+}
+
 #' get biofeatures by annotation term
 #'
 #' @param compendium a character - the selected compendium
@@ -403,4 +436,44 @@ create_module <- function(compendium="vitis_vinifera",
   parze(cont(do_POST(base_url, my_query)))$data
 
 }
+
+# TEST
+create_module_bf <- function(compendium="vitis_vinifera",
+                          biofeaturesIds=c("QmlvRmVhdHVyZVR5cGU6NTIzMjU=","QmlvRmVhdHVyZVR5cGU6NTIzMjY=")){
+  my_query <- paste0('{
+  modules(compendium:"vitis_vinifera",
+    biofeaturesIds:["QmlvRmVhdHVyZVR5cGU6NTIzMjU=","QmlvRmVhdHVyZVR5cGU6NTIzMjY="],
+    samplesetIds:["U2FtcGxlU2V0VHlwZToxMjYw","U2FtcGxlU2V0VHlwZToxMjYx","U2FtcGxlU2V0VHlwZToxMjYy"]) {
+    normalizedValues,
+    sampleSets {
+      edges {
+        node {
+          id,
+          name,
+          normalizationdesignsampleSet {
+            edges {
+              node {
+                sample {
+                  sampleName
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    biofeatures {
+      edges {
+        node {
+          id,
+          name
+        }
+      }
+    }
+  }
+}')
+  parze(cont(do_POST(base_url, my_query)))$data
+
+}
+
 

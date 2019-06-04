@@ -2,6 +2,7 @@
 
 export(create_module)
 export(get_biofeature_by_ann_term)
+export(get_biofeature_by_name)
 export(get_biofeature_info)
 export(get_compendia)
 export(get_compendium_data_source)

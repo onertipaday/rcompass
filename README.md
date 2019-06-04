@@ -1,22 +1,28 @@
-# rcompass
+
+# rCOMPASS <img src="docs/images/logo.png" align="right" alt="" width="120" />
 
 R Client for the COMPASS GraphQL API
 
-This package provides access to the [COMPASS](https://compass-.readthedocs.io/en/latest/index.html) GraphQL API from R.
+This package provides access to the
+[COMPASS](https://compass-.readthedocs.io/en/latest/index.html) GraphQL
+API from R.
 
 ## Build Status
 
-[![Travis-CI Build Status](https://travis-ci.com/onertipaday/rcompass.svg?branch=master)](https://travis-ci.com/onertipaday/rcompass)
+[![Travis-CI Build
+Status](https://travis-ci.com/onertipaday/rcompass.svg?branch=master)](https://travis-ci.com/onertipaday/rcompass)
 
 ## Installation
-Installation from github requires the devtools package to be installed.
 
-```R
+The latest development version can be installed from github:
+
+``` r
 devtools::install_github("onertipaday/rcompass")
 ```
+
 ## Usage
 
-```R
+``` r
 #  Get all available compendia
 library(rcompass)
 get_compendia()

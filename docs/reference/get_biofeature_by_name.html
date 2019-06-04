@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • rcompass</title>
+<title>get biofeature ids by name — get_biofeature_by_name • rcompass</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,7 +30,10 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="get biofeature ids by name — get_biofeature_by_name" />
+
+<meta property="og:description" content="get biofeature ids by name" />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -47,7 +50,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -92,123 +95,53 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>get biofeature ids by name</h1>
+    
+    <div class="hidden name"><code>get_biofeature_by_name.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    
+    <p>get biofeature ids by name</p>
+    
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
-
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="create_module.html">create_module()</a></code> </p>
-        </td>
-        <td><p>create moduel with biological features and sample sets</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_biofeature_by_ann_term.html">get_biofeature_by_ann_term()</a></code> </p>
-        </td>
-        <td><p>get biofeatures by annotation term</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_biofeature_by_name.html">get_biofeature_by_name()</a></code> </p>
-        </td>
-        <td><p>get biofeature ids by name</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_biofeature_info.html">get_biofeature_info()</a></code> </p>
-        </td>
-        <td><p>Title</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_compendia.html">get_compendia()</a></code> </p>
-        </td>
-        <td><p>Get all available compendia</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_compendium_data_source.html">get_compendium_data_source()</a></code> </p>
-        </td>
-        <td><p>Get compendium data sources</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_experiments.html">get_experiments()</a></code> </p>
-        </td>
-        <td><p>Get available experiments information for the selected compendium,
-use <code>get_compendia</code> to check all the available compendia</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_ontologies.html">get_ontologies()</a></code> </p>
-        </td>
-        <td><p>Get all ontologies for</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_platform_types.html">get_platform_types()</a></code> </p>
-        </td>
-        <td><p>get available platform types</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_platforms.html">get_platforms()</a></code> </p>
-        </td>
-        <td><p>Get all available platforms for the selected compendium,
-use <code>get_compendia</code> to check all the available compendia</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_sample_annotation.html">get_sample_annotation()</a></code> </p>
-        </td>
-        <td><p>get annotations for n samples from the selected compendium</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_sample_by_ann_term.html">get_sample_by_ann_term()</a></code> </p>
-        </td>
-        <td><p>get samples related to a specific annotation term</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_samples.html">get_samples()</a></code> </p>
-        </td>
-        <td><p>Get all available samples for the selected compendium,
-use <code>get_compendia</code> to check all the available compendia</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="rcompass-package.html">rcompass-package</a></code> </p>
-        </td>
-        <td><p>COMPASS  (COMpendia Programmatic Access Support Software) API client library</p></td>
-      </tr>
-    </tbody>
+    <pre class="usage"><span class='fu'>get_biofeature_by_name</span>(<span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vitis_vinifera"</span>,
+  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"VIT_00s0332g00060"</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>compendium</th>
+      <td><p>a character - the selected compendium</p></td>
+    </tr>
+    <tr>
+      <th>name</th>
+      <td><p>a character - the biofeature name</p></td>
+    </tr>
     </table>
-  </div>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>a character vector</p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>get_biofeature_by_name</span>()</div><div class='output co'>#&gt; [1] "list(edges = list(node = list(name = \"VIT_00s0332g00060\", biofeaturevaluesSet = list(edges = list(list(node = list(value = \"ACTAAAAATTTAGCTCATTGAATAAGTAAACAATTGAATTGGATTCGGTTGGATGGTACCAACGAAATCGAGTGCTAACTCCCATTTCTTATTGAATTAACCGATCAACTTTCTATCGAACTTTTGGATTCGATAATTTTCGCAAAAAATTTCGTTTAATTTGACTTTATTATTATTATTATGAGAATAAATCCTACTACTTCTGGTCCTAGGGTTTCCACGCTTGAAAAAAAAAACCTGGGGCGTATCGCTCAAATCATTGGTCCGATCCTGGATGTAGCTTTTCCCCCGGGCAAGATGCCTAATATTTACAATGCGCTGGTAGTTAAGGGTCGAGATACTGTCGGTCAACAAATTAATGTGACTTGTGAGGTACAGCAATTATTAGGAAATAATCGAGTTAGAGCTGTGGCTATGAGTGCTACAGATGGTCTAATGAGAGGAATGGAAGTGATTGACACGGGAGCTCCTCTAAGTGTTCCAGTCGGTGGAGCGACTCTCGGACGAATTTTCAATGTGCTTGGAGAGCTTGTTGATAATTTAGGTCCTGTAGATACTCGCACAACATCTCCTATTCATAGATCTGCGCCCGCATTTATACAGTTAGATACAAAATTCTCTATTTTTGAAACAGGAATTCAAGTTGTAGATCTTTTAGCCCCTTATCGCCTTGGAGGAAAAATCGAACTACTCGGGTTGGCTGGTTGGAAGGATTGCTTTCTGCCGTCTCTCGTTCTTGACAGATCCGATCGGGTGTTCATAATCTGGAGTAAAAGGATTCGAACCTTTGCATGCCGGTACCAAAAACCGATGCCTTACCACTTGGCTATACTCCATACGGCCTTAGGCCTTTTGATAACTAATTAGAGTTGACATGAAATGGGTCACGAAAGAAGACGTATCCGATGAATGAATGATTCATTCCCCTCCCACTCACACGGGTTCTTCTATTGAAGAGGTTCCCCTTCTTCTATGTGAGGTGGGGCGTACGTAAGAGCGGAACCTAGATAGAACGCGGAGCGCCGGCCCCGGCCGCCGATACAGTTACCATGCTTACCAGCTCTTACCATTGCCGCCTATATATATAGATGGGAGGTAGGCGAGGGTAGCTTGCTTCTCTTCTCCTAGGCTACCTGCACATGTTATTCGCGAAGAAAAGGCAGCGAGCGGTTCTTCGCTTAGTAGACGGCCGCCGGACGACGACCGCTTCTTGTTCTCGCCCAGCCGCTTCTTTTTTTTTCTTATTATTTAGAATCCTAAACTAAAGAAAGAAGCTCCTGAATCAACGCAGGGTGGTCGTAGATCAGCAGGAGAACTGTACTAACCTGCCGCCGGTGACTTTATCATATCAGGGCTCCGCAGGAGAAGAAAGAAGGTCCGGGTCCAATTTATAATGAAGCGAAGGTCCCCCTTACTCCCTATTCTCTCTTAAAGCTTTATAAAGCTCGGCGAGAAAGGGTTGGTTAAGAACTATTGACTGTAAACCATAGCAGTTACAGTCACTCAATGGAGATGTTCGCCTTTGGAATGAAGATGGATGAGCAGGCACTTGAGCCTGGAACTGATTTAATTCGGGGAAAACATGGAACCGGTTACTATACTGGGGGAGGCGAGACATGACCGCGACTTAAGATTCAAGTACCGTTGAAAAGACTAAAGAAACGGGGGGA\")))))))"</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#value">Value</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
     </ul>
+
   </div>
 </div>
 
