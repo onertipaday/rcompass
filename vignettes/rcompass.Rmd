@@ -1,0 +1,60 @@
+---
+title: "An R interface to COMPASS, the gene expression compendia GraphQL endpoint."
+author: Paolo Sonego
+affiliation: https://github.com/onertipaday/rcompass
+package: rcompass
+abstract: > 
+  How to query COMPASS from R
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{An R interface to COMPASS}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteKeywords{Bioinformatics, Gene Expression, data}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+# Introduction
+
+## Installation
+
+`compass` installation from github requires the devtools package to be installed.
+
+```{r install, eval=FALSE}
+devtools::install_github("onertipaday/rcompass")
+```
+
+## Getting help
+
+To get help open an issue on the `rcompass`
+[github page](https://github.com/onertipaday/rcompass/issues).
+
+## The resource
+
+[COMPASS](http://compass.fmach.it/graphql/) GraphQL Endpoint
+[COMPASS documentation](https://compass-.readthedocs.io/en/latest/index.html)
+
+## The package
+
+COMPASS (COMpendia Programmatic Access Support Software) is a software layer that provides a GraphQL endpoint to query compendia built using COMMAND>_ technology [1](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6348648/). 
+COMPASS is meant to be the barebone interface on top of a compendium database from a
+single location with a unified output format. The `rcompass`
+package make this possible from within R. Do do so, it relies on the
+`httr` package to query the GraphQL interface, and access
+and retrieve data.
+
+# A Brief rols overview
+
+The `rcompass` package is build around a bunch of functions
+enable to query the compendium of interest and retrieve, store and manipulate data. Each of
+these functions are described in more details in their respective manual
+pages. We start by loading the package.
+
+```{r setup}
+library(rcompass)
+```
