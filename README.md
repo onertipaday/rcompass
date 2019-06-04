@@ -1,6 +1,6 @@
 # rcompass
 
-R Client for the COMPASS GrapgQL API
+R Client for the COMPASS GraphQL API
 
 This package provides access to the [COMPASS](https://compass-.readthedocs.io/en/latest/index.html) GrapgQL API from R.
 
