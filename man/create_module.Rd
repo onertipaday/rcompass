@@ -23,3 +23,6 @@ a data.frame
 \description{
 create moduel with biological features and sample sets
 }
+\examples{
+create_module()
+}

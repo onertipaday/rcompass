@@ -364,6 +364,7 @@ parze(cont(do_POST(base_url, my_query)))$data$sampleAnnotations$edges
 #' @export
 #'
 #' @examples
+#' create_module()
 create_module <- function(compendium="vitis_vinifera",
                           biofeaturesIds=c("QmlvRmVhdHVyZVR5cGU6NTIzMjU=","QmlvRmVhdHVyZVR5cGU6NTIzMjY="),
                           samplesetIds=c("U2FtcGxlU2V0VHlwZToxMjYw","U2FtcGxlU2V0VHlwZToxMjYx","U2FtcGxlU2V0VHlwZToxMjYy")){

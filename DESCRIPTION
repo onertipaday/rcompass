@@ -1,8 +1,10 @@
 Package: rcompass
 Type: Package
 Title: R Client for the COMPASS GrapgQL API
-Author: paolo.sonego <paolo.sonego@gmail.com>
-Maintainer: paolo.sonego <paolo.sonego@gmail.com>
+Author: c(person("Paolo", "Sonego", role = c("aut", "cre"),
+    email = "paolo.sonego@fmach.it")) 
+    using code from ghql pkg by Scott Chamberlain
+Maintainer: Paolo Sonego <paolo.sonego@fmach.it>
 Version: 0.0.1
 License: GPL-3
 BugReports: https://github.com/onertipaday/rcompass/issues
@@ -17,3 +19,7 @@ Imports:
     httr
 RoxygenNote: 6.1.1
 Language: en-US
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
