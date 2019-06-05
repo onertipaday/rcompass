@@ -125,7 +125,7 @@ get_experiments <- function(compendium="vitis_vinifera"){
   parze(cont(do_POST(base_url, my_query)))[[1]]$experiments$edges$node
 }
 #
-# Le API della seguente funzione devono restituire le info per campione non per record: i.e.
+# TODO: Le API della seguente funzione devono restituire le info per campione non per record: i.e.
 # se indico n=10 devo ottenere le annotaioni per 10 campioni
 #
 #' get annotations for n samples from the selected compendium
@@ -287,25 +287,27 @@ parze(cont(do_POST(base_url, my_query)))$data$biofeatureAnnotations$edges$node$a
 
 
 
-#' get biofeature ids by name
+
+#' Title
 #'
 #' @param compendium a character - the selected compendium
-#' @param name  a character - the biofeature name
+#' @param name a character - the biofeature name
+#' @param field the biofeature field of interest  (sequence as default)
 #'
-#' @return a character vector
+#' @return a character
 #' @export
 #'
 #' @examples
 #' get_biofeature_by_name()
 get_biofeature_by_name <- function(compendium="vitis_vinifera",
-                                       name="VIT_00s0332g00060"){
+                                   name="VIT_00s0332g00060",
+                                   field="sequence"){
   my_query <- paste0('{
   biofeatures(compendium:\"', compendium, '\",
                         name:\"',name, '\") {
     edges {
       node {
-        name,
-        biofeaturevaluesSet(bioFeatureField_Name:"sequence") {
+        biofeaturevaluesSet(bioFeatureField_Name:\"', field, '\") {
           edges {
             node {
               value
@@ -316,7 +318,9 @@ get_biofeature_by_name <- function(compendium="vitis_vinifera",
     }
   }
 }')
-  gsub("<br>",";", parze(cont(do_POST(base_url, my_query)))$data)
+  tmp <- as.character(unlist(parze(cont(do_POST(base_url, my_query)))$data$biofeatures$edges))
+  names(tmp) <- name
+  tmp
 }
 
 #' get biofeatures by annotation term

@@ -2,21 +2,23 @@
 % Please edit documentation in R/queries.R
 \name{get_biofeature_by_name}
 \alias{get_biofeature_by_name}
-\title{get biofeature ids by name}
+\title{Title}
 \usage{
 get_biofeature_by_name(compendium = "vitis_vinifera",
-  name = "VIT_00s0332g00060")
+  name = "VIT_00s0332g00060", field = "sequence")
 }
 \arguments{
 \item{compendium}{a character - the selected compendium}
 
 \item{name}{a character - the biofeature name}
+
+\item{field}{the biofeature field of interest  (sequence as default)}
 }
 \value{
-a character vector
+a character
 }
 \description{
-get biofeature ids by name
+Title
 }
 \examples{
 get_biofeature_by_name()
