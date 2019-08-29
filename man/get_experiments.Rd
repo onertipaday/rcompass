@@ -2,7 +2,7 @@
 % Please edit documentation in R/queries.R
 \name{get_experiments}
 \alias{get_experiments}
-\title{Get available experiments information for the selected compendium,
+\title{Get all available experiment ids for the selected compendium,
 use \code{\link{get_compendia}} to check all the available compendia}
 \usage{
 get_experiments(compendium = "vitis_vinifera")
@@ -11,10 +11,10 @@ get_experiments(compendium = "vitis_vinifera")
 \item{compendium}{a character - the selected compendium}
 }
 \value{
-a data.frame
+a data.frame with experimentAccessId and EsperimentName
 }
 \description{
-Get available experiments information for the selected compendium,
+Get all available experiment ids for the selected compendium,
 use \code{\link{get_compendia}} to check all the available compendia
 }
 \examples{

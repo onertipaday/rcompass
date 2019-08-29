@@ -2,7 +2,7 @@
 % Please edit documentation in R/queries.R
 \name{get_biofeature_by_name}
 \alias{get_biofeature_by_name}
-\title{Title}
+\title{get biofeature sequence by name}
 \usage{
 get_biofeature_by_name(compendium = "vitis_vinifera",
   name = "VIT_00s0332g00060", field = "sequence")
@@ -18,7 +18,7 @@ get_biofeature_by_name(compendium = "vitis_vinifera",
 a character
 }
 \description{
-Title
+get biofeature sequence by name
 }
 \examples{
 get_biofeature_by_name()

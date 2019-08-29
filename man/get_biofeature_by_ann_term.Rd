@@ -2,7 +2,7 @@
 % Please edit documentation in R/queries.R
 \name{get_biofeature_by_ann_term}
 \alias{get_biofeature_by_ann_term}
-\title{get biofeatures by annotation term}
+\title{get all the biofeatures (genes here) which include the selected term within the annotations values}
 \usage{
 get_biofeature_by_ann_term(compendium = "vitis_vinifera",
   term = "GO:0006260")
@@ -16,5 +16,5 @@ get_biofeature_by_ann_term(compendium = "vitis_vinifera",
 a character vector
 }
 \description{
-get biofeatures by annotation term
+get all the biofeatures (genes here) which include the selected term within the annotations values
 }

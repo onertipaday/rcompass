@@ -2,13 +2,10 @@
 % Please edit documentation in R/queries.R
 \name{create_module}
 \alias{create_module}
-\title{create moduel with biological features and sample sets}
+\title{create module with biological features and sample sets}
 \usage{
-create_module(compendium = "vitis_vinifera",
-  biofeaturesIds = c("QmlvRmVhdHVyZVR5cGU6NTIzMjU=",
-  "QmlvRmVhdHVyZVR5cGU6NTIzMjY="),
-  samplesetIds = c("U2FtcGxlU2V0VHlwZToxMjYw",
-  "U2FtcGxlU2V0VHlwZToxMjYx", "U2FtcGxlU2V0VHlwZToxMjYy"))
+create_module(compendium = "vitis_vinifera", biofeatureNames = NULL,
+  samplesetNames = NULL)
 }
 \arguments{
 \item{compendium}{a character - the selected compendium}
@@ -21,8 +18,12 @@ create_module(compendium = "vitis_vinifera",
 a data.frame
 }
 \description{
-create moduel with biological features and sample sets
+create module with biological features and sample sets
 }
 \examples{
-create_module()
+my_mod <- create_module(biofeatureNames=c("VIT_00s0332g00110","VIT_00s0332g00160",
+"VIT_00s0396g00010","VIT_00s0505g00030"),samplesetNames=c("E-MTAB-1514.US_30_2.ch1-vs-E-MTAB-1514.US_03_1.ch1","E-MTAB-1514.US_03_3.ch1-vs-E-MTAB-1514.US_03_1.ch1"))
+pheatmap(my_module,col = RcolorBrewer::brewer.pal(11,name="RdBu"))
+# compare to vespucci: vesp_test=readr::read_tsv("http://vespucci.colombos.fmach.it/cws_data/export_data/colombos_20190828_nEwFDG.txt")
+
 }
