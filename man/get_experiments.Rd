@@ -2,21 +2,24 @@
 % Please edit documentation in R/queries.R
 \name{get_experiments}
 \alias{get_experiments}
-\title{Get all available experiment ids for the selected compendium,
+\title{Get experiment Accessids and name
 use \code{\link{get_compendia}} to check all the available compendia}
 \usage{
-get_experiments(compendium = "vitis_vinifera")
+get_experiments(compendium = "vitis_vinifera", sampleName = NULL)
 }
 \arguments{
 \item{compendium}{a character - the selected compendium}
+
+\item{sampleName}{a character - if NULL(default) returns all available experiments ids
+for the selected compendium}
 }
 \value{
 a data.frame with experimentAccessId and EsperimentName
 }
 \description{
-Get all available experiment ids for the selected compendium,
+Get experiment Accessids and name
 use \code{\link{get_compendia}} to check all the available compendia
 }
 \examples{
-get_experiments()
+get_experiments(sampleName="GSM671721")
 }

@@ -3,7 +3,7 @@
 #' @return a list with each element containing name, fullName, descritpion and normaliaziotion for all available compendia.
 #' @export
 #'
-#' @examples
+#' @example
 #' get_compendia()
 get_compendia <- function(){
   my_query <- '{
@@ -25,7 +25,7 @@ get_compendia <- function(){
 #' @return a character vector containing the available data sources
 #' @export
 #'
-#' @examples
+#' @example
 #' get_compendium_data_source()
 get_compendium_data_source <- function(compendium="vitis_vinifera"){
   my_query <- '{
@@ -50,7 +50,7 @@ get_compendium_data_source <- function(compendium="vitis_vinifera"){
 #' platformAccessId, platformName, description, dataSource, platformType
 #' @export
 #'
-#' @examples
+#' @example
 #' get_platforms()
 get_platforms <- function(compendium="vitis_vinifera"){
   my_query <- paste0('{
@@ -97,35 +97,87 @@ get_platform_types <- function(compendium="vitis_vinifera"){
 }
 
 
-#' Get all available experiment ids for the selected compendium,
+#' get_sample_info
+#'
+#' @param compendium
+#' @param sampleName
+#'
+#' @return
+#' @export
+#'
+#' @example
+#' get_sample_info(sampleName = "GSM287866.ch1")
+get_sample_info <-function(compendium="vitis_vinifera",
+                           sampleName=NULL){
+  if(missing(sampleName)){stop("Provide a sampleName.")}
+    my_query <- paste0('{
+      samples(compendium:\"', compendium, '\", sampleName:\"', sampleName,'\") {
+      edges{
+        node{
+          id
+          sampleName
+          experiment{
+            id
+            experimentAccessId
+            experimentName
+          }
+          platform{
+            platformName
+          }
+          reporterPlatform{
+            platformName
+            platformAccessId
+          }
+        }
+      }
+    }
+
+  }')
+  parze(cont(do_POST(base_url, my_query)))$data$samples$edges$node
+}
+
+#' Get experiment Accessids and name
 #' use \code{\link{get_compendia}} to check all the available compendia
 #'
 #' @param compendium a character - the selected compendium
-#'
+#' @param sampleName a character - if NULL(default) returns all available experiments ids
+#' for the selected compendium
 #' @return a data.frame with experimentAccessId and EsperimentName
 #' @export
 #'
 #' @examples
-#' get_experiments()
-get_experiments <- function(compendium="vitis_vinifera"){
-  my_query <- paste0('{
- experiments(compendium:\"', compendium, '\") {
-    edges {
-      node {
-        experimentAccessId,
-        experimentName
+#' get_experiments(sampleName="GSM671721")
+get_experiments <- function(compendium="vitis_vinifera",
+                            sampleName=NULL){
+  if(is.null(sampleName)){
+    my_query <- paste0('{
+      experiments(compendium:\"', compendium, '\") {
+      edges {
+        node {
+          experimentAccessId,
+          experimentName
+        }
       }
     }
+  }')}
+  else{
+    sampleId <- get_sample_info(sampleName = sampleName)
+    my_query <- paste0('{
+    experiments(compendium:\"', compendium, '\", id:\"', sampleId$id,'\") {
+      edges {
+        node {
+          experimentAccessId,
+          experimentName
+        }
+      }
+    }
+  }')
   }
-}')
   parze(cont(do_POST(base_url, my_query)))[[1]]$experiments$edges$node
 }
 
 
-#
-# TODO: Le API della seguente funzione devono restituire le info per campione non per record: i.e.
-# se indico n=10 devo ottenere le annotaioni per 10 campioni
-#
+
 #' get annotations for n samples from the selected compendium
 #'
 #' @param compendium a character - the selected compendium
@@ -137,47 +189,48 @@ get_experiments <- function(compendium="vitis_vinifera"){
 #' @examples
 #' get_sample_annotation(n=25)
 get_sample_annotation <- function(compendium="vitis_vinifera", n=10){
-  my_query <- paste0('{
-  sampleAnnotations(compendium:\"', compendium, '\", first: ', n,') {
-    edges {
-      node {
-        sample {
-          id,
-          sampleName
-        },
-        annotation {
-          ontologyNode {
-            originalId,
-            ontology {
-              name
+    my_query <- paste0('{
+    sampleAnnotations(compendium:\"', compendium, '\", first: ', n,') {
+        edges {
+          node {
+            sample {
+              id,
+              sampleName
+            },
+            annotation {
+              ontologyNode {
+                originalId,
+                ontology {
+                  name
+                }
+              }
+              value
             }
           }
-          value
         }
       }
-    }
-  }
-}
-  ')
-  ontology <- parze(cont(do_POST(base_url, my_query)))$data$sampleAnnotations$edges$node$annotation$ontologyNode
-  sampleName <- parze(cont(do_POST(base_url, my_query)))$data$sampleAnnotations$edges$node$sample$sampleName
-  data.frame(sampleName = sampleName, ontology=ontology)
+    }')
+  tmp <- parze(cont(do_POST(base_url, my_query)))$data$sampleAnnotations$edges$node
+  data.frame(sampleName = tmp$sample$sampleName,
+             sampleId = tmp$sample$id,
+             ontology = tmp$annotation$ontologyNode)
 }
 
 
-# TODO - it takes TOO long!
-
+#' Get all samples measuread with a given Platform
+#'
 #' Get all available samples for the selected compendium,
 #' use \code{\link{get_compendia}} to check all the available compendia
 #'
 #' @param compendium a character - the selected compendium
-#'
+#' @param platform_PlatformAccessId a character
 #' @return a data.frame
 #' @export
 #'
-get_samples <- function(compendium="vitis_vinifera"){
+get_samples <- function(compendium = "vitis_vinifera",
+                        platformAccessId = "Vitis_Vinifera_Affy"){
   my_query <- paste0('{
- samples(compendium:\"', compendium, '\") {
+ samples(compendium:\"', compendium, '\", platformAccessId:\"', platform_PlatformAccessId,'\") {
         edges {
                 node {
                   id
@@ -190,8 +243,6 @@ get_samples <- function(compendium="vitis_vinifera"){
                     experimentName
                     scientificPaperRef
                     description
-                    comments
-
                   }
                   platform {
                     id
@@ -317,8 +368,6 @@ parze(cont(do_POST(base_url, my_query)))$data$biofeatureAnnotations$edges$node$a
 #' @return a character
 #' @export
 #'
-#' @examples
-#' get_biofeature_by_name()
 get_biofeature_by_name <- function(compendium="vitis_vinifera",
                                    name="VIT_00s0332g00060",
                                    field="sequence"){
@@ -343,7 +392,7 @@ get_biofeature_by_name <- function(compendium="vitis_vinifera",
 }
 
 
-#' Title
+#' get_biofeature_id
 #'
 #' @param compendium a character - the selected compendium
 #' @param name a character - the biofeature name
@@ -361,7 +410,7 @@ get_biofeature_id <- function(compendium="vitis_vinifera",
                         name:\"',name, '\") {
     edges {
       node {
-        name,
+        name
         id
         description
             }
@@ -380,6 +429,9 @@ get_biofeature_id <- function(compendium="vitis_vinifera",
 #'
 #' @return a character vector
 #' @export
+#'
+#' @example
+#' get_biofeature_by_ann_term()
 #'
 get_biofeature_by_ann_term <- function(compendium="vitis_vinifera",
                                 term="GO:0006260"){
@@ -451,10 +503,16 @@ parze(cont(do_POST(base_url, my_query)))$data$sampleAnnotations$edges
 #' @export
 #'
 #' @examples
+#'\dontrun{
 #' my_mod <- create_module(biofeatureNames=c("VIT_00s0332g00110","VIT_00s0332g00160",
-#' "VIT_00s0396g00010","VIT_00s0505g00030"),samplesetNames=c("E-MTAB-1514.US_30_2.ch1-vs-E-MTAB-1514.US_03_1.ch1","E-MTAB-1514.US_03_3.ch1-vs-E-MTAB-1514.US_03_1.ch1"))
-#' pheatmap(my_module,col = RcolorBrewer::brewer.pal(11,name="RdBu"))
-#' # compare to vespucci: vesp_test=readr::read_tsv("http://vespucci.colombos.fmach.it/cws_data/export_data/colombos_20190828_nEwFDG.txt")
+#' "VIT_00s0396g00010","VIT_00s0505g00030"),
+#' samplesetNames=c("E-MTAB-1514.US_30_2.ch1-vs-E-MTAB-1514.US_03_1.ch1",
+#' "E-MTAB-1514.US_03_3.ch1-vs-E-MTAB-1514.US_03_1.ch1"))
+#' pheatmap::pheatmap(my_module,col = RcolorBrewer::brewer.pal(11,name="RdBu"))
+#' # compare to vespucci:
+#' # url <- "http://vespucci.colombos.fmach.it/cws_data/export_data/colombos_20190828_nEwFDG.txt"
+#' # vesp_test=readr::read_tsv(url)
+#' }
 #'
 create_module <- function(compendium = "vitis_vinifera",
                           biofeatureNames = NULL,
@@ -589,9 +647,9 @@ create_module_ss <- function(compendium="vitis_vinifera",
 #' @export
 #'
 #' @examples
-#' mod1 <- create_module_ss()
-#' mod2 <- create_module_bf()
-#' mod12_union <- merge_modules(mod1,mod2)
+#' #mod1 <- create_module_ss()
+#' #mod2 <- create_module_bf()
+#' #mod12_union <- merge_modules(mod1,mod2)
 merge_modules <- function(mod1, mod2){
   create_module(biofeatureNames = c(rownames(mod1),rownames(mod2)),
                 samplesetNames = c(colnames(mod1),colnames(mod2)))

@@ -15,6 +15,3 @@ a character vector containing the available data sources
 \description{
 Get compendium data sources
 }
-\examples{
-get_compendium_data_source()
-}

@@ -2,13 +2,17 @@
 % Please edit documentation in R/queries.R
 \name{get_samples}
 \alias{get_samples}
-\title{Get all available samples for the selected compendium,
-use \code{\link{get_compendia}} to check all the available compendia}
+\title{Get all samples measuread with a given Platform}
 \usage{
-get_samples(compendium = "vitis_vinifera")
+get_samples(
+  compendium = "vitis_vinifera",
+  platformAccessId = "Vitis_Vinifera_Affy"
+)
 }
 \arguments{
 \item{compendium}{a character - the selected compendium}
+
+\item{platform_PlatformAccessId}{a character}
 }
 \value{
 a data.frame

@@ -4,7 +4,6 @@ do_POST <- function(url, query, ...){
   temp <- httr::POST(
     url,
     body = list(query = query),
-    # config = httr::progress(),
     encode = "json",
     ...)
   httr::stop_for_status(temp)

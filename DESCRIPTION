@@ -5,7 +5,7 @@ Author: c(person("Paolo", "Sonego", role = c("aut", "cre"),
     email = "paolo.sonego@fmach.it")) 
     using code from ghql pkg by Scott Chamberlain
 Maintainer: Paolo Sonego <paolo.sonego@fmach.it>
-Version: 0.0.1
+Version: 0.0.2
 License: GPL-3
 BugReports: https://github.com/onertipaday/rcompass/issues
 Description: Provides functions for querying data from 
@@ -13,11 +13,13 @@ Description: Provides functions for querying data from
 LazyData: true
 Encoding: UTF-8
 Depends:
-    R (>= 3.6.0)
+    R (>= 3.5.0)
 Imports:
+    httr,
     jsonlite,
-    httr
-RoxygenNote: 6.1.1
+    RJSONIO,
+    shiny
+RoxygenNote: 7.0.2
 Language: en-US
 Suggests: 
     knitr,

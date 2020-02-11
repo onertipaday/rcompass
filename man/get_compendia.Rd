@@ -12,6 +12,3 @@ a list with each element containing name, fullName, descritpion and normaliaziot
 \description{
 Get all available compendia
 }
-\examples{
-get_compendia()
-}

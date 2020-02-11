@@ -4,8 +4,10 @@
 \alias{get_sample_by_ann_term}
 \title{get samples related to a specific annotation term}
 \usage{
-get_sample_by_ann_term(compendium = "vitis_vinifera",
-  term = "GROWTH.GREENHOUSE")
+get_sample_by_ann_term(
+  compendium = "vitis_vinifera",
+  term = "GROWTH.GREENHOUSE"
+)
 }
 \arguments{
 \item{compendium}{a character - the selected compendium}

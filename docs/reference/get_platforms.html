@@ -7,23 +7,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Get all available platforms for the selected compendium,
-use <code>get_compendia</code> to check all the available compendia — get_platforms • rcompass</title>
+use <code><a href='get_compendia.html'>get_compendia</a></code> to check all the available compendia — get_platforms • rcompass</title>
+
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -31,12 +35,13 @@ use <code>get_compendia</code> to check all the available compendia — get_plat
 
 
 
-<meta property="og:title" content="Get all available platforms for the selected compendium,
-use <code>get_compendia</code> to check all the available compendia — get_platforms" />
 
+<meta property="og:title" content="Get all available platforms for the selected compendium,
+use <code><a href='get_compendia.html'>get_compendia</a></code> to check all the available compendia — get_platforms" />
 <meta property="og:description" content="Get all available platforms for the selected compendium,
 use get_compendia to check all the available compendia" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -48,6 +53,7 @@ use get_compendia to check all the available compendia" />
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -66,7 +72,7 @@ use get_compendia to check all the available compendia" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rcompass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
       </span>
     </div>
 
@@ -74,7 +80,7 @@ use get_compendia to check all the available compendia" />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -85,7 +91,6 @@ use get_compendia to check all the available compendia" />
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
@@ -95,26 +100,25 @@ use get_compendia to check all the available compendia" />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Get all available platforms for the selected compendium,
-use <code>get_compendia</code> to check all the available compendia</h1>
+use <code><a href='get_compendia.html'>get_compendia</a></code> to check all the available compendia</h1>
     
     <div class="hidden name"><code>get_platforms.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
     <p>Get all available platforms for the selected compendium,
-use <code>get_compendia</code> to check all the available compendia</p>
-    
+use <code><a href='get_compendia.html'>get_compendia</a></code> to check all the available compendia</p>
     </div>
 
     <pre class="usage"><span class='fu'>get_platforms</span>(<span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vitis_vinifera"</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -123,203 +127,23 @@ use <code>get_compendia</code> to check all the available compendia</p>
       <td><p>a character - the selected compendium</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a data.frame with 4 columns:
 platformAccessId, platformName, description, dataSource, platformType</p>
-    
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>get_platforms</span>()</div><div class='output co'>#&gt;               platformAccessId
-#&gt; 1          Vitis_Vinifera_Affy
-#&gt; 2      GrapeGena520510F_custom
-#&gt; 3                      GPL1320
-#&gt; 4                     GPL11004
-#&gt; 5                     GPL13936
-#&gt; 6                      GPL8025
-#&gt; 7                     GPL13450
-#&gt; 8                      GPL8560
-#&gt; 9                     GPL18740
-#&gt; 10                     RNA-seq
-#&gt; 11                    GPL15528
-#&gt; 12                    GPL18580
-#&gt; 13                  A-AFFY-162
-#&gt; 14                   A-AFFY-78
-#&gt; 15                A-GEOD-13936
-#&gt; 16                 A-MEXP-2292
-#&gt; 17                 A-MEXP-2309
-#&gt; 18                 A-MEXP-1536
-#&gt; 19                    GPL19359
-#&gt; 20                   AB-5500XL
-#&gt; 21                    GPL18579
-#&gt; 22 Nimblegen_GPL17894.GPL13936
-#&gt; 23                    GPL17894
-#&gt; 24          Nimblegen_GPL18213
-#&gt; 25                    GPL18213
-#&gt; 26          Nimblegen_GPL20013
-#&gt; 27                    GPL20013
-#&gt; 28            Agilent_GPL22427
-#&gt; 29                    GPL22427
-#&gt; 30                     GPL6637
-#&gt; 31                    GPL22377
-#&gt; 32                    GPL22342
-#&gt; 33                    GPL22266
-#&gt; 34                    GPL24498
-#&gt; 35                   HiSeq2500
-#&gt; 36                   HiSeq2000
-#&gt; 37                   HiSeq3000
-#&gt; 38                   HiSeq1500
-#&gt; 39                   HiSeq4000
-#&gt; 40                       GAIIx
-#&gt; 41                   HiSeqXTen
-#&gt; 42                  NextSeq500
-#&gt; 43                    GPL24081
-#&gt;                                                                                            platformName
-#&gt; 1                                                                Affymetrix Vitis vinifera Genome Array
-#&gt; 2                                                         Affymetrix GrapeGen Vitis vinifera Microarray
-#&gt; 3                                       [Vitis_Vinifera] Affymetrix Vitis vinifera (Grape) Genome Array
-#&gt; 4                                 Affymetrix GrapeGen Vitis vinifera Microarray [CDF: GrapeGena520510F]
-#&gt; 5                                                              NimbleGen 090918 Vitus vinifera exp HX12
-#&gt; 6  GrapeArray 1.2 developed by the Italian-French Public Consortium for Grapevine Genome Characterizati
-#&gt; 7   Grape Custom Array 4x2K developed by Malacarne et al. for grapevine-P.viticola interaction analysis
-#&gt; 8                                                           University of Arizona Vitis buds cDNA array
-#&gt; 9                                                                  Illumina HiSeq 2000 (Vitis vinifera)
-#&gt; 10                                                                                              RNA-seq
-#&gt; 11                                                        Illumina Genome Analyzer IIx (Vitis vinifera)
-#&gt; 12                                                                 Illumina HiSeq 2500 (Vitis vinifera)
-#&gt; 13                                                Affymetrix Custom Array - GrapeGen [GrapeGena520510F]
-#&gt; 14                             Affymetrix GeneChip Vitis vinifera (Grape) Genome Array [Vitis_Vinifera]
-#&gt; 15                                                             NimbleGen 090918 Vitus vinifera exp HX12
-#&gt; 16                                                                      NimbleGen 090918 Vitus vinifera
-#&gt; 17                         NimbleGen 090918 Vitus vinifera exp HX12 (all probes including random genes)
-#&gt; 18                                                               INRA Vitis vinifera oligo array 15K v3
-#&gt; 19                                                                 Illumina HiSeq 1000 (Vitis vinifera)
-#&gt; 20                                                                           AB 5500xl Genetic Analyzer
-#&gt; 21                                               Illumina HiSeq 2500 (Vitis vinifera subsp. silvestris)
-#&gt; 22                    NimbleGen 090918 Vitus vinifera exp HX12 [090918_Vitus_exp; GENE_CALL_ID version]
-#&gt; 23                    NimbleGen 090918 Vitus vinifera exp HX12 [090918_Vitus_exp; GENE_CALL_ID version]
-#&gt; 24                                                    NimbleGen Vitis vinifera array [090918_Vitus_exp]
-#&gt; 25                                                    NimbleGen Vitis vinifera array [090918_Vitus_exp]
-#&gt; 26                           Full NimbleGen 090918 Vitus vinifera exp HX12, version V1 CRIBI gene names
-#&gt; 27                           Full NimbleGen 090918 Vitus vinifera exp HX12, version V1 CRIBI gene names
-#&gt; 28                                                  Agilent-048771 4x44K Grape all [Probe Name version]
-#&gt; 29                                                  Agilent-048771 4x44K Grape all [Probe Name version]
-#&gt; 30                                                      INRA Vitis vinifera 14k oligo array version 2.0
-#&gt; 31                                Agilent-023297 Grape Oligo 4Ã—44K Microarray (Feature Number version)
-#&gt; 32                                                                 Illumina HiSeq 3000 (Vitis vinifera)
-#&gt; 33                                           Illumina HiSeq 3000 (Neofusicoccum parvum; Vitis vinifera)
-#&gt; 34                                                                  Illumina HiSeq 2000 (Vitis riparia)
-#&gt; 35                                                                                  Illumina HiSeq 2500
-#&gt; 36                                                                                  Illumina HiSeq 2000
-#&gt; 37                                                                                  Illumina HiSeq 3000
-#&gt; 38                                                                                  Illumina HiSeq 1500
-#&gt; 39                                                                                  Illumina HiSeq 4000
-#&gt; 40                                                                         Illumina Genome Analyzer IIx
-#&gt; 41                                                                                          HiSeq X Ten
-#&gt; 42                                                                                          NextSeq 500
-#&gt; 43                                               Illumina HiSeq 2500 (Vitis vinifera subsp. sylvestris)
-#&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    description
-#&gt; 1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         Virtual Platform for platforms: [GPL1320, A-AFFY-78]
-#&gt; 2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       Virtual Platform for platforms: [GPL11004, A-AFFY-162]
-#&gt; 3  Affymetrix submissions are typically submitted to GEO using the GEOarchive method described at http://www.ncbi.nlm.nih.gov/projects/geo/info/geo_affy.html The GeneChipÂ® Vitis vinifera Genome Array is the first array to provide comprehensive coverage of the V. vinifera genome. 14,000 V. vinifera transcripts and 1,700 transcripts from other Vitis species can be interrogated. Oligonucleotide probes complementary to each corresponding sequence are synthesized in situ on the arrays. Sixteen pairs of oligonucleotide probes are used to measure the level of transcription of each sequence represented on the GeneChipÂ® Vitis vinifera (Grape) Genome Array. Sequences used in the design of the V. vinifera Genome Array were selected from GenBankÂ®, dbEST, and RefSeq. The sequence clusters were created from the UniGene database (Build 7, Oct 2003). Annotations derived from Affymetrix CSV file dated 6/23/2004
-#&gt; 4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         &lt;NA&gt;
-#&gt; 5                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     12-plex array with 135,000 features per subarray. Feature size: 12 um Array is based on the V1 gene prediction by CRIBI of the 12X grape genome assembly produced by the French-Italian consortium. A different version of this platform with the 'GENE_CALL_ID' in the ID column is assigned accession number GPL17894.
-#&gt; 6                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  Spots size: 25 microns Total number of spots: 94928 Number of spots replicates per oligo: 3
-#&gt; 7                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         &lt;NA&gt;
-#&gt; 8                                                                                                                                                                                                                                                                                                                         References: Keilin T, Pang X, Venkateswari J, Halaly T, Crane O, Keren A, Ogrodovitch A, Ophir R, Volpin H, Galbraith D, Or E. Digital expression profiling of a grape-bud EST collection leads to new insight into molecular events during grape-bud dormancy release. Plant Science. 2007 Oct;173(4):446-457. Mathiason K, He D, Grimplet J, Venkateswari J, Galbraith DW, Or E, Fennell A. Transcript profiling in Vitis riparia during chilling requirement fulfillment reveals coordination of gene expression patterns with optimized bud break. Funct Integr Genomics. 2009 Feb;9(1):81-96. Epub 2008 Jul 17.
-#&gt; 9                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
-#&gt; 10                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    General RNA-seq platform
-#&gt; 11                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
-#&gt; 12                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
-#&gt; 13                                                                                                                                                                                                                                                                                                                                                                                                        Affymetrix custom tiling array - GrapeGen. The chip contains 23096 probe sets (40% increment with respect to the commercially availabe Grape Genechip.  The probe sets represent Vitis vinifera consensus sequences (when overlapped) from Cabernet Sauvignon, Muscat Hamburg, Pinot Noir, Chardonnay and Shiraz. See the &lt;a href="http://www.bcgsc.ca/project/genomics-of-berry-quality-in-grapevine-grapegen-1"&gt;GrapeGen project&lt;/a&gt; for further information. The CDF file is available for download on the ArrayExpress FTP site.
-#&gt; 14                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        &lt;NA&gt;
-#&gt; 15                                                                                                                                                                                                                                               Array Manufacturer: NimbleGen, Catalogue number: 05224691001, Distribution: custom-commercial, Technology: in situ oligonucleotide, 12-plex array with 135,000 features per subarray. Feature size: 12 um Array is based on the V1 gene prediction by CRIBI of the 12X grape genome assembly produced by the French-Italian consortium.&lt;br&gt;Comment[V1] = Vitis genome 12X annotation V1 ID (http://genomes.cribi.unipd.it/DATA/V1/)&lt;br&gt;Reporter Database Entry [genbank] = Protein accession LINK_PRE:http://www.ncbi.nlm.nih.gov/sites/entrez?db=protein&amp;cmd=search&amp;term=&lt;br&gt;Reporter Sequence = Oligo sequence&lt;br&gt;Comment[GENE_CALL_ID] = Gene Call ID as identified by NimbleScan software
-#&gt; 16                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         NimbleGen, Catalogue number: 05224691001, Distribution: custom-commercial, Technology: in situ oligonucleotide, 12-plex array with 135,000 features per subarray. Feature size: 12 um Array is based on the V1 gene prediction by CRIBI of the 12X grape genome assembly produced by the French-Italian consortium.
-#&gt; 17               Array Manufacturer: NimbleGen, Catalogue number: 05224691001, Distribution: custom-commercial, Technology: in situ oligonucleotide, 12-plex array with 135,000 features per subarray. Feature size: 12 um Array is based on the V1 gene prediction by CRIBI of the 12X grape genome assembly produced by the French-Italian consortium.&lt;br&gt;Comment[V1] = Vitis genome 12X annotation V1 ID (http://genomes.cribi.unipd.it/DATA/V1/)&lt;br&gt;Reporter Database Entry [genbank] = Protein accession LINK_PRE:http://www.ncbi.nlm.nih.gov/sites/entrez?db=protein&amp;cmd=search&amp;term=&lt;br&gt;Reporter Sequence = Oligo sequence&lt;br&gt;Comment[GENE_CALL_ID] = Gene Call ID as identified by NimbleScan software. This ADF includes roughly 750 extra probes not on A-GEOD-13936. These probes causing are for the random genes (some of the genes of grapevine are on random chromosomes because we can't accurately place them in the genome).
-#&gt; 18                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     The microarray was made with 14562 distinct 70-mer oligonucleotide probes from the Qiagen/Operon Array-Ready Oligo SetTM for the Grape Genome Version 1.0. The set represents 14562 transcripts from the The Institute for Genomic Research (TIGR) Grape Gene Index release 3. The oligonucleotide probes were spotted on mirro slides.
-#&gt; 19                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
-#&gt; 20                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  AB 5500xl Genetic Analyzer
-#&gt; 21                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
-#&gt; 22                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ['12-plex array with 135,000 features per subarray.', 'Feature size: 12 um', 'Array is based on the V1 gene prediction by CRIBI of the 12X grape genome assembly produced by the French-Italian consortium.', 'PMID 22554261 for gene annotations for each probe', '', 'The ID column includes the GENE_CALL_ID (as identified by NimbleScan software). A different version of this platform with the probe names in the ID column is assigned accession number GPL13936']
-#&gt; 23                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ['12-plex array with 135,000 features per subarray.', 'Feature size: 12 um', 'Array is based on the V1 gene prediction by CRIBI of the 12X grape genome assembly produced by the French-Italian consortium.', 'PMID 22554261 for gene annotations for each probe', '', 'The ID column includes the GENE_CALL_ID (as identified by NimbleScan software). A different version of this platform with the probe names in the ID column is assigned accession number GPL13936']
-#&gt; 24                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ['145868 probes/chamber.Several different probes/Gene.', '', 'designid', 'designname', '', 'native array description file: 090918_Vitus_exp.ngd', 'native array description file: 090918_Vitus_exp.ndf', '', 'A different version of this platform with the probe ids in the ID column is assigned accession number GPL17460']
-#&gt; 25                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ['145868 probes/chamber.Several different probes/Gene.', '', 'designid', 'designname', '', 'native array description file: 090918_Vitus_exp.ngd', 'native array description file: 090918_Vitus_exp.ndf', '', 'A different version of this platform with the probe ids in the ID column is assigned accession number GPL17460']
-#&gt; 26                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  12-plex array with 135,000 features per subarray. Feature size: 12 um. Array is based on the V1 gene prediction by CRIBI awith corresponding ID_ref. A different version of this platform with the probe names in the ID column is assigned accession number GPL13936 and one with the former name of the gene as ID is assigned accession number GPL17894
-#&gt; 27                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  12-plex array with 135,000 features per subarray. Feature size: 12 um. Array is based on the V1 gene prediction by CRIBI awith corresponding ID_ref. A different version of this platform with the probe names in the ID column is assigned accession number GPL13936 and one with the former name of the gene as ID is assigned accession number GPL17894
-#&gt; 28                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ['Arrays of this design have barcodes that begin with 16048771 or 2548771.', '', 'Gene IDs and Grape genome information is available at: http://genomes.cribi.unipd.it/grape/']
-#&gt; 29                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ['Arrays of this design have barcodes that begin with 16048771 or 2548771.', '', 'Gene IDs and Grape genome information is available at: http://genomes.cribi.unipd.it/grape/']
-#&gt; 30                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
-#&gt; 31                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                Probe sequences are based on Vitis_vinifera_mRNA_v1.fa (http://www.genoscope.cns.fr/externe/Download/Projets/Projet_ML/data/8X/annotation/).
-#&gt; 32                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        &lt;NA&gt;
-#&gt; 33                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        &lt;NA&gt;
-#&gt; 34                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        &lt;NA&gt;
-#&gt; 35                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        &lt;NA&gt;
-#&gt; 36                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        &lt;NA&gt;
-#&gt; 37                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        &lt;NA&gt;
-#&gt; 38                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        &lt;NA&gt;
-#&gt; 39                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        &lt;NA&gt;
-#&gt; 40                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        &lt;NA&gt;
-#&gt; 41                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        &lt;NA&gt;
-#&gt; 42                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        &lt;NA&gt;
-#&gt; 43                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        &lt;NA&gt;
-#&gt;      sourceName       name
-#&gt; 1         local microarray
-#&gt; 2         local microarray
-#&gt; 3           GEO microarray
-#&gt; 4           GEO microarray
-#&gt; 5           GEO microarray
-#&gt; 6           GEO microarray
-#&gt; 7           GEO microarray
-#&gt; 8           GEO microarray
-#&gt; 9           GEO microarray
-#&gt; 10          GEO microarray
-#&gt; 11          GEO microarray
-#&gt; 12          GEO microarray
-#&gt; 13 ArrayExpress microarray
-#&gt; 14 ArrayExpress microarray
-#&gt; 15 ArrayExpress microarray
-#&gt; 16 ArrayExpress microarray
-#&gt; 17 ArrayExpress microarray
-#&gt; 18 ArrayExpress microarray
-#&gt; 19          GEO microarray
-#&gt; 20          SRA microarray
-#&gt; 21          GEO microarray
-#&gt; 22          GEO microarray
-#&gt; 23          GEO microarray
-#&gt; 24          GEO microarray
-#&gt; 25          GEO microarray
-#&gt; 26          GEO microarray
-#&gt; 27          GEO microarray
-#&gt; 28          GEO microarray
-#&gt; 29          GEO microarray
-#&gt; 30          GEO microarray
-#&gt; 31          GEO microarray
-#&gt; 32          GEO microarray
-#&gt; 33          GEO microarray
-#&gt; 34          GEO microarray
-#&gt; 35          SRA microarray
-#&gt; 36          SRA microarray
-#&gt; 37          SRA microarray
-#&gt; 38          SRA microarray
-#&gt; 39          SRA microarray
-#&gt; 40          SRA microarray
-#&gt; 41          SRA microarray
-#&gt; 42          SRA microarray
-#&gt; 43          GEO microarray</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -327,13 +151,16 @@ platformAccessId, platformName, description, dataSource, platformType</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

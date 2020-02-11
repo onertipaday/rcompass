@@ -4,8 +4,7 @@
 \alias{get_biofeature_by_ann_term}
 \title{get all the biofeatures (genes here) which include the selected term within the annotations values}
 \usage{
-get_biofeature_by_ann_term(compendium = "vitis_vinifera",
-  term = "GO:0006260")
+get_biofeature_by_ann_term(compendium = "vitis_vinifera", term = "GO:0006260")
 }
 \arguments{
 \item{compendium}{a character - the selected compendium}

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>get all the biofeatures (genes here) which include the selected term within the annotations values — get_biofeature_by_ann_term • rcompass</title>
+<title>get_sampleset_id_by_name — get_sampleset_id_by_name • rcompass</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="get all the biofeatures (genes here) which include the selected term within the annotations values — get_biofeature_by_ann_term" />
-<meta property="og:description" content="get all the biofeatures (genes here) which include the selected term within the annotations values" />
+<meta property="og:title" content="get_sampleset_id_by_name — get_sampleset_id_by_name" />
+<meta property="og:description" content="get_sampleset_id_by_name" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -103,16 +103,19 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>get all the biofeatures (genes here) which include the selected term within the annotations values</h1>
+    <h1>get_sampleset_id_by_name</h1>
     
-    <div class="hidden name"><code>get_biofeature_by_ann_term.Rd</code></div>
+    <div class="hidden name"><code>get_sampleset_id_by_name.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>get all the biofeatures (genes here) which include the selected term within the annotations values</p>
+    <p>get_sampleset_id_by_name</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_biofeature_by_ann_term</span>(<span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vitis_vinifera"</span>, <span class='kw'>term</span> <span class='kw'>=</span> <span class='st'>"GO:0006260"</span>)</pre>
+    <pre class="usage"><span class='fu'>get_sampleset_id_by_name</span>(
+  <span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vitis_vinifera"</span>,
+  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"GSM786264.ch1-vs-GSM786258.ch1"</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -122,21 +125,28 @@
       <td><p>a character - the selected compendium</p></td>
     </tr>
     <tr>
-      <th>term</th>
+      <th>name</th>
+      <td><p>a character the sampleset of interest</p></td>
+    </tr>
+    <tr>
+      <th>ontology</th>
       <td><p>a character</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a character vector</p>
+    <p>a character</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>get_sampleset_id_by_name</span>()</div><div class='output co'>#&gt; [1] "U2FtcGxlU2V0VHlwZTo5OA=="</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

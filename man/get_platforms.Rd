@@ -18,6 +18,3 @@ platformAccessId, platformName, description, dataSource, platformType
 Get all available platforms for the selected compendium,
 use \code{\link{get_compendia}} to check all the available compendia
 }
-\examples{
-get_platforms()
-}

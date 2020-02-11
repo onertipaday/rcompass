@@ -4,8 +4,11 @@
 \alias{get_biofeature_info}
 \title{get_biofeature_info}
 \usage{
-get_biofeature_info(compendium = "vitis_vinifera",
-  name = "VIT_00s0332g00060", ontology = "Gene ontology")
+get_biofeature_info(
+  compendium = "vitis_vinifera",
+  name = "VIT_00s0332g00060",
+  ontology = "Gene ontology"
+)
 }
 \arguments{
 \item{compendium}{a character - the selected compendium}

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>get all the biofeatures (genes here) which include the selected term within the annotations values — get_biofeature_by_ann_term • rcompass</title>
+<title>Union of two modules — merge_modules • rcompass</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="get all the biofeatures (genes here) which include the selected term within the annotations values — get_biofeature_by_ann_term" />
-<meta property="og:description" content="get all the biofeatures (genes here) which include the selected term within the annotations values" />
+<meta property="og:title" content="Union of two modules — merge_modules" />
+<meta property="og:description" content="Union of two modules" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -103,40 +103,44 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>get all the biofeatures (genes here) which include the selected term within the annotations values</h1>
+    <h1>Union of two modules</h1>
     
-    <div class="hidden name"><code>get_biofeature_by_ann_term.Rd</code></div>
+    <div class="hidden name"><code>merge_modules.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>get all the biofeatures (genes here) which include the selected term within the annotations values</p>
+    <p>Union of two modules</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_biofeature_by_ann_term</span>(<span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vitis_vinifera"</span>, <span class='kw'>term</span> <span class='kw'>=</span> <span class='st'>"GO:0006260"</span>)</pre>
+    <pre class="usage"><span class='fu'>merge_modules</span>(<span class='no'>mod1</span>, <span class='no'>mod2</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>compendium</th>
-      <td><p>a character - the selected compendium</p></td>
-    </tr>
-    <tr>
-      <th>term</th>
-      <td><p>a character</p></td>
+      <th>mod2</th>
+      <td></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a character vector</p>
+    
 
+
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>#mod1 <- create_module_ss()
+#mod2 <- create_module_bf()
+#mod12_union <- merge_modules(mod1,mod2)
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
