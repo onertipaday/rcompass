@@ -4,7 +4,7 @@
 \alias{get_sample_info}
 \title{get_sample_info}
 \usage{
-get_sample_info(compendium = "vitis_vinifera", sampleName = NULL)
+get_sample_info(compendium = "vespucci", sampleName = NULL)
 }
 \arguments{
 \item{sampleName}{}

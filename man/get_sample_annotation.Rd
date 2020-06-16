@@ -4,7 +4,7 @@
 \alias{get_sample_annotation}
 \title{get annotations for n samples from the selected compendium}
 \usage{
-get_sample_annotation(compendium = "vitis_vinifera", n = 10)
+get_sample_annotation(compendium = "vespucci", n = 10)
 }
 \arguments{
 \item{compendium}{a character - the selected compendium}

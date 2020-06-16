@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -37,7 +41,6 @@
 
 <meta property="og:title" content="get annotations for n samples from the selected compendium — get_sample_annotation" />
 <meta property="og:description" content="get annotations for n samples from the selected compendium" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -55,7 +58,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -69,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rcompass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
       </span>
     </div>
 
@@ -87,9 +90,26 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/usecase01.html">Use Case 01</a>
+    </li>
+  </ul>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/onertipaday/rcompass/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -104,7 +124,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>get annotations for n samples from the selected compendium</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/onertipaday/rcompass/blob/master/R/queries.R'><code>R/queries.R</code></a></small>
     <div class="hidden name"><code>get_sample_annotation.Rd</code></div>
     </div>
 
@@ -112,7 +132,7 @@
     <p>get annotations for n samples from the selected compendium</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_sample_annotation</span>(<span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vitis_vinifera"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>10</span>)</pre>
+    <pre class="usage"><span class='fu'>get_sample_annotation</span>(<span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>10</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -132,67 +152,63 @@
     <p>a data.frame</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>get_sample_annotation</span>(<span class='kw'>n</span><span class='kw'>=</span><span class='fl'>25</span>)</div><div class='output co'>#&gt;       sampleName                 sampleId                 ontology.originalId
-#&gt; 1  GSM287866.ch1 U2FtcGxlVHlwZToxMDE0OA==                                2006
-#&gt; 2  GSM287866.ch1 U2FtcGxlVHlwZToxMDE0OA==         GENOTYPE.CABERNET_SAUVIGNON
-#&gt; 3  GSM287866.ch1 U2FtcGxlVHlwZToxMDE0OA==                  EICHHORN-LORENZ.33
-#&gt; 4  GSM287866.ch1 U2FtcGxlVHlwZToxMDE0OA==       PO:0008002_fruit_proximal_end
-#&gt; 5  GSM287866.ch1 U2FtcGxlVHlwZToxMDE0OA==          VINEYARD.OSOYOOS_BC_CANADA
-#&gt; 6  GSM299462.ch1 U2FtcGxlVHlwZToxMDA0MQ==                       LEAF_POSITION
-#&gt; 7  GSM299462.ch1 U2FtcGxlVHlwZToxMDA0MQ==                           PLANT_AGE
-#&gt; 8  GSM299462.ch1 U2FtcGxlVHlwZToxMDA0MQ==                          GREENHOUSE
-#&gt; 9  GSM299462.ch1 U2FtcGxlVHlwZToxMDA0MQ==    GENOTYPE.MUSCADINIA_ROTUNDIFOLIA
-#&gt; 10 GSM299462.ch1 U2FtcGxlVHlwZToxMDA0MQ==                     PO:0025034_leaf
-#&gt; 11 GSM322364.ch1 U2FtcGxlVHlwZToxMDE4Mw==                                2006
-#&gt; 12 GSM322364.ch1 U2FtcGxlVHlwZToxMDE4Mw==                   GENOTYPE.MACCABEU
-#&gt; 13 GSM322364.ch1 U2FtcGxlVHlwZToxMDE4Mw==                       LEAF_POSITION
-#&gt; 14 GSM322364.ch1 U2FtcGxlVHlwZToxMDE4Mw==                PO:0020138_leaf_vein
-#&gt; 15 GSM322364.ch1 U2FtcGxlVHlwZToxMDE4Mw== VINEYARD.COVIOLO-REGGIOEMILIA_ITALY
-#&gt; 16 GSM322364.ch1 U2FtcGxlVHlwZToxMDE4Mw==                     VINEYARD.UNKOWN
-#&gt; 17 GSM322369.ch1 U2FtcGxlVHlwZToxMDE4OA==                                2006
-#&gt; 18 GSM322369.ch1 U2FtcGxlVHlwZToxMDE4OA==                    GENOTYPE.MANZONI
-#&gt; 19 GSM322369.ch1 U2FtcGxlVHlwZToxMDE4OA==                       LEAF_POSITION
-#&gt; 20 GSM322369.ch1 U2FtcGxlVHlwZToxMDE4OA==                PO:0020138_leaf_vein
-#&gt; 21 GSM322369.ch1 U2FtcGxlVHlwZToxMDE4OA== VINEYARD.COVIOLO-REGGIOEMILIA_ITALY
-#&gt; 22 GSM322369.ch1 U2FtcGxlVHlwZToxMDE4OA==                     VINEYARD.UNKOWN
-#&gt; 23 GSM404719.ch2 U2FtcGxlVHlwZToxMTA1OA==                                TIME
-#&gt; 24 GSM404719.ch2 U2FtcGxlVHlwZToxMTA1OA==                                2001
-#&gt; 25 GSM404719.ch2 U2FtcGxlVHlwZToxMTA1OA==                   GENOTYPE.PERLETTE
-#&gt;                  name
-#&gt; 1  Condition ontology
-#&gt; 2  Condition ontology
-#&gt; 3  Condition ontology
-#&gt; 4  Condition ontology
-#&gt; 5  Condition ontology
-#&gt; 6  Condition ontology
-#&gt; 7  Condition ontology
-#&gt; 8  Condition ontology
-#&gt; 9  Condition ontology
-#&gt; 10 Condition ontology
-#&gt; 11 Condition ontology
-#&gt; 12 Condition ontology
-#&gt; 13 Condition ontology
-#&gt; 14 Condition ontology
-#&gt; 15 Condition ontology
-#&gt; 16 Condition ontology
-#&gt; 17 Condition ontology
-#&gt; 18 Condition ontology
-#&gt; 19 Condition ontology
-#&gt; 20 Condition ontology
-#&gt; 21 Condition ontology
-#&gt; 22 Condition ontology
-#&gt; 23 Condition ontology
-#&gt; 24 Condition ontology
-#&gt; 25 Condition ontology</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>get_sample_annotation</span>(<span class='kw'>n</span><span class='kw'>=</span><span class='fl'>25</span>)</div><div class='output co'>#&gt;        sampleName             sampleId
+#&gt; 1  GSM2627902.ch1 U2FtcGxlVHlwZTozMjAw
+#&gt; 2   GSM147690.ch1 U2FtcGxlVHlwZToyMw==
+#&gt; 3   GSM147690.ch1 U2FtcGxlVHlwZToyMw==
+#&gt; 4   GSM147690.ch1 U2FtcGxlVHlwZToyMw==
+#&gt; 5   GSM147690.ch1 U2FtcGxlVHlwZToyMw==
+#&gt; 6   GSM147690.ch1 U2FtcGxlVHlwZToyMw==
+#&gt; 7   GSM147726.ch1 U2FtcGxlVHlwZTo1OQ==
+#&gt; 8   GSM147726.ch1 U2FtcGxlVHlwZTo1OQ==
+#&gt; 9   GSM147726.ch1 U2FtcGxlVHlwZTo1OQ==
+#&gt; 10  GSM147726.ch1 U2FtcGxlVHlwZTo1OQ==
+#&gt; 11  GSM147726.ch1 U2FtcGxlVHlwZTo1OQ==
+#&gt; 12  GSM786240.ch1 U2FtcGxlVHlwZTo3Nw==
+#&gt; 13  GSM786240.ch1 U2FtcGxlVHlwZTo3Nw==
+#&gt; 14  GSM786240.ch1 U2FtcGxlVHlwZTo3Nw==
+#&gt; 15  GSM786240.ch1 U2FtcGxlVHlwZTo3Nw==
+#&gt; 16  GSM786240.ch1 U2FtcGxlVHlwZTo3Nw==
+#&gt; 17  GSM786240.ch1 U2FtcGxlVHlwZTo3Nw==
+#&gt; 18  GSM786240.ch1 U2FtcGxlVHlwZTo3Nw==
+#&gt; 19  GSM786240.ch1 U2FtcGxlVHlwZTo3Nw==
+#&gt; 20  GSM786240.ch1 U2FtcGxlVHlwZTo3Nw==
+#&gt; 21  GSM786240.ch1 U2FtcGxlVHlwZTo3Nw==
+#&gt; 22  GSM786249.ch1 U2FtcGxlVHlwZTo4Ng==
+#&gt; 23  GSM786249.ch1 U2FtcGxlVHlwZTo4Ng==
+#&gt; 24  GSM786249.ch1 U2FtcGxlVHlwZTo4Ng==
+#&gt; 25  GSM786249.ch1 U2FtcGxlVHlwZTo4Ng==
+#&gt;                                                                                                                                                                                                                                                                                                                                                         annotation
+#&gt; 1                                                                                                                                       {"@id": "_:Na40b86b0d5674343a220a9232de33222", "@type": ["https://www.awri.com.au/wp-content/uploads/grapegrowth.pdf#35"], "http://purl.obolibrary.org/obo/NCIT_C25330": [{"@id": "_:Nc274a0c72ad449b7bed4d1c26fe82c0f"}]}
+#&gt; 2                                                                                                                                                                                                                                                                                            {"@id": "23", "@type": ["http://purl.obolibrary.org/obo/PO_0025034"]}
+#&gt; 3                                                                                                                                                             {"@id": "23", "http://www.ebi.ac.uk/efo/EFO_0005136": [{"@value": "Cabernet-Sauvignon"}], "http://purl.obolibrary.org/obo/NCIT_C16631": [{"@id": "http://purl.obolibrary.org/obo/NCBITaxon_29760"}]}
+#&gt; 4                                                                                                                                                                                                                                               {"@id": "23", "http://www.bioassayontology.org/bao#BAO_0002924": [{"@id": "_:N2d9927bae3de4e06869ce4e73609766e"}]}
+#&gt; 5                                                                                                                                                                                                                                                     {"@id": "23", "http://purl.obolibrary.org/obo/TO_0000541": [{"@id": "_:N5d5f93f04bbc4a42ba69485eeccf03f6"}]}
+#&gt; 6                                                                                                                                                                                {"@id": "_:N5d5f93f04bbc4a42ba69485eeccf03f6", "@type": ["http://purl.obolibrary.org/obo/NCIT_C104788"], "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [{"@value": "3+4"}]}
+#&gt; 7                                                                                                                                                                                                                                                                                            {"@id": "59", "@type": ["http://purl.obolibrary.org/obo/PO_0025034"]}
+#&gt; 8                                                                                                                                                                          {"@id": "59", "http://www.ebi.ac.uk/efo/EFO_0005136": [{"@value": "Norton"}], "http://purl.obolibrary.org/obo/NCIT_C16631": [{"@id": "http://purl.obolibrary.org/obo/NCBITaxon_3605"}]}
+#&gt; 9                                                                                                                                                                                                                                               {"@id": "59", "http://www.bioassayontology.org/bao#BAO_0002924": [{"@id": "_:Nce5b27efb7b54c869201c68520da6f35"}]}
+#&gt; 10                                                                                                                                                                                                                                                    {"@id": "59", "http://purl.obolibrary.org/obo/TO_0000541": [{"@id": "_:N21e187a168b74adca9733457de8755c0"}]}
+#&gt; 11                                                                                                                                                                               {"@id": "_:N21e187a168b74adca9733457de8755c0", "@type": ["http://purl.obolibrary.org/obo/NCIT_C104788"], "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [{"@value": "3+4"}]}
+#&gt; 12                                                                                                                                                                                                                          {"@id": "77", "http://purl.obolibrary.org/obo/PO_0007033": [{"@id": "https://www.awri.com.au/wp-content/uploads/grapegrowth.pdf#33"}]}
+#&gt; 13                                                                                                                                                                                                                                                   {"@id": "77", "http://purl.obolibrary.org/obo/NCIT_C99800": [{"@id": "_:N9035ea19a82a4c759b09771a246cb3c3"}]}
+#&gt; 14                                                                      {"@id": "_:N9035ea19a82a4c759b09771a246cb3c3", "http://purl.obolibrary.org/obo/UO_0000000": [{"@id": "http://purl.obolibrary.org/obo/UO_0000036"}], "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [{"@type": "http://www.w3.org/2001/XMLSchema#positiveInteger", "@value": "2003"}]}
+#&gt; 15                                                                                                                                                                    {"@id": "77", "http://www.ebi.ac.uk/efo/EFO_0005136": [{"@value": "Pinot Noir"}], "http://purl.obolibrary.org/obo/NCIT_C16631": [{"@id": "http://purl.obolibrary.org/obo/NCBITaxon_29760"}]}
+#&gt; 16                                                                                                                                                                                                                                                                                           {"@id": "77", "@type": ["http://purl.obolibrary.org/obo/PO_0009001"]}
+#&gt; 17                                                                                                                                                                                                                                              {"@id": "77", "http://www.bioassayontology.org/bao#BAO_0002924": [{"@id": "_:N6f3c098ba2294b84883ec5f47323be9c"}]}
+#&gt; 18                                                                                                                                                      {"@id": "_:N6f3c098ba2294b84883ec5f47323be9c", "@type": ["http://purl.obolibrary.org/obo/ENVO_00000116"], "http://purl.obolibrary.org/obo/GAZ_00000448": [{"@id": "_:N1fc99c1d085841de8b0eaf6fc51cdf4c"}]}
+#&gt; 19 {"@id": "_:N1fc99c1d085841de8b0eaf6fc51cdf4c", "http://purl.obolibrary.org/obo/NCIT_C68642": [{"@id": "_:Naf56ba2ce56046d6aed156ff406fedbf"}], "http://purl.obolibrary.org/obo/NCIT_C68643": [{"@id": "_:Nab6e43fd86474951aa2b166e186c668d"}], "http://www.w3.org/1999/02/22-rdf-syntax-ns#Description": [{"@value": "Ai molini San Michele all'Adige Italy"}]}
+#&gt; 20                                                                           {"@id": "_:Naf56ba2ce56046d6aed156ff406fedbf", "http://purl.obolibrary.org/obo/UO_0000000": [{"@id": "http://purl.obolibrary.org/obo/UO_0000185"}], "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [{"@type": "http://www.w3.org/2001/XMLSchema#float", "@value": "46.192921"}]}
+#&gt; 21                                                                           {"@id": "_:Nab6e43fd86474951aa2b166e186c668d", "http://purl.obolibrary.org/obo/UO_0000000": [{"@id": "http://purl.obolibrary.org/obo/UO_0000185"}], "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [{"@type": "http://www.w3.org/2001/XMLSchema#float", "@value": "11.134089"}]}
+#&gt; 22                                                                                                                                                                                                                          {"@id": "86", "http://purl.obolibrary.org/obo/PO_0007033": [{"@id": "https://www.awri.com.au/wp-content/uploads/grapegrowth.pdf#33"}]}
+#&gt; 23                                                                                                                                                                                                                                                   {"@id": "86", "http://purl.obolibrary.org/obo/NCIT_C99800": [{"@id": "_:N3c5d346bcbd6423680ba678330f9fb90"}]}
+#&gt; 24                                                                      {"@id": "_:N3c5d346bcbd6423680ba678330f9fb90", "http://purl.obolibrary.org/obo/UO_0000000": [{"@id": "http://purl.obolibrary.org/obo/UO_0000036"}], "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [{"@type": "http://www.w3.org/2001/XMLSchema#positiveInteger", "@value": "2005"}]}
+#&gt; 25                                                                                                                                                                    {"@id": "86", "http://www.ebi.ac.uk/efo/EFO_0005136": [{"@value": "Pinot Noir"}], "http://purl.obolibrary.org/obo/NCIT_C16631": [{"@id": "http://purl.obolibrary.org/obo/NCBITaxon_29760"}]}</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -203,7 +219,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

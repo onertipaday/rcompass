@@ -1,0 +1,30 @@
+---
+title: "Use Case 01"
+author: Paolo Sonego
+affiliation: https://github.com/onertipaday/rcompass
+package: rcompass
+abstract: > 
+  How to query COMPASS from R
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Use Case 01}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteKeywords{Bioinformatics, Gene Expression, data}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+VESPUCCI is the gene expression database for grapevine and we can access it via its GraphQL interface, called COMPASS. The rcompass package is a R package that wraps some functionalities to simplify communication with the COMPASS interface.
+
+In this first exercise we will perform few basic operations with VESPUCCI. We will create a Module starting from few genes and then automatically extend it by adding more genes. We will also have a look at gene and samples annotations.:
+
+```{r}
+library(rcompass)
+```
+

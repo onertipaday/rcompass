@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>get_biofeature_id — get_biofeature_id • rcompass</title>
+<title>build_query — build_query • rcompass</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="get_biofeature_id — get_biofeature_id" />
-<meta property="og:description" content="get_biofeature_id" />
+<meta property="og:title" content="build_query — build_query" />
+<meta property="og:description" content="build_query" />
 
 
 
@@ -123,31 +123,23 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>get_biofeature_id</h1>
-    <small class="dont-index">Source: <a href='https://github.com/onertipaday/rcompass/blob/master/R/queries.R'><code>R/queries.R</code></a></small>
-    <div class="hidden name"><code>get_biofeature_id.Rd</code></div>
+    <h1>build_query</h1>
+    <small class="dont-index">Source: <a href='https://github.com/onertipaday/rcompass/blob/master/R/utilities.R'><code>R/utilities.R</code></a></small>
+    <div class="hidden name"><code>build_query.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>get_biofeature_id</p>
+    <p>build_query</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_biofeature_id</span>(<span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"VIT_00s0332g00060"</span>)</pre>
+    <pre class="usage"><span class='fu'>build_query</span>(<span class='no'>query</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>compendium</th>
-      <td><p>a character - the selected compendium</p></td>
-    </tr>
-    <tr>
-      <th>name</th>
-      <td><p>a character - the biofeature name</p></td>
-    </tr>
-    <tr>
-      <th>field</th>
-      <td><p>the biofeature field of interest  (sequence as default)</p></td>
+      <th>query</th>
+      <td><p>a string, the graphql query</p></td>
     </tr>
     </table>
 
@@ -156,10 +148,16 @@
     <p>a list</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>get_biofeature_id</span>()</div><div class='output co'>#&gt;                name                           id
-#&gt; 1 VIT_00s0332g00060 QmlvRmVhdHVyZVR5cGU6Mjc4OTI=
-#&gt;                            description
-#&gt; 1 ATP synthase subunit beta (Fragment)</div></pre>
+    <pre class="examples"><div class='input'>  <span class='no'>my_query</span> <span class='kw'>&lt;-</span> <span class='st'>"{
+compendia {
+fullName,
+description
+}
+}"</span>
+<span class='fu'>build_query</span>(<span class='no'>my_query</span>)</div><div class='output co'>#&gt; $compendia
+#&gt;   fullName                          description
+#&gt; 1 VESPUCCI The Vitis gene expression compendium
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

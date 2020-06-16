@@ -5,7 +5,7 @@
 \title{Get experiment Accessids and name
 use \code{\link{get_compendia}} to check all the available compendia}
 \usage{
-get_experiments(compendium = "vitis_vinifera", sampleName = NULL)
+get_experiments(compendium = "vespucci", sampleName = NULL)
 }
 \arguments{
 \item{compendium}{a character - the selected compendium}
@@ -21,5 +21,5 @@ Get experiment Accessids and name
 use \code{\link{get_compendia}} to check all the available compendia
 }
 \examples{
-get_experiments(sampleName="GSM671721")
+get_experiments(sampleName="GSM671721.ch1")
 }

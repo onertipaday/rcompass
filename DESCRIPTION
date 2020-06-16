@@ -3,9 +3,8 @@ Type: Package
 Title: R Client for the COMPASS GrapgQL API
 Author: c(person("Paolo", "Sonego", role = c("aut", "cre"),
     email = "paolo.sonego@fmach.it")) 
-    using code from ghql pkg by Scott Chamberlain
 Maintainer: Paolo Sonego <paolo.sonego@fmach.it>
-Version: 0.0.2
+Version: 0.0.3
 License: GPL-3
 BugReports: https://github.com/onertipaday/rcompass/issues
 Description: Provides functions for querying data from 
@@ -13,13 +12,15 @@ Description: Provides functions for querying data from
 LazyData: true
 Encoding: UTF-8
 Depends:
-    R (>= 3.5.0)
+    R (>= 3.6.0)
 Imports:
     httr,
+    ghql,
     jsonlite,
-    RJSONIO,
+    magrittr,
+    dplyr,
     shiny
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 Language: en-US
 Suggests: 
     knitr,

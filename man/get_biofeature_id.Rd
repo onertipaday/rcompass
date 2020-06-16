@@ -4,7 +4,7 @@
 \alias{get_biofeature_id}
 \title{get_biofeature_id}
 \usage{
-get_biofeature_id(compendium = "vitis_vinifera", name = "VIT_00s0332g00060")
+get_biofeature_id(compendium = "vespucci", name = "VIT_00s0332g00060")
 }
 \arguments{
 \item{compendium}{a character - the selected compendium}

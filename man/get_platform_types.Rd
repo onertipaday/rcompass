@@ -4,7 +4,7 @@
 \alias{get_platform_types}
 \title{get available platform types}
 \usage{
-get_platform_types(compendium = "vitis_vinifera")
+get_platform_types(compendium = "vespucci")
 }
 \arguments{
 \item{compendium}{a character - the selected compendium}

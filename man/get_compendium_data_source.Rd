@@ -4,7 +4,7 @@
 \alias{get_compendium_data_source}
 \title{Get compendium data sources}
 \usage{
-get_compendium_data_source(compendium = "vitis_vinifera")
+get_compendium_data_source(compendium = "vespucci")
 }
 \arguments{
 \item{compendium}{a character - the selected compendium}

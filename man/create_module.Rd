@@ -5,7 +5,7 @@
 \title{create module with biological features and sample sets}
 \usage{
 create_module(
-  compendium = "vitis_vinifera",
+  compendium = "vespucci",
   biofeatureNames = NULL,
   samplesetNames = NULL
 )
@@ -29,7 +29,7 @@ my_mod <- create_module(biofeatureNames=c("VIT_00s0332g00110","VIT_00s0332g00160
 "VIT_00s0396g00010","VIT_00s0505g00030"),
 samplesetNames=c("E-MTAB-1514.US_30_2.ch1-vs-E-MTAB-1514.US_03_1.ch1",
 "E-MTAB-1514.US_03_3.ch1-vs-E-MTAB-1514.US_03_1.ch1"))
-pheatmap::pheatmap(my_module,col = RcolorBrewer::brewer.pal(11,name="RdBu"))
+pheatmap::pheatmap(my_mod,col = RcolorBrewer::brewer.pal(11,name="RdBu"))
 # compare to vespucci:
 # url <- "http://vespucci.colombos.fmach.it/cws_data/export_data/colombos_20190828_nEwFDG.txt"
 # vesp_test=readr::read_tsv(url)

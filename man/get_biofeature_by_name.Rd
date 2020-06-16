@@ -5,7 +5,7 @@
 \title{get biofeature sequence by name}
 \usage{
 get_biofeature_by_name(
-  compendium = "vitis_vinifera",
+  compendium = "vespucci",
   name = "VIT_00s0332g00060",
   field = "sequence"
 )
@@ -13,13 +13,16 @@ get_biofeature_by_name(
 \arguments{
 \item{compendium}{a character - the selected compendium}
 
-\item{name}{a character - the biofeature name}
+\item{name}{a character - the biofeature (here gene) name}
 
-\item{field}{the biofeature field of interest  (sequence as default)}
+\item{field}{the biofeature field of interest ('sequence' as default)}
 }
 \value{
-a character
+a data.frame with two columns: value for the requested field and unique biofeature id
 }
 \description{
 get biofeature sequence by name
+}
+\examples{
+get_biofeature_by_name(name = "VIT_00s0332g00060")
 }

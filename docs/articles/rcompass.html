@@ -5,20 +5,20 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>An R interface to COMPASS, the gene expression compendia GraphQL endpoint. • rcompass</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="An R interface to COMPASS, the gene expression compendia GraphQL endpoint.">
-<meta property="og:description" content="">
-<meta name="twitter:card" content="summary">
+<title>An R interface to COMPASS, the gene expression compendia GraphQL endpoint • rcompass</title>
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script><meta property="og:title" content="An R interface to COMPASS, the gene expression compendia GraphQL endpoint">
+<meta property="og:description" content="rcompass">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rcompass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
       </span>
     </div>
 
@@ -49,8 +49,27 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="../articles/usecase01.html">Use Case 01</a>
+    </li>
+  </ul>
+</li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/onertipaday/rcompass/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -63,11 +82,11 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>An R interface to COMPASS, the gene expression compendia GraphQL endpoint.</h1>
+      <h1 data-toc-skip>An R interface to COMPASS, the gene expression compendia GraphQL endpoint</h1>
                         <h4 class="author">Paolo Sonego</h4>
             
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/onertipaday/rcompass/blob/master/vignettes/rcompass.Rmd"><code>vignettes/rcompass.Rmd</code></a></small>
       <div class="hidden name"><code>rcompass.Rmd</code></div>
 
     </div>
@@ -75,7 +94,7 @@
     
         <div class="abstract">
       <p class="abstract">Abstract</p>
-      How to query COMPASS from R
+      <p>How to query COMPASS from R</p>
     </div>
     
 <div id="introduction" class="section level1">
@@ -85,8 +104,8 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p><code>rcompass</code> installation from github requires the devtools package to be installed.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="cf">if</span>(<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span>(<span class="st">"devtools"</span>)) <span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)</a>
-<a class="sourceLine" id="cb1-2" title="2">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"onertipaday/rcompass"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="kw">if</span>(!<span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span>(<span class="st">"devtools"</span>)) <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)
+<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"onertipaday/rcompass"</span>)</pre></body></html></div>
 </div>
 <div id="getting-help" class="section level2">
 <h2 class="hasAnchor">
@@ -108,10 +127,10 @@
 <h1 class="hasAnchor">
 <a href="#a-brief-rcompass-overview" class="anchor"></a>A Brief rCOMPASS overview</h1>
 <p>The <code>rcompass</code> package is build around a bunch of functions enable to query the compendium of interest and retrieve, store and manipulate data. Each of these functions are described in more details in their respective manual pages. We start by loading the package.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(rcompass)</a>
-<a class="sourceLine" id="cb2-2" title="2"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-3" title="3"><span class="co">#&gt; This is 'rcompass' version 0.0.2</span></a>
-<a class="sourceLine" id="cb2-4" title="4"><span class="co">#&gt; If you are new to rcompass, please consider reading the vignette through the command: vignette("rcompass").</span></a></code></pre></div>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rcompass</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; This is 'rcompass' version 0.0.3</span>
+<span class="co">#&gt; If you are new to rcompass, please consider reading the vignette through the command: vignette("rcompass").</span></pre></body></html></div>
 </div>
 <div id="case-study" class="section level1">
 <h1 class="hasAnchor">
@@ -121,61 +140,44 @@
 <h2 class="hasAnchor">
 <a href="#step-1---create-the-initial-module" class="anchor"></a>Step 1 - create the initial module</h2>
 <p>We start by creating a module with these 55 ABA modulated genes and refining it by selecting the most co-expressed genes. The module will be manually split to distinguish different condition contrasts, corresponding to different biological contexts, in which ABA affects gene expression. Finally, we will extend these modules to include other relevant genes by coexpression (which could hint at similar forms of regulation).</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="co">#aba_genes &lt;- c("VIT_05s0077g00430", "VIT_14s0060g00790", "VIT_14s0066g00810", "VIT_16s0050g00390", "VIT_18s0001g10450", "VIT_11s0016g03180", "VIT_08s0058g00470", "VIT_17s0000g01080", "VIT_06s0004g04860", "VIT_00s0322g00030", "VIT_06s0061g00730", "VIT_07s0005g00140", "VIT_00s0934g00010", "VIT_18s0001g04800", "VIT_01s0011g04820", "VIT_00s0216g00060", "VIT_18s0072g01220", "VIT_15s0048g02870", "VIT_00s0203g00070", "VIT_19s0014g03290", "VIT_01s0026g02710", "VIT_17s0000g08080", "VIT_00s0429g00040", "VIT_00s1206g00010", "VIT_09s0002g03690", "VIT_13s0067g00240", "VIT_07s0104g00350", "VIT_04s0023g02480", "VIT_18s0001g08490", "VIT_13s0019g02110", "VIT_04s0008g01120", "VIT_10s0003g00390", "VIT_03s0017g01410", "VIT_08s0007g08030", "VIT_08s0040g01820", "VIT_08s0058g01260", "VIT_09s0002g00630", "VIT_14s0068g01620", "VIT_18s0001g01030", "VIT_16s0050g01880", "VIT_08s0007g08280", "VIT_09s0002g06790", "VIT_09s0002g00640", "VIT_03s0063g01790", "VIT_04s0044g01230", "VIT_08s0040g02610", "VIT_01s0010g03680", "VIT_01s0137g00780", "VIT_02s0025g00500", "VIT_06s0004g05650", "VIT_07s0005g01080", "VIT_13s0156g00100", "VIT_17s0000g01120", "VIT_18s0001g07840", "VIT_18s0001g09290")</span></a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="co">#QuickSearch_ABAcoreset &lt;- create_module(compendium="vitis_vinifera", biofeatureNames=aba_genes)</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">aba_genes</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"VIT_05s0077g00430"</span>, <span class="st">"VIT_14s0060g00790"</span>, <span class="st">"VIT_14s0066g00810"</span>, <span class="st">"VIT_16s0050g00390"</span>, <span class="st">"VIT_18s0001g10450"</span>, <span class="st">"VIT_11s0016g03180"</span>, <span class="st">"VIT_08s0058g00470"</span>, <span class="st">"VIT_17s0000g01080"</span>, <span class="st">"VIT_06s0004g04860"</span>, <span class="st">"VIT_00s0322g00030"</span>, <span class="st">"VIT_06s0061g00730"</span>, <span class="st">"VIT_07s0005g00140"</span>, <span class="st">"VIT_00s0934g00010"</span>, <span class="st">"VIT_18s0001g04800"</span>, <span class="st">"VIT_01s0011g04820"</span>, <span class="st">"VIT_00s0216g00060"</span>, <span class="st">"VIT_18s0072g01220"</span>, <span class="st">"VIT_15s0048g02870"</span>, <span class="st">"VIT_00s0203g00070"</span>, <span class="st">"VIT_19s0014g03290"</span>, <span class="st">"VIT_01s0026g02710"</span>, <span class="st">"VIT_17s0000g08080"</span>, <span class="st">"VIT_00s0429g00040"</span>, <span class="st">"VIT_00s1206g00010"</span>, <span class="st">"VIT_09s0002g03690"</span>, <span class="st">"VIT_13s0067g00240"</span>, <span class="st">"VIT_07s0104g00350"</span>, <span class="st">"VIT_04s0023g02480"</span>, <span class="st">"VIT_18s0001g08490"</span>, <span class="st">"VIT_13s0019g02110"</span>, <span class="st">"VIT_04s0008g01120"</span>, <span class="st">"VIT_10s0003g00390"</span>, <span class="st">"VIT_03s0017g01410"</span>, <span class="st">"VIT_08s0007g08030"</span>, <span class="st">"VIT_08s0040g01820"</span>, <span class="st">"VIT_08s0058g01260"</span>, <span class="st">"VIT_09s0002g00630"</span>, <span class="st">"VIT_14s0068g01620"</span>, <span class="st">"VIT_18s0001g01030"</span>, <span class="st">"VIT_16s0050g01880"</span>, <span class="st">"VIT_08s0007g08280"</span>, <span class="st">"VIT_09s0002g06790"</span>, <span class="st">"VIT_09s0002g00640"</span>, <span class="st">"VIT_03s0063g01790"</span>, <span class="st">"VIT_04s0044g01230"</span>, <span class="st">"VIT_08s0040g02610"</span>, <span class="st">"VIT_01s0010g03680"</span>, <span class="st">"VIT_01s0137g00780"</span>, <span class="st">"VIT_02s0025g00500"</span>, <span class="st">"VIT_06s0004g05650"</span>, <span class="st">"VIT_07s0005g01080"</span>, <span class="st">"VIT_13s0156g00100"</span>, <span class="st">"VIT_17s0000g01120"</span>, <span class="st">"VIT_18s0001g07840"</span>, <span class="st">"VIT_18s0001g09290"</span>)
+<span class="co">#QuickSearch_ABAcoreset &lt;- create_module(compendium="vitis_vinifera", biofeatureNames=aba_genes)</span></pre></body></html></div>
 </div>
 </div>
 <div id="session-information" class="section level1">
 <h1 class="hasAnchor">
 <a href="#session-information" class="anchor"></a>Session information</h1>
-<pre><code>#&gt; R version 3.6.2 (2019-12-12)
+<pre><code>#&gt; R version 3.6.3 (2020-02-29)
 #&gt; Platform: x86_64-redhat-linux-gnu (64-bit)
-#&gt; Running under: Fedora 31 (Workstation Edition)
+#&gt; Running under: Fedora 32 (Workstation Edition)
 #&gt; 
 #&gt; Matrix products: default
-#&gt; BLAS/LAPACK: /usr/lib64/R/lib/libRblas.so
+#&gt; BLAS/LAPACK: /usr/lib64/libopenblas-r0.3.9.so
 #&gt; 
 #&gt; attached base packages:
 #&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
 #&gt; 
 #&gt; other attached packages:
-#&gt; [1] rcompass_0.0.2
+#&gt; [1] rcompass_0.0.3
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
-#&gt;  [1] Rcpp_1.0.3       rprojroot_1.3-2  crayon_1.3.4     digest_0.6.23   
-#&gt;  [5] assertthat_0.2.1 MASS_7.3-51.5    R6_2.4.1         backports_1.1.5 
-#&gt;  [9] magrittr_1.5     evaluate_0.14    stringi_1.4.5    rlang_0.4.4     
-#&gt; [13] rstudioapi_0.11  fs_1.3.1         rmarkdown_2.1    pkgdown_1.4.1   
-#&gt; [17] desc_1.2.0       tools_3.6.2      stringr_1.4.0    yaml_2.2.1      
-#&gt; [21] xfun_0.12        compiler_3.6.2   memoise_1.1.0    htmltools_0.4.0 
-#&gt; [25] knitr_1.28</code></pre>
+#&gt;  [1] Rcpp_1.0.4.6     rstudioapi_0.11  knitr_1.28       magrittr_1.5    
+#&gt;  [5] MASS_7.3-51.5    tidyselect_1.1.0 R6_2.4.1         rlang_0.4.6     
+#&gt;  [9] stringr_1.4.0    dplyr_1.0.0      tools_3.6.3      xfun_0.14       
+#&gt; [13] ellipsis_0.3.1   htmltools_0.4.0  yaml_2.2.1       assertthat_0.2.1
+#&gt; [17] digest_0.6.25    rprojroot_1.3-2  tibble_3.0.1     lifecycle_0.2.0 
+#&gt; [21] pkgdown_1.5.1    crayon_1.3.4     purrr_0.3.4      vctrs_0.3.1     
+#&gt; [25] fs_1.4.1         glue_1.4.1       memoise_1.1.0    evaluate_0.14   
+#&gt; [29] rmarkdown_2.2    stringi_1.4.6    pillar_1.4.4     compiler_3.6.3  
+#&gt; [33] desc_1.2.0       generics_0.0.2   backports_1.1.7  pkgconfig_2.0.3</code></pre>
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-        <div id="tocnav">
-      <h2 class="hasAnchor">
-<a href="#tocnav" class="anchor"></a>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-<li>
-<a href="#introduction">Introduction</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#installation">Installation</a></li>
-      <li><a href="#getting-help">Getting help</a></li>
-      <li><a href="#the-resource">The resource</a></li>
-      <li><a href="#the-package">The package</a></li>
-      </ul>
-</li>
-      <li><a href="#a-brief-rcompass-overview">A Brief rCOMPASS overview</a></li>
-      <li>
-<a href="#case-study">Case Study</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#step-1---create-the-initial-module">Step 1 - create the initial module</a></li>
-      </ul>
-</li>
-      <li><a href="#session-information">Session information</a></li>
-      </ul>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
 </div>
-      </div>
 
 </div>
 
@@ -186,7 +188,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

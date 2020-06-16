@@ -4,15 +4,12 @@
 \alias{get_samples}
 \title{Get all samples measuread with a given Platform}
 \usage{
-get_samples(
-  compendium = "vitis_vinifera",
-  platformAccessId = "Vitis_Vinifera_Affy"
-)
+get_samples(compendium = "vespucci", platform_PlatformAccessId = "GPL11004")
 }
 \arguments{
 \item{compendium}{a character - the selected compendium}
 
-\item{platform_PlatformAccessId}{a character}
+\item{platformAccessId}{a character}
 }
 \value{
 a data.frame
