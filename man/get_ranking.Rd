@@ -15,3 +15,6 @@ a list
 \description{
 get_ranking
 }
+\examples{
+get_ranking()
+}

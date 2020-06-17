@@ -20,3 +20,6 @@ get_samples_annotation_triples(
 \description{
 get_samples_annotation_triples
 }
+\examples{
+get_samples_annotation_triples()
+}

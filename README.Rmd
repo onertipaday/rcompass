@@ -24,13 +24,14 @@ This package provides access to the [COMPASS](https://compass-.readthedocs.io/en
 
 The latest development version can be installed from github:
 
-```r
+```{r, eval=FALSE, include=TRUE}
 devtools::install_github("onertipaday/rcompass")
 ```
 ## Usage
 
-```r
+```{r}
 #  Get all available compendia
 library(rcompass)
-get_compendia()
+get_available_compendia()
 ```
+

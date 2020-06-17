@@ -18,3 +18,8 @@ platformAccessId, platformName, description, dataSource, platformType
 Get information about all available platforms for the selected compendium,
 use \code{\link{get_compendia}} to check all the available compendia
 }
+\examples{
+info <- get_platform_information()
+require(tidyverse)
+info \%>\% count(platformType, dataSource)
+}

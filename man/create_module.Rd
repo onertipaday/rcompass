@@ -7,18 +7,21 @@
 create_module(
   compendium = "vespucci",
   biofeatureNames = NULL,
-  samplesetNames = NULL
+  samplesetNames = NULL,
+  version = "legacy"
 )
 }
 \arguments{
 \item{compendium}{a character - the selected compendium}
 
-\item{biofeaturesIds}{a character vector}
+\item{biofeatureNames}{a character vector (here gene_names)}
 
-\item{samplesetIds}{a character vector}
+\item{samplesetNames}{a character vector (here sampleset names)}
+
+\item{version}{a character ('legacy' as default)}
 }
 \value{
-a data.frame
+a list with three data.frame
 }
 \description{
 create module with biological features and sample sets
@@ -27,7 +30,7 @@ create module with biological features and sample sets
 \dontrun{
 my_mod <- create_module(biofeatureNames=c("VIT_00s0332g00110","VIT_00s0332g00160",
 "VIT_00s0396g00010","VIT_00s0505g00030"),
-samplesetNames=c("E-MTAB-1514.US_30_2.ch1-vs-E-MTAB-1514.US_03_1.ch1",
+samplesetNames=c("GSE27180_48hours-1-vs-GSE27180_0h-2",
 "E-MTAB-1514.US_03_3.ch1-vs-E-MTAB-1514.US_03_1.ch1"))
 pheatmap::pheatmap(my_mod,col = RcolorBrewer::brewer.pal(11,name="RdBu"))
 # compare to vespucci:

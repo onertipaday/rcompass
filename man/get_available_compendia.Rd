@@ -7,8 +7,11 @@
 get_available_compendia()
 }
 \value{
-a list with each element containing name, fullName, description and normalization for all available compendia.
+a list
 }
 \description{
 Get all available compendia
+}
+\examples{
+get_available_compendia()
 }

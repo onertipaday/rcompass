@@ -73,6 +73,13 @@ aba_genes <- c("VIT_05s0077g00430", "VIT_14s0060g00790", "VIT_14s0066g00810", "V
 #QuickSearch_ABAcoreset <- create_module(compendium="vitis_vinifera", biofeatureNames=aba_genes)
 ```
 
+Plot the heatmap
+
+```{r}
+
+```
+
+
 
 # Session information
 

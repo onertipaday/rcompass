@@ -4,21 +4,27 @@
 \alias{get_biofeature_id}
 \title{get_biofeature_id}
 \usage{
-get_biofeature_id(compendium = "vespucci", name = "VIT_00s0332g00060")
+get_biofeature_id(
+  compendium = "vespucci",
+  name = "VIT_00s0332g00060",
+  name_In = NULL
+)
 }
 \arguments{
 \item{compendium}{a character - the selected compendium}
 
 \item{name}{a character - the biofeature name}
 
-\item{field}{the biofeature field of interest  (sequence as default)}
+\item{name_In}{a character vector - the biofeature names}
 }
 \value{
-a list
+a data.frame
 }
 \description{
 get_biofeature_id
 }
 \examples{
-get_biofeature_id()
+get_biofeature_id(name="VIT_00s0332g00060")
+get_biofeature_id(name_In = "VIT_00s0332g00060, VIT_00s0332g00160")
+get_biofeature_id(name_In = c("VIT_00s0332g00060", "VIT_00s0332g00160"))
 }

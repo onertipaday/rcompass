@@ -17,3 +17,6 @@ a character
 \description{
 get_ontology_structure
 }
+\examples{
+get_ontology_structure()
+}

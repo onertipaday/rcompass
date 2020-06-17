@@ -22,3 +22,6 @@ get_sparql_annotation_triples(
 \description{
 get_sparql_annotation_triples
 }
+\examples{
+get_sparql_annotation_triples()
+}

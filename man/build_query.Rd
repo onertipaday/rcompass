@@ -16,11 +16,11 @@ a list
 build_query
 }
 \examples{
-  my_query <- "{
-compendia {
-fullName,
-description
-}
+my_query <- "{
+        compendia {
+            fullName,
+            description
+        }
 }"
 build_query(my_query)
 }

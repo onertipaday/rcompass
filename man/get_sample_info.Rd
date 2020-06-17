@@ -7,11 +7,16 @@
 get_sample_info(compendium = "vespucci", sampleName = NULL)
 }
 \arguments{
-\item{sampleName}{}
+\item{compendium}{a character - the selected compendium}
+
+\item{sampleName}{a character - GEO Sample accession id (GSM)}
 }
 \value{
 
 }
 \description{
 get_sample_info
+}
+\examples{
+get_sample_info(sampleName = "GSM287866.ch1")
 }

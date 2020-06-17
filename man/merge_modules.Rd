@@ -7,7 +7,9 @@
 merge_modules(mod1, mod2)
 }
 \arguments{
-\item{mod2}{}
+\item{mod1}{first module to merge}
+
+\item{mod2}{second module to merge}
 }
 \value{
 

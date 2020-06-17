@@ -19,7 +19,8 @@ Imports:
     jsonlite,
     magrittr,
     dplyr,
-    shiny
+    shiny,
+    flexdashboard
 RoxygenNote: 7.1.0
 Language: en-US
 Suggests: 
