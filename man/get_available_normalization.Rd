@@ -7,9 +7,9 @@
 get_available_normalization(compendium = "vespucci", version = "latest")
 }
 \arguments{
-\item{compendium}{a character - the selected compendium}
+\item{compendium}{string - the selected compendium}
 
-\item{version}{a character(default 'latest')}
+\item{version}{string - either (default) 'latest' or '2.0'}
 }
 \value{
 a data.frame

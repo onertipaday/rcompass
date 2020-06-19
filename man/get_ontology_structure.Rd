@@ -7,12 +7,12 @@
 get_ontology_structure(compendium = "vespucci", name = "Gene ontology")
 }
 \arguments{
-\item{compendium}{a character - the selected compendium}
+\item{compendium}{string - the selected compendium}
 
-\item{name}{a character - the name of the ontolgy of interest}
+\item{name}{string - the name of the ontolgy of interest}
 }
 \value{
-a character
+string
 }
 \description{
 get_ontology_structure

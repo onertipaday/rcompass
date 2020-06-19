@@ -19,6 +19,7 @@ Imports:
     jsonlite,
     magrittr,
     dplyr,
+    checkmate,
     shiny,
     flexdashboard
 RoxygenNote: 7.1.0

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>create module with biological features and sample sets — create_module • rcompass</title>
+<title>create module providing both biological features and sample sets — create_module • rcompass</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="create module with biological features and sample sets — create_module" />
-<meta property="og:description" content="create module with biological features and sample sets" />
+<meta property="og:title" content="create module providing both biological features and sample sets — create_module" />
+<meta property="og:description" content="create module providing both biological features and sample sets" />
 
 
 
@@ -123,19 +123,21 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>create module with biological features and sample sets</h1>
-    <small class="dont-index">Source: <a href='https://github.com/onertipaday/rcompass/blob/master/R/queries.R'><code>R/queries.R</code></a></small>
+    <h1>create module providing both biological features and sample sets</h1>
+    <small class="dont-index">Source: <a href='https://github.com/onertipaday/rcompass/blob/master/R/modules.R'><code>R/modules.R</code></a></small>
     <div class="hidden name"><code>create_module.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>create module with biological features and sample sets</p>
+    <p>create module providing both biological features and sample sets</p>
     </div>
 
     <pre class="usage"><span class='fu'>create_module</span>(
   <span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>,
   <span class='kw'>biofeatureNames</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>samplesetNames</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>samplesetIds</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"U2FtcGxlU2V0VHlwZTo0OTY2"</span>, <span class='st'>"U2FtcGxlU2V0VHlwZToyNDgy"</span>,
+    <span class='st'>"U2FtcGxlU2V0VHlwZTo4NzQ="</span>),
   <span class='kw'>version</span> <span class='kw'>=</span> <span class='st'>"legacy"</span>
 )</pre>
 
@@ -144,7 +146,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>compendium</th>
-      <td><p>a character - the selected compendium</p></td>
+      <td><p>string - the selected compendium</p></td>
     </tr>
     <tr>
       <th>biofeatureNames</th>
@@ -156,7 +158,7 @@
     </tr>
     <tr>
       <th>version</th>
-      <td><p>a character ('legacy' as default)</p></td>
+      <td><p>string ('legacy' as default)</p></td>
     </tr>
     </table>
 
@@ -166,10 +168,9 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>my_mod</span> <span class='kw'>&lt;-</span> <span class='fu'>create_module</span>(<span class='kw'>biofeatureNames</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"VIT_00s0332g00110"</span>,<span class='st'>"VIT_00s0332g00160"</span>,
-<span class='st'>"VIT_00s0396g00010"</span>,<span class='st'>"VIT_00s0505g00030"</span>),
-<span class='kw'>samplesetNames</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"GSE27180_48hours-1-vs-GSE27180_0h-2"</span>,
-<span class='st'>"E-MTAB-1514.US_03_3.ch1-vs-E-MTAB-1514.US_03_1.ch1"</span>))
+<span class='no'>my_bf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"VIT_00s0332g00110"</span>,<span class='st'>"VIT_00s0332g00160"</span>,<span class='st'>"VIT_00s0396g00010"</span>,<span class='st'>"VIT_00s0505g00030"</span>)
+<span class='no'>my_ss</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"GSE27180_48hours-1-vs-GSE27180_0h-2"</span>,<span class='st'>"E-MTAB-1514.US_03_3.ch1-vs-E-MTAB-1514.US_03_1.ch1"</span>)
+<span class='no'>my_mod</span> <span class='kw'>&lt;-</span> <span class='fu'>create_module</span>(<span class='kw'>biofeatureNames</span><span class='kw'>=</span><span class='no'>my_bf</span>, <span class='kw'>samplesetNames</span><span class='kw'>=</span><span class='no'>my_ss</span>)
 <span class='kw pkg'>pheatmap</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/pheatmap/man/pheatmap.html'>pheatmap</a></span>(<span class='no'>my_mod</span>,<span class='kw'>col</span> <span class='kw'>=</span> <span class='kw pkg'>RcolorBrewer</span><span class='kw ns'>::</span><span class='fu'>brewer.pal</span>(<span class='fl'>11</span>,<span class='kw'>name</span><span class='kw'>=</span><span class='st'>"RdBu"</span>))
 <span class='co'># compare to vespucci:</span>
 <span class='co'># url &lt;- "http://vespucci.colombos.fmach.it/cws_data/export_data/colombos_20190828_nEwFDG.txt"</span>

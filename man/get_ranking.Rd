@@ -7,10 +7,10 @@
 get_ranking(compendium = "vespucci")
 }
 \arguments{
-\item{compendium}{a character - the selected compendium}
+\item{compendium}{string - the selected compendium}
 }
 \value{
-a list
+a list with sampleSets and biologicalFeatures ranking available methods
 }
 \description{
 get_ranking

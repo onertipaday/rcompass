@@ -4,16 +4,10 @@
 \alias{get_biofeature_id}
 \title{get_biofeature_id}
 \usage{
-get_biofeature_id(
-  compendium = "vespucci",
-  name = "VIT_00s0332g00060",
-  name_In = NULL
-)
+get_biofeature_id(compendium = "vespucci", name_In = NULL)
 }
 \arguments{
-\item{compendium}{a character - the selected compendium}
-
-\item{name}{a character - the biofeature name}
+\item{compendium}{string - the selected compendium}
 
 \item{name_In}{a character vector - the biofeature names}
 }
@@ -24,7 +18,6 @@ a data.frame
 get_biofeature_id
 }
 \examples{
-get_biofeature_id(name="VIT_00s0332g00060")
-get_biofeature_id(name_In = "VIT_00s0332g00060, VIT_00s0332g00160")
-get_biofeature_id(name_In = c("VIT_00s0332g00060", "VIT_00s0332g00160"))
+my_genes <- c("VIT_00s0332g00110","VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030")
+get_biofeature_id(name_In = my_genes)
 }

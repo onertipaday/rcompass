@@ -7,7 +7,7 @@
 get_compendium_data_source(compendium = "vespucci")
 }
 \arguments{
-\item{compendium}{a character - the selected compendium}
+\item{compendium}{string - the selected compendium}
 }
 \value{
 a character vector containing the available data sources

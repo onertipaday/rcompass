@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Get experiment Accessids and name
-use <code>get_compendia</code> to check all the available compendia — get_experiments • rcompass</title>
+use <code><a href='get_available_compendia.html'>get_available_compendia</a></code> to check all the available compendia — get_experiments • rcompass</title>
 
 
 <!-- jquery -->
@@ -41,9 +41,9 @@ use <code>get_compendia</code> to check all the available compendia — get_expe
 
 
 <meta property="og:title" content="Get experiment Accessids and name
-use <code>get_compendia</code> to check all the available compendia — get_experiments" />
+use <code><a href='get_available_compendia.html'>get_available_compendia</a></code> to check all the available compendia — get_experiments" />
 <meta property="og:description" content="Get experiment Accessids and name
-use get_compendia to check all the available compendia" />
+use get_available_compendia to check all the available compendia" />
 
 
 
@@ -127,14 +127,14 @@ use get_compendia to check all the available compendia" />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Get experiment Accessids and name
-use <code>get_compendia</code> to check all the available compendia</h1>
+use <code><a href='get_available_compendia.html'>get_available_compendia</a></code> to check all the available compendia</h1>
     <small class="dont-index">Source: <a href='https://github.com/onertipaday/rcompass/blob/master/R/queries.R'><code>R/queries.R</code></a></small>
     <div class="hidden name"><code>get_experiments.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>Get experiment Accessids and name
-use <code>get_compendia</code> to check all the available compendia</p>
+use <code><a href='get_available_compendia.html'>get_available_compendia</a></code> to check all the available compendia</p>
     </div>
 
     <pre class="usage"><span class='fu'>get_experiments</span>(<span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>, <span class='kw'>sampleName</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
@@ -144,11 +144,11 @@ use <code>get_compendia</code> to check all the available compendia</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>compendium</th>
-      <td><p>a character - the selected compendium</p></td>
+      <td><p>string - the selected compendium</p></td>
     </tr>
     <tr>
       <th>sampleName</th>
-      <td><p>a character - if NULL(default) returns all available experiments ids
+      <td><p>string - if NULL(default) returns all available experiments ids
 for the selected compendium</p></td>
     </tr>
     </table>
@@ -158,7 +158,342 @@ for the selected compendium</p></td>
     <p>a data.frame with experimentAccessId and EsperimentName</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>get_experiments</span>(<span class='kw'>sampleName</span><span class='kw'>=</span><span class='st'>"GSM671721.ch1"</span>)</div><div class='output co'>#&gt;   experimentAccessId                                  experimentName
+    <pre class="examples"><div class='input'><span class='fu'>get_experiments</span>()</div><div class='output co'>#&gt;     experimentAccessId
+#&gt; 1          E-MEXP-3803
+#&gt; 2             GSE54347
+#&gt; 3             GSE87296
+#&gt; 4          PRJNA269983
+#&gt; 5              GSE6404
+#&gt; 6             GSE31674
+#&gt; 7             GSE31675
+#&gt; 8             GSE29948
+#&gt; 9             GSE58061
+#&gt; 10            GSE31677
+#&gt; 11            GSE31660
+#&gt; 12            GSE34634
+#&gt; 13            GSE12842
+#&gt; 14            GSE31594
+#&gt; 15            GSE31662
+#&gt; 16            GSE31664
+#&gt; 17            GSE24561
+#&gt; 18         E-MEXP-1282
+#&gt; 19            GSE35172
+#&gt; 20         E-MTAB-1610
+#&gt; 21            GSE42345
+#&gt; 22            GSE43043
+#&gt; 23            GSE44823
+#&gt; 24         PRJNA287490
+#&gt; 25            GSE36632
+#&gt; 26            GSE40487
+#&gt; 27         E-MEXP-3045
+#&gt; 28         E-MEXP-1950
+#&gt; 29         E-MEXP-1524
+#&gt; 30            GSE41633
+#&gt; 31            GSE49569
+#&gt; 32            GSE20511
+#&gt; 33            GSE44213
+#&gt; 34            GSE16173
+#&gt; 35         E-MTAB-1634
+#&gt; 36         E-MTAB-1514
+#&gt; 37         E-MEXP-2541
+#&gt; 38            GSE63512
+#&gt; 39            GSE37743
+#&gt; 40            GSE58958
+#&gt; 41         E-MTAB-1523
+#&gt; 42         E-MEXP-2102
+#&gt; 43         E-MEXP-2337
+#&gt; 44            GSE62744
+#&gt; 45         PRJNA168987
+#&gt; 46            GSE56844
+#&gt; 47            GSE52586
+#&gt; 48            GSE65969
+#&gt; 49            GSE70670
+#&gt; 50            GSE53409
+#&gt; 51            GSE52167
+#&gt; 52            GSE67708
+#&gt; 53         PRJNA433817
+#&gt; 54            GSE75565
+#&gt; 55            GSE66391
+#&gt; 56            GSE76000
+#&gt; 57            GSE80801
+#&gt; 58            GSE89185
+#&gt; 59            GSE43901
+#&gt; 60            GSE62745
+#&gt; 61            GSE76834
+#&gt; 62            GSE86551
+#&gt; 63            GSE92980
+#&gt; 64         PRJNA415169
+#&gt; 65            GSE97578
+#&gt; 66            GSE57669
+#&gt; 67            GSE86163
+#&gt; 68         E-MTAB-3062
+#&gt; 69            GSE77218
+#&gt; 70           GSE118569
+#&gt; 71            GSE97900
+#&gt; 72            GSE97960
+#&gt; 73            GSE85812
+#&gt; 74            GSE87643
+#&gt; 75         PRJNA348618
+#&gt; 76         PRJNA378698
+#&gt; 77         PRJNA378596
+#&gt; 78            GSE77895
+#&gt; 79         PRJNA476839
+#&gt; 80            GSE58653
+#&gt; 81            GSE98873
+#&gt; 82           GSE122411
+#&gt; 83            GSE76256
+#&gt; 84           GSE109065
+#&gt; 85           GSE103226
+#&gt; 86           GSE116740
+#&gt; 87           GSE126052
+#&gt; 88             GSE7749
+#&gt; 89            GSE42315
+#&gt; 90             GSE7679
+#&gt; 91            GSE57770
+#&gt; 92            GSE83275
+#&gt; 93         PRJNA260645
+#&gt; 94         PRJNA380033
+#&gt; 95         PRJNA474960
+#&gt; 96         PRJNA268857
+#&gt; 97         PRJNA283438
+#&gt; 98         PRJNA528145
+#&gt; 99         PRJNA255837
+#&gt; 100        PRJNA338255
+#&gt; 101        PRJNA293344
+#&gt; 102        PRJNA269987
+#&gt; 103        PRJNA414966
+#&gt; 104        PRJNA307077
+#&gt; 105        PRJNA517111
+#&gt; 106        PRJNA488534
+#&gt; 107        PRJNA448744
+#&gt; 108         PRJEB30338
+#&gt; 109        PRJNA472397
+#&gt; 110        PRJNA527184
+#&gt; 111        PRJNA525460
+#&gt; 112        PRJNA539972
+#&gt; 113        PRJNA316157
+#&gt; 114        PRJNA448981
+#&gt; 115        PRJNA402079
+#&gt; 116        PRJNA398733
+#&gt; 117        PRJNA515329
+#&gt; 118        PRJNA436693
+#&gt; 119        PRJNA419810
+#&gt; 120        PRJNA434655
+#&gt; 121        PRJNA516950
+#&gt; 122        PRJNA394039
+#&gt; 123        PRJNA395634
+#&gt; 124        PRJNA306749
+#&gt; 125        PRJNA514211
+#&gt; 126        PRJNA471579
+#&gt; 127        PRJNA313243
+#&gt; 128        PRJNA275778
+#&gt; 129        PRJNA309142
+#&gt; 130        PRJNA286165
+#&gt; 131           GSE27180
+#&gt; 132           GSE32343
+#&gt; 133        PRJNA521100
+#&gt; 134           GSE11857
+#&gt; 135        PRJNA227009
+#&gt; 136           GSE11406
+#&gt; 137           GSE17502
+#&gt; 138           GSE41423
+#&gt; 139           GSE36849
+#&gt; 140           GSE89075
+#&gt; 141           GSE41206
+#&gt; 142           GSE36128
+#&gt; 143           GSE36234
+#&gt; 144           GSE18596
+#&gt; 145           GSE28779
+#&gt; 146        E-MTAB-2289
+#&gt; 147         E-MTAB-481
+#&gt; 148           GSE42909
+#&gt; 149           GSE72421
+#&gt; 150           GSE75498
+#&gt; 151           GSE85079
+#&gt; 152           GSE98923
+#&gt; 153        PRJNA484195
+#&gt; 154          PRJDB5807
+#&gt; 155        PRJNA307079
+#&gt; 156          GSE121146
+#&gt; 157           GSE71146
+#&gt; 158           GSE42312
+#&gt; 159            GSE8389
+#&gt; 160        PRJNA203687
+#&gt; 161        PRJNA169607
+#&gt; 162         PRJEB11405
+#&gt; 163        PRJNA521303
+#&gt; 164        PRJNA285072
+#&gt; 165        PRJNA258459
+#&gt; 166        PRJNA390670
+#&gt; 167         PRJEB31325
+#&gt;                                                                                                                                                                                               experimentName
+#&gt; 1                                                                                                                                                    Auto-grafting in grapevine 3 and 28 days after grafting
+#&gt; 2                                                                                                                       Identification of grape genes regulated in response to resistance inducer treatments
+#&gt; 3                                                                                                                                              cold stress -Impact of cold stress on grapevine inflorescence
+#&gt; 4                                                                                                                                Vitis pseudoreticulata cultivar:Baihe-13-1 Transcriptome or Gene expression
+#&gt; 5                                                                                                V. vinifera 'Cabernet sauvignon' and V. aestivalis 'Norton' innoculated with Erysiphe necator conidiospores
+#&gt; 6                                                                                                                                                            Pinot Noir berry transcriptome during ripening.
+#&gt; 7                                                                                                                                                      High temperature effect on Cabernet Sauvignon berries
+#&gt; 8                                                                                                                                                 Expression data from 35S::VvCBF4-overexpressing grapevines
+#&gt; 9                        Transcriptome analysis during seed development provides insights into co-regulated and altered gene expression between a seeded wine grape variety and it seedless somatic variant.
+#&gt; 10                                                                                                                                                                   Long-term Salt &amp; Water Stress in Grapes
+#&gt; 11                                                                                                                                        Gene expression associated with compatible viral diseases in berry
+#&gt; 12                                                                                                                                                                       Sauvignon blanc berry developmental
+#&gt; 13                                                                                                                                           Gene expression in grapevine in response to Bois noir infection
+#&gt; 14                                                                                                                                                              short term abiotic stress Cabernet Sauvignon
+#&gt; 15                                                                                                            Grape skin transcriptome in the berries cultured in vitro treated with exogenous abscisic acid
+#&gt; 16                                                                                                            Grape skin transcriptome in the berries grown on the vine treated with exogenous abscisic acid
+#&gt; 17                                                                                        Berry skin development in Norton grape: Distinct patterns of transcriptional regulation and flavonoid biosynthesis
+#&gt; 18                                                                                                          Transcription profiling of grapevine cultivar Pinot Noir berry development during three seasons.
+#&gt; 19                                                                                                                                       Transcripts and metabolites of grape ripening and aroma development
+#&gt; 20                                                                                                                      Gene expression during graft union formation in auto- and hetero-grafts of grapevine
+#&gt; 21                                                                                                                                                                  Time course of grapevine bud development
+#&gt; 22                                                                                           Effect of temperature and irradiation intensity on grapevine berry ripening in Muscat Hamburg fruiting cuttings
+#&gt; 23                                                                                                                Perturbation of polyamine catabolism affects normal grape ripening of Trincadeira cultivar
+#&gt; 24                                                                     Vitis vinifera cultivar:Dwarf rapid cycling and continous flowering pinot meunier mutant (line ML 1) Transcriptome or Gene expression
+#&gt; 25  Co-evolution between Grapevine rupestris stem pitting-associated virus and Vitis vinifera L. induces a decrease in defence responses and physiological performance associated with an increase in photos
+#&gt; 26                                                                                 Selective defoliation affects plant growth, fruit transcriptional ripening program and flavonoid metabolism in grapevine.
+#&gt; 27                                                                                                                         Sulphur dioxide evokes large scale reprogramming of the grape berry transcriptome
+#&gt; 28                                                                                                                                                                               RRM transcriptomic analysis
+#&gt; 29                                                                                    Transcription profiling of grapevine cell culture treated with methyly jasmonate, salicylic acids and ethanol controls
+#&gt; 30                                                                                                                                                       The plasticity of the grapevine berry transcriptome
+#&gt; 31                                                                                                                                                    Plasticity of the ripening process among berry classes
+#&gt; 32                                                                                                                        Expression profiling in grapevine berry during development and withering processes
+#&gt; 33                                                                                                    Transcriptional responses to water deficit and Xylella fastidiosa (Pierce's disease) in Vitis vinifera
+#&gt; 34                                                                                                              Gene expression profiling of grape-bud response to two alternative dormancy-release stimuli.
+#&gt; 35                                                                                                                                                                   2011_culture in vitro_sugar anthocyanin
+#&gt; 36                                                                                                                                                       Response of Vitis vinifera to Eutypa lata infection
+#&gt; 37                                                                                                                     Transcription profiling of Vitis vinifera cv. Malbec after exposure to UV-B radiation
+#&gt; 38                                                                                                       Transcriptome Comparison of Cabernet Sauvignon Grape Berries from Two Regions with Distinct Climate
+#&gt; 39                                                  Genome-wide analysis of the grapevine stilbene synthase multigenic family: genomic organization and expression profiles upon biotic and abiotic stresses
+#&gt; 40                                                                                                                                                           The genome of the grape powdery mildew pathogen
+#&gt; 41                                                                                                                                   Response of grapevine shoot apex expression to grafting with rootstocks
+#&gt; 42                                                                              Transcription profiling of Cabernet Sauvignon grape vine leaves from plantlets infected with the fungal pathogen Eutypa lata
+#&gt; 43                     Transcription profiling of Vitis vinifera cv. Cabernet-Sauvignon leaves obtained from plants grown in different enviroments and infected with vascular ascomycete fungus Eutypa lata.
+#&gt; 44                                                                                                                      Transcriptome analysis of 5 red Italian grapevine varieties during berry development
+#&gt; 45                                                                                                                                                                          Vitis vinifera strain:Pinot noir
+#&gt; 46                                                                          Next Generation Sequencing Facilitates Quantitative Analysis of Vitis flower Wild Type and the domesticated Vitis Transcriptomes
+#&gt; 47                               Transcript and metabolite analysis of Vitis vinifera cv. Trincadeira berries infected with Botrytis cinerea reveals an activation of a non-sustained plant defense response
+#&gt; 48                                  Analysis of the molecular dialogue between gray mold (Botrytis cinerea) and grapevine (Vitis vinifera) reveals a clear shift in defense mechanisms during berry ripening
+#&gt; 49                                                                                                     Distinct transcriptome responses to water limitation in isohydric and anisohydric grapevine cultivars
+#&gt; 50                                                                    Night heat stress triggered different transcriptomic responses than day stress in green and ripening grapevine (Vitis vinifera) fruits
+#&gt; 51                                                                                                                                              Circadian expression profiling in grapevine ripening berries
+#&gt; 52                                                                                                                                    Expression analysis of Vitis Vinifera clones differing for compactness
+#&gt; 53                                                                                                                                    Transcriptome profiling of grapevine kinase genes under drought stress
+#&gt; 54                                                                                                                                         Plasticity of the berry ripening program in a white grape variety
+#&gt; 55                                                                                      Water limitation and rootstock genotype interact to alter grape berry metabolism through transcriptome reprogramming
+#&gt; 56                                                                          Reducing sampling bias in molecular studies of grapevine fruit ripening: transcriptomic assessment of the density sorting method
+#&gt; 57                                                                                   Comparative genome hybridization between grapevine white-berried somatic variants and ancestral black-berried cultivars
+#&gt; 58                                                                                             Transcriptomic Regulation Of Scion/Rootstock Harmony And Drought Response In The Roots Of Grapevine Rootstock
+#&gt; 59                                                                                                                             Transcriptional changes associated with the fleshless (flb) somatic variation
+#&gt; 60                                                                                                                    Transcriptome analysis of 5 white Italian grapevine varieties during berry development
+#&gt; 61                                                                       Drawing links from transcriptome to metabolites: the evolution of aroma in the ripening berry of Moscato bianco (Vitis vinifera L.)
+#&gt; 62                                                                       Dissecting the biochemical and transcriptomic effects of locally applied heat stress on developing Cabernet Sauvignon grape berries
+#&gt; 63                                                                         Transcriptional Responses to Pre-flowering Leaf Defoliation in Grapevine Berry from Different Growing Sites, Years, and Genotypes
+#&gt; 64                                                                                                                                                                                 EcoGVCC grapevine viruses
+#&gt; 65                                Grapevine field experiments reveal the contribution of genotype, the influence of environment and the effect of their interaction (GXE) on the berry transcriptome [array]
+#&gt; 66                                                                                         Transcriptomic response in leaves of two Vitis vinifera L. varieties in field and under greenhouse abiotic stress
+#&gt; 67                                                                                                                                            Hydrogen cyanamide breaks grapevine bud dormancy in the summer
+#&gt; 68                                                       Transcription profiling by array of Vitis rootstock roots to investigate the effects of N supply on different rootstock/scion genotype combinations
+#&gt; 69                                                                                                                         Transcriptomic study of biological networks involving grapevine berry development
+#&gt; 70                                                                                                                            A galling insect activates plant reproductive programs during gall development
+#&gt; 71                        Genome-wide expression profiling of grapevine (Vitis vinifera cv Cabernet Sauvignon) woody stems and asymptomatic leaves during a time course of infection by Neofusicoccum parvum
+#&gt; 72                              Grapevine field experiments reveal the contribution of genotype, the influence of environment and the effect of their interaction (G3E) on the berry transcriptome [RNA-seq]
+#&gt; 73                                                     Field systems biology of grapevine red blotch reveals the impact of viral infections on the transcriptional and hormonal regulation of berry ripening
+#&gt; 74                                                                                        O antigen acts as a shield to delay early plant immune recognition of the pathogenic bacterium, Xylella fastidiosa
+#&gt; 75                                                                                                                                          Berry response to water deficit in the Merlot grapevine cultivar
+#&gt; 76                                                                                           Genome wide identification of long noncoding RNAs responsive to Lasiodiplodia theobromae infection in grapevine
+#&gt; 77                                                                                                                                  RNA-Seq of young and mid-ripening berries of Gewurztraminer and Riesling
+#&gt; 78                                                                                       To a better understanding of the impact of vine nitrogen status on volatile thiols from plot to transcriptome level
+#&gt; 79                                                                                                                                                                                Grape leaves Transcriptome
+#&gt; 80                                                                                                  Host-based markers for the early stage of infection by the grapevine trunk pathogen Neofusicoccum parvum
+#&gt; 81                                                                                                           RNASeq analysis of Vitis vinifera (cv. Sauvignon blanc) grape berries exposed to elevated light
+#&gt; 82                                                                                                            Dissecting the Variations of Transcriptome in Grape Berries Grown under Double Cropping System
+#&gt; 83                                                                                                                            Grape skin transcriptome to reveal genes related with resveratrol accumulation
+#&gt; 84                                                                            Shoot transcriptomic response is more sensitive to a 14 day water deficit than root transcriptomic response inÂ VitisÂ riparia
+#&gt; 85                                                                            Dissecting the Variations of Ripening Progression and Flavonoid Metabolism in Grape Berries Grown under Double Cropping System
+#&gt; 86                                                               Whole-transcriptome microarray analysis of grapevine-Botrytis cinerea interaction during latent infection of berries (â€œnoble rotâ€\u009d)
+#&gt; 87                                                                                                                     Effect of different irrigation supply on gene expression of two table grape cultivars
+#&gt; 88                                                                                                                             Analysis of gene expression in grape berries due to diurnal effects (DIU_05).
+#&gt; 89                                                                                                                                                         Rootstock and soil effects on grape transcriptome
+#&gt; 90                                                                                   Grape berry developmental series comparing irrigation treatments in a vineyard in Wingara, Victoria, Australia (WIN-05)
+#&gt; 91                                                                                             Root transcriptome comparison between grapevines Cabernet Sauvignon, 140 Ruggeri and K51-40 (+/- salt stress)
+#&gt; 92                                                                                           Effect of high CO2 levels and low temperature storage on table grapes quality harvested at two maturity stages.
+#&gt; 93                                                                                 Vitis vinifera cultivar:Cabernet Sauvignon, Chardonnay, Merlot, Pinot Noir, and Semillon Transcriptome or Gene expression
+#&gt; 94                                                                                                Multi-omic characterization of the Vitis vinifera/Plasmopara viticola (Grapevine Downy Mildew) pathosystem
+#&gt; 95                                                                                                                                                      Bordeaux Cabernet Sauvignon berry skin transcriptome
+#&gt; 96                                                                                                                                                           Vitis vinifera Transcriptome or Gene expression
+#&gt; 97                                                                                                                   detection of messenger RNA exchange between scions and rootstocks in grafted grapevines
+#&gt; 98                                                                                                                                                  Transcriptional analysis of  the treatment of riboflavin
+#&gt; 99                                                                                                                                                   Vitis Pseudoreticulata Transcriptome or Gene expression
+#&gt; 100                                                                                                                                                          Vitis vinifera Transcriptome or Gene expression
+#&gt; 101                                                                                                                                     Vitis vinifera cultivar:Tempranillo Transcriptome or Gene expression
+#&gt; 102                                                                                                                                                                 Transcriptome of Vitis quinquangularis S
+#&gt; 103                                                                                                                       Molecular analysis of interaction between the grapevine Berry and Botrytis cinerea
+#&gt; 104                                                                                                           Vitis vinifera cultivar:Chasselas Blanc and Chasselas Cioutat Transcriptome or Gene expression
+#&gt; 105                                                                                                                                                                                           Vitis grafting
+#&gt; 106                                                                                                                                                                               Grape bud dormancy RNA-seq
+#&gt; 107                                                                                                                                                                            Vitis vinifera cv Tempranillo
+#&gt; 108                                                                                                  Comparative transcriptome analyses of grapevine inflorescences of three different developmental stages.
+#&gt; 109                                                                                                                                                                             GRBaV transcriptome analysis
+#&gt; 110                                                                                                                   Transcriptome analysis of light effect on anthocyanin accumulation in grape berry skin
+#&gt; 111                                                                                                                                                Transcriptome of over-expression  grape lines for VpSTS29
+#&gt; 112                                                    Differences in berry primary and secondary metabolisms identified by transcriptomic and metabolic profiling of two table grape color somatic variants
+#&gt; 113                                                                                                                                                        Vitis vinifera cultivar:Merlot Raw sequence reads
+#&gt; 114                                                                                                                                                                 viromic study of P70 accession grapevine
+#&gt; 115                                                                                                                                                                         Vitis vinifera leaf freeze shock
+#&gt; 116                                                                                                                                                   Vitis vinifera cv Thompson Seedless Raw sequence reads
+#&gt; 117                                                                                              Comparison of two different host plant genera responding to grapevine leafroll-associated virus 3 infection
+#&gt; 118                                                                                                                                                                 Vitis vinifera Grape Berry Transcriptome
+#&gt; 119                                                                                                                                  Vitis vinifera strain:superior, 3003, Muscat Hamburg Raw sequence reads
+#&gt; 120                                                                                                                                                          Vitis vinifera Transcriptome or Gene expression
+#&gt; 121                                                                                                                   Transcriptomic comparison of four vitis species in response to water and salt stresses
+#&gt; 122                                                                                   Identification of the molecular regulators of softening and early ripening events in grape berries (Vitis vinifera L.)
+#&gt; 123                                                                                                                                                          Vitis vinifera Transcriptome or Gene expression
+#&gt; 124                                                                                                                                        Vitis vinifera cultivar:Loureira Transcriptome or Gene expression
+#&gt; 125                                                                                                                                                          Vitis vinifera Transcriptome or Gene expression
+#&gt; 126                                                                                                                                                     vitis vinifera shine muscat grape Raw sequence reads
+#&gt; 127                                                                                                                                                           Vitis davidii Transcriptome or Gene expression
+#&gt; 128                                                                                                                               Vitis vinifera cultivar:thompson seedless Transcriptome or Gene expression
+#&gt; 129                                                                                                                                       Vitis vinifera cultivar:Brachetto Transcriptome or Gene expression
+#&gt; 130                                                                                                                                                     Vitis amurensis isolate:Tonghua-3 Raw sequence reads
+#&gt; 131                                                                                                              Expression data from micropropagated Vitis vinifera when transferred to ex vitro conditions
+#&gt; 132                                                                                                                                                          Grapevine response to Planococcus ficus feeding
+#&gt; 133                                                                                                                                             Transcriptome profiles of three Muscat table grape cultivars
+#&gt; 134                                                                                        Gene expression patterns associated with grapevine resistance to downy mildew mediated by the Rpv1 and Rpv2 genes
+#&gt; 135                                                                                                                                                                 Vitis vinifera strain:Cabernet sauvignon
+#&gt; 136                                                                                                                                    Expression data in individual grape berries during ripening initation
+#&gt; 137                                                                                                                                                             Photoperiod regulation of grape bud dormancy
+#&gt; 138                                                                                      Transcriptomic analysis during heat stress and after the following recovery in grapevine (Vitis vinifera L.) leaves
+#&gt; 139                                                                                                            Gene expression in leaves of grapevine plants under abiotic stress conditions: heat and water
+#&gt; 140                          Comparative Physiological and Transcriptome Profiling of Grapevine Rootstocks Identified Their Physiological Adaptations and Gene Regulation  Networks behind Drought Tolerance
+#&gt; 141                                                                                                                                                   Grape flesh and skin ripening transcriptomic profiling
+#&gt; 142                                                                                     The grapevine expression atlas reveals a deep transcriptome shift driving the entire plant into a maturation program
+#&gt; 143                                                             Increasing the source/sink ratio in Vitis vinifera (cv Sangiovese) induces extensive transcriptome reprogramming and modifies berry ripening
+#&gt; 144                                                                                                     RNAs expression profiling in a resistant and a susceptible grapevine cultivar to Plasmopara viticola
+#&gt; 145                                                                            Transcript and metabolite analysis in Trincadeira cultivar reveals novel information regarding the dynamics of grape ripening
+#&gt; 146                                                                                                                                           Time course of grapevine tendril and inflorescence development
+#&gt; 147                                                                                                                                      Transcriptional analysis of late ripening stages of grapevine berry
+#&gt; 148                                                                                         Transcriptome analysis along berry development of 'Syrah' x 'Pinot Noir' offspring extreme for flavonoid content
+#&gt; 149                                                  Five Omic Technologies Are Concordant in Differentiating the Biochemical Characteristics of the Berries of Five Grapevine (Vitis vinifera L.) Cultivars
+#&gt; 150                                                                                                         Disclosing the Molecular Basis of the Postharvest Life of Berry in Different Grapevine Genotypes
+#&gt; 151                Genome-wide expression profiling of Neofusicoccum parvum virulence factors in response to different growth substrates in vitro and during an interaction time course with grapevine stems
+#&gt; 152                                                                                                                Timing and order of the molecular events marking the onset of berry ripening in grapevine
+#&gt; 153                                                                                  Transcriptomic analysis of a white-to-red skin color reversion in grapevine (Vitis vinifera L. cv. Â´Moscatel GalegoÂ´)
+#&gt; 154                                                                                                                                   Transcriptome analysis for shoot of Japanese wine grape cultivar Koshu
+#&gt; 155                                                                                                                                   Vitis vinifera cultivar:Prieto Picudo Transcriptome or Gene expression
+#&gt; 156                                                        Volatile profiles and transcriptomic variation in Cabernet Sauvignon grapes in response to various sunlight exposure strategies in a warm climate
+#&gt; 157                                                                 Using the combined analysis of transcripts and metabolites to propose key genes for differential terpene accumulation across two regions
+#&gt; 158                                                                                                           Grapevine cell cultures transcriptomic response to methyl jasmonate and cyclodextrin elicitors
+#&gt; 159                                                                                                                     The effects of heat shock treatment on gene expression of grapevine berries (HSP_06)
+#&gt; 160                                                                                                                                            Vitis vinifera strain:Tannat Transcriptome or Gene expression
+#&gt; 161                                                                                                                                           Vitis vinifera strain:Corvina Transcriptome or Gene expression
+#&gt; 162                                                                                              Next Generation Sequencing of grapevine wood pathogen infection in the presence of a root biocontrol agent.
+#&gt; 163                                                                                                                                         Vitis vinifera root transcriptome analysis under flooding stress
+#&gt; 164                                                                                                                Vitis vinifera cultivar:Corinto Bianco and Pedro Ximenez Transcriptome or Gene expression
+#&gt; 165                                                                                                                  Vitis labrusca x Vitis vinifera strain:Labruscan grape Transcriptome or Gene expression
+#&gt; 166                                                                                                                                           Vitis vinifera transcriptome in response to Xylella fastidiosa
+#&gt; 167                              Grapevine comparative early transcriptome profiling reveals that Flavescence dorée phytoplasma represses plant responses induced by vector feeding in susceptible varieties</div><div class='input'><span class='fu'>get_experiments</span>(<span class='kw'>sampleName</span><span class='kw'>=</span><span class='st'>"GSM671721.ch1"</span>)</div><div class='output co'>#&gt;   experimentAccessId                                  experimentName
 #&gt; 1           GSE31674 Pinot Noir berry transcriptome during ripening.</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

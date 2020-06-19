@@ -30,7 +30,7 @@ get_available_compendia <- function(){
 
 #' Get compendium data sources
 #'
-#' @param compendium a character - the selected compendium
+#' @param compendium string - the selected compendium
 #'
 #' @return a character vector containing the available data sources
 #' @export
@@ -55,7 +55,7 @@ get_compendium_data_source <- function(compendium = "vespucci"){
 #' Get information about all available platforms for the selected compendium,
 #' use \code{\link{get_compendia}} to check all the available compendia
 #'
-#' @param compendium a character - the selected compendium
+#' @param compendium string - the selected compendium
 #'
 #' @return a data.frame with five columns:
 #' platformAccessId, platformName, description, dataSource, platformType
@@ -86,15 +86,18 @@ get_platform_information <- function(compendium = "vespucci"){
         }
   }
 }')
-  build_query(my_query)$platforms$edges$node %>%
-    mutate(dataSource=dataSource$sourceName,
-           platformType=platformType$name)
+  # build_query(my_query)$platforms$edges$node %>%
+  #   mutate(dataSource=dataSource$sourceName,
+  #          platformType=platformType$name)
+  tmp <- build_query(my_query)$platforms$edges$node
+  data.frame(dataSource=tmp$dataSource$sourceName,
+              platformType=tmp$platformType$name)
 }
 
 
 #' get available platform types
 #'
-#' @param compendium a character - the selected compendium
+#' @param compendium string - the selected compendium
 #'
 #' @return a data.frame
 #' @export
@@ -117,11 +120,10 @@ get_platform_types <- function(compendium = "vespucci"){
 
 #' get_sample_info
 #'
-#' @param compendium a character - the selected compendium
-#' @param sampleName a character - GEO Sample accession id (GSM)
+#' @param compendium string - the selected compendium
+#' @param sampleName string - GEO Sample accession id (GSM)
 #'
 #' @return
-#' @importFrom magrittr "%>%"
 #' @export
 #'
 #' @examples
@@ -152,45 +154,48 @@ get_sample_info <-function(compendium = "vespucci",
     }
 
   }')
-  build_query(my_query)$samples$edges$node %>%
-    dplyr::transmute( id,
-                      sampleName,
-                      experimentId = experiment$id,
-      experimentAccessId = experiment$experimentAccessId,
-      experimentName = experiment$experimentName,
-      platformName = reporterPlatform$platformName,
-      platformAccessId = reporterPlatform$platformAccessId)
+  # build_query(my_query)$samples$edges$node %>%
+  #   dplyr::transmute( id,
+  #                     sampleName,
+  #                     experimentId = experiment$id,
+  #     experimentAccessId = experiment$experimentAccessId,
+  #     experimentName = experiment$experimentName,
+  #     platformName = reporterPlatform$platformName,
+  #     platformAccessId = reporterPlatform$platformAccessId)
+  tmp <- build_query(my_query)$samples$edges$node
+  data.frame( id = tmp$id,
+              sampleName = tmp$sampleName,
+              experimentId = tmp$experiment$id,
+              experimentAccessId = tmp$experiment$experimentAccessId,
+              experimentName = tmp$experiment$experimentName,
+              platformName = tmp$reporterPlatform$platformName,
+              platformAccessId = tmp$reporterPlatform$platformAccessId)
 }
 
 #' Get experiment Accessids and name
-#' use \code{\link{get_compendia}} to check all the available compendia
+#' use \code{\link{get_available_compendia}} to check all the available compendia
 #'
-#' @param compendium a character - the selected compendium
-#' @param sampleName a character - if NULL(default) returns all available experiments ids
+#' @param compendium string - the selected compendium
+#' @param sampleName string - if NULL(default) returns all available experiments ids
 #' for the selected compendium
 #' @return a data.frame with experimentAccessId and EsperimentName
 #' @export
 #'
 #' @examples
+#' get_experiments()
 #' get_experiments(sampleName="GSM671721.ch1")
 get_experiments <- function(compendium = "vespucci",
                             sampleName=NULL){
   if(is.null(sampleName)){
     my_query <- paste0('{
-      experiments(compendium:\"', compendium, '\") {
-      edges {
-        node {
-          experimentAccessId,
-          experimentName
-        }
-      }
-    }
-  }')}
+      experiments(compendium:\"', compendium, '\") {')}
   else{
     sampleId <- get_sample_info(sampleName = sampleName)
     my_query <- paste0('{
-    experiments(compendium:\"', compendium, '\", id:\"', sampleId$id,'\") {
-      edges {
+    experiments(compendium:\"', compendium, '\", id:\"', sampleId$id,'\") {')
+  }
+  my_query <- paste0(my_query,'
+        edges {
         node {
           experimentAccessId,
           experimentName
@@ -198,15 +203,13 @@ get_experiments <- function(compendium = "vespucci",
       }
     }
   }')
-  }
   build_query(my_query)$experiments$edges$node
 }
 
 
-
 #' get annotations for n samples from the selected compendium
 #'
-#' @param compendium a character - the selected compendium
+#' @param compendium string - the selected compendium
 #' @param n an integer: number of sample to retrieve (default 10)
 #'
 #' @return a data.frame
@@ -229,16 +232,20 @@ get_sample_annotation <- function(compendium = "vespucci", n = 10){
         }
       }
     }')
-    build_query(my_query)$sampleAnnotations$edges$node %>%
-      transmute(sampleName = sample$sampleName,
-             sampleId = sample$id,
-             annotation)
+    # build_query(my_query)$sampleAnnotations$edges$node %>%
+    #   transmute(sampleName = sample$sampleName,
+    #          sampleId = sample$id,
+    #          annotation)
+    tmp <- build_query(my_query)$sampleAnnotations$edges$node
+    data.frame (sampleName = tmp$sample$sampleName,
+                sampleId = tmp$sample$id,
+                annotation = tmp$annotation)
 }
 
 #' get_samples_by_gse
 #'
-#' @param compendium a character - the selected compendium
-#' @param experiment_ExperimentAccessId a character - GSE (GEO Series (experiment) access id)
+#' @param compendium string - the selected compendium
+#' @param experiment_ExperimentAccessId string - GSE (GEO Series (experiment) access id)
 #'
 #' @return a data.frame with three columns id, sampleName, description
 #' @export
@@ -263,8 +270,8 @@ get_samples_by_gse <- function(compendium = "vespucci",
 
 #' get_sample_by_gsm
 #'
-#' @param compendium a character - the selected compendium
-#' @param sampleName_Icontains a character - GSM (GEO Sample access id)
+#' @param compendium string - the selected compendium
+#' @param sampleName_Icontains string - GSM (GEO Sample access id)
 #'
 #' @return a data.frame with three columns: id, sampleName, description
 #' @export
@@ -287,20 +294,23 @@ get_sample_by_gsm <- function(compendium = "vespucci",
   build_query(my_query)$samples$edges$node
 }
 
-#' Get all samples measuread with a given Platform
+#' Get all samples measured with a given Platform
 #'
 #' Get all available samples for the selected compendium,
-#' use \code{\link{get_compendia}} to check all the available compendia
+#' use \code{\link{get_available_compendia}} to check all the available compendia
 #'
-#' @param compendium a character - the selected compendium
-#' @param platformAccessId a character
+#' @param compendium string - the selected compendium
+#' @param platformAccessId string
+#'
 #' @return a data.frame
 #' @export
 #'
+#' @examples
+#' get_samples()
 get_samples <- function(compendium = "vespucci",
                         platform_PlatformAccessId = "GPL11004"){
   my_query <- paste0('{
- samples(compendium:\"', compendium, '\", platformAccessId:\"', platform_PlatformAccessId,'\") {
+ samples(compendium:\"', compendium, '\", platform_PlatformAccessId:\"', platform_PlatformAccessId,'\") {
         edges {
                 node {
                   id
@@ -336,27 +346,29 @@ get_samples <- function(compendium = "vespucci",
 
 #' get_sampleset_id
 #'
-#' @param compendium a character - the selected compendium
-#' @param samples a character - unique id for the sampleset
-#' @param name a character - the sampleset of interest
+#' @param compendium string - the selected compendium
+#' @param name string - the sampleset of interest
+#' @param name_In a character vector - the sampleset name
+#' @param version string - either 'latest' or 'legacy'
 #'
-#' @return a data.frame eith two columns: id and name
+#' @return a data.frame with two columns: id and name
 #' @export
 #'
 #' @examples
-#' get_sampleset_id(name = "GSE27180_48hours-1-vs-GSE27180_0h-2")
-#' get_sampleset_id(sample ="U2FtcGxlVHlwZTox")
+#' get_sampleset_id(name_In = "GSE27180_48hours-1-vs-GSE27180_0h-2")
+#' get_sampleset_id(samples =c("U2FtcGxlVHlwZTox"))
 get_sampleset_id <- function(compendium = "vespucci",
-                                name = NULL,
-                                samples = NULL){
-  if(all(c(name, samples) %in% NULL)) stop("Enter either a name (name = 'GSE27180_48hours-1-vs-GSE27180_0h-2') or a sample id (e.g. samples = 'U2FtcGxlVHlwZTox')")
-  if(is.null(name)){
+                             version = "latest",
+                             samples = NULL,
+                             name_In = NULL){
+  if(all(c(samples, name_In) %in% NULL)) stop("Enter either a name_In (name_In = 'GSE27180_48hours-1-vs-GSE27180_0h-2') or a sample id (e.g. samples = 'U2FtcGxlVHlwZTox')")
+  if(is.null(name_In)){
     my_query <- paste0('query {
     sampleSets(compendium:\"', compendium, '\", samples:\"', samples, '\") {')
   }
   else if(is.null(samples)){
     my_query <- paste0('{
-    sampleSets(compendium:\"', compendium, '\", name:\"', name, '\") {')
+    sampleSets(compendium:\"', compendium, '\", name_In:\"', name_In, '\") {')
   }
   my_query <- paste0(my_query,'
     edges {
@@ -372,8 +384,8 @@ get_sampleset_id <- function(compendium = "vespucci",
 
 #' get_samples_annotation_triples
 #'
-#' @param compendium a character - the selected compendium
-#' @param ids a character
+#' @param compendium string - the selected compendium
+#' @param ids string
 #'
 #' @return
 #' @export
@@ -393,8 +405,8 @@ get_samples_annotation_triples <- function(compendium = "vespucci",
 
 #' get_sparql_annotation_triples
 #'
-#' @param compendium a character - the selected compendium
-#' @param ids a character
+#' @param compendium string - the selected compendium
+#' @param ids string
 #'
 #' @return
 #' @export
@@ -415,8 +427,8 @@ get_sparql_annotation_triples <- function(compendium = "vespucci",
 
 #' get_available_normalization
 #'
-#' @param compendium a character - the selected compendium
-#' @param version a character(default 'latest')
+#' @param compendium string - the selected compendium
+#' @param version string - either (default) 'latest' or '2.0'
 #'
 #' @return a data.frame
 #' @export
@@ -440,10 +452,10 @@ get_available_normalization <- function(compendium='vespucci',
 
 #' get_ontology_structure
 #'
-#' @param compendium a character - the selected compendium
-#' @param name a character - the name of the ontolgy of interest
+#' @param compendium string - the selected compendium
+#' @param name string - the name of the ontolgy of interest
 #'
-#' @return a character
+#' @return string
 #' @export
 #'
 #' @examples
@@ -465,7 +477,7 @@ get_ontology_structure <- function(compendium='vespucci',
 
 #' Get all ontologies for
 #'
-#' @param compendium a character - the selected compendium
+#' @param compendium string - the selected compendium
 #'
 #' @return a data.frame
 #' @export
@@ -493,8 +505,8 @@ get_ontologies <- function(compendium = "vespucci"){
 
 #' get_biofeature_annotations
 #'
-#' @param compendium a character - the selected compendium
-#' @param name a character the biofeature of interest
+#' @param compendium string - the selected compendium
+#' @param name string the biofeature of interest
 #'
 #' @return a data.frame
 #' @export
@@ -522,28 +534,30 @@ build_query(my_query)$biofeatureAnnotations$edges$node
 
 #' get biofeature sequence by name
 #'
-#' @param compendium a character - the selected compendium
-#' @param name a character - the biofeature (here gene) name
+#' @param compendium string - the selected compendium
+#' @param name string - the biofeature (here gene) name
 #' @param field the biofeature field of interest ('sequence' as default)
 #'
-#' @return a data.frame with two columns: value for the requested field and unique biofeature id
+#' @return a data.frame with three columns: name,id and value
 #' @export
 #'
 #' @examples
-#' get_biofeature_by_name(name = "VIT_00s0332g00060")
+#' get_biofeature_by_name(name_In = "VIT_00s0332g00060")
+#' get_biofeature_by_name(name_In = c("VIT_00s0332g00060", "VIT_00s0246g00220", "VIT_00s0332g00160"))
 get_biofeature_by_name <- function(compendium = "vespucci",
-                                   name="VIT_00s0332g00060",
+                                   name_In=NULL,
                                    field="sequence"){
+  if(is.null(name_In)) stop("Provide name_In (e.g. name_In = c('VIT_00s0332g00060', 'VIT_00s0332g00160')")
   my_query <- paste0('{
   biofeatures(compendium:\"', compendium, '\",
-                        name:\"',name, '\") {
+                        name_In:\"',paste0(name_In, collapse =","), '\") {
               edges {
                 node {
                   biofeaturevaluesSet(bioFeatureField_Name:\"', field, '\") {
                   edges {
                     node {
-                      value,
-                      id
+                      id,
+                      value
                     }
                   }
                 }
@@ -551,14 +565,16 @@ get_biofeature_by_name <- function(compendium = "vespucci",
             }
           }
   }')
-  build_query(my_query)$biofeatures$edges$node$biofeaturevaluesSet$edges[[1]]$node
+  tmp <- sapply(build_query(my_query)$biofeatures$edges$node$biofeaturevaluesSet$edges,
+                unlist)
+  data.frame(name = name_In,id = tmp[1,], value = tmp[2,])
 }
 
 
 #' get_biofeature_annotation_rdf
 #'
-#' @param compendium a character - the selected compendium
-#' @param ids unique biologicafeature annotation from \code{\link{get_biofeature_by_name()}}
+#' @param compendium string - the selected compendium
+#' @param ids unique biologicafeature annotation from \code{\link{get_biofeature_by_name}}
 #'
 #' @return a data.frame
 #' @export
@@ -567,6 +583,7 @@ get_biofeature_by_name <- function(compendium = "vespucci",
 #' get_biofeature_annotation_rdf(ids="QmlvRmVhdHVyZVR5cGU6Mg==")
 get_biofeature_annotation_rdf <- function(compendium = "vespucci",
                                    ids="QmlvRmVhdHVyZVR5cGU6Mg=="){
+  if(is.null(ids)) stop("Provide ids (e.g. ids = 'QmlvRmVhdHVyZVR5cGU6Mg==')")
   my_query <- paste0('{
   annotationPrettyPrint(compendium:\"', compendium, '\", ids:\"',ids, '\") {
         rdfTriples
@@ -577,47 +594,19 @@ get_biofeature_annotation_rdf <- function(compendium = "vespucci",
 
 #' get_biofeature_id
 #'
-#' @param compendium a character - the selected compendium
+#' @param compendium string - the selected compendium
 #' @param name_In a character vector - the biofeature names
-#' @param name a character - the biofeature name
 #'
 #' @return a data.frame
 #' @export
 #'
 #' @examples
-#' get_biofeature_id(name="VIT_00s0332g00060")
-#' get_biofeature_id(name_In = "VIT_00s0332g00060, VIT_00s0332g00160")
-#' get_biofeature_id(name_In = c("VIT_00s0332g00060", "VIT_00s0332g00160"))
+#' my_genes <- c("VIT_00s0332g00110","VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030")
+#' get_biofeature_id(name_In = my_genes)
 get_biofeature_id <- function(compendium = "vespucci",
-                              name = "VIT_00s0332g00060",
                               name_In = NULL){
-  if(is.null(name) & is.null(name_In)) stop("Provide either a name XOR a name_In")
-  if(is.null(name_In)){
-    my_query <- paste0('{
-  biofeatures(compendium:\"', compendium, '\", name:\"',name, '\") {
-    edges {
-      node {
-        name
-        id
-        description
-            }
-          }
-        }
-      }')
-  }
-  else {
-  #   my_query <- paste0('{
-  # biofeatures(compendium:\"', compendium, '\", name_In:\"',name_In, '\") {
-  #   edges {
-  #     node {
-  #       name
-  #       id
-  #       description
-  #           }
-  #         }
-  #       }
-  #     }')
-    my_query <- paste0('{
+  if(is.null(name_In)) stop("Provide name_In (e.g. name_In = c('VIT_00s0332g00060', 'VIT_00s0332g00160')")
+  my_query <- paste0('{
   biofeatures(compendium:\"', compendium, '\", name_In:\"',paste0(name_In, collapse =","), '\") {
     edges {
       node {
@@ -628,31 +617,21 @@ get_biofeature_id <- function(compendium = "vespucci",
           }
         }
       }')
-  }
     build_query(my_query)$biofeatures$edges$node
 }
 
-# GET ontology structure
-# '{
-#   ontology(compendium:"vespucci", name:"Gene ontology") {
-#     edges {
-#       node {
-#         structure
-#       }
-#     }
-#   }
-# }'
 
 #' get_ranking
 #'
-#' @param compendium a character - the selected compendium
+#' @param compendium string - the selected compendium
 #'
-#' @return a list
+#' @return a list with sampleSets and biologicalFeatures ranking available methods
 #' @export
 #'
 #' @examples
 #' get_ranking()
 get_ranking <- function(compendium = "vespucci"){
+  if(is.null(compendium)) stop("Provide the compendium id.")
   my_query <- paste0('{
   scoreRankMethods(compendium:\"', compendium, '\"){
         sampleSets,
@@ -663,155 +642,23 @@ get_ranking <- function(compendium = "vespucci"){
 }
 
 
-#' get_available_plot_methods
-#'
-#' @param compendium a character - the selected compendium
-#'
-#' @return a list with plot methods for distribution, heatmap and network
-#' @export
-#'
-#' @examples
-#' get_available_plot_methods()
-get_available_plot_methods <- function(compendium = "vespucci"){
-  my_query <- paste0('{
-  plotName(compendium:\"', compendium, '\"){
-        distribution,
-        heatmap,
-        network
-      }
-  }')
-  build_query(my_query)$plotName
-}
-
-
-#' create module with biological features and sample sets
-#'
-#' @param compendium a character - the selected compendium
-#' @param biofeatureNames a character vector (here gene_names)
-#' @param samplesetNames a character vector (here sampleset names)
-#' @param version a character ('legacy' as default)
-#'
-#' @return a list with three data.frame
-#' @export
-#'
-#' @examples
-#'\dontrun{
-#' my_mod <- create_module(biofeatureNames=c("VIT_00s0332g00110","VIT_00s0332g00160",
-#' "VIT_00s0396g00010","VIT_00s0505g00030"),
-#' samplesetNames=c("GSE27180_48hours-1-vs-GSE27180_0h-2",
-#' "E-MTAB-1514.US_03_3.ch1-vs-E-MTAB-1514.US_03_1.ch1"))
-#' pheatmap::pheatmap(my_mod,col = RcolorBrewer::brewer.pal(11,name="RdBu"))
-#' # compare to vespucci:
-#' # url <- "http://vespucci.colombos.fmach.it/cws_data/export_data/colombos_20190828_nEwFDG.txt"
-#' # vesp_test=readr::read_tsv(url)
-#' }
-#'
-create_module <- function(compendium = "vespucci",
-                          biofeatureNames = NULL,
-                          samplesetNames = NULL,
-                          version = "legacy"){
-  if(all(c(biofeatureNames, samplesetNames) %in% NULL)) stop("You need to provide at least biofeaturesNames or samplesetsNames")
-  else if (is.null(biofeatureNames)) {
-    out <- create_module_ss(compendium = compendium, samplesetNames =  samplesetNames)
-  }
-  else if (is.null(samplesetNames)) {
-    out <- create_module_bf(compendium = compendium, biofeatureNames = biofeatureNames)
-  }
-  else {
-    # biofeaturesIds <- sapply(biofeatureNames,function(x) paste(get_biofeature_id(name=x)[2]))
-    biofeaturesIds <- sapply(biofeatureNames,function(x) paste(get_biofeature_id(name=x)$id))
-    samplesetIds <- sapply(samplesetNames,function(x) paste(get_sampleset_id(name=x)))
-    my_query <- paste0('{
-    modules(compendium:\"', compendium, '\",
-    biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"],
-    samplesetIds:["', paste0(samplesetIds, collapse = '","'),'\"]), {
-      normalizedValues,
-      sampleSets {
-          edges {
-                node {
-                  id
-                  name
-                  normalizationdesignsampleSet {
-                        edges {
-                          node {
-                                sample {
-                                  sampleName
-                                }
-                          }
-                        }
-                  }
-                }
-          }
-        }
-        biofeatures {
-          edges {
-                node {
-                  id
-                  name
-                }
-          }
-        }
-    }
-  }')
-  #   tmp <- parze(cont(do_POST(base_url, my_query)))$data
-  #   out <- data.frame(tmp$modules$normalizedValues, row.names = biofeatureNames)
-  #   colnames(out) <- samplesetNames
-     }
-  # out
-  build_query(my_query)$modules
-}
-
-
-#' create_module_bf
-#'
-#' @param compendium a character - the selected compendium
-#' @param biofeatureNames a character vector (here gene_names)
-#' @param normalization a character
-#' @param rank a character ('magnitude' as default)
-#'
-#' @return a data.frame
-#' @export
-#'
-#' @examples
-#' create_module_bf(biofeatureNames=c("VIT_00s0332g00110","VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030","VIT_00s0505g00060","VIT_00s0873g00020","VIT_00s0904g00010")
-create_module_bf <- function(compendium = "vespucci",
-                          biofeaturesNames=c("VIT_00s0332g00110","VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030","VIT_00s0505g00060","VIT_00s0873g00020","VIT_00s0904g00010"),
-                          version = "legacy",
-                          rank = "magnitude",
-                          rankTarget = "samplesets"){
-  if(is.null(biofeatureNames)) stop("You need to provide biofeaturesNames")
-  biofeaturesIds <- sapply(biofeatureNames,function(x) paste(get_biofeature_id(name=x)$id))
-  samplesetIds <- get_samplesets_ranking(compendium =  compendium,
-                                         biofeaturesNames = biofeatureNames,
-                                         version = version,
-                                         rank =rank,
-                                         rankTarget = rankTarget)
-    my_query <- paste0('{
-    modules(compendium:\"', compendium, '\",
-    biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"],
-    samplesetIds:["', paste0(samplesetIds[[1]], collapse = '","'),'\"]), {
-      normalizedValues
-    }
-  }')
-  build_query(my_query)$modules
-}
-
 #' get_samplesets_ranking
 #'
-#' @param compendium a character - the selected compendium
-#' @param biofeatureNames a character vector (here gene_names)
-#' @param rank a character ('magnitude' as default)
-#' @param version a character ('legacy' as default)
-#' @param rankTarget a character ('sampleset' as default)
-#' @param biofeatureIds a character vector (here gene_ids)
+#' @param compendium string - the selected compendium
+#' @param rank string ('magnitude' as default)
+#' @param version string ('legacy' as default)
+#' @param biofeaturesNames a character vector (here gene_names)
+#' @param biofeaturesIds a character vector - the biofeature ids
+#' @param top_n a numeric - an integer for selecting the top ranked samplesets
+#' @param rankTarget string ('sampleset' as default)
 #'
-#' @return a list with four character vectors (id,name,type,value)
+#' @return a data.frame with four character vectors (id,name,type,value)
 #' @export
 #'
 #' @examples
 #' my_ids <- c("VIT_00s0332g00110","VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030")
-#' get_samplesets_ranking(biofeaturesNames = my_ids)
-#' get_samplesets_ranking(biofeaturesIds=c("QmlvRmVhdHVyZVR5cGU6MQ==","QmlvRmVhdHVyZVR5cGU6Mg==", "QmlvRmVhdHVyZVR5cGU6Mw==","QmlvRmVhdHVyZVR5cGU6NA==","QmlvRmVhdHVyZVR5cGU6NQ=="))
+#' get_samplesets_ranking(biofeaturesNames = my_ids, top_n = 10)
+#' get_samplesets_ranking(biofeaturesIds=c("QmlvRmVhdHVyZVR5cGU6MQ==","QmlvRmVhdHVyZVR5cGU6Mg==", "QmlvRmVhdHVyZVR5cGU6Mw==","QmlvRmVhdHVyZVR5cGU6NA==","QmlvRmVhdHVyZVR5cGU6NQ=="), top_n = 10)
 get_samplesets_ranking <- function(compendium = "vespucci",
                                    version = "legacy",
                                    rankTarget = "samplesets",
@@ -819,126 +666,67 @@ get_samplesets_ranking <- function(compendium = "vespucci",
                                    biofeaturesNames=NULL,
                                    biofeaturesIds=NULL,
                                    top_n = 50){
-  if(is.null(biofeaturesNames) & is.null(biofeaturesIds)) stop("provide either biofeatureNames XOR biofeatureIds")
+  if(is.null(biofeaturesNames) & is.null(biofeaturesIds)) stop("provide either biofeaturesNames XOR biofeatureIds")
   else if(is.null(biofeaturesIds)) {
-    biofeaturesIds <- get_biofeature_id(name = NULL, name_In=biofeaturesNames)$id
-    my_query <- paste0('{
-  ranking(compendium:\"', compendium, '\",
-    version:\"', version, '\",
-    rank:\"', rank, '\",
-    rankTarget:\"', rankTarget, '\",
-    biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"]) {
-      id,
-      name,
-      value
-      }
-  }')
-  } else {
-    my_query <- paste0('{
-  ranking(compendium:\"', compendium, '\",
-    version:\"', version, '\",
-    rank:\"', rank, '\",
-    rankTarget:\"', rankTarget, '\",
-    biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"]) {
-      id,
-      name,
-      value
-      }
-  }')
+    biofeaturesIds <- get_biofeature_id(name_In=biofeaturesNames)$id
   }
-
-  build_query(my_query)$ranking
+  my_query <- paste0('{
+  ranking(compendium:\"', compendium, '\",
+    version:\"', version, '\",
+    rank:\"', rank, '\",
+    rankTarget:\"', rankTarget, '\",
+    biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"]) {
+      id,
+      name,
+      value
+      }
+  }')
+  as.data.frame(build_query(my_query)$ranking)[1:top_n,]
 }
 
 
-
-# get_biofeature_ranking()
-#' Title
+#' get_biofeature_ranking()
 #'
-#' @param compendium a character - the selected compendium
+#' @param compendium string - the selected compendium
 #' @param samplesetIds a character vector (here gene_names)
 #' @param samplesetNames a character vector (here sampleset names)
-#' @param version a character ('legacy' as default)
-#' @param rank a character ('magnitude' as default) - use \code{\link{get_ranking()$sampleSets}}
+#' @param version string ('legacy' as default)
+#' @param rank string ('magnitude' as default) - use \code{\link{get_ranking}}
+#' @param top_n a numeric - an integer for selecting the top ranked samplesets
+#' @param rankTarget string ('biofeature' as default)
 #' for the available values
 #'
 #' @return a list with four character vectors (id,name,type,value)
 #' @export
 #'
 #' @examples
-#' get_biofeature_ranking()
+#' junk <- get_biofeature_ranking(samplesetIds = c("U2FtcGxlU2V0VHlwZTo0OTY2", "U2FtcGxlU2V0VHlwZToyNDgy", "U2FtcGxlU2V0VHlwZTo4NzQ="), top_n = 10)
 get_biofeature_ranking <- function(compendium = "vespucci",
-                                   samplesetIds = c("U2FtcGxlU2V0VHlwZToxMjYy",
-                                                  "U2FtcGxlU2V0VHlwZToxMjYw"),
+                                   samplesetIds = NULL,
                                    samplesetNames = NULL,
                                    version = "legacy",
-                                   rank = "std"){
-  if(is.null(samplesetIds)) stop("You need to provide samplesetIds")
+                                   rank = "uncentered_correlation",
+                                   rankTarget = "biofeatures",
+                                   top_n = 50){
+  if(is.null(samplesetNames) & is.null(samplesetIds)) stop("provide either samplesetNames XOR samplesetIds")
+  else if(is.null(samplesetIds)) {
+    samplesetIds <- get_biofeature_id(name_In=samplesetNames)$id
+  }
   my_query <- paste0('{
   ranking(compendium:\"', compendium, '\",
     version:\"', version, '\",
     rank:\"', rank, '\",
+    rankTarget:\"', rankTarget, '\",
     samplesetIds:["', paste0(samplesetIds, collapse = '","'),'\"]) {
-      id
-      name
+      id,
+      name,
       value
       }
 }')
-  # tmp <- parze(cont(do_POST(base_url, rank_query)))$data$ranking
-  # out <- data.frame(id=tmp$id, name=tmp$name)
-  build_query(my_query)$ranking
+  as.data.frame(build_query(my_query)$ranking)[1:top_n,]
 }
 
-# create_module_ss()
-create_module_ss <- function(compendium = "vespucci",
-                             samplesetNames=c("E-MTAB-1514.US_30_2.ch1-vs-E-MTAB-1514.US_03_1.ch1","E-MTAB-1514.US_03_3.ch1-vs-E-MTAB-1514.US_03_1.ch1"),
-                             normalization = "legacy",
-                             rank = "std"){
-  if(is.null(samplesetNames)) stop("You need to provide samplesetNames")
-  samplesetIds <- sapply(samplesetNames,function(x) paste(get_sampleset_id(name=x)))
-  biofeaturesIds  <- get_biofeature_ranking(compendium =  compendium,
-                                            samplesetIds = samplesetIds,
-                                            normalization = normalization,
-                                            rank =rank)
-  my_query <- paste0('{
-    modules(compendium:\"', compendium, '\",
-    biofeaturesIds:["', paste0(biofeaturesIds[[1]], collapse = '","'),'\"],
-    samplesetIds:["', paste0(samplesetIds, collapse = '","'),'\"]), {
-      normalizedValues
-    }
-  }')
-  tmp <- parze2(cont(do_POST(base_url, my_query)))$data$modules$normalizedValues
-  out <- as.data.frame(t(sapply(tmp, function(x) as.numeric(as.character(x)))))
-  rownames(out) <- biofeaturesIds[[2]]; colnames(out) <- samplesetNames
-  out
-}
 
-#' Union of two modules
-#'
-#' @param mod1 first module to merge
-#' @param mod2 second module to merge
-#'
-#' @return
-#' @export
-#'
-#' @examples
-#' #mod1 <- create_module_ss()
-#' #mod2 <- create_module_bf()
-#' #mod12_union <- merge_modules(mod1,mod2)
-merge_modules <- function(mod1, mod2){
-  create_module(biofeatureNames = c(rownames(mod1),rownames(mod2)),
-                samplesetNames = c(colnames(mod1),colnames(mod2)))
-}
-
-intersect_modules <- function(mod1, mod2){
-  create_module(biofeatureNames = intersect(rownames(mod1),rownames(mod2)),
-                samplesetNames = intersect(colnames(mod1),colnames(mod2)))
-}
-
-settdiff_modules <- function(mod1, mod2){
-  create_module(biofeatureNames = setdiff(rownames(mod1),rownames(mod2)),
-                samplesetNames = setdiff(colnames(mod1),colnames(mod2)))
-}
 
 
 

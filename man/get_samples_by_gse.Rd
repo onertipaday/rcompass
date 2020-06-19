@@ -10,9 +10,9 @@ get_samples_by_gse(
 )
 }
 \arguments{
-\item{compendium}{a character - the selected compendium}
+\item{compendium}{string - the selected compendium}
 
-\item{experiment_ExperimentAccessId}{a character - GSE (GEO Series (experiment) access id)}
+\item{experiment_ExperimentAccessId}{string - GSE (GEO Series (experiment) access id)}
 }
 \value{
 a data.frame with three columns id, sampleName, description

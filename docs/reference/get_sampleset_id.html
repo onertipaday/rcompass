@@ -132,32 +132,41 @@
     <p>get_sampleset_id</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_sampleset_id</span>(<span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>get_sampleset_id</span>(
+  <span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>,
+  <span class='kw'>version</span> <span class='kw'>=</span> <span class='st'>"latest"</span>,
+  <span class='kw'>samples</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>name_In</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>compendium</th>
-      <td><p>a character - the selected compendium</p></td>
+      <td><p>string - the selected compendium</p></td>
+    </tr>
+    <tr>
+      <th>version</th>
+      <td><p>string - either 'latest' or 'legacy'</p></td>
+    </tr>
+    <tr>
+      <th>name_In</th>
+      <td><p>a character vector - the sampleset name</p></td>
     </tr>
     <tr>
       <th>name</th>
-      <td><p>a character - the sampleset of interest</p></td>
-    </tr>
-    <tr>
-      <th>samples</th>
-      <td><p>a character - unique id for the sampleset</p></td>
+      <td><p>string - the sampleset of interest</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a data.frame eith two columns: id and name</p>
+    <p>a data.frame with two columns: id and name</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>get_sampleset_id</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"GSE27180_48hours-1-vs-GSE27180_0h-2"</span>)</div><div class='output co'>#&gt;                         id                                name
-#&gt; 1 U2FtcGxlU2V0VHlwZTo1Njg1 GSE27180_48hours-1-vs-GSE27180_0h-2</div><div class='input'><span class='fu'>get_sampleset_id</span>(<span class='kw'>sample</span> <span class='kw'>=</span><span class='st'>"U2FtcGxlVHlwZTox"</span>)</div><div class='output co'>#&gt;                         id                                name
+    <pre class="examples"><div class='input'><span class='fu'>get_sampleset_id</span>(<span class='kw'>name_In</span> <span class='kw'>=</span> <span class='st'>"GSE27180_48hours-1-vs-GSE27180_0h-2"</span>)</div><div class='output co'>#&gt;                         id                                name
+#&gt; 1 U2FtcGxlU2V0VHlwZTo1Njg1 GSE27180_48hours-1-vs-GSE27180_0h-2</div><div class='input'><span class='fu'>get_sampleset_id</span>(<span class='kw'>samples</span> <span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"U2FtcGxlVHlwZTox"</span>))</div><div class='output co'>#&gt;                         id                                name
 #&gt; 1 U2FtcGxlU2V0VHlwZTo1Njg1 GSE27180_48hours-1-vs-GSE27180_0h-2</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

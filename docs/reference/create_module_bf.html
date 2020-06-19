@@ -124,7 +124,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>create_module_bf</h1>
-    <small class="dont-index">Source: <a href='https://github.com/onertipaday/rcompass/blob/master/R/queries.R'><code>R/queries.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/onertipaday/rcompass/blob/master/R/modules.R'><code>R/modules.R</code></a></small>
     <div class="hidden name"><code>create_module_bf.Rd</code></div>
     </div>
 
@@ -135,10 +135,10 @@
     <pre class="usage"><span class='fu'>create_module_bf</span>(
   <span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>,
   <span class='kw'>biofeaturesNames</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"VIT_00s0332g00110"</span>, <span class='st'>"VIT_00s0332g00160"</span>, <span class='st'>"VIT_00s0396g00010"</span>,
-    <span class='st'>"VIT_00s0505g00030"</span>, <span class='st'>"VIT_00s0505g00060"</span>, <span class='st'>"VIT_00s0873g00020"</span>, <span class='st'>"VIT_00s0904g00010"</span>),
+    <span class='st'>"VIT_00s0505g00030"</span>, <span class='st'>"VIT_00s0505g00060"</span>, <span class='st'>"VIT_00s0873g00020"</span>),
   <span class='kw'>version</span> <span class='kw'>=</span> <span class='st'>"legacy"</span>,
   <span class='kw'>rank</span> <span class='kw'>=</span> <span class='st'>"magnitude"</span>,
-  <span class='kw'>rankTarget</span> <span class='kw'>=</span> <span class='st'>"samplesets"</span>
+  <span class='kw'>top_n</span> <span class='kw'>=</span> <span class='fl'>50</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -146,19 +146,23 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>compendium</th>
-      <td><p>a character - the selected compendium</p></td>
+      <td><p>string - the selected compendium</p></td>
+    </tr>
+    <tr>
+      <th>version</th>
+      <td><p>string ('legacy' as default)</p></td>
     </tr>
     <tr>
       <th>rank</th>
-      <td><p>a character ('magnitude' as default)</p></td>
+      <td><p>string ('magnitude' as default)</p></td>
+    </tr>
+    <tr>
+      <th>top_n</th>
+      <td><p>a numeric - an integer for selecting the top ranked sampleSets</p></td>
     </tr>
     <tr>
       <th>biofeatureNames</th>
       <td><p>a character vector (here gene_names)</p></td>
-    </tr>
-    <tr>
-      <th>normalization</th>
-      <td><p>a character</p></td>
     </tr>
     </table>
 
@@ -167,7 +171,8 @@
     <p>a data.frame</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"></pre>
+    <pre class="examples"><div class='input'><span class='no'>gene_names</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'VIT_00s0246g00220'</span>,<span class='st'>'VIT_00s0332g00060'</span>,<span class='st'>'VIT_00s0332g00110'</span>,<span class='st'>'VIT_00s0332g00160'</span>,<span class='st'>'VIT_00s0396g00010'</span>,<span class='st'>'VIT_00s0505g00030'</span>,<span class='st'>'VIT_00s0505g00060'</span>,<span class='st'>'VIT_00s0873g00020'</span>,<span class='st'>'VIT_00s0904g00010'</span>)
+<span class='no'>mod1</span> <span class='kw'>&lt;-</span> <span class='fu'>create_module_bf</span>(<span class='kw'>biofeaturesNames</span><span class='kw'>=</span><span class='no'>gene_names</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

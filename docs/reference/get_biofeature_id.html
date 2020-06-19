@@ -132,22 +132,14 @@
     <p>get_biofeature_id</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_biofeature_id</span>(
-  <span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"VIT_00s0332g00060"</span>,
-  <span class='kw'>name_In</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>get_biofeature_id</span>(<span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>, <span class='kw'>name_In</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>compendium</th>
-      <td><p>a character - the selected compendium</p></td>
-    </tr>
-    <tr>
-      <th>name</th>
-      <td><p>a character - the biofeature name</p></td>
+      <td><p>string - the selected compendium</p></td>
     </tr>
     <tr>
       <th>name_In</th>
@@ -160,15 +152,7 @@
     <p>a data.frame</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>get_biofeature_id</span>(<span class='kw'>name</span><span class='kw'>=</span><span class='st'>"VIT_00s0332g00060"</span>)</div><div class='output co'>#&gt;                name                           id
-#&gt; 1 VIT_00s0332g00060 QmlvRmVhdHVyZVR5cGU6Mjc4OTI=
-#&gt;                            description
-#&gt; 1 ATP synthase subunit beta (Fragment)</div><div class='input'><span class='fu'>get_biofeature_id</span>(<span class='kw'>name_In</span> <span class='kw'>=</span> <span class='st'>"VIT_00s0332g00060, VIT_00s0332g00160"</span>)</div><div class='output co'>#&gt;                name                           id
-#&gt; 1 VIT_00s0332g00060 QmlvRmVhdHVyZVR5cGU6Mjc4OTI=
-#&gt; 2 VIT_00s0332g00160 QmlvRmVhdHVyZVR5cGU6Mjc5MDA=
-#&gt;                            description
-#&gt; 1 ATP synthase subunit beta (Fragment)
-#&gt; 2         NADH dehydrogenase subunit 7</div><div class='input'><span class='fu'>get_biofeature_id</span>(<span class='kw'>name_In</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"VIT_00s0332g00060"</span>, <span class='st'>"VIT_00s0332g00160"</span>))</div><div class='output co'>#&gt;                name                           id
+    <pre class="examples"><div class='input'><span class='fu'>get_biofeature_id</span>(<span class='kw'>name_In</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"VIT_00s0332g00060"</span>, <span class='st'>"VIT_00s0332g00160"</span>))</div><div class='output co'>#&gt;                name                           id
 #&gt; 1 VIT_00s0332g00060 QmlvRmVhdHVyZVR5cGU6Mjc4OTI=
 #&gt; 2 VIT_00s0332g00160 QmlvRmVhdHVyZVR5cGU6Mjc5MDA=
 #&gt;                            description

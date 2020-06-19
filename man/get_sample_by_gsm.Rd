@@ -7,9 +7,9 @@
 get_sample_by_gsm(compendium = "vespucci", sampleName_Icontains = "GSM1313535")
 }
 \arguments{
-\item{compendium}{a character - the selected compendium}
+\item{compendium}{string - the selected compendium}
 
-\item{sampleName_Icontains}{a character - GSM (GEO Sample access id)}
+\item{sampleName_Icontains}{string - GSM (GEO Sample access id)}
 }
 \value{
 a data.frame with three columns: id, sampleName, description

@@ -4,22 +4,29 @@
 \alias{get_sampleset_id}
 \title{get_sampleset_id}
 \usage{
-get_sampleset_id(compendium = "vespucci", name = NULL, samples = NULL)
+get_sampleset_id(
+  compendium = "vespucci",
+  version = "latest",
+  samples = NULL,
+  name_In = NULL
+)
 }
 \arguments{
-\item{compendium}{a character - the selected compendium}
+\item{compendium}{string - the selected compendium}
 
-\item{name}{a character - the sampleset of interest}
+\item{version}{string - either 'latest' or 'legacy'}
 
-\item{samples}{a character - unique id for the sampleset}
+\item{name_In}{a character vector - the sampleset name}
+
+\item{name}{string - the sampleset of interest}
 }
 \value{
-a data.frame eith two columns: id and name
+a data.frame with two columns: id and name
 }
 \description{
 get_sampleset_id
 }
 \examples{
-get_sampleset_id(name = "GSE27180_48hours-1-vs-GSE27180_0h-2")
-get_sampleset_id(sample ="U2FtcGxlVHlwZTox")
+get_sampleset_id(name_In = "GSE27180_48hours-1-vs-GSE27180_0h-2")
+get_sampleset_id(samples =c("U2FtcGxlVHlwZTox"))
 }

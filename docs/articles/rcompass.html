@@ -129,8 +129,7 @@
 <p>The <code>rcompass</code> package is build around a bunch of functions enable to query the compendium of interest and retrieve, store and manipulate data. Each of these functions are described in more details in their respective manual pages. We start by loading the package.</p>
 <div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rcompass</span>)
 <span class="co">#&gt; </span>
-<span class="co">#&gt; This is 'rcompass' version 0.0.3</span>
-<span class="co">#&gt; If you are new to rcompass, please consider reading the vignette through the command: vignette("rcompass").</span></pre></body></html></div>
+<span class="co">#&gt; This is 'rcompass' version 0.0.3</span></pre></body></html></div>
 </div>
 <div id="case-study" class="section level1">
 <h1 class="hasAnchor">
@@ -141,7 +140,7 @@
 <a href="#step-1---create-the-initial-module" class="anchor"></a>Step 1 - create the initial module</h2>
 <p>We start by creating a module with these 55 ABA modulated genes and refining it by selecting the most co-expressed genes. The module will be manually split to distinguish different condition contrasts, corresponding to different biological contexts, in which ABA affects gene expression. Finally, we will extend these modules to include other relevant genes by coexpression (which could hint at similar forms of regulation).</p>
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">aba_genes</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"VIT_05s0077g00430"</span>, <span class="st">"VIT_14s0060g00790"</span>, <span class="st">"VIT_14s0066g00810"</span>, <span class="st">"VIT_16s0050g00390"</span>, <span class="st">"VIT_18s0001g10450"</span>, <span class="st">"VIT_11s0016g03180"</span>, <span class="st">"VIT_08s0058g00470"</span>, <span class="st">"VIT_17s0000g01080"</span>, <span class="st">"VIT_06s0004g04860"</span>, <span class="st">"VIT_00s0322g00030"</span>, <span class="st">"VIT_06s0061g00730"</span>, <span class="st">"VIT_07s0005g00140"</span>, <span class="st">"VIT_00s0934g00010"</span>, <span class="st">"VIT_18s0001g04800"</span>, <span class="st">"VIT_01s0011g04820"</span>, <span class="st">"VIT_00s0216g00060"</span>, <span class="st">"VIT_18s0072g01220"</span>, <span class="st">"VIT_15s0048g02870"</span>, <span class="st">"VIT_00s0203g00070"</span>, <span class="st">"VIT_19s0014g03290"</span>, <span class="st">"VIT_01s0026g02710"</span>, <span class="st">"VIT_17s0000g08080"</span>, <span class="st">"VIT_00s0429g00040"</span>, <span class="st">"VIT_00s1206g00010"</span>, <span class="st">"VIT_09s0002g03690"</span>, <span class="st">"VIT_13s0067g00240"</span>, <span class="st">"VIT_07s0104g00350"</span>, <span class="st">"VIT_04s0023g02480"</span>, <span class="st">"VIT_18s0001g08490"</span>, <span class="st">"VIT_13s0019g02110"</span>, <span class="st">"VIT_04s0008g01120"</span>, <span class="st">"VIT_10s0003g00390"</span>, <span class="st">"VIT_03s0017g01410"</span>, <span class="st">"VIT_08s0007g08030"</span>, <span class="st">"VIT_08s0040g01820"</span>, <span class="st">"VIT_08s0058g01260"</span>, <span class="st">"VIT_09s0002g00630"</span>, <span class="st">"VIT_14s0068g01620"</span>, <span class="st">"VIT_18s0001g01030"</span>, <span class="st">"VIT_16s0050g01880"</span>, <span class="st">"VIT_08s0007g08280"</span>, <span class="st">"VIT_09s0002g06790"</span>, <span class="st">"VIT_09s0002g00640"</span>, <span class="st">"VIT_03s0063g01790"</span>, <span class="st">"VIT_04s0044g01230"</span>, <span class="st">"VIT_08s0040g02610"</span>, <span class="st">"VIT_01s0010g03680"</span>, <span class="st">"VIT_01s0137g00780"</span>, <span class="st">"VIT_02s0025g00500"</span>, <span class="st">"VIT_06s0004g05650"</span>, <span class="st">"VIT_07s0005g01080"</span>, <span class="st">"VIT_13s0156g00100"</span>, <span class="st">"VIT_17s0000g01120"</span>, <span class="st">"VIT_18s0001g07840"</span>, <span class="st">"VIT_18s0001g09290"</span>)
-<span class="co">#QuickSearch_ABAcoreset &lt;- create_module(compendium="vitis_vinifera", biofeatureNames=aba_genes)</span></pre></body></html></div>
+<span class="co"># qs_aba_coreset &lt;- create_module_bf(compendium = "vespucci", biofeaturesNames = aba_genes)</span></pre></body></html></div>
 <p>Plot the heatmap</p>
 </div>
 </div>
@@ -162,15 +161,15 @@
 #&gt; [1] rcompass_0.0.3
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
-#&gt;  [1] Rcpp_1.0.4.6     rstudioapi_0.11  knitr_1.28       magrittr_1.5    
-#&gt;  [5] MASS_7.3-51.5    tidyselect_1.1.0 R6_2.4.1         rlang_0.4.6     
-#&gt;  [9] stringr_1.4.0    dplyr_1.0.0      tools_3.6.3      xfun_0.14       
-#&gt; [13] ellipsis_0.3.1   htmltools_0.4.0  yaml_2.2.1       assertthat_0.2.1
-#&gt; [17] digest_0.6.25    rprojroot_1.3-2  tibble_3.0.1     lifecycle_0.2.0 
-#&gt; [21] pkgdown_1.5.1    crayon_1.3.4     purrr_0.3.4      vctrs_0.3.1     
-#&gt; [25] fs_1.4.1         glue_1.4.1       memoise_1.1.0    evaluate_0.14   
-#&gt; [29] rmarkdown_2.2    stringi_1.4.6    pillar_1.4.4     compiler_3.6.3  
-#&gt; [33] desc_1.2.0       generics_0.0.2   backports_1.1.7  pkgconfig_2.0.3</code></pre>
+#&gt;  [1] rstudioapi_0.11  knitr_1.28       magrittr_1.5     MASS_7.3-51.5   
+#&gt;  [5] tidyselect_1.1.0 R6_2.4.1         rlang_0.4.6      stringr_1.4.0   
+#&gt;  [9] dplyr_1.0.0      tools_3.6.3      xfun_0.14        ellipsis_0.3.1  
+#&gt; [13] htmltools_0.5.0  yaml_2.2.1       assertthat_0.2.1 digest_0.6.25   
+#&gt; [17] rprojroot_1.3-2  tibble_3.0.1     lifecycle_0.2.0  pkgdown_1.5.1   
+#&gt; [21] crayon_1.3.4     purrr_0.3.4      vctrs_0.3.1      fs_1.4.1        
+#&gt; [25] memoise_1.1.0    glue_1.4.1       evaluate_0.14    rmarkdown_2.2   
+#&gt; [29] stringi_1.4.6    pillar_1.4.4     compiler_3.6.3   desc_1.2.0      
+#&gt; [33] generics_0.0.2   backports_1.1.8  pkgconfig_2.0.3</code></pre>
 </div>
   </div>
 

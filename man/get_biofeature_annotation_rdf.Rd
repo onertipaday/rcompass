@@ -10,9 +10,9 @@ get_biofeature_annotation_rdf(
 )
 }
 \arguments{
-\item{compendium}{a character - the selected compendium}
+\item{compendium}{string - the selected compendium}
 
-\item{ids}{unique biologicafeature annotation from \code{\link{get_biofeature_by_name()}}}
+\item{ids}{unique biologicafeature annotation from \code{\link{get_biofeature_by_name}}}
 }
 \value{
 a data.frame

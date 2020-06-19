@@ -7,7 +7,7 @@
 get_platform_types(compendium = "vespucci")
 }
 \arguments{
-\item{compendium}{a character - the selected compendium}
+\item{compendium}{string - the selected compendium}
 }
 \value{
 a data.frame

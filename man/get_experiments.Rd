@@ -3,14 +3,14 @@
 \name{get_experiments}
 \alias{get_experiments}
 \title{Get experiment Accessids and name
-use \code{\link{get_compendia}} to check all the available compendia}
+use \code{\link{get_available_compendia}} to check all the available compendia}
 \usage{
 get_experiments(compendium = "vespucci", sampleName = NULL)
 }
 \arguments{
-\item{compendium}{a character - the selected compendium}
+\item{compendium}{string - the selected compendium}
 
-\item{sampleName}{a character - if NULL(default) returns all available experiments ids
+\item{sampleName}{string - if NULL(default) returns all available experiments ids
 for the selected compendium}
 }
 \value{
@@ -18,8 +18,9 @@ a data.frame with experimentAccessId and EsperimentName
 }
 \description{
 Get experiment Accessids and name
-use \code{\link{get_compendia}} to check all the available compendia
+use \code{\link{get_available_compendia}} to check all the available compendia
 }
 \examples{
+get_experiments()
 get_experiments(sampleName="GSM671721.ch1")
 }

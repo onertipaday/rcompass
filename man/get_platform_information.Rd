@@ -8,7 +8,7 @@ use \code{\link{get_compendia}} to check all the available compendia}
 get_platform_information(compendium = "vespucci")
 }
 \arguments{
-\item{compendium}{a character - the selected compendium}
+\item{compendium}{string - the selected compendium}
 }
 \value{
 a data.frame with five columns:

@@ -7,7 +7,7 @@
 get_sample_annotation(compendium = "vespucci", n = 10)
 }
 \arguments{
-\item{compendium}{a character - the selected compendium}
+\item{compendium}{string - the selected compendium}
 
 \item{n}{an integer: number of sample to retrieve (default 10)}
 }

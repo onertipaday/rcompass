@@ -2,34 +2,40 @@
 % Please edit documentation in R/queries.R
 \name{get_biofeature_ranking}
 \alias{get_biofeature_ranking}
-\title{Title}
+\title{get_biofeature_ranking()}
 \usage{
 get_biofeature_ranking(
   compendium = "vespucci",
-  samplesetIds = c("U2FtcGxlU2V0VHlwZToxMjYy", "U2FtcGxlU2V0VHlwZToxMjYw"),
+  samplesetIds = NULL,
   samplesetNames = NULL,
   version = "legacy",
-  rank = "std"
+  rank = "uncentered_correlation",
+  rankTarget = "biofeatures",
+  top_n = 50
 )
 }
 \arguments{
-\item{compendium}{a character - the selected compendium}
+\item{compendium}{string - the selected compendium}
 
 \item{samplesetIds}{a character vector (here gene_names)}
 
 \item{samplesetNames}{a character vector (here sampleset names)}
 
-\item{version}{a character ('legacy' as default)}
+\item{version}{string ('legacy' as default)}
 
-\item{rank}{a character ('magnitude' as default) - use \code{\link{get_ranking()$sampleSets}}
+\item{rank}{string ('magnitude' as default) - use \code{\link{get_ranking}}}
+
+\item{rankTarget}{string ('biofeature' as default)
 for the available values}
+
+\item{top_n}{a numeric - an integer for selecting the top ranked samplesets}
 }
 \value{
 a list with four character vectors (id,name,type,value)
 }
 \description{
-Title
+get_biofeature_ranking()
 }
 \examples{
-get_biofeature_ranking()
+junk <- get_biofeature_ranking(samplesetIds = c("U2FtcGxlU2V0VHlwZTo0OTY2", "U2FtcGxlU2V0VHlwZToyNDgy", "U2FtcGxlU2V0VHlwZTo4NzQ="), top_n = 10)
 }

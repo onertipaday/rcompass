@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Title — get_biofeature_ranking • rcompass</title>
+<title>get_biofeature_ranking() — get_biofeature_ranking • rcompass</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Title — get_biofeature_ranking" />
-<meta property="og:description" content="Title" />
+<meta property="og:title" content="get_biofeature_ranking() — get_biofeature_ranking" />
+<meta property="og:description" content="get_biofeature_ranking()" />
 
 
 
@@ -123,13 +123,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Title</h1>
+    <h1>get_biofeature_ranking()</h1>
     <small class="dont-index">Source: <a href='https://github.com/onertipaday/rcompass/blob/master/R/queries.R'><code>R/queries.R</code></a></small>
     <div class="hidden name"><code>get_biofeature_ranking.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Title</p>
+    <p>get_biofeature_ranking()</p>
     </div>
 
     <pre class="usage"><span class='fu'>get_biofeature_ranking</span>(
@@ -137,7 +137,9 @@
   <span class='kw'>samplesetIds</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"U2FtcGxlU2V0VHlwZToxMjYy"</span>, <span class='st'>"U2FtcGxlU2V0VHlwZToxMjYw"</span>),
   <span class='kw'>samplesetNames</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>version</span> <span class='kw'>=</span> <span class='st'>"legacy"</span>,
-  <span class='kw'>rank</span> <span class='kw'>=</span> <span class='st'>"std"</span>
+  <span class='kw'>rank</span> <span class='kw'>=</span> <span class='st'>"uncentered_correlation"</span>,
+  <span class='kw'>rankTarget</span> <span class='kw'>=</span> <span class='st'>"biofeatures"</span>,
+  <span class='kw'>top_n</span> <span class='kw'>=</span> <span class='fl'>50</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -145,7 +147,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>compendium</th>
-      <td><p>a character - the selected compendium</p></td>
+      <td><p>string - the selected compendium</p></td>
     </tr>
     <tr>
       <th>samplesetIds</th>
@@ -157,12 +159,20 @@
     </tr>
     <tr>
       <th>version</th>
-      <td><p>a character ('legacy' as default)</p></td>
+      <td><p>string ('legacy' as default)</p></td>
     </tr>
     <tr>
       <th>rank</th>
-      <td><p>a character ('magnitude' as default) - use <code>get_ranking()$sampleSets</code>
+      <td><p>string ('magnitude' as default) - use <code><a href='get_ranking.html'>get_ranking</a></code></p></td>
+    </tr>
+    <tr>
+      <th>rankTarget</th>
+      <td><p>string ('biofeature' as default)
 for the available values</p></td>
+    </tr>
+    <tr>
+      <th>top_n</th>
+      <td><p>a numeric - an integer for selecting the top ranked samplesets</p></td>
     </tr>
     </table>
 
@@ -171,7 +181,9 @@ for the available values</p></td>
     <p>a list with four character vectors (id,name,type,value)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>get_biofeature_ranking</span>()</div><div class='output co'>#&gt; <span class='error'>Error: Bad Request (HTTP 400)</span></div></pre>
+    <pre class="examples"><div class='input'><span class='no'>junk</span> <span class='kw'>&lt;-</span> <span class='fu'>get_biofeature_ranking</span>(<span class='kw'>samplesetIds</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"U2FtcGxlU2V0VHlwZToxMjYy"</span>,<span class='st'>"U2FtcGxlU2V0VHlwZToxMjYw"</span>))</div><div class='output co'>#&gt; <span class='error'>Error: lexical error: invalid char in json text.</span>
+#&gt; <span class='error'>          VIT_18s0001g06090"],"value":[NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN</span>
+#&gt; <span class='error'>                     (right here) ------^</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

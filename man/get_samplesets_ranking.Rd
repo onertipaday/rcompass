@@ -15,26 +15,28 @@ get_samplesets_ranking(
 )
 }
 \arguments{
-\item{compendium}{a character - the selected compendium}
+\item{compendium}{string - the selected compendium}
 
-\item{version}{a character ('legacy' as default)}
+\item{version}{string ('legacy' as default)}
 
-\item{rankTarget}{a character ('sampleset' as default)}
+\item{rankTarget}{string ('sampleset' as default)}
 
-\item{rank}{a character ('magnitude' as default)}
+\item{rank}{string ('magnitude' as default)}
 
-\item{biofeatureNames}{a character vector (here gene_names)}
+\item{biofeaturesNames}{a character vector (here gene_names)}
 
-\item{biofeatureIds}{a character vector (here gene_ids)}
+\item{biofeaturesIds}{a character vector - the biofeature ids}
+
+\item{top_n}{a numeric - an integer for selecting the top ranked samplesets}
 }
 \value{
-a list with four character vectors (id,name,type,value)
+a data.frame with four character vectors (id,name,type,value)
 }
 \description{
 get_samplesets_ranking
 }
 \examples{
 my_ids <- c("VIT_00s0332g00110","VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030")
-get_samplesets_ranking(biofeaturesNames = my_ids)
-get_samplesets_ranking(biofeaturesIds=c("QmlvRmVhdHVyZVR5cGU6MQ==","QmlvRmVhdHVyZVR5cGU6Mg==", "QmlvRmVhdHVyZVR5cGU6Mw==","QmlvRmVhdHVyZVR5cGU6NA==","QmlvRmVhdHVyZVR5cGU6NQ=="))
+get_samplesets_ranking(biofeaturesNames = my_ids, top_n = 10)
+get_samplesets_ranking(biofeaturesIds=c("QmlvRmVhdHVyZVR5cGU6MQ==","QmlvRmVhdHVyZVR5cGU6Mg==", "QmlvRmVhdHVyZVR5cGU6Mw==","QmlvRmVhdHVyZVR5cGU6NA==","QmlvRmVhdHVyZVR5cGU6NQ=="), top_n = 10)
 }

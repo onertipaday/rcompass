@@ -12,9 +12,9 @@ get_sparql_annotation_triples(
 )
 }
 \arguments{
-\item{compendium}{a character - the selected compendium}
+\item{compendium}{string - the selected compendium}
 
-\item{ids}{a character}
+\item{ids}{string}
 }
 \value{
 
