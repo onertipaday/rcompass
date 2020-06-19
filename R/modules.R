@@ -80,7 +80,8 @@ create_module_bf <- function(compendium = "vespucci",
     }
   }')
   #build_query(my_query)$modules
-  build_query(my_query)$modules
+  tmp <- build_query2(my_query)$modules
+  t(as.data.frame(sapply(tmp$normalizedValues, unlist), col.names = biofeaturesNames))
   # out <- build_query(my_query)$modules
   # data.frame(normalizedValues = out$normalizedValues,
   #            biofeatures = out$biofeatures$edges$node,

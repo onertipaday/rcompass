@@ -134,7 +134,7 @@
 
     <pre class="usage"><span class='fu'>get_biofeature_ranking</span>(
   <span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>,
-  <span class='kw'>samplesetIds</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"U2FtcGxlU2V0VHlwZToxMjYy"</span>, <span class='st'>"U2FtcGxlU2V0VHlwZToxMjYw"</span>),
+  <span class='kw'>samplesetIds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>samplesetNames</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>version</span> <span class='kw'>=</span> <span class='st'>"legacy"</span>,
   <span class='kw'>rank</span> <span class='kw'>=</span> <span class='st'>"uncentered_correlation"</span>,
@@ -181,9 +181,7 @@ for the available values</p></td>
     <p>a list with four character vectors (id,name,type,value)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>junk</span> <span class='kw'>&lt;-</span> <span class='fu'>get_biofeature_ranking</span>(<span class='kw'>samplesetIds</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"U2FtcGxlU2V0VHlwZToxMjYy"</span>,<span class='st'>"U2FtcGxlU2V0VHlwZToxMjYw"</span>))</div><div class='output co'>#&gt; <span class='error'>Error: lexical error: invalid char in json text.</span>
-#&gt; <span class='error'>          VIT_18s0001g06090"],"value":[NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN</span>
-#&gt; <span class='error'>                     (right here) ------^</span></div></pre>
+    <pre class="examples"><div class='input'><span class='no'>junk</span> <span class='kw'>&lt;-</span> <span class='fu'>get_biofeature_ranking</span>(<span class='kw'>samplesetIds</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"U2FtcGxlU2V0VHlwZTo0OTY2"</span>, <span class='st'>"U2FtcGxlU2V0VHlwZToyNDgy"</span>, <span class='st'>"U2FtcGxlU2V0VHlwZTo4NzQ="</span>), <span class='kw'>top_n</span> <span class='kw'>=</span> <span class='fl'>10</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

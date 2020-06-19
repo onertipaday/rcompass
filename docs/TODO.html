@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>ISSUES • rcompass</title>
+<title>BUGS • rcompass</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="ISSUES" />
+<meta property="og:title" content="BUGS" />
 
 
 
@@ -122,10 +122,20 @@
 <div class="row">
   <div class="contents col-md-9">
     <div class="page-header">
-      <h1>ISSUES</h1>
+      <h1>BUGS</h1>
     </div>
 
 
+<div id="bugs" class="section level1">
+
+<ul>
+<li><p>build_query(my_query) Error: lexical error: invalid char in json text. “normalizedValues”:[[-1.7079,NaN,5.1799,5.5058,4.7499,3.5826 (right here) –</p></li>
+<li><p>conversione da names in ids per biofeatures e samplesets</p></li>
+</ul>
+</div>
+<div id="todo" class="section level1">
+<h1 class="hasAnchor">
+<a href="#todo" class="anchor"></a>TODO</h1>
 <ul>
 <li>using checkmate per controllare gli argomenti delle funzioni</li>
 <li>replicare applicazione dash usando shiny dashbar</li>
@@ -141,8 +151,10 @@
 <li>gli oggetti prodotti da create_module() devono essere data.frame o ExpressionSet?</li>
 </ul>
 <hr>
+</div>
 <div id="issues" class="section level1">
-
+<h1 class="hasAnchor">
+<a href="#issues" class="anchor"></a>ISSUES</h1>
 <ul>
 <li>sparql queries andrebbero semplificate per il wrapper</li>
 <li>nella funzione get_sample_annotation e nella chiamata graphql corrispondente il numero di valori ritornati deve corrispondere al numero di campioni non di record</li>

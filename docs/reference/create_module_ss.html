@@ -135,6 +135,7 @@
     <pre class="usage"><span class='fu'>create_module_ss</span>(
   <span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>,
   <span class='kw'>samplesetNames</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>samplesetIds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>version</span> <span class='kw'>=</span> <span class='st'>"legacy"</span>,
   <span class='kw'>rank</span> <span class='kw'>=</span> <span class='st'>"uncentered_correlation"</span>
 )</pre>
@@ -166,7 +167,7 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>my_ss</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"E-MTAB-1514.US_30_2.ch1-vs-E-MTAB-1514.US_03_1.ch1"</span>,<span class='st'>"E-MTAB-1514.US_03_3.ch1-vs-E-MTAB-1514.US_03_1.ch1"</span>)
-<span class='no'>mod_ss</span> <span class='kw'>&lt;-</span> <span class='fu'>create_module_ss</span>(<span class='kw'>samplesetNames</span> <span class='kw'>=</span> <span class='no'>my_ss</span>)</div><div class='output co'>#&gt; <span class='error'>Error in get_biofeature_ranking(compendium = compendium, samplesetIds = samplesetIds,     version = version, rank = rank): provide either samplesetNames XOR samplesetIds</span></div></pre>
+<span class='no'>mod_ss</span> <span class='kw'>&lt;-</span> <span class='fu'>create_module_ss</span>(<span class='kw'>samplesetNames</span> <span class='kw'>=</span> <span class='no'>my_ss</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

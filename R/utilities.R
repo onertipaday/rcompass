@@ -25,8 +25,8 @@ build_query2 <- function(query){
   qry <- ghql::Query$new()
   qry$query('myquery', query)
   con <- ghql::GraphqlClient$new(url="http://compass.fmach.it/graphql/")
-  #jsonlite::fromJSON(con$exec(qry$queries$myquery))$data
-  RJSONIO::fromJSON(con$exec(qry$queries$myquery))$data
+  # RJSONIO::fromJSON(con$exec(qry$queries$myquery), nullValue="NaN")$data
+  RJSONIO::fromJSON(con$exec(qry$queries$myquery), nullValue=NA)$data
 }
 
 
