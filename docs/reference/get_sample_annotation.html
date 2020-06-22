@@ -139,7 +139,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>compendium</th>
-      <td><p>string - the selected compendium</p></td>
+      <td><p>A string- the selected compendium</p></td>
     </tr>
     <tr>
       <th>n</th>
@@ -149,35 +149,35 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a data.frame</p>
+    <p>a data.frame with three columns: sampleId sampleName annotation</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>get_sample_annotation</span>(<span class='kw'>n</span><span class='kw'>=</span><span class='fl'>25</span>)</div><div class='output co'>#&gt;        sampleName             sampleId
-#&gt; 1  GSM2627902.ch1 U2FtcGxlVHlwZTozMjAw
-#&gt; 2   GSM147690.ch1 U2FtcGxlVHlwZToyMw==
-#&gt; 3   GSM147690.ch1 U2FtcGxlVHlwZToyMw==
-#&gt; 4   GSM147690.ch1 U2FtcGxlVHlwZToyMw==
-#&gt; 5   GSM147690.ch1 U2FtcGxlVHlwZToyMw==
-#&gt; 6   GSM147690.ch1 U2FtcGxlVHlwZToyMw==
-#&gt; 7   GSM147726.ch1 U2FtcGxlVHlwZTo1OQ==
-#&gt; 8   GSM147726.ch1 U2FtcGxlVHlwZTo1OQ==
-#&gt; 9   GSM147726.ch1 U2FtcGxlVHlwZTo1OQ==
-#&gt; 10  GSM147726.ch1 U2FtcGxlVHlwZTo1OQ==
-#&gt; 11  GSM147726.ch1 U2FtcGxlVHlwZTo1OQ==
-#&gt; 12  GSM786240.ch1 U2FtcGxlVHlwZTo3Nw==
-#&gt; 13  GSM786240.ch1 U2FtcGxlVHlwZTo3Nw==
-#&gt; 14  GSM786240.ch1 U2FtcGxlVHlwZTo3Nw==
-#&gt; 15  GSM786240.ch1 U2FtcGxlVHlwZTo3Nw==
-#&gt; 16  GSM786240.ch1 U2FtcGxlVHlwZTo3Nw==
-#&gt; 17  GSM786240.ch1 U2FtcGxlVHlwZTo3Nw==
-#&gt; 18  GSM786240.ch1 U2FtcGxlVHlwZTo3Nw==
-#&gt; 19  GSM786240.ch1 U2FtcGxlVHlwZTo3Nw==
-#&gt; 20  GSM786240.ch1 U2FtcGxlVHlwZTo3Nw==
-#&gt; 21  GSM786240.ch1 U2FtcGxlVHlwZTo3Nw==
-#&gt; 22  GSM786249.ch1 U2FtcGxlVHlwZTo4Ng==
-#&gt; 23  GSM786249.ch1 U2FtcGxlVHlwZTo4Ng==
-#&gt; 24  GSM786249.ch1 U2FtcGxlVHlwZTo4Ng==
-#&gt; 25  GSM786249.ch1 U2FtcGxlVHlwZTo4Ng==
+    <pre class="examples"><div class='input'><span class='fu'>get_sample_annotation</span>(<span class='kw'>n</span><span class='kw'>=</span><span class='fl'>25</span>)</div><div class='output co'>#&gt;               sampleId      sampleName
+#&gt; 1  U2FtcGxlVHlwZTozMjAw GSM2627902.ch1
+#&gt; 2  U2FtcGxlVHlwZToyMw==  GSM147690.ch1
+#&gt; 3  U2FtcGxlVHlwZToyMw==  GSM147690.ch1
+#&gt; 4  U2FtcGxlVHlwZToyMw==  GSM147690.ch1
+#&gt; 5  U2FtcGxlVHlwZToyMw==  GSM147690.ch1
+#&gt; 6  U2FtcGxlVHlwZToyMw==  GSM147690.ch1
+#&gt; 7  U2FtcGxlVHlwZTo1OQ==  GSM147726.ch1
+#&gt; 8  U2FtcGxlVHlwZTo1OQ==  GSM147726.ch1
+#&gt; 9  U2FtcGxlVHlwZTo1OQ==  GSM147726.ch1
+#&gt; 10 U2FtcGxlVHlwZTo1OQ==  GSM147726.ch1
+#&gt; 11 U2FtcGxlVHlwZTo1OQ==  GSM147726.ch1
+#&gt; 12 U2FtcGxlVHlwZTo3Nw==  GSM786240.ch1
+#&gt; 13 U2FtcGxlVHlwZTo3Nw==  GSM786240.ch1
+#&gt; 14 U2FtcGxlVHlwZTo3Nw==  GSM786240.ch1
+#&gt; 15 U2FtcGxlVHlwZTo3Nw==  GSM786240.ch1
+#&gt; 16 U2FtcGxlVHlwZTo3Nw==  GSM786240.ch1
+#&gt; 17 U2FtcGxlVHlwZTo3Nw==  GSM786240.ch1
+#&gt; 18 U2FtcGxlVHlwZTo3Nw==  GSM786240.ch1
+#&gt; 19 U2FtcGxlVHlwZTo3Nw==  GSM786240.ch1
+#&gt; 20 U2FtcGxlVHlwZTo3Nw==  GSM786240.ch1
+#&gt; 21 U2FtcGxlVHlwZTo3Nw==  GSM786240.ch1
+#&gt; 22 U2FtcGxlVHlwZTo4Ng==  GSM786249.ch1
+#&gt; 23 U2FtcGxlVHlwZTo4Ng==  GSM786249.ch1
+#&gt; 24 U2FtcGxlVHlwZTo4Ng==  GSM786249.ch1
+#&gt; 25 U2FtcGxlVHlwZTo4Ng==  GSM786249.ch1
 #&gt;                                                                                                                                                                                                                                                                                                                                                         annotation
 #&gt; 1                                                                                                                                       {"@id": "_:Na40b86b0d5674343a220a9232de33222", "@type": ["https://www.awri.com.au/wp-content/uploads/grapegrowth.pdf#35"], "http://purl.obolibrary.org/obo/NCIT_C25330": [{"@id": "_:Nc274a0c72ad449b7bed4d1c26fe82c0f"}]}
 #&gt; 2                                                                                                                                                                                                                                                                                            {"@id": "23", "@type": ["http://purl.obolibrary.org/obo/PO_0025034"]}

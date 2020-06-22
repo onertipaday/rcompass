@@ -147,31 +147,31 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>compendium</th>
-      <td><p>string - the selected compendium</p></td>
+      <td><p>A string- the selected compendium</p></td>
     </tr>
     <tr>
       <th>version</th>
-      <td><p>string ('legacy' as default)</p></td>
+      <td><p>A string('legacy' as default)</p></td>
     </tr>
     <tr>
       <th>rankTarget</th>
-      <td><p>string ('sampleset' as default)</p></td>
+      <td><p>A string('sampleset' as default)</p></td>
     </tr>
     <tr>
       <th>rank</th>
-      <td><p>string ('magnitude' as default)</p></td>
+      <td><p>A string('magnitude' as default)</p></td>
     </tr>
     <tr>
       <th>biofeaturesNames</th>
-      <td><p>a character vector (here gene_names)</p></td>
+      <td><p>A vector of character strings (here gene_names)</p></td>
     </tr>
     <tr>
       <th>biofeaturesIds</th>
-      <td><p>a character vector - the biofeature ids</p></td>
+      <td><p>A vector of character strings - the biofeature ids</p></td>
     </tr>
     <tr>
       <th>top_n</th>
-      <td><p>a numeric - an integer for selecting the top ranked samplesets</p></td>
+      <td><p>A numeric- an integer for selecting the top ranked samplesets</p></td>
     </tr>
     </table>
 
@@ -191,7 +191,8 @@
 #&gt; 7  U2FtcGxlU2V0VHlwZToyNDg1 GSM147675.ch1-vs-GSM147690.ch1 2.782025
 #&gt; 8  U2FtcGxlU2V0VHlwZTo0OTU3 GSM147676.ch1-vs-GSM147690.ch1 2.747175
 #&gt; 9  U2FtcGxlU2V0VHlwZToyNzU5 GSM147677.ch1-vs-GSM147690.ch1 2.405747
-#&gt; 10 U2FtcGxlU2V0VHlwZTo0ODEz GSM147678.ch1-vs-GSM147690.ch1 2.359050</div><div class='input'><span class='fu'>get_samplesets_ranking</span>(<span class='kw'>biofeaturesIds</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"QmlvRmVhdHVyZVR5cGU6MQ=="</span>,<span class='st'>"QmlvRmVhdHVyZVR5cGU6Mg=="</span>, <span class='st'>"QmlvRmVhdHVyZVR5cGU6Mw=="</span>,<span class='st'>"QmlvRmVhdHVyZVR5cGU6NA=="</span>,<span class='st'>"QmlvRmVhdHVyZVR5cGU6NQ=="</span>), <span class='kw'>top_n</span> <span class='kw'>=</span> <span class='fl'>10</span>)</div><div class='output co'>#&gt;                          id                           name    value
+#&gt; 10 U2FtcGxlU2V0VHlwZTo0ODEz GSM147678.ch1-vs-GSM147690.ch1 2.359050</div><div class='input'><span class='fu'>get_samplesets_ranking</span>(<span class='kw'>biofeaturesIds</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"QmlvRmVhdHVyZVR5cGU6MQ=="</span>,<span class='st'>"QmlvRmVhdHVyZVR5cGU6Mg=="</span>,
+ <span class='st'>"QmlvRmVhdHVyZVR5cGU6Mw=="</span>,<span class='st'>"QmlvRmVhdHVyZVR5cGU6NA=="</span>,<span class='st'>"QmlvRmVhdHVyZVR5cGU6NQ=="</span>), <span class='kw'>top_n</span> <span class='kw'>=</span> <span class='fl'>10</span>)</div><div class='output co'>#&gt;                          id                           name    value
 #&gt; 1  U2FtcGxlU2V0VHlwZToyNDcy GSM671720.ch1-vs-GSM671719.ch1 2.506240
 #&gt; 2  U2FtcGxlU2V0VHlwZToxNDY2 GSM671721.ch1-vs-GSM671719.ch1 2.470600
 #&gt; 3  U2FtcGxlU2V0VHlwZToyNDY5 GSM671722.ch1-vs-GSM671719.ch1 2.185384

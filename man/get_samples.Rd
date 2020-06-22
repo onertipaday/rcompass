@@ -7,7 +7,7 @@
 get_samples(compendium = "vespucci", platform_PlatformAccessId = "GPL11004")
 }
 \arguments{
-\item{compendium}{string - the selected compendium}
+\item{compendium}{A string- the selected compendium}
 
 \item{platformAccessId}{string}
 }

@@ -17,7 +17,7 @@ Imports:
     httr,
     ghql,
     jsonlite,
-    magrittr,
+    RJSONIO,
     dplyr,
     checkmate,
     shiny,

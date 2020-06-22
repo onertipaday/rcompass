@@ -139,11 +139,11 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>compendium</th>
-      <td><p>string - the selected compendium</p></td>
+      <td><p>A string- the selected compendium</p></td>
     </tr>
     <tr>
       <th>sampleName</th>
-      <td><p>string - GEO Sample accession id (GSM)</p></td>
+      <td><p>A string- GEO Sample accession id (GSM)</p></td>
     </tr>
     </table>
 
@@ -154,14 +154,18 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>get_sample_info</span>(<span class='kw'>sampleName</span> <span class='kw'>=</span> <span class='st'>"GSM287866.ch1"</span>)</div><div class='output co'>#&gt;                     id    sampleName             experimentId
+    <pre class="examples"><div class='input'><span class='fu'>get_sample_info</span>(<span class='kw'>sampleName</span> <span class='kw'>=</span> <span class='st'>"GSM287866.ch1"</span>)</div><div class='output co'>#&gt;               sampleId    sampleName             experimentId
 #&gt; 1 U2FtcGxlVHlwZToyMzQ= GSM287866.ch1 RXhwZXJpbWVudFR5cGU6OQ==
 #&gt;   experimentAccessId
 #&gt; 1           GSE11406
 #&gt;                                                          experimentName
 #&gt; 1 Expression data in individual grape berries during ripening initation
-#&gt;                             platformName    platformAccessId
-#&gt; 1 Affymetrix Vitis vinifera Genome Array Vitis_Vinifera_Affy</div></pre>
+#&gt;   platformAccessId
+#&gt; 1          GPL1320
+#&gt;                                                      platformName
+#&gt; 1 [Vitis_Vinifera] Affymetrix Vitis vinifera (Grape) Genome Array
+#&gt;    reporterPlatformId                   reporterPlatformName
+#&gt; 1 Vitis_Vinifera_Affy Affymetrix Vitis vinifera Genome Array</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

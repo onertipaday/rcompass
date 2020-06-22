@@ -15,20 +15,20 @@ get_biofeature_ranking(
 )
 }
 \arguments{
-\item{compendium}{string - the selected compendium}
+\item{compendium}{A string- the selected compendium}
 
-\item{samplesetIds}{a character vector (here gene_names)}
+\item{samplesetIds}{A vector of character strings (here gene_names)}
 
-\item{samplesetNames}{a character vector (here sampleset names)}
+\item{samplesetNames}{A vector of character strings (here sampleset names)}
 
-\item{version}{string ('legacy' as default)}
+\item{version}{A string('legacy' as default)}
 
-\item{rank}{string ('magnitude' as default) - use \code{\link{get_ranking}}}
+\item{rank}{A string('magnitude' as default) - use \code{\link{get_ranking}}}
 
-\item{rankTarget}{string ('biofeature' as default)
+\item{rankTarget}{A string('biofeature' as default)
 for the available values}
 
-\item{top_n}{a numeric - an integer for selecting the top ranked samplesets}
+\item{top_n}{A numeric- an integer for selecting the top ranked samplesets}
 }
 \value{
 a list with four character vectors (id,name,type,value)
@@ -37,5 +37,6 @@ a list with four character vectors (id,name,type,value)
 get_biofeature_ranking()
 }
 \examples{
-junk <- get_biofeature_ranking(samplesetIds = c("U2FtcGxlU2V0VHlwZTo0OTY2", "U2FtcGxlU2V0VHlwZToyNDgy", "U2FtcGxlU2V0VHlwZTo4NzQ="), top_n = 10)
+junk <- get_biofeature_ranking(samplesetIds = c("U2FtcGxlU2V0VHlwZTo0OTY2",
+"U2FtcGxlU2V0VHlwZToyNDgy", "U2FtcGxlU2V0VHlwZTo4NzQ="), top_n = 10)
 }

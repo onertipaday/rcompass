@@ -19,8 +19,6 @@ create_module_bf(
 \item{version}{string ('legacy' as default)}
 
 \item{rank}{string ('magnitude' as default)}
-
-\item{top_n}{a numeric - an integer for selecting the top ranked sampleSets}
 }
 \value{
 a data.frame
@@ -30,6 +28,7 @@ create_module_bf
 }
 \examples{
 gene_names <- c("VIT_00s0246g00220","VIT_00s0332g00060","VIT_00s0332g00110","VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030","VIT_00s0505g00060","VIT_00s0873g00020","VIT_00s0904g00010")
+mod1 <- create_module_bf(biofeaturesNames=gene_names, version = "legacy")
 my_genes <- c("VIT_00s0332g00110","VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030")
-mod1 <- create_module_bf(biofeaturesNames=my_genes)
+mod2 <- create_module_bf(biofeaturesNames=my_genes, version = "legacy")
 }

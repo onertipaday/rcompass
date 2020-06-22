@@ -3,23 +3,21 @@
 \name{get_platform_information}
 \alias{get_platform_information}
 \title{Get information about all available platforms for the selected compendium,
-use \code{\link{get_compendia}} to check all the available compendia}
+use \code{\link{get_available_compendia}} to check all the available compendia}
 \usage{
 get_platform_information(compendium = "vespucci")
 }
 \arguments{
-\item{compendium}{string - the selected compendium}
+\item{compendium}{A string- the selected compendium}
 }
 \value{
-a data.frame with five columns:
-platformAccessId, platformName, description, dataSource, platformType
+a data.frame with five columns: accessId, name, description, source, type
 }
 \description{
 Get information about all available platforms for the selected compendium,
-use \code{\link{get_compendia}} to check all the available compendia
+use \code{\link{get_available_compendia}} to check all the available compendia
 }
 \examples{
 info <- get_platform_information()
-require(tidyverse)
-info \%>\% count(platformType, dataSource)
+dplyr::count(info,type, source)
 }

@@ -7,12 +7,12 @@
 get_sample_annotation(compendium = "vespucci", n = 10)
 }
 \arguments{
-\item{compendium}{string - the selected compendium}
+\item{compendium}{A string- the selected compendium}
 
 \item{n}{an integer: number of sample to retrieve (default 10)}
 }
 \value{
-a data.frame
+a data.frame with three columns: sampleId sampleName annotation
 }
 \description{
 get annotations for n samples from the selected compendium

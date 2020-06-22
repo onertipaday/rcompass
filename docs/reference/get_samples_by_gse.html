@@ -142,20 +142,20 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>compendium</th>
-      <td><p>string - the selected compendium</p></td>
+      <td><p>A string- the selected compendium</p></td>
     </tr>
     <tr>
       <th>experiment_ExperimentAccessId</th>
-      <td><p>string - GSE (GEO Series (experiment) access id)</p></td>
+      <td><p>A string- GSE (GEO Series (experiment) access id)</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a data.frame with three columns id, sampleName, description</p>
+    <p>a data.frame with three columns id, name, description</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>get_samples_by_gse</span>()</div><div class='output co'>#&gt;                       id     sampleName
+    <pre class="examples"><div class='input'><span class='fu'>get_samples_by_gse</span>()</div><div class='output co'>#&gt;                       id           name
 #&gt; 1   U2FtcGxlVHlwZToyMTUw GSM1313535.ch2
 #&gt; 2   U2FtcGxlVHlwZToyMTUx GSM1313535.ch1
 #&gt; 3   U2FtcGxlVHlwZToyMTUy GSM1313583.ch1

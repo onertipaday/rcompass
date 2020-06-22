@@ -11,11 +11,11 @@ get_biofeature_by_name(
 )
 }
 \arguments{
-\item{compendium}{string - the selected compendium}
+\item{compendium}{A string- the selected compendium}
 
 \item{field}{the biofeature field of interest ('sequence' as default)}
 
-\item{name}{string - the biofeature (here gene) name}
+\item{name}{A string- the biofeature (here gene) name}
 }
 \value{
 a data.frame with three columns: name,id and value

@@ -13,7 +13,7 @@
 #' my_bf <- c("VIT_00s0332g00110","VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030")
 #' my_ss <- c("GSE27180_48hours-1-vs-GSE27180_0h-2","E-MTAB-1514.US_03_3.ch1-vs-E-MTAB-1514.US_03_1.ch1")
 #' my_mod <- create_module(biofeaturesNames=my_bf, samplesetNames=my_ss)
-#' pheatmap::pheatmap(my_mod,col = RcolorBrewer::brewer.pal(11,name="RdBu"))
+#' pheatmap::pheatmap(my_mod, col = RColorBrewer::brewer.pal(11,name="RdBu"))
 #' # compare to vespucci:
 #' # url <- "http://vespucci.colombos.fmach.it/cws_data/export_data/colombos_20190828_nEwFDG.txt"
 #' # vesp_test=readr::read_tsv(url)
@@ -42,7 +42,8 @@ create_module <- function(compendium = "vespucci",
     }
   }')
   }
-  build_query(my_query)$modules
+  tmp <- build_query2(my_query)$modules
+  t(as.data.frame(sapply(tmp$normalizedValues, unlist), col.names = biofeaturesNames))
 }
 
 
@@ -53,15 +54,15 @@ create_module <- function(compendium = "vespucci",
 #' @param biofeaturesNames a character vector (here gene_names)
 #' @param version string ('legacy' as default)
 #' @param rank string ('magnitude' as default)
-#' @param top_n a numeric - an integer for selecting the top ranked sampleSets
 #'
 #' @return a data.frame
 #' @export
 #'
 #' @examples
 #' gene_names <- c("VIT_00s0246g00220","VIT_00s0332g00060","VIT_00s0332g00110","VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030","VIT_00s0505g00060","VIT_00s0873g00020","VIT_00s0904g00010")
+#' mod1 <- create_module_bf(biofeaturesNames=gene_names, version = "legacy")
 #' my_genes <- c("VIT_00s0332g00110","VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030")
-#' mod1 <- create_module_bf(biofeaturesNames=my_genes)
+#' mod2 <- create_module_bf(biofeaturesNames=my_genes, version = "legacy")
 create_module_bf <- function(compendium = "vespucci",
                              biofeaturesNames=NULL,
                              version = "legacy",
@@ -79,13 +80,9 @@ create_module_bf <- function(compendium = "vespucci",
       normalizedValues
     }
   }')
-  #build_query(my_query)$modules
-  tmp <- build_query2(my_query)$modules
-  t(as.data.frame(sapply(tmp$normalizedValues, unlist), col.names = biofeaturesNames))
-  # out <- build_query(my_query)$modules
-  # data.frame(normalizedValues = out$normalizedValues,
-  #            biofeatures = out$biofeatures$edges$node,
-  #            sampleSets=out$sampleSets$edges$node)
+  tmp <- t(as.data.frame(sapply(build_query2(my_query)$modules$normalizedValues, unlist)))
+  rownames(tmp) = biofeaturesNames
+  tmp
 }
 
 
@@ -107,8 +104,8 @@ create_module_ss <- function(compendium = "vespucci",
                              samplesetIds = NULL,
                              version = "legacy",
                              rank = "uncentered_correlation"){
-  # if(is.null(samplesetNames)) stop("You need to provide samplesetNames")
-  # samplesetIds <- get_biofeature_id(name_In=samplesetNames)$id
+  if(is.null(samplesetNames)) stop("You need to provide samplesetNames")
+  samplesetIds <- get_sampleset_id(name_In=samplesetNames)$id
   # biofeaturesIds  <- get_biofeature_ranking(compendium =  compendium,
   #                                           samplesetIds = samplesetIds,
   #                                           version = version,
@@ -127,11 +124,11 @@ create_module_ss <- function(compendium = "vespucci",
       normalizedValues
     }
   }')
-  # tmp <- parze2(cont(do_POST(base_url, my_query)))$data$modules$normalizedValues
-  # out <- as.data.frame(t(sapply(tmp, function(x) as.numeric(as.character(x)))))
-  # rownames(out) <- biofeaturesIds[[2]]; colnames(out) <- samplesetNames
-  # out
-  build_query(my_query)$modules
+  # tmp <- build_query2(my_query)$modules
+  # t(as.data.frame(sapply(tmp$normalizedValues, unlist), col.names = biofeaturesNames))
+  tmp <- t(as.data.frame(sapply(build_query2(my_query)$modules$normalizedValues, unlist)))
+  rownames(tmp) = biofeaturesNames
+  tmp
 }
 
 

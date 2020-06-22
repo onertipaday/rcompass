@@ -15,7 +15,15 @@ get_available_plot_methods <- function(compendium = "vespucci"){
         network
       }
   }')
-  build_query(my_query)$plotName
+  # build_query(my_query)$plotName
+  tmp <- build_query2(my_query)$plotName
+  out <- list(distributions = sapply(tmp$distribution, unlist),
+                                     heatmap = tmp$heatmap,
+                                     network = tmp$network)
+  out
+  # tmp <- t(as.data.frame(sapply(build_query2(my_query)$plotName, unlist)))
+  # rownames(tmp) = c("distribution", "heatmap","network")
+  # tmp
 }
 
 

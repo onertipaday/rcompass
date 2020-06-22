@@ -8,9 +8,9 @@ use \code{\link{get_available_compendia}} to check all the available compendia}
 get_experiments(compendium = "vespucci", sampleName = NULL)
 }
 \arguments{
-\item{compendium}{string - the selected compendium}
+\item{compendium}{A string- the selected compendium}
 
-\item{sampleName}{string - if NULL(default) returns all available experiments ids
+\item{sampleName}{A string- if NULL(default) returns all available experiments ids
 for the selected compendium}
 }
 \value{

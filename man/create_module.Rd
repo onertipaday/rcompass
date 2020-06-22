@@ -33,7 +33,7 @@ create module providing both biological features and sample sets
 my_bf <- c("VIT_00s0332g00110","VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030")
 my_ss <- c("GSE27180_48hours-1-vs-GSE27180_0h-2","E-MTAB-1514.US_03_3.ch1-vs-E-MTAB-1514.US_03_1.ch1")
 my_mod <- create_module(biofeaturesNames=my_bf, samplesetNames=my_ss)
-pheatmap::pheatmap(my_mod,col = RcolorBrewer::brewer.pal(11,name="RdBu"))
+pheatmap::pheatmap(my_mod, col = RColorBrewer::brewer.pal(11,name="RdBu"))
 # compare to vespucci:
 # url <- "http://vespucci.colombos.fmach.it/cws_data/export_data/colombos_20190828_nEwFDG.txt"
 # vesp_test=readr::read_tsv(url)

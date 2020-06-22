@@ -7,7 +7,7 @@
 get_ontologies(compendium = "vespucci")
 }
 \arguments{
-\item{compendium}{string - the selected compendium}
+\item{compendium}{A string- the selected compendium}
 }
 \value{
 a data.frame

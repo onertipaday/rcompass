@@ -12,13 +12,13 @@ get_sampleset_id(
 )
 }
 \arguments{
-\item{compendium}{string - the selected compendium}
+\item{compendium}{A string- the selected compendium}
 
-\item{version}{string - either 'latest' or 'legacy'}
+\item{version}{A string- either 'latest' or 'legacy'}
 
-\item{name_In}{a character vector - the sampleset name}
+\item{name_In}{A vector of character strings - the sampleset name}
 
-\item{name}{string - the sampleset of interest}
+\item{name}{A string- the sampleset of interest}
 }
 \value{
 a data.frame with two columns: id and name

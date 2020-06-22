@@ -7,9 +7,9 @@
 get_sample_info(compendium = "vespucci", sampleName = NULL)
 }
 \arguments{
-\item{compendium}{string - the selected compendium}
+\item{compendium}{A string- the selected compendium}
 
-\item{sampleName}{string - GEO Sample accession id (GSM)}
+\item{sampleName}{A string- GEO Sample accession id (GSM)}
 }
 \value{
 

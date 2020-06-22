@@ -2,15 +2,15 @@
 % Please edit documentation in R/queries.R
 \name{get_available_compendia}
 \alias{get_available_compendia}
-\title{Get all available compendia}
+\title{Get all available compendia in COMPASS}
 \usage{
 get_available_compendia()
 }
 \value{
-a list
+a list with info e version information
 }
 \description{
-Get all available compendia
+Get all available compendia in COMPASS
 }
 \examples{
 get_available_compendia()
