@@ -15,7 +15,7 @@ get_biofeature_ranking(
 )
 }
 \arguments{
-\item{compendium}{A string- the selected compendium}
+\item{compendium}{A string - the selected compendium}
 
 \item{samplesetIds}{A vector of character strings (here gene_names)}
 
@@ -31,7 +31,7 @@ for the available values}
 \item{top_n}{A numeric- an integer for selecting the top ranked samplesets}
 }
 \value{
-a list with four character vectors (id,name,type,value)
+A data.frame with three character vectors (id, name, value)
 }
 \description{
 get_biofeature_ranking()

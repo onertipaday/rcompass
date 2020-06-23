@@ -2,17 +2,17 @@
 % Please edit documentation in R/queries.R
 \name{get_samples}
 \alias{get_samples}
-\title{Get all samples measured with a given Platform}
+\title{Get all samples measured with a given platform}
 \usage{
-get_samples(compendium = "vespucci", platform_PlatformAccessId = "GPL11004")
+get_samples(compendium = "vespucci", platformAccessId = "GPL11004")
 }
 \arguments{
-\item{compendium}{A string- the selected compendium}
+\item{compendium}{A string - the selected compendium}
 
 \item{platformAccessId}{string}
 }
 \value{
-a data.frame
+A data.frame
 }
 \description{
 Get all available samples for the selected compendium,

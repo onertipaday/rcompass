@@ -18,13 +18,14 @@ Imports:
     ghql,
     jsonlite,
     RJSONIO,
-    dplyr,
     checkmate,
     shiny,
-    flexdashboard
+    flexdashboard,
+    biclust
 RoxygenNote: 7.1.0
 Language: en-US
 Suggests: 
+    dplyr,
     knitr,
     rmarkdown
 VignetteBuilder: knitr

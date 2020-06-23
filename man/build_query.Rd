@@ -7,10 +7,10 @@
 build_query(query)
 }
 \arguments{
-\item{query}{a string, the graphql query}
+\item{query}{A string, the GraphQL query}
 }
 \value{
-a list
+A list
 }
 \description{
 build_query

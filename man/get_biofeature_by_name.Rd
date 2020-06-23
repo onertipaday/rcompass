@@ -11,19 +11,19 @@ get_biofeature_by_name(
 )
 }
 \arguments{
-\item{compendium}{A string- the selected compendium}
+\item{compendium}{A string - the selected compendium}
 
-\item{field}{the biofeature field of interest ('sequence' as default)}
+\item{name_In}{A string - the biofeature (gene_name)}
 
-\item{name}{A string- the biofeature (here gene) name}
+\item{field}{biofeature field of interest ('sequence' as default)}
 }
 \value{
-a data.frame with three columns: name,id and value
+A data.frame with three columns: name,id and value
 }
 \description{
 get biofeature sequence by name
 }
 \examples{
-get_biofeature_by_name(name_In = "VIT_00s0332g00060")
-get_biofeature_by_name(name_In = c("VIT_00s0332g00060", "VIT_00s0246g00220", "VIT_00s0332g00160"))
+get_biofeature_by_name(name_In = c("VIT_00s0332g00060", "VIT_00s0246g00220",
+ "VIT_00s0332g00160"))
 }

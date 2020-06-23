@@ -12,13 +12,18 @@ merge_modules(mod1, mod2)
 \item{mod2}{second module to merge}
 }
 \value{
-
+A data.frame - the module
 }
 \description{
 Union of two modules
 }
 \examples{
-#mod1 <- create_module_ss()
-#mod2 <- create_module_bf()
-#mod12_union <- merge_modules(mod1,mod2)
+my_ss <- c("GSM671720.ch1-vs-GSM671719.ch1","GSM671721.ch1-vs-GSM671719.ch1"
+,"GSM671722.ch1-vs-GSM671719.ch1","GSM147672.ch1-vs-GSM147690.ch1")
+mod_ss <- create_module_ss(samplesetNames = my_ss)
+my_bf <- c("VIT_00s0246g00220","VIT_00s0332g00060","VIT_00s0332g00110"
+,"VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030","VIT_00s0505g00060"
+,"VIT_00s0873g00020","VIT_00s0904g00010")
+mod_bf <- create_module_bf(biofeaturesNames= my_bf, version = "legacy")
+mod_union <- merge_modules(mod1 = mod_ss, mod2 = mod_bf)
 }

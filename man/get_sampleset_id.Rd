@@ -4,29 +4,23 @@
 \alias{get_sampleset_id}
 \title{get_sampleset_id}
 \usage{
-get_sampleset_id(
-  compendium = "vespucci",
-  version = "latest",
-  samples = NULL,
-  name_In = NULL
-)
+get_sampleset_id(compendium = "vespucci", version = "legacy", name_In = NULL)
 }
 \arguments{
-\item{compendium}{A string- the selected compendium}
+\item{compendium}{A string - the selected compendium}
 
-\item{version}{A string- either 'latest' or 'legacy'}
+\item{version}{A string - either 'latest' or 'legacy'}
 
 \item{name_In}{A vector of character strings - the sampleset name}
-
-\item{name}{A string- the sampleset of interest}
 }
 \value{
-a data.frame with two columns: id and name
+A data.frame with two columns: id and name
 }
 \description{
 get_sampleset_id
 }
 \examples{
-get_sampleset_id(name_In = "GSE27180_48hours-1-vs-GSE27180_0h-2")
-get_sampleset_id(samples =c("U2FtcGxlVHlwZTox"))
+my_ss <- c("GSM671720.ch1-vs-GSM671719.ch1","GSM671721.ch1-vs-GSM671719.ch1"
+,"GSM671722.ch1-vs-GSM671719.ch1","GSM147672.ch1-vs-GSM147690.ch1")
+get_sampleset_id(name_In = my_ss)
 }

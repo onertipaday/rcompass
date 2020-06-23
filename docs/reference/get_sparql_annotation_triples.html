@@ -98,6 +98,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/dashboard.html">rCOMPASS dashboard</a>
+    </li>
+    <li>
       <a href="../articles/usecase01.html">Use Case 01</a>
     </li>
   </ul>
@@ -144,60 +147,43 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>compendium</th>
-      <td><p>A string- the selected compendium</p></td>
+      <td><p>A string - the selected compendium</p></td>
     </tr>
     <tr>
-      <th>ids</th>
-      <td><p>string</p></td>
+      <th>target</th>
+      <td><p>A string</p></td>
+    </tr>
+    <tr>
+      <th>query</th>
+      <td><p>A string - sparql query</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
-
-
+    <p>A list</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>get_sparql_annotation_triples</span>()</div><div class='output co'>#&gt;   [1] "U2FtcGxlVHlwZToxMDI4" "U2FtcGxlVHlwZTozMDQ5" "U2FtcGxlVHlwZTo3MTY="
-#&gt;   [4] "U2FtcGxlVHlwZTo3MTA=" "U2FtcGxlVHlwZTo3MTQ=" "U2FtcGxlVHlwZTo3MTM="
-#&gt;   [7] "U2FtcGxlVHlwZTo3MTE=" "U2FtcGxlVHlwZTo3MjE=" "U2FtcGxlVHlwZTo3MTk="
-#&gt;  [10] "U2FtcGxlVHlwZTo3MTc=" "U2FtcGxlVHlwZTo3MjA=" "U2FtcGxlVHlwZTo3MTU="
-#&gt;  [13] "U2FtcGxlVHlwZTo3MTI=" "U2FtcGxlVHlwZTo3MTg=" "U2FtcGxlVHlwZToxMDMx"
-#&gt;  [16] "U2FtcGxlVHlwZToxMDMy" "U2FtcGxlVHlwZToxMDMz" "U2FtcGxlVHlwZToxMDM0"
-#&gt;  [19] "U2FtcGxlVHlwZToxMDM1" "U2FtcGxlVHlwZToxMDM2" "U2FtcGxlVHlwZToxMDM3"
-#&gt;  [22] "U2FtcGxlVHlwZToxMDM4" "U2FtcGxlVHlwZToxMDM5" "U2FtcGxlVHlwZToxMDQw"
-#&gt;  [25] "U2FtcGxlVHlwZToxMDQx" "U2FtcGxlVHlwZToxMDQy" "U2FtcGxlVHlwZToxMDQz"
-#&gt;  [28] "U2FtcGxlVHlwZToxMDQ0" "U2FtcGxlVHlwZToxMDQ1" "U2FtcGxlVHlwZToxMDQ2"
-#&gt;  [31] "U2FtcGxlVHlwZToxMDQ3" "U2FtcGxlVHlwZToxMDQ4" "U2FtcGxlVHlwZToxMDI5"
-#&gt;  [34] "U2FtcGxlVHlwZToxMDMw" "U2FtcGxlVHlwZTozMDQ0" "U2FtcGxlVHlwZTozMDQ1"
-#&gt;  [37] "U2FtcGxlVHlwZTozMDQ2" "U2FtcGxlVHlwZTozMDQ3" "U2FtcGxlVHlwZTozMDQ4"
-#&gt;  [40] NA                     NA                     NA                    
-#&gt;  [43] NA                     NA                     NA                    
-#&gt;  [46] NA                     NA                     NA                    
-#&gt;  [49] NA                     NA                     NA                    
-#&gt;  [52] NA                     NA                     NA                    
-#&gt;  [55] NA                     NA                     NA                    
-#&gt;  [58] NA                     NA                     NA                    
-#&gt;  [61] NA                     NA                     NA                    
-#&gt;  [64] NA                     NA                     NA                    
-#&gt;  [67] NA                     NA                     NA                    
-#&gt;  [70] NA                     NA                     NA                    
-#&gt;  [73] NA                     NA                     NA                    
-#&gt;  [76] NA                     NA                     NA                    
-#&gt;  [79] NA                     NA                     NA                    
-#&gt;  [82] NA                     NA                     NA                    
-#&gt;  [85] NA                     NA                     NA                    
-#&gt;  [88] NA                     NA                     NA                    
-#&gt;  [91] NA                     NA                     NA                    
-#&gt;  [94] NA                     NA                     NA                    
-#&gt;  [97] NA                     NA                     NA                    
-#&gt; [100] NA                     NA                     NA                    
-#&gt; [103] NA                     NA                     NA                    
-#&gt; [106] NA                     NA                     NA                    
-#&gt; [109] NA                     NA                     NA                    
-#&gt; [112] NA                     NA                     NA                    
-#&gt; [115] NA                     NA                     NA                    </div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>get_sparql_annotation_triples</span>()</div><div class='output co'>#&gt;  [1] "c(\"U2FtcGxlVHlwZToxMDI4\", NA, NA)" "c(\"U2FtcGxlVHlwZTozMDQ5\", NA, NA)"
+#&gt;  [3] "c(\"U2FtcGxlVHlwZTo3MTY=\", NA, NA)" "c(\"U2FtcGxlVHlwZTo3MTA=\", NA, NA)"
+#&gt;  [5] "c(\"U2FtcGxlVHlwZTo3MTQ=\", NA, NA)" "c(\"U2FtcGxlVHlwZTo3MTM=\", NA, NA)"
+#&gt;  [7] "c(\"U2FtcGxlVHlwZTo3MTE=\", NA, NA)" "c(\"U2FtcGxlVHlwZTo3MjE=\", NA, NA)"
+#&gt;  [9] "c(\"U2FtcGxlVHlwZTo3MTk=\", NA, NA)" "c(\"U2FtcGxlVHlwZTo3MTc=\", NA, NA)"
+#&gt; [11] "c(\"U2FtcGxlVHlwZTo3MjA=\", NA, NA)" "c(\"U2FtcGxlVHlwZTo3MTU=\", NA, NA)"
+#&gt; [13] "c(\"U2FtcGxlVHlwZTo3MTI=\", NA, NA)" "c(\"U2FtcGxlVHlwZTo3MTg=\", NA, NA)"
+#&gt; [15] "c(\"U2FtcGxlVHlwZToxMDMx\", NA, NA)" "c(\"U2FtcGxlVHlwZToxMDMy\", NA, NA)"
+#&gt; [17] "c(\"U2FtcGxlVHlwZToxMDMz\", NA, NA)" "c(\"U2FtcGxlVHlwZToxMDM0\", NA, NA)"
+#&gt; [19] "c(\"U2FtcGxlVHlwZToxMDM1\", NA, NA)" "c(\"U2FtcGxlVHlwZToxMDM2\", NA, NA)"
+#&gt; [21] "c(\"U2FtcGxlVHlwZToxMDM3\", NA, NA)" "c(\"U2FtcGxlVHlwZToxMDM4\", NA, NA)"
+#&gt; [23] "c(\"U2FtcGxlVHlwZToxMDM5\", NA, NA)" "c(\"U2FtcGxlVHlwZToxMDQw\", NA, NA)"
+#&gt; [25] "c(\"U2FtcGxlVHlwZToxMDQx\", NA, NA)" "c(\"U2FtcGxlVHlwZToxMDQy\", NA, NA)"
+#&gt; [27] "c(\"U2FtcGxlVHlwZToxMDQz\", NA, NA)" "c(\"U2FtcGxlVHlwZToxMDQ0\", NA, NA)"
+#&gt; [29] "c(\"U2FtcGxlVHlwZToxMDQ1\", NA, NA)" "c(\"U2FtcGxlVHlwZToxMDQ2\", NA, NA)"
+#&gt; [31] "c(\"U2FtcGxlVHlwZToxMDQ3\", NA, NA)" "c(\"U2FtcGxlVHlwZToxMDQ4\", NA, NA)"
+#&gt; [33] "c(\"U2FtcGxlVHlwZToxMDI5\", NA, NA)" "c(\"U2FtcGxlVHlwZToxMDMw\", NA, NA)"
+#&gt; [35] "c(\"U2FtcGxlVHlwZTozMDQ0\", NA, NA)" "c(\"U2FtcGxlVHlwZTozMDQ1\", NA, NA)"
+#&gt; [37] "c(\"U2FtcGxlVHlwZTozMDQ2\", NA, NA)" "c(\"U2FtcGxlVHlwZTozMDQ3\", NA, NA)"
+#&gt; [39] "c(\"U2FtcGxlVHlwZTozMDQ4\", NA, NA)"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

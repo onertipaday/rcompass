@@ -2,24 +2,21 @@
 % Please edit documentation in R/queries.R
 \name{get_samples_by_gse}
 \alias{get_samples_by_gse}
-\title{get_samples_by_gse}
+\title{get samples id, name (GSM), description from experiment id (GSE)}
 \usage{
-get_samples_by_gse(
-  compendium = "vespucci",
-  experiment_ExperimentAccessId = "GSE54347"
-)
+get_samples_by_gse(compendium = "vespucci", experimentAccessId = NULL)
 }
 \arguments{
-\item{compendium}{A string- the selected compendium}
+\item{compendium}{A string - the selected compendium}
 
-\item{experiment_ExperimentAccessId}{A string- GSE (GEO Series (experiment) access id)}
+\item{experimentAccessId}{A string - GSE (GEO Series (experiment) access id)}
 }
 \value{
-a data.frame with three columns id, name, description
+A data.frame with three columns: sampleId, sampleName, sampleDescription
 }
 \description{
-get_samples_by_gse
+get samples id, name (GSM), description from experiment id (GSE)
 }
 \examples{
-get_samples_by_gse()
+get_samples_by_gse(experimentAccessId = "GSE98923")
 }

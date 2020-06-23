@@ -1,6 +1,6 @@
 #' get_available_plot_methods
 #'
-#' @param compendium string - the selected compendium
+#' @param compendium A string - the selected compendium
 #'
 #' @return a list with plot methods for distribution, heatmap and network
 #' @export
@@ -15,26 +15,21 @@ get_available_plot_methods <- function(compendium = "vespucci"){
         network
       }
   }')
-  # build_query(my_query)$plotName
-  tmp <- build_query2(my_query)$plotName
-  out <- list(distributions = sapply(tmp$distribution, unlist),
+  tmp <- build_query(my_query)$plotName
+  list(distributions = sapply(tmp$distribution, unlist),
                                      heatmap = tmp$heatmap,
                                      network = tmp$network)
-  out
-  # tmp <- t(as.data.frame(sapply(build_query2(my_query)$plotName, unlist)))
-  # rownames(tmp) = c("distribution", "heatmap","network")
-  # tmp
 }
 
 
 #' plot_heatmap
 #'
-#' @param compendium string - the selected compendium
-#' @param version string ('legacy' as default)
-#' @param biofeatureNames a character vector (here gene_names)
-#' @param samplesetNames a character vector - the sampleSets names
+#' @param compendium A string - the selected compendium
+#' @param version A string ('legacy' as default)
+#' @param biofeaturesNames A character vector (here gene_names)
+#' @param samplesetNames A character vector - the sampleSets names
 #'
-#' @return an html page with the heatmap
+#' @return An html page with the heatmap
 #' @export
 plot_heatmap  <- function(compendium = "vespucci",
                           version = "legacy",
@@ -51,18 +46,19 @@ plot_heatmap  <- function(compendium = "vespucci",
         html
         }
   }')
+  # build_query(my_query)$plotHeatmap
   build_query(my_query)$plotHeatmap
 }
 
 
 #' plot_network_coexpression
 #'
-#' @param compendium string - the selected compendium
-#' @param version string ('legacy' as default)
-#' @param biofeatureNames a character vector (here gene_names)
-#' @param samplesetNames a character vector - the sampleSets names
+#' @param compendium A string - the selected compendium
+#' @param version A string ('legacy' as default)
+#' @param biofeaturesNames A character vector (here gene_names)
+#' @param samplesetNames A character vector - the sampleSets names
 #'
-#' @return an html page with the coexpression network
+#' @return An html page with the coexpression network
 #' @export
 plot_network_coexpression  <- function(compendium = "vespucci",
                           version = "legacy",
@@ -79,18 +75,19 @@ plot_network_coexpression  <- function(compendium = "vespucci",
         html
         }
   }')
+  # build_query(my_query)$plotHeatmap
   build_query(my_query)$plotHeatmap
 }
 
 
 #' plot_heatmap
 #'
-#' @param compendium string - the selected compendium
-#' @param version string ('legacy' as default)
-#' @param biofeatureNames a character vector (here gene_names)
-#' @param biofeaturesIds a character vector - the biofeature ids
+#' @param compendium A string - the selected compendium
+#' @param version A string ('legacy' as default)
+#' @param biofeaturesNames A character vector (here gene_names)
+#' @param biofeaturesIds A character vector - the biofeature ids
 #'
-#' @return an html page with the distribution
+#' @return An html page with the distribution
 #' @export
 plot_distribution_coexpressed_samplesets  <- function(compendium = "vespucci",
                           version = "legacy",

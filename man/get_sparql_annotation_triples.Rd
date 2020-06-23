@@ -12,12 +12,14 @@ get_sparql_annotation_triples(
 )
 }
 \arguments{
-\item{compendium}{A string- the selected compendium}
+\item{compendium}{A string - the selected compendium}
 
-\item{ids}{string}
+\item{target}{A string}
+
+\item{query}{A string - sparql query}
 }
 \value{
-
+A list
 }
 \description{
 get_sparql_annotation_triples

@@ -7,7 +7,7 @@
 get_available_plot_methods(compendium = "vespucci")
 }
 \arguments{
-\item{compendium}{string - the selected compendium}
+\item{compendium}{A string - the selected compendium}
 }
 \value{
 a list with plot methods for distribution, heatmap and network

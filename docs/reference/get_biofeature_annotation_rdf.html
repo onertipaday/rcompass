@@ -98,6 +98,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/dashboard.html">rCOMPASS dashboard</a>
+    </li>
+    <li>
       <a href="../articles/usecase01.html">Use Case 01</a>
     </li>
   </ul>
@@ -142,7 +145,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>compendium</th>
-      <td><p>A string- the selected compendium</p></td>
+      <td><p>A string - the selected compendium</p></td>
     </tr>
     <tr>
       <th>ids</th>
@@ -152,14 +155,21 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a data.frame</p>
+    <p>A data.frame</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>get_biofeature_annotation_rdf</span>(<span class='kw'>ids</span><span class='kw'>=</span><span class='st'>"QmlvRmVhdHVyZVR5cGU6Mg=="</span>)</div><div class='output co'>#&gt;      [,1]                [,2]         [,3]               
-#&gt; [1,] "VIT_10s0116g00060" "Gene Alias" "1.6.5.3"          
-#&gt; [2,] "VIT_10s0116g00060" "Gene Alias" "EC:1.6.5.3"       
-#&gt; [3,] "VIT_10s0116g00060" "Gene Alias" "VIT_10s0116g00060"
-#&gt; [4,] "VIT_10s0116g00060" "Gene Alias" "Vv10s0116g00060"  </div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>get_biofeature_annotation_rdf</span>(<span class='kw'>ids</span><span class='kw'>=</span><span class='st'>"QmlvRmVhdHVyZVR5cGU6Mg=="</span>)</div><div class='output co'>#&gt; [[1]]
+#&gt; [1] "VIT_10s0116g00060" "Gene Alias"        "1.6.5.3"          
+#&gt; 
+#&gt; [[2]]
+#&gt; [1] "VIT_10s0116g00060" "Gene Alias"        "EC:1.6.5.3"       
+#&gt; 
+#&gt; [[3]]
+#&gt; [1] "VIT_10s0116g00060" "Gene Alias"        "VIT_10s0116g00060"
+#&gt; 
+#&gt; [[4]]
+#&gt; [1] "VIT_10s0116g00060" "Gene Alias"        "Vv10s0116g00060"  
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

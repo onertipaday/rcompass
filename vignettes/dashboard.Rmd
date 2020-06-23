@@ -1,0 +1,107 @@
+---
+title: "rCOMPASS dashboard"
+author: "Bryan Lewis"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    social: menu
+    source_code: embed
+runtime: shiny
+---
+
+```{r global, include=FALSE}
+suppressPackageStartupMessages(library(rcompass))
+suppressPackageStartupMessages(library(shiny))
+suppressPackageStartupMessages(library(flexdashboard))
+# load data in 'global' chunk so it can be shared by all users of the dashboard
+suppressPackageStartupMessages(library(biclust))
+# data(BicatYeast)
+# res <- biclust(BicatYeast, method=BCPlaid(), verbose=FALSE)
+#create the module
+my_bf <- c("VIT_00s0246g00220","VIT_00s0332g00060","VIT_00s0332g00110" ,"VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030","VIT_00s0505g00060"
+,"VIT_00s0873g00020","VIT_00s0904g00010")
+mod_bf <- create_module_bf(biofeaturesNames=my_bf, version = "legacy")
+# biclustering
+set.seed(1)
+res <- biclust(mod_bf, method=BCPlaid(), verbose=FALSE)
+```
+
+Inputs {.sidebar}
+-----------------------------------------------------------------------
+
+# Overview
+
+## Welcome to the COMPASS Shiny flexdashboard interface for VESPUCCI!
+
+  [VESPUCCI](https://vespucci.readthedocs.io/) is a database for exploring and analyzing a comprehensive Vitis vinifera specific cross-platform expression compendium. This compendium was carefully constructed by collecting, homogenizing and formally annotating publicly available microarray and RNA-seq experiments.
+  [COMPASS](https://compass.readthedocs.io/) (COMpendia Programmatic Access Support Software) is a software layer that provides a GraphQL endpoint to query compendia built using COMMAND>_ technology.
+  [Shiny](https://shiny.rstudio.com/) is an R package that makes it easy to build interactive web apps straight from R.
+  [flexdashboard](https://rmarkdown.rstudio.com/flexdashboard/): Easy interactive dashboards for R
+
+```{r}
+ selectInput("version", label = h3("Select Compendium version"), 
+    choices = list("VESPUCCI - v 1.0 (legacy) vitis_vinifera legacy normalized" = 1, 
+                   "VESPUCCI - v 2.0 (latest) vitis_vinifera tpm_sample normalized" = 2, 
+                   "VESPUCCI - v 2.0 (latest) vitis_vinifera limma normalized" = 3), 
+    selected = 1)
+```
+
+## Quick search
+Create new module searching by gene ids. Insert comma-separated gene ids and press SEARCH
+
+```{r}
+
+```
+
+
+Row
+-----------------------------------------------------------------------
+
+### Heatmap
+    
+```{r}
+
+# num <- reactive(as.integer(input$clusterNum))
+# 
+# col = colorRampPalette(c("red", "white", "darkblue"), space="Lab")(10)
+# renderPlot({
+#     p = par(mai=c(0,0,0,0))
+#     heatmapBC(BicatYeast, res, number=num(), xlab="", ylab="",
+#       order=TRUE, useRaster=TRUE, col=col)
+#     par(p)
+# })
+
+num <- 1
+
+col = colorRampPalette(c("red", "white", "darkblue"), space="Lab")(10)
+renderPlot({
+    p = par(mai=c(0,0,0,0))
+    heatmapBC(mod_bf, res, number=num(), 
+              xlab="", ylab="",
+              order=TRUE, useRaster=TRUE, col=col)
+    par(p)
+})
+```
+
+
+Row {.tabset}
+-----------------------------------------------------------------------
+
+### Parallel Coordinates
+    
+```{r}
+renderPlot(
+  # parallelCoordinates(BicatYeast, res, number=num())
+  parallelCoordinates(mod_bf, res, number=num())
+)
+```
+   
+### Data for Selected Cluster
+
+```{r}
+# only display table for values in cluster 4
+renderTable(
+  # BicatYeast[which(res@RowxNumber[, num()]), which(res@NumberxCol[num(), ])]
+  mod_bf[which(res@RowxNumber[, num()]), which(res@NumberxCol[num(), ])]
+)
+```

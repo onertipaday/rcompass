@@ -12,16 +12,16 @@ plot_distribution_coexpressed_samplesets(
 )
 }
 \arguments{
-\item{compendium}{string - the selected compendium}
+\item{compendium}{A string - the selected compendium}
 
-\item{version}{string ('legacy' as default)}
+\item{version}{A string ('legacy' as default)}
 
-\item{biofeaturesIds}{a character vector - the biofeature ids}
+\item{biofeaturesNames}{A character vector (here gene_names)}
 
-\item{biofeatureNames}{a character vector (here gene_names)}
+\item{biofeaturesIds}{A character vector - the biofeature ids}
 }
 \value{
-an html page with the distribution
+An html page with the distribution
 }
 \description{
 plot_heatmap

@@ -7,7 +7,7 @@
 get_platform_types(compendium = "vespucci")
 }
 \arguments{
-\item{compendium}{A string- the selected compendium}
+\item{compendium}{A string - the selected compendium}
 }
 \value{
 A vector of character strings

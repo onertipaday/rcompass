@@ -7,12 +7,12 @@
 get_sample_info(compendium = "vespucci", sampleName = NULL)
 }
 \arguments{
-\item{compendium}{A string- the selected compendium}
+\item{compendium}{A string - the selected compendium}
 
-\item{sampleName}{A string- GEO Sample accession id (GSM)}
+\item{sampleName}{A string - GEO Sample accession id (GSM)}
 }
 \value{
-
+A data.frame
 }
 \description{
 get_sample_info

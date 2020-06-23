@@ -7,12 +7,12 @@
 get_biofeature_id(compendium = "vespucci", name_In = NULL)
 }
 \arguments{
-\item{compendium}{A string- the selected compendium}
+\item{compendium}{A string - the selected compendium}
 
 \item{name_In}{A vector of character strings - the biofeature names}
 }
 \value{
-a data.frame
+A data.frame with three columns: id, name, description
 }
 \description{
 get_biofeature_id

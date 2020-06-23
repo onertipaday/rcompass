@@ -8,10 +8,10 @@ use \code{\link{get_available_compendia}} to check all the available compendia}
 get_platform_information(compendium = "vespucci")
 }
 \arguments{
-\item{compendium}{A string- the selected compendium}
+\item{compendium}{A string - the selected compendium}
 }
 \value{
-a data.frame with five columns: accessId, name, description, source, type
+A data.frame with five columns: accessId, name, description, source, type
 }
 \description{
 Get information about all available platforms for the selected compendium,

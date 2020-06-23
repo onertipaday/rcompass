@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>get_samples_by_gse — get_samples_by_gse • rcompass</title>
+<title>get samples id, name (GSM), description from experiment id (GSE) — get_samples_by_gse • rcompass</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="get_samples_by_gse — get_samples_by_gse" />
-<meta property="og:description" content="get_samples_by_gse" />
+<meta property="og:title" content="get samples id, name (GSM), description from experiment id (GSE) — get_samples_by_gse" />
+<meta property="og:description" content="get samples id, name (GSM), description from experiment id (GSE)" />
 
 
 
@@ -98,6 +98,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/dashboard.html">rCOMPASS dashboard</a>
+    </li>
+    <li>
       <a href="../articles/usecase01.html">Use Case 01</a>
     </li>
   </ul>
@@ -123,320 +126,475 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>get_samples_by_gse</h1>
+    <h1>get samples id, name (GSM), description from experiment id (GSE)</h1>
     <small class="dont-index">Source: <a href='https://github.com/onertipaday/rcompass/blob/master/R/queries.R'><code>R/queries.R</code></a></small>
     <div class="hidden name"><code>get_samples_by_gse.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>get_samples_by_gse</p>
+    <p>get samples id, name (GSM), description from experiment id (GSE)</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_samples_by_gse</span>(
-  <span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>,
-  <span class='kw'>experiment_ExperimentAccessId</span> <span class='kw'>=</span> <span class='st'>"GSE54347"</span>
-)</pre>
+    <pre class="usage"><span class='fu'>get_samples_by_gse</span>(<span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>, <span class='kw'>experimentAccessId</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>compendium</th>
-      <td><p>A string- the selected compendium</p></td>
+      <td><p>A string - the selected compendium</p></td>
     </tr>
     <tr>
-      <th>experiment_ExperimentAccessId</th>
-      <td><p>A string- GSE (GEO Series (experiment) access id)</p></td>
+      <th>experimentAccessId</th>
+      <td><p>A string - GSE (GEO Series (experiment) access id)</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a data.frame with three columns id, name, description</p>
+    <p>A data.frame with three columns: sampleId, sampleName, sampleDescription</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>get_samples_by_gse</span>()</div><div class='output co'>#&gt;                       id           name
-#&gt; 1   U2FtcGxlVHlwZToyMTUw GSM1313535.ch2
-#&gt; 2   U2FtcGxlVHlwZToyMTUx GSM1313535.ch1
-#&gt; 3   U2FtcGxlVHlwZToyMTUy GSM1313583.ch1
-#&gt; 4   U2FtcGxlVHlwZToyMTUz GSM1313555.ch1
-#&gt; 5   U2FtcGxlVHlwZToyMTU0 GSM1313555.ch2
-#&gt; 6   U2FtcGxlVHlwZToyMTU1 GSM1313588.ch2
-#&gt; 7   U2FtcGxlVHlwZToyMTU2 GSM1313588.ch1
-#&gt; 8   U2FtcGxlVHlwZToyMTU3 GSM1313566.ch2
-#&gt; 9   U2FtcGxlVHlwZToyMTU4 GSM1313566.ch1
-#&gt; 10  U2FtcGxlVHlwZToyMTU5 GSM1313543.ch1
-#&gt; 11  U2FtcGxlVHlwZToyMTYw GSM1313543.ch2
-#&gt; 12  U2FtcGxlVHlwZToyMTYx GSM1313597.ch2
-#&gt; 13  U2FtcGxlVHlwZToyMTYy GSM1313597.ch1
-#&gt; 14  U2FtcGxlVHlwZToyMTYz GSM1313577.ch2
-#&gt; 15  U2FtcGxlVHlwZToyMTY0 GSM1313545.ch2
-#&gt; 16  U2FtcGxlVHlwZToyMTY1 GSM1313545.ch1
-#&gt; 17  U2FtcGxlVHlwZToyMTY2 GSM1313542.ch1
-#&gt; 18  U2FtcGxlVHlwZToyMTY3 GSM1313542.ch2
-#&gt; 19  U2FtcGxlVHlwZToyMTY4 GSM1313540.ch2
-#&gt; 20  U2FtcGxlVHlwZToyMTY5 GSM1313540.ch1
-#&gt; 21  U2FtcGxlVHlwZToyMTcw GSM1313586.ch1
-#&gt; 22  U2FtcGxlVHlwZToyMTcx GSM1313586.ch2
-#&gt; 23  U2FtcGxlVHlwZToyMTcy GSM1313571.ch2
-#&gt; 24  U2FtcGxlVHlwZToyMTcz GSM1313571.ch1
-#&gt; 25  U2FtcGxlVHlwZToyMTc0 GSM1313593.ch2
-#&gt; 26  U2FtcGxlVHlwZToyMTc1 GSM1313593.ch1
-#&gt; 27  U2FtcGxlVHlwZToyMTc2 GSM1313574.ch2
-#&gt; 28  U2FtcGxlVHlwZToyMTc3 GSM1313574.ch1
-#&gt; 29  U2FtcGxlVHlwZToyMTc4 GSM1313575.ch2
-#&gt; 30  U2FtcGxlVHlwZToyMTc5 GSM1313556.ch2
-#&gt; 31  U2FtcGxlVHlwZToyMTgw GSM1313600.ch1
-#&gt; 32  U2FtcGxlVHlwZToyMTgx GSM1313600.ch2
-#&gt; 33  U2FtcGxlVHlwZToyMTgy GSM1313556.ch1
-#&gt; 34  U2FtcGxlVHlwZToyMTgz GSM1313582.ch1
-#&gt; 35  U2FtcGxlVHlwZToyMTg0 GSM1313575.ch1
-#&gt; 36  U2FtcGxlVHlwZToyMTg1 GSM1313582.ch2
-#&gt; 37  U2FtcGxlVHlwZToyMTg2 GSM1313567.ch2
-#&gt; 38  U2FtcGxlVHlwZToyMTg3 GSM1313567.ch1
-#&gt; 39  U2FtcGxlVHlwZToyMTg4 GSM1313534.ch2
-#&gt; 40  U2FtcGxlVHlwZToyMTg5 GSM1313594.ch1
-#&gt; 41  U2FtcGxlVHlwZToyMTkw GSM1313594.ch2
-#&gt; 42  U2FtcGxlVHlwZToyMTkx GSM1313534.ch1
-#&gt; 43  U2FtcGxlVHlwZToyMTky GSM1313553.ch2
-#&gt; 44  U2FtcGxlVHlwZToyMTkz GSM1313553.ch1
-#&gt; 45  U2FtcGxlVHlwZToyMTk0 GSM1313592.ch2
-#&gt; 46  U2FtcGxlVHlwZToyMTk1 GSM1313592.ch1
-#&gt; 47  U2FtcGxlVHlwZToyMTk2 GSM1313595.ch1
-#&gt; 48  U2FtcGxlVHlwZToyMTk3 GSM1313595.ch2
-#&gt; 49  U2FtcGxlVHlwZToyMTk4 GSM1313591.ch1
-#&gt; 50  U2FtcGxlVHlwZToyMTk5 GSM1313591.ch2
-#&gt; 51  U2FtcGxlVHlwZToyMjAw GSM1313539.ch2
-#&gt; 52  U2FtcGxlVHlwZToyMjAx GSM1313539.ch1
-#&gt; 53  U2FtcGxlVHlwZToyMjAy GSM1313532.ch1
-#&gt; 54  U2FtcGxlVHlwZToyMjAz GSM1313532.ch2
-#&gt; 55  U2FtcGxlVHlwZToyMjA0 GSM1313599.ch1
-#&gt; 56  U2FtcGxlVHlwZToyMjA1 GSM1313599.ch2
-#&gt; 57  U2FtcGxlVHlwZToyMjA2 GSM1313559.ch1
-#&gt; 58  U2FtcGxlVHlwZToyMjA3 GSM1313559.ch2
-#&gt; 59  U2FtcGxlVHlwZToyMjA4 GSM1313546.ch1
-#&gt; 60  U2FtcGxlVHlwZToyMjA5 GSM1313546.ch2
-#&gt; 61  U2FtcGxlVHlwZToyMjEw GSM1313580.ch2
-#&gt; 62  U2FtcGxlVHlwZToyMjEx GSM1313590.ch1
-#&gt; 63  U2FtcGxlVHlwZToyMjEy GSM1313590.ch2
-#&gt; 64  U2FtcGxlVHlwZToyMjEz GSM1313536.ch1
-#&gt; 65  U2FtcGxlVHlwZToyMjE0 GSM1313536.ch2
-#&gt; 66  U2FtcGxlVHlwZToyMjE1 GSM1313584.ch2
-#&gt; 67  U2FtcGxlVHlwZToyMjE2 GSM1313584.ch1
-#&gt; 68  U2FtcGxlVHlwZToyMjE3 GSM1313562.ch2
-#&gt; 69  U2FtcGxlVHlwZToyMjE4 GSM1313562.ch1
-#&gt; 70  U2FtcGxlVHlwZToyMjE5 GSM1313537.ch1
-#&gt; 71  U2FtcGxlVHlwZToyMjIw GSM1313537.ch2
-#&gt; 72  U2FtcGxlVHlwZToyMjIx GSM1313547.ch1
-#&gt; 73  U2FtcGxlVHlwZToyMjIy GSM1313547.ch2
-#&gt; 74  U2FtcGxlVHlwZToyMjIz GSM1313552.ch2
-#&gt; 75  U2FtcGxlVHlwZToyMjI0 GSM1313552.ch1
-#&gt; 76  U2FtcGxlVHlwZToyMjI1 GSM1313579.ch2
-#&gt; 77  U2FtcGxlVHlwZToyMjI2 GSM1313579.ch1
-#&gt; 78  U2FtcGxlVHlwZToyMjI3 GSM1313564.ch1
-#&gt; 79  U2FtcGxlVHlwZToyMjI4 GSM1313564.ch2
-#&gt; 80  U2FtcGxlVHlwZToyMjI5 GSM1313544.ch2
-#&gt; 81  U2FtcGxlVHlwZToyMjMw GSM1313544.ch1
-#&gt; 82  U2FtcGxlVHlwZToyMjMx GSM1313563.ch2
-#&gt; 83  U2FtcGxlVHlwZToyMjMy GSM1313563.ch1
-#&gt; 84  U2FtcGxlVHlwZToyMjMz GSM1313576.ch1
-#&gt; 85  U2FtcGxlVHlwZToyMjM0 GSM1313576.ch2
-#&gt; 86  U2FtcGxlVHlwZToyMjM1 GSM1313558.ch1
-#&gt; 87  U2FtcGxlVHlwZToyMjM2 GSM1313558.ch2
-#&gt; 88  U2FtcGxlVHlwZToyMjM3 GSM1313554.ch1
-#&gt; 89  U2FtcGxlVHlwZToyMjM4 GSM1313554.ch2
-#&gt; 90  U2FtcGxlVHlwZToyMjM5 GSM1313531.ch2
-#&gt; 91  U2FtcGxlVHlwZToyMjQw GSM1313531.ch1
-#&gt; 92  U2FtcGxlVHlwZToyMjQx GSM1313573.ch1
-#&gt; 93  U2FtcGxlVHlwZToyMjQy GSM1313573.ch2
-#&gt; 94  U2FtcGxlVHlwZToyMjQz GSM1313568.ch1
-#&gt; 95  U2FtcGxlVHlwZToyMjQ0 GSM1313568.ch2
-#&gt; 96  U2FtcGxlVHlwZToyMjQ1 GSM1313598.ch1
-#&gt; 97  U2FtcGxlVHlwZToyMjQ2 GSM1313598.ch2
-#&gt; 98  U2FtcGxlVHlwZToyMjQ3 GSM1313585.ch2
-#&gt; 99  U2FtcGxlVHlwZToyMjQ4 GSM1313550.ch1
-#&gt; 100 U2FtcGxlVHlwZToyMjQ5 GSM1313550.ch2
-#&gt; 101 U2FtcGxlVHlwZToyMjUw GSM1313585.ch1
-#&gt; 102 U2FtcGxlVHlwZToyMjUx GSM1313538.ch2
-#&gt; 103 U2FtcGxlVHlwZToyMjUy GSM1313538.ch1
-#&gt; 104 U2FtcGxlVHlwZToyMjUz GSM1313551.ch1
-#&gt; 105 U2FtcGxlVHlwZToyMjU0 GSM1313551.ch2
-#&gt; 106 U2FtcGxlVHlwZToyMjU1 GSM1313565.ch1
-#&gt; 107 U2FtcGxlVHlwZToyMjU2 GSM1313565.ch2
-#&gt; 108 U2FtcGxlVHlwZToyMjU3 GSM1313569.ch1
-#&gt; 109 U2FtcGxlVHlwZToyMjU4 GSM1313569.ch2
-#&gt; 110 U2FtcGxlVHlwZToyMjU5 GSM1313578.ch2
-#&gt; 111 U2FtcGxlVHlwZToyMjYw GSM1313578.ch1
-#&gt; 112 U2FtcGxlVHlwZToyMjYx GSM1313533.ch1
-#&gt; 113 U2FtcGxlVHlwZToyMjYy GSM1313533.ch2
-#&gt; 114 U2FtcGxlVHlwZToyMjYz GSM1313587.ch1
-#&gt; 115 U2FtcGxlVHlwZToyMjY0 GSM1313548.ch2
-#&gt; 116 U2FtcGxlVHlwZToyMjY1 GSM1313548.ch1
-#&gt; 117 U2FtcGxlVHlwZToyMjY2 GSM1313596.ch2
-#&gt; 118 U2FtcGxlVHlwZToyMjY3 GSM1313587.ch2
-#&gt; 119 U2FtcGxlVHlwZToyMjY4 GSM1313596.ch1
-#&gt; 120 U2FtcGxlVHlwZToyMjY5 GSM1313570.ch2
-#&gt; 121 U2FtcGxlVHlwZToyMjcw GSM1313572.ch1
-#&gt; 122 U2FtcGxlVHlwZToyMjcx GSM1313572.ch2
-#&gt; 123 U2FtcGxlVHlwZToyMjcy GSM1313570.ch1
-#&gt; 124 U2FtcGxlVHlwZToyMjcz GSM1313541.ch2
-#&gt; 125 U2FtcGxlVHlwZToyMjc0 GSM1313557.ch2
-#&gt; 126 U2FtcGxlVHlwZToyMjc1 GSM1313557.ch1
-#&gt; 127 U2FtcGxlVHlwZToyMjc2 GSM1313541.ch1
-#&gt; 128 U2FtcGxlVHlwZToyMjc3 GSM1313589.ch2
-#&gt; 129 U2FtcGxlVHlwZToyMjc4 GSM1313589.ch1
-#&gt; 130 U2FtcGxlVHlwZToyMjc5 GSM1313583.ch2
-#&gt; 131 U2FtcGxlVHlwZToyMjgw GSM1313580.ch1
-#&gt; 132 U2FtcGxlVHlwZToyMjgx GSM1313581.ch2
-#&gt; 133 U2FtcGxlVHlwZToyMjgy GSM1313560.ch1
-#&gt; 134 U2FtcGxlVHlwZToyMjgz GSM1313560.ch2
-#&gt; 135 U2FtcGxlVHlwZToyMjg0 GSM1313581.ch1
-#&gt; 136 U2FtcGxlVHlwZToyMjg1 GSM1313561.ch1
-#&gt; 137 U2FtcGxlVHlwZToyMjg2 GSM1313561.ch2
-#&gt; 138 U2FtcGxlVHlwZToyMjg3 GSM1313549.ch2
-#&gt; 139 U2FtcGxlVHlwZToyMjg4 GSM1313549.ch1
-#&gt; 140 U2FtcGxlVHlwZToyMzMy GSM1313577.ch1
-#&gt;                                                        description
-#&gt; 1             9_ADJ_48H_REP1|**||**||**|test_GSE54347_ADJUVANT_48H
-#&gt; 2               8_WATER_48H_REP1|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 3   60_TREATMENT2_24H_REP2|**||**||**|test_GSE54347_TREATMENT2_24H
-#&gt; 4   28_TREATMENT5_48H_REP2|**||**||**|test_GSE54347_TREATMENT5_48H
-#&gt; 5              22_WATER_48H_REP2|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 6   62_TREATMENT4_24H_REP2|**||**||**|test_GSE54347_TREATMENT4_24H
-#&gt; 7              57_WATER_24H_REP2|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 8               8_WATER_48H_REP1|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 9   14_TREATMENT5_48H_REP1|**||**||**|test_GSE54347_TREATMENT5_48H
-#&gt; 10  41_TREATMENT4_48H_REP3|**||**||**|test_GSE54347_TREATMENT4_48H
-#&gt; 11             36_WATER_48H_REP3|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 12             71_WATER_24H_REP3|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 13  76_TREATMENT4_24H_REP3|**||**||**|test_GSE54347_TREATMENT4_24H
-#&gt; 14             43_WATER_24H_REP1|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 15             36_WATER_48H_REP3|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 16  42_TREATMENT5_48H_REP3|**||**||**|test_GSE54347_TREATMENT5_48H
-#&gt; 17             36_WATER_48H_REP3|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 18  40_TREATMENT3_48H_REP3|**||**||**|test_GSE54347_TREATMENT3_48H
-#&gt; 19  39_TREATMENT2_48H_REP3|**||**||**|test_GSE54347_TREATMENT2_48H
-#&gt; 20             36_WATER_48H_REP3|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 21             57_WATER_24H_REP2|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 22  61_TREATMENT3_24H_REP2|**||**||**|test_GSE54347_TREATMENT3_24H
-#&gt; 23             43_WATER_24H_REP1|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 24  46_TREATMENT2_24H_REP1|**||**||**|test_GSE54347_TREATMENT2_24H
-#&gt; 25             71_WATER_24H_REP3|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 26  74_TREATMENT2_24H_REP3|**||**||**|test_GSE54347_TREATMENT2_24H
-#&gt; 27  47_TREATMENT3_24H_REP1|**||**||**|test_GSE54347_TREATMENT3_24H
-#&gt; 28             43_WATER_24H_REP1|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 29             43_WATER_24H_REP1|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 30  28_TREATMENT5_48H_REP2|**||**||**|test_GSE54347_TREATMENT5_48H
-#&gt; 31             71_WATER_24H_REP3|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 32  77_TREATMENT5_24H_REP3|**||**||**|test_GSE54347_TREATMENT5_24H
-#&gt; 33             22_WATER_48H_REP2|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 34             57_WATER_24H_REP2|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 35  48_TREATMENT4_24H_REP1|**||**||**|test_GSE54347_TREATMENT4_24H
-#&gt; 36  59_TREATMENT1_24H_REP2|**||**||**|test_GSE54347_TREATMENT1_24H
-#&gt; 37             43_WATER_24H_REP1|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 38           44_ADJ_24H_REP1|**||**||**|test_GSE54347_ADJUVANT_24H
-#&gt; 39           23_ADJ_48H_REP2|**||**||**|test_GSE54347_ADJUVANT_48H
-#&gt; 40             71_WATER_24H_REP3|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 41  74_TREATMENT2_24H_REP3|**||**||**|test_GSE54347_TREATMENT2_24H
-#&gt; 42             22_WATER_48H_REP2|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 43             22_WATER_48H_REP2|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 44  27_TREATMENT4_48H_REP2|**||**||**|test_GSE54347_TREATMENT4_48H
-#&gt; 45           72_ADJ_24H_REP3|**||**||**|test_GSE54347_ADJUVANT_24H
-#&gt; 46             71_WATER_24H_REP3|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 47  75_TREATMENT3_24H_REP3|**||**||**|test_GSE54347_TREATMENT3_24H
-#&gt; 48             71_WATER_24H_REP3|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 49           72_ADJ_24H_REP3|**||**||**|test_GSE54347_ADJUVANT_24H
-#&gt; 50             71_WATER_24H_REP3|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 51             36_WATER_48H_REP3|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 52  39_TREATMENT2_48H_REP3|**||**||**|test_GSE54347_TREATMENT2_48H
-#&gt; 53             36_WATER_48H_REP3|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 54           37_ADJ_48H_REP3|**||**||**|test_GSE54347_ADJUVANT_48H
-#&gt; 55  77_TREATMENT5_24H_REP3|**||**||**|test_GSE54347_TREATMENT5_24H
-#&gt; 56             71_WATER_24H_REP3|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 57              8_WATER_48H_REP1|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 58  11_TREATMENT2_48H_REP1|**||**||**|test_GSE54347_TREATMENT2_48H
-#&gt; 59             36_WATER_48H_REP3|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 60  42_TREATMENT5_48H_REP3|**||**||**|test_GSE54347_TREATMENT5_48H
-#&gt; 61           58_ADJ_24H_REP2|**||**||**|test_GSE54347_ADJUVANT_24H
-#&gt; 62             57_WATER_24H_REP2|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 63  63_TREATMENT5_24H_REP2|**||**||**|test_GSE54347_TREATMENT5_24H
-#&gt; 64            9_ADJ_48H_REP1|**||**||**|test_GSE54347_ADJUVANT_48H
-#&gt; 65              8_WATER_48H_REP1|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 66  60_TREATMENT2_24H_REP2|**||**||**|test_GSE54347_TREATMENT2_24H
-#&gt; 67             57_WATER_24H_REP2|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 68              8_WATER_48H_REP1|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 69  12_TREATMENT3_48H_REP1|**||**||**|test_GSE54347_TREATMENT3_48H
-#&gt; 70  38_TREATMENT1_48H_REP3|**||**||**|test_GSE54347_TREATMENT1_48H
-#&gt; 71             36_WATER_48H_REP3|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 72  24_TREATMENT1_48H_REP2|**||**||**|test_GSE54347_TREATMENT1_48H
-#&gt; 73             22_WATER_48H_REP2|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 74  26_TREATMENT3_48H_REP2|**||**||**|test_GSE54347_TREATMENT3_48H
-#&gt; 75             22_WATER_48H_REP2|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 76             57_WATER_24H_REP2|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 77           58_ADJ_24H_REP2|**||**||**|test_GSE54347_ADJUVANT_24H
-#&gt; 78  13_TREATMENT4_48H_REP1|**||**||**|test_GSE54347_TREATMENT4_48H
-#&gt; 79              8_WATER_48H_REP1|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 80  41_TREATMENT4_48H_REP3|**||**||**|test_GSE54347_TREATMENT4_48H
-#&gt; 81             36_WATER_48H_REP3|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 82  13_TREATMENT4_48H_REP1|**||**||**|test_GSE54347_TREATMENT4_48H
-#&gt; 83              8_WATER_48H_REP1|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 84             43_WATER_24H_REP1|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 85  48_TREATMENT4_24H_REP1|**||**||**|test_GSE54347_TREATMENT4_24H
-#&gt; 86  10_TREATMENT1_48H_REP1|**||**||**|test_GSE54347_TREATMENT1_48H
-#&gt; 87              8_WATER_48H_REP1|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 88             22_WATER_48H_REP2|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 89  27_TREATMENT4_48H_REP2|**||**||**|test_GSE54347_TREATMENT4_48H
-#&gt; 90             36_WATER_48H_REP3|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 91           37_ADJ_48H_REP3|**||**||**|test_GSE54347_ADJUVANT_48H
-#&gt; 92  47_TREATMENT3_24H_REP1|**||**||**|test_GSE54347_TREATMENT3_24H
-#&gt; 93             43_WATER_24H_REP1|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 94             43_WATER_24H_REP1|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 95           44_ADJ_24H_REP1|**||**||**|test_GSE54347_ADJUVANT_24H
-#&gt; 96             71_WATER_24H_REP3|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 97  76_TREATMENT4_24H_REP3|**||**||**|test_GSE54347_TREATMENT4_24H
-#&gt; 98             57_WATER_24H_REP2|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 99             22_WATER_48H_REP2|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 100 25_TREATMENT2_48H_REP2|**||**||**|test_GSE54347_TREATMENT2_48H
-#&gt; 101 61_TREATMENT3_24H_REP2|**||**||**|test_GSE54347_TREATMENT3_24H
-#&gt; 102 38_TREATMENT1_48H_REP3|**||**||**|test_GSE54347_TREATMENT1_48H
-#&gt; 103            36_WATER_48H_REP3|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 104 26_TREATMENT3_48H_REP2|**||**||**|test_GSE54347_TREATMENT3_48H
-#&gt; 105            22_WATER_48H_REP2|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 106             8_WATER_48H_REP1|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 107 14_TREATMENT5_48H_REP1|**||**||**|test_GSE54347_TREATMENT5_48H
-#&gt; 108 45_TREATMENT1_24H_REP1|**||**||**|test_GSE54347_TREATMENT1_24H
-#&gt; 109            43_WATER_24H_REP1|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 110 49_TREATMENT5_24H_REP1|**||**||**|test_GSE54347_TREATMENT5_24H
-#&gt; 111            43_WATER_24H_REP1|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 112          23_ADJ_48H_REP2|**||**||**|test_GSE54347_ADJUVANT_48H
-#&gt; 113            22_WATER_48H_REP2|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 114 62_TREATMENT4_24H_REP2|**||**||**|test_GSE54347_TREATMENT4_24H
-#&gt; 115 24_TREATMENT1_48H_REP2|**||**||**|test_GSE54347_TREATMENT1_48H
-#&gt; 116            22_WATER_48H_REP2|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 117 75_TREATMENT3_24H_REP3|**||**||**|test_GSE54347_TREATMENT3_24H
-#&gt; 118            57_WATER_24H_REP2|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 119            71_WATER_24H_REP3|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 120 45_TREATMENT1_24H_REP1|**||**||**|test_GSE54347_TREATMENT1_24H
-#&gt; 121            43_WATER_24H_REP1|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 122 46_TREATMENT2_24H_REP1|**||**||**|test_GSE54347_TREATMENT2_24H
-#&gt; 123            43_WATER_24H_REP1|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 124            36_WATER_48H_REP3|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 125 10_TREATMENT1_48H_REP1|**||**||**|test_GSE54347_TREATMENT1_48H
-#&gt; 126             8_WATER_48H_REP1|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 127 40_TREATMENT3_48H_REP3|**||**||**|test_GSE54347_TREATMENT3_48H
-#&gt; 128            57_WATER_24H_REP2|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 129 63_TREATMENT5_24H_REP2|**||**||**|test_GSE54347_TREATMENT5_24H
-#&gt; 130            57_WATER_24H_REP2|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 131            57_WATER_24H_REP2|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 132            57_WATER_24H_REP2|**||**||**|ref_GSE54347_WATER_24H
-#&gt; 133 11_TREATMENT2_48H_REP1|**||**||**|test_GSE54347_TREATMENT2_48H
-#&gt; 134             8_WATER_48H_REP1|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 135 59_TREATMENT1_24H_REP2|**||**||**|test_GSE54347_TREATMENT1_24H
-#&gt; 136             8_WATER_48H_REP1|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 137 12_TREATMENT3_48H_REP1|**||**||**|test_GSE54347_TREATMENT3_48H
-#&gt; 138            22_WATER_48H_REP2|**||**||**|ref_GSE54347_WATER_48H
-#&gt; 139 25_TREATMENT2_48H_REP2|**||**||**|test_GSE54347_TREATMENT2_48H
-#&gt; 140 49_TREATMENT5_24H_REP1|**||**||**|test_GSE54347_TREATMENT5_24H</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>get_samples_by_gse</span>(<span class='kw'>experimentAccessId</span> <span class='kw'>=</span> <span class='st'>"GSE98923"</span>)</div><div class='output co'>#&gt;                 sampleId     sampleName
+#&gt; 1   U2FtcGxlVHlwZTozMTc1 GSM2627764.ch1
+#&gt; 2   U2FtcGxlVHlwZTozMTc2 GSM2627788.ch1
+#&gt; 3   U2FtcGxlVHlwZTozMTc3 GSM2627883.ch1
+#&gt; 4   U2FtcGxlVHlwZTozMTc4 GSM2627736.ch1
+#&gt; 5   U2FtcGxlVHlwZTozMTc5 GSM2627904.ch1
+#&gt; 6   U2FtcGxlVHlwZTozMTgw GSM2627903.ch1
+#&gt; 7   U2FtcGxlVHlwZTozMTgx GSM2627906.ch1
+#&gt; 8   U2FtcGxlVHlwZTozMTgy GSM2627794.ch1
+#&gt; 9   U2FtcGxlVHlwZTozMTgz GSM2627908.ch1
+#&gt; 10  U2FtcGxlVHlwZTozMTg0 GSM2627762.ch1
+#&gt; 11  U2FtcGxlVHlwZTozMTg1 GSM2627807.ch1
+#&gt; 12  U2FtcGxlVHlwZTozMTg2 GSM2627765.ch1
+#&gt; 13  U2FtcGxlVHlwZTozMTg3 GSM2627896.ch1
+#&gt; 14  U2FtcGxlVHlwZTozMTg4 GSM2627715.ch1
+#&gt; 15  U2FtcGxlVHlwZTozMTg5 GSM2627916.ch1
+#&gt; 16  U2FtcGxlVHlwZTozMTkw GSM2627820.ch1
+#&gt; 17  U2FtcGxlVHlwZTozMTkx GSM2627800.ch1
+#&gt; 18  U2FtcGxlVHlwZTozMTEz GSM2627833.ch1
+#&gt; 19  U2FtcGxlVHlwZTozMTE0 GSM2627874.ch1
+#&gt; 20  U2FtcGxlVHlwZTozMTE1 GSM2627739.ch1
+#&gt; 21  U2FtcGxlVHlwZTozMTE2 GSM2627850.ch1
+#&gt; 22  U2FtcGxlVHlwZTozMTE3 GSM2627721.ch1
+#&gt; 23  U2FtcGxlVHlwZTozMTE4 GSM2627840.ch1
+#&gt; 24  U2FtcGxlVHlwZTozMTE5 GSM2627872.ch1
+#&gt; 25  U2FtcGxlVHlwZTozMTIw GSM2627772.ch1
+#&gt; 26  U2FtcGxlVHlwZTozMTIx GSM2627812.ch1
+#&gt; 27  U2FtcGxlVHlwZTozMTIy GSM2627875.ch1
+#&gt; 28  U2FtcGxlVHlwZTozMTIz GSM2627701.ch1
+#&gt; 29  U2FtcGxlVHlwZTozMTI0 GSM2627808.ch1
+#&gt; 30  U2FtcGxlVHlwZTozMTI1 GSM2627823.ch1
+#&gt; 31  U2FtcGxlVHlwZTozMTI2 GSM2627848.ch1
+#&gt; 32  U2FtcGxlVHlwZTozMTI3 GSM2627697.ch1
+#&gt; 33  U2FtcGxlVHlwZTozMTI4 GSM2627898.ch1
+#&gt; 34  U2FtcGxlVHlwZTozMTI5 GSM2627822.ch1
+#&gt; 35  U2FtcGxlVHlwZTozMTMw GSM2627920.ch1
+#&gt; 36  U2FtcGxlVHlwZTozMTMx GSM2627871.ch1
+#&gt; 37  U2FtcGxlVHlwZTozMTMy GSM2627806.ch1
+#&gt; 38  U2FtcGxlVHlwZTozMTMz GSM2627733.ch1
+#&gt; 39  U2FtcGxlVHlwZTozMTM0 GSM2627734.ch1
+#&gt; 40  U2FtcGxlVHlwZTozMTM1 GSM2627731.ch1
+#&gt; 41  U2FtcGxlVHlwZTozMTM2 GSM2627713.ch1
+#&gt; 42  U2FtcGxlVHlwZTozMTM3 GSM2627909.ch1
+#&gt; 43  U2FtcGxlVHlwZTozMTM4 GSM2627756.ch1
+#&gt; 44  U2FtcGxlVHlwZTozMTM5 GSM2627766.ch1
+#&gt; 45  U2FtcGxlVHlwZTozMTQw GSM2627825.ch1
+#&gt; 46  U2FtcGxlVHlwZTozMTQx GSM2627879.ch1
+#&gt; 47  U2FtcGxlVHlwZTozMTQy GSM2627914.ch1
+#&gt; 48  U2FtcGxlVHlwZTozMTQz GSM2627717.ch1
+#&gt; 49  U2FtcGxlVHlwZTozMTQ0 GSM2627691.ch1
+#&gt; 50  U2FtcGxlVHlwZTozMTQ1 GSM2627786.ch1
+#&gt; 51  U2FtcGxlVHlwZTozMTQ2 GSM2627785.ch1
+#&gt; 52  U2FtcGxlVHlwZTozMTQ3 GSM2627870.ch1
+#&gt; 53  U2FtcGxlVHlwZTozMTQ4 GSM2627859.ch1
+#&gt; 54  U2FtcGxlVHlwZTozMTQ5 GSM2627809.ch1
+#&gt; 55  U2FtcGxlVHlwZTozMTUw GSM2627864.ch1
+#&gt; 56  U2FtcGxlVHlwZTozMTUx GSM2627843.ch1
+#&gt; 57  U2FtcGxlVHlwZTozMTUy GSM2627743.ch1
+#&gt; 58  U2FtcGxlVHlwZTozMTUz GSM2627910.ch1
+#&gt; 59  U2FtcGxlVHlwZTozMTU0 GSM2627818.ch1
+#&gt; 60  U2FtcGxlVHlwZTozMTU1 GSM2627831.ch1
+#&gt; 61  U2FtcGxlVHlwZTozMTU2 GSM2627771.ch1
+#&gt; 62  U2FtcGxlVHlwZTozMTU3 GSM2627695.ch1
+#&gt; 63  U2FtcGxlVHlwZTozMTU4 GSM2627742.ch1
+#&gt; 64  U2FtcGxlVHlwZTozMTU5 GSM2627811.ch1
+#&gt; 65  U2FtcGxlVHlwZTozMTYw GSM2627727.ch1
+#&gt; 66  U2FtcGxlVHlwZTozMTYx GSM2627781.ch1
+#&gt; 67  U2FtcGxlVHlwZTozMTYy GSM2627921.ch1
+#&gt; 68  U2FtcGxlVHlwZTozMTYz GSM2627774.ch1
+#&gt; 69  U2FtcGxlVHlwZTozMTY0 GSM2627836.ch1
+#&gt; 70  U2FtcGxlVHlwZTozMTY1 GSM2627884.ch1
+#&gt; 71  U2FtcGxlVHlwZTozMTY2 GSM2627907.ch1
+#&gt; 72  U2FtcGxlVHlwZTozMTY3 GSM2627858.ch1
+#&gt; 73  U2FtcGxlVHlwZTozMTY4 GSM2627754.ch1
+#&gt; 74  U2FtcGxlVHlwZTozMTY5 GSM2627827.ch1
+#&gt; 75  U2FtcGxlVHlwZTozMTcw GSM2627915.ch1
+#&gt; 76  U2FtcGxlVHlwZTozMTcx GSM2627795.ch1
+#&gt; 77  U2FtcGxlVHlwZTozMTcy GSM2627824.ch1
+#&gt; 78  U2FtcGxlVHlwZTozMTcz GSM2627799.ch1
+#&gt; 79  U2FtcGxlVHlwZTozMTc0 GSM2627745.ch1
+#&gt; 80  U2FtcGxlVHlwZTozMTky GSM2627867.ch1
+#&gt; 81  U2FtcGxlVHlwZTozMTkz GSM2627767.ch1
+#&gt; 82  U2FtcGxlVHlwZTozMTk0 GSM2627793.ch1
+#&gt; 83  U2FtcGxlVHlwZTozMTk1 GSM2627853.ch1
+#&gt; 84  U2FtcGxlVHlwZTozMTk2 GSM2627893.ch1
+#&gt; 85  U2FtcGxlVHlwZTozMTk3 GSM2627861.ch1
+#&gt; 86  U2FtcGxlVHlwZTozMTk4 GSM2627888.ch1
+#&gt; 87  U2FtcGxlVHlwZTozMTk5 GSM2627878.ch1
+#&gt; 88  U2FtcGxlVHlwZTozMjAw GSM2627902.ch1
+#&gt; 89  U2FtcGxlVHlwZTozMjAx GSM2627856.ch1
+#&gt; 90  U2FtcGxlVHlwZTozMjAy GSM2627854.ch1
+#&gt; 91  U2FtcGxlVHlwZTozMjAz GSM2627730.ch1
+#&gt; 92  U2FtcGxlVHlwZTozMjA0 GSM2627814.ch1
+#&gt; 93  U2FtcGxlVHlwZTozMjA1 GSM2627846.ch1
+#&gt; 94  U2FtcGxlVHlwZTozMjA2 GSM2627865.ch1
+#&gt; 95  U2FtcGxlVHlwZTozMjA3 GSM2627813.ch1
+#&gt; 96  U2FtcGxlVHlwZTozMjA4 GSM2627693.ch1
+#&gt; 97  U2FtcGxlVHlwZTozMjA5 GSM2627735.ch1
+#&gt; 98  U2FtcGxlVHlwZTozMjEw GSM2627725.ch1
+#&gt; 99  U2FtcGxlVHlwZTozMjEx GSM2627783.ch1
+#&gt; 100 U2FtcGxlVHlwZTozMjEy GSM2627757.ch1
+#&gt; 101 U2FtcGxlVHlwZTozMjEz GSM2627918.ch1
+#&gt; 102 U2FtcGxlVHlwZTozMjE0 GSM2627724.ch1
+#&gt; 103 U2FtcGxlVHlwZTozMjE1 GSM2627885.ch1
+#&gt; 104 U2FtcGxlVHlwZTozMjE2 GSM2627882.ch1
+#&gt; 105 U2FtcGxlVHlwZTozMjE3 GSM2627744.ch1
+#&gt; 106 U2FtcGxlVHlwZTozMjE4 GSM2627905.ch1
+#&gt; 107 U2FtcGxlVHlwZTozMjE5 GSM2627889.ch1
+#&gt; 108 U2FtcGxlVHlwZTozMjIw GSM2627726.ch1
+#&gt; 109 U2FtcGxlVHlwZTozMjIx GSM2627817.ch1
+#&gt; 110 U2FtcGxlVHlwZTozMjIy GSM2627838.ch1
+#&gt; 111 U2FtcGxlVHlwZTozMjIz GSM2627763.ch1
+#&gt; 112 U2FtcGxlVHlwZTozMjI0 GSM2627775.ch1
+#&gt; 113 U2FtcGxlVHlwZTozMjI1 GSM2627703.ch1
+#&gt; 114 U2FtcGxlVHlwZTozMjI2 GSM2627752.ch1
+#&gt; 115 U2FtcGxlVHlwZTozMjI3 GSM2627784.ch1
+#&gt; 116 U2FtcGxlVHlwZTozMjI4 GSM2627826.ch1
+#&gt; 117 U2FtcGxlVHlwZTozMjI5 GSM2627839.ch1
+#&gt; 118 U2FtcGxlVHlwZTozMjMw GSM2627791.ch1
+#&gt; 119 U2FtcGxlVHlwZTozMjMx GSM2627792.ch1
+#&gt; 120 U2FtcGxlVHlwZTozMjMy GSM2627821.ch1
+#&gt; 121 U2FtcGxlVHlwZTozMjMz GSM2627863.ch1
+#&gt; 122 U2FtcGxlVHlwZTozMjM0 GSM2627723.ch1
+#&gt; 123 U2FtcGxlVHlwZTozMjM1 GSM2627707.ch1
+#&gt; 124 U2FtcGxlVHlwZTozMjM2 GSM2627876.ch1
+#&gt; 125 U2FtcGxlVHlwZTozMjM3 GSM2627789.ch1
+#&gt; 126 U2FtcGxlVHlwZTozMjM4 GSM2627801.ch1
+#&gt; 127 U2FtcGxlVHlwZTozMjM5 GSM2627748.ch1
+#&gt; 128 U2FtcGxlVHlwZTozMjQw GSM2627899.ch1
+#&gt; 129 U2FtcGxlVHlwZTozMjQx GSM2627778.ch1
+#&gt; 130 U2FtcGxlVHlwZTozMjQy GSM2627890.ch1
+#&gt; 131 U2FtcGxlVHlwZTozMjQz GSM2627773.ch1
+#&gt; 132 U2FtcGxlVHlwZTozMjQ0 GSM2627796.ch1
+#&gt; 133 U2FtcGxlVHlwZTozMjQ1 GSM2627841.ch1
+#&gt; 134 U2FtcGxlVHlwZTozMjQ2 GSM2627869.ch1
+#&gt; 135 U2FtcGxlVHlwZTozMjQ3 GSM2627835.ch1
+#&gt; 136 U2FtcGxlVHlwZTozMjQ4 GSM2627758.ch1
+#&gt; 137 U2FtcGxlVHlwZTozMjQ5 GSM2627844.ch1
+#&gt; 138 U2FtcGxlVHlwZTozMjUw GSM2627819.ch1
+#&gt; 139 U2FtcGxlVHlwZTozMjUx GSM2627847.ch1
+#&gt; 140 U2FtcGxlVHlwZTozMjUy GSM2627761.ch1
+#&gt; 141 U2FtcGxlVHlwZTozMjUz GSM2627852.ch1
+#&gt; 142 U2FtcGxlVHlwZTozMjU0 GSM2627912.ch1
+#&gt; 143 U2FtcGxlVHlwZTozMjU1 GSM2627830.ch1
+#&gt; 144 U2FtcGxlVHlwZTozMjU2 GSM2627851.ch1
+#&gt; 145 U2FtcGxlVHlwZTozMjU3 GSM2627832.ch1
+#&gt; 146 U2FtcGxlVHlwZTozMjU4 GSM2627777.ch1
+#&gt; 147 U2FtcGxlVHlwZTozMjU5 GSM2627692.ch1
+#&gt; 148 U2FtcGxlVHlwZTozMjYw GSM2627828.ch1
+#&gt; 149 U2FtcGxlVHlwZTozMjYx GSM2627880.ch1
+#&gt; 150 U2FtcGxlVHlwZTozMjYy GSM2627917.ch1
+#&gt; 151 U2FtcGxlVHlwZTozMjYz GSM2627892.ch1
+#&gt; 152 U2FtcGxlVHlwZTozMjY0 GSM2627816.ch1
+#&gt; 153 U2FtcGxlVHlwZTozMjY1 GSM2627798.ch1
+#&gt; 154 U2FtcGxlVHlwZTozMjY2 GSM2627895.ch1
+#&gt; 155 U2FtcGxlVHlwZTozMjY3 GSM2627776.ch1
+#&gt; 156 U2FtcGxlVHlwZTozMjY4 GSM2627881.ch1
+#&gt; 157 U2FtcGxlVHlwZTozMjY5 GSM2627842.ch1
+#&gt; 158 U2FtcGxlVHlwZTozMjcw GSM2627722.ch1
+#&gt; 159 U2FtcGxlVHlwZTozMjcx GSM2627760.ch1
+#&gt; 160 U2FtcGxlVHlwZTozMjcy GSM2627855.ch1
+#&gt; 161 U2FtcGxlVHlwZTozMjcz GSM2627894.ch1
+#&gt; 162 U2FtcGxlVHlwZTozMjc0 GSM2627749.ch1
+#&gt; 163 U2FtcGxlVHlwZTozMjc1 GSM2627753.ch1
+#&gt; 164 U2FtcGxlVHlwZTozMjc2 GSM2627719.ch1
+#&gt; 165 U2FtcGxlVHlwZTozMjc3 GSM2627738.ch1
+#&gt; 166 U2FtcGxlVHlwZTozMjc4 GSM2627790.ch1
+#&gt; 167 U2FtcGxlVHlwZTozMjc5 GSM2627747.ch1
+#&gt; 168 U2FtcGxlVHlwZTozMjgw GSM2627705.ch1
+#&gt; 169 U2FtcGxlVHlwZTozMjgx GSM2627911.ch1
+#&gt; 170 U2FtcGxlVHlwZTozMjgy GSM2627901.ch1
+#&gt; 171 U2FtcGxlVHlwZTozMjgz GSM2627698.ch1
+#&gt; 172 U2FtcGxlVHlwZTozMjg0 GSM2627868.ch1
+#&gt; 173 U2FtcGxlVHlwZTozMjg1 GSM2627797.ch1
+#&gt; 174 U2FtcGxlVHlwZTozMjg2 GSM2627694.ch1
+#&gt; 175 U2FtcGxlVHlwZTozMjg3 GSM2627886.ch1
+#&gt; 176 U2FtcGxlVHlwZTozMjg4 GSM2627803.ch1
+#&gt; 177 U2FtcGxlVHlwZTozMjg5 GSM2627728.ch1
+#&gt; 178 U2FtcGxlVHlwZTozMjkw GSM2627860.ch1
+#&gt; 179 U2FtcGxlVHlwZTozMjkx GSM2627804.ch1
+#&gt; 180 U2FtcGxlVHlwZTozMjky GSM2627913.ch1
+#&gt; 181 U2FtcGxlVHlwZTozMjkz GSM2627877.ch1
+#&gt; 182 U2FtcGxlVHlwZTozMjk0 GSM2627740.ch1
+#&gt; 183 U2FtcGxlVHlwZTozMjk1 GSM2627897.ch1
+#&gt; 184 U2FtcGxlVHlwZTozMjk2 GSM2627849.ch1
+#&gt; 185 U2FtcGxlVHlwZTozMjk3 GSM2627699.ch1
+#&gt; 186 U2FtcGxlVHlwZTozMjk4 GSM2627802.ch1
+#&gt; 187 U2FtcGxlVHlwZTozMjk5 GSM2627729.ch1
+#&gt; 188 U2FtcGxlVHlwZTozMzAw GSM2627737.ch1
+#&gt; 189 U2FtcGxlVHlwZTozMzAx GSM2627759.ch1
+#&gt; 190 U2FtcGxlVHlwZTozMzAy GSM2627755.ch1
+#&gt; 191 U2FtcGxlVHlwZTozMzAz GSM2627770.ch1
+#&gt; 192 U2FtcGxlVHlwZTozMzA0 GSM2627845.ch1
+#&gt; 193 U2FtcGxlVHlwZTozMzA1 GSM2627787.ch1
+#&gt; 194 U2FtcGxlVHlwZTozMzA2 GSM2627732.ch1
+#&gt; 195 U2FtcGxlVHlwZTozMzA3 GSM2627711.ch1
+#&gt; 196 U2FtcGxlVHlwZTozMzA4 GSM2627805.ch1
+#&gt; 197 U2FtcGxlVHlwZTozMzA5 GSM2627866.ch1
+#&gt; 198 U2FtcGxlVHlwZTozMzEw GSM2627834.ch1
+#&gt; 199 U2FtcGxlVHlwZTozMzEx GSM2627782.ch1
+#&gt; 200 U2FtcGxlVHlwZTozMzEy GSM2627837.ch1
+#&gt; 201 U2FtcGxlVHlwZTozMzEz GSM2627780.ch1
+#&gt; 202 U2FtcGxlVHlwZTozMzE0 GSM2627891.ch1
+#&gt; 203 U2FtcGxlVHlwZTozMzE1 GSM2627919.ch1
+#&gt; 204 U2FtcGxlVHlwZTozMzE2 GSM2627751.ch1
+#&gt; 205 U2FtcGxlVHlwZTozMzE3 GSM2627873.ch1
+#&gt; 206 U2FtcGxlVHlwZTozMzE4 GSM2627829.ch1
+#&gt; 207 U2FtcGxlVHlwZTozMzE5 GSM2627900.ch1
+#&gt; 208 U2FtcGxlVHlwZTozMzIw GSM2627779.ch1
+#&gt; 209 U2FtcGxlVHlwZTozMzIx GSM2627769.ch1
+#&gt; 210 U2FtcGxlVHlwZTozMzIy GSM2627857.ch1
+#&gt; 211 U2FtcGxlVHlwZTozMzIz GSM2627709.ch1
+#&gt; 212 U2FtcGxlVHlwZTozMzI0 GSM2627862.ch1
+#&gt; 213 U2FtcGxlVHlwZTozMzI1 GSM2627815.ch1
+#&gt; 214 U2FtcGxlVHlwZTozMzI2 GSM2627810.ch1
+#&gt; 215 U2FtcGxlVHlwZTozMzI3 GSM2627750.ch1
+#&gt; 216 U2FtcGxlVHlwZTozMzI4 GSM2627768.ch1
+#&gt; 217 U2FtcGxlVHlwZTozMzI5 GSM2627746.ch1
+#&gt; 218 U2FtcGxlVHlwZTozMzMw GSM2627741.ch1
+#&gt; 219 U2FtcGxlVHlwZTozMzMx GSM2627887.ch1
+#&gt;                                sampleDescription
+#&gt; 1               grape berry pericarp|**||**||**|
+#&gt; 2               grape berry pericarp|**||**||**|
+#&gt; 3               grape berry pericarp|**||**||**|
+#&gt; 4               grape berry pericarp|**||**||**|
+#&gt; 5               grape berry pericarp|**||**||**|
+#&gt; 6               grape berry pericarp|**||**||**|
+#&gt; 7               grape berry pericarp|**||**||**|
+#&gt; 8               grape berry pericarp|**||**||**|
+#&gt; 9               grape berry pericarp|**||**||**|
+#&gt; 10              grape berry pericarp|**||**||**|
+#&gt; 11              grape berry pericarp|**||**||**|
+#&gt; 12              grape berry pericarp|**||**||**|
+#&gt; 13              grape berry pericarp|**||**||**|
+#&gt; 14              grape berry pericarp|**||**||**|
+#&gt; 15              grape berry pericarp|**||**||**|
+#&gt; 16              grape berry pericarp|**||**||**|
+#&gt; 17              grape berry pericarp|**||**||**|
+#&gt; 18              grape berry pericarp|**||**||**|
+#&gt; 19              grape berry pericarp|**||**||**|
+#&gt; 20              grape berry pericarp|**||**||**|
+#&gt; 21              grape berry pericarp|**||**||**|
+#&gt; 22              grape berry pericarp|**||**||**|
+#&gt; 23              grape berry pericarp|**||**||**|
+#&gt; 24              grape berry pericarp|**||**||**|
+#&gt; 25              grape berry pericarp|**||**||**|
+#&gt; 26              grape berry pericarp|**||**||**|
+#&gt; 27              grape berry pericarp|**||**||**|
+#&gt; 28              grape berry pericarp|**||**||**|
+#&gt; 29              grape berry pericarp|**||**||**|
+#&gt; 30  grape berry pericarp|**||**||**|ref_GSE98923
+#&gt; 31              grape berry pericarp|**||**||**|
+#&gt; 32              grape berry pericarp|**||**||**|
+#&gt; 33              grape berry pericarp|**||**||**|
+#&gt; 34              grape berry pericarp|**||**||**|
+#&gt; 35              grape berry pericarp|**||**||**|
+#&gt; 36              grape berry pericarp|**||**||**|
+#&gt; 37              grape berry pericarp|**||**||**|
+#&gt; 38              grape berry pericarp|**||**||**|
+#&gt; 39              grape berry pericarp|**||**||**|
+#&gt; 40              grape berry pericarp|**||**||**|
+#&gt; 41              grape berry pericarp|**||**||**|
+#&gt; 42              grape berry pericarp|**||**||**|
+#&gt; 43              grape berry pericarp|**||**||**|
+#&gt; 44              grape berry pericarp|**||**||**|
+#&gt; 45              grape berry pericarp|**||**||**|
+#&gt; 46              grape berry pericarp|**||**||**|
+#&gt; 47              grape berry pericarp|**||**||**|
+#&gt; 48              grape berry pericarp|**||**||**|
+#&gt; 49  grape berry pericarp|**||**||**|ref_GSE98923
+#&gt; 50              grape berry pericarp|**||**||**|
+#&gt; 51              grape berry pericarp|**||**||**|
+#&gt; 52              grape berry pericarp|**||**||**|
+#&gt; 53              grape berry pericarp|**||**||**|
+#&gt; 54              grape berry pericarp|**||**||**|
+#&gt; 55              grape berry pericarp|**||**||**|
+#&gt; 56              grape berry pericarp|**||**||**|
+#&gt; 57              grape berry pericarp|**||**||**|
+#&gt; 58              grape berry pericarp|**||**||**|
+#&gt; 59              grape berry pericarp|**||**||**|
+#&gt; 60              grape berry pericarp|**||**||**|
+#&gt; 61              grape berry pericarp|**||**||**|
+#&gt; 62              grape berry pericarp|**||**||**|
+#&gt; 63  grape berry pericarp|**||**||**|ref_GSE98923
+#&gt; 64              grape berry pericarp|**||**||**|
+#&gt; 65              grape berry pericarp|**||**||**|
+#&gt; 66              grape berry pericarp|**||**||**|
+#&gt; 67              grape berry pericarp|**||**||**|
+#&gt; 68              grape berry pericarp|**||**||**|
+#&gt; 69              grape berry pericarp|**||**||**|
+#&gt; 70              grape berry pericarp|**||**||**|
+#&gt; 71              grape berry pericarp|**||**||**|
+#&gt; 72              grape berry pericarp|**||**||**|
+#&gt; 73              grape berry pericarp|**||**||**|
+#&gt; 74              grape berry pericarp|**||**||**|
+#&gt; 75              grape berry pericarp|**||**||**|
+#&gt; 76              grape berry pericarp|**||**||**|
+#&gt; 77              grape berry pericarp|**||**||**|
+#&gt; 78              grape berry pericarp|**||**||**|
+#&gt; 79              grape berry pericarp|**||**||**|
+#&gt; 80              grape berry pericarp|**||**||**|
+#&gt; 81              grape berry pericarp|**||**||**|
+#&gt; 82              grape berry pericarp|**||**||**|
+#&gt; 83  grape berry pericarp|**||**||**|ref_GSE98923
+#&gt; 84              grape berry pericarp|**||**||**|
+#&gt; 85              grape berry pericarp|**||**||**|
+#&gt; 86              grape berry pericarp|**||**||**|
+#&gt; 87              grape berry pericarp|**||**||**|
+#&gt; 88              grape berry pericarp|**||**||**|
+#&gt; 89              grape berry pericarp|**||**||**|
+#&gt; 90              grape berry pericarp|**||**||**|
+#&gt; 91              grape berry pericarp|**||**||**|
+#&gt; 92              grape berry pericarp|**||**||**|
+#&gt; 93              grape berry pericarp|**||**||**|
+#&gt; 94              grape berry pericarp|**||**||**|
+#&gt; 95              grape berry pericarp|**||**||**|
+#&gt; 96              grape berry pericarp|**||**||**|
+#&gt; 97              grape berry pericarp|**||**||**|
+#&gt; 98              grape berry pericarp|**||**||**|
+#&gt; 99              grape berry pericarp|**||**||**|
+#&gt; 100             grape berry pericarp|**||**||**|
+#&gt; 101             grape berry pericarp|**||**||**|
+#&gt; 102             grape berry pericarp|**||**||**|
+#&gt; 103             grape berry pericarp|**||**||**|
+#&gt; 104             grape berry pericarp|**||**||**|
+#&gt; 105             grape berry pericarp|**||**||**|
+#&gt; 106             grape berry pericarp|**||**||**|
+#&gt; 107             grape berry pericarp|**||**||**|
+#&gt; 108             grape berry pericarp|**||**||**|
+#&gt; 109             grape berry pericarp|**||**||**|
+#&gt; 110             grape berry pericarp|**||**||**|
+#&gt; 111             grape berry pericarp|**||**||**|
+#&gt; 112             grape berry pericarp|**||**||**|
+#&gt; 113             grape berry pericarp|**||**||**|
+#&gt; 114             grape berry pericarp|**||**||**|
+#&gt; 115 grape berry pericarp|**||**||**|ref_GSE98923
+#&gt; 116             grape berry pericarp|**||**||**|
+#&gt; 117             grape berry pericarp|**||**||**|
+#&gt; 118             grape berry pericarp|**||**||**|
+#&gt; 119             grape berry pericarp|**||**||**|
+#&gt; 120             grape berry pericarp|**||**||**|
+#&gt; 121             grape berry pericarp|**||**||**|
+#&gt; 122             grape berry pericarp|**||**||**|
+#&gt; 123             grape berry pericarp|**||**||**|
+#&gt; 124             grape berry pericarp|**||**||**|
+#&gt; 125             grape berry pericarp|**||**||**|
+#&gt; 126             grape berry pericarp|**||**||**|
+#&gt; 127             grape berry pericarp|**||**||**|
+#&gt; 128             grape berry pericarp|**||**||**|
+#&gt; 129             grape berry pericarp|**||**||**|
+#&gt; 130             grape berry pericarp|**||**||**|
+#&gt; 131             grape berry pericarp|**||**||**|
+#&gt; 132             grape berry pericarp|**||**||**|
+#&gt; 133             grape berry pericarp|**||**||**|
+#&gt; 134             grape berry pericarp|**||**||**|
+#&gt; 135             grape berry pericarp|**||**||**|
+#&gt; 136             grape berry pericarp|**||**||**|
+#&gt; 137             grape berry pericarp|**||**||**|
+#&gt; 138             grape berry pericarp|**||**||**|
+#&gt; 139             grape berry pericarp|**||**||**|
+#&gt; 140             grape berry pericarp|**||**||**|
+#&gt; 141             grape berry pericarp|**||**||**|
+#&gt; 142             grape berry pericarp|**||**||**|
+#&gt; 143             grape berry pericarp|**||**||**|
+#&gt; 144             grape berry pericarp|**||**||**|
+#&gt; 145             grape berry pericarp|**||**||**|
+#&gt; 146             grape berry pericarp|**||**||**|
+#&gt; 147             grape berry pericarp|**||**||**|
+#&gt; 148             grape berry pericarp|**||**||**|
+#&gt; 149             grape berry pericarp|**||**||**|
+#&gt; 150             grape berry pericarp|**||**||**|
+#&gt; 151             grape berry pericarp|**||**||**|
+#&gt; 152             grape berry pericarp|**||**||**|
+#&gt; 153             grape berry pericarp|**||**||**|
+#&gt; 154             grape berry pericarp|**||**||**|
+#&gt; 155             grape berry pericarp|**||**||**|
+#&gt; 156             grape berry pericarp|**||**||**|
+#&gt; 157             grape berry pericarp|**||**||**|
+#&gt; 158             grape berry pericarp|**||**||**|
+#&gt; 159             grape berry pericarp|**||**||**|
+#&gt; 160             grape berry pericarp|**||**||**|
+#&gt; 161             grape berry pericarp|**||**||**|
+#&gt; 162             grape berry pericarp|**||**||**|
+#&gt; 163             grape berry pericarp|**||**||**|
+#&gt; 164             grape berry pericarp|**||**||**|
+#&gt; 165             grape berry pericarp|**||**||**|
+#&gt; 166             grape berry pericarp|**||**||**|
+#&gt; 167             grape berry pericarp|**||**||**|
+#&gt; 168             grape berry pericarp|**||**||**|
+#&gt; 169             grape berry pericarp|**||**||**|
+#&gt; 170             grape berry pericarp|**||**||**|
+#&gt; 171             grape berry pericarp|**||**||**|
+#&gt; 172             grape berry pericarp|**||**||**|
+#&gt; 173             grape berry pericarp|**||**||**|
+#&gt; 174             grape berry pericarp|**||**||**|
+#&gt; 175 grape berry pericarp|**||**||**|ref_GSE98923
+#&gt; 176             grape berry pericarp|**||**||**|
+#&gt; 177             grape berry pericarp|**||**||**|
+#&gt; 178             grape berry pericarp|**||**||**|
+#&gt; 179             grape berry pericarp|**||**||**|
+#&gt; 180             grape berry pericarp|**||**||**|
+#&gt; 181             grape berry pericarp|**||**||**|
+#&gt; 182             grape berry pericarp|**||**||**|
+#&gt; 183             grape berry pericarp|**||**||**|
+#&gt; 184             grape berry pericarp|**||**||**|
+#&gt; 185             grape berry pericarp|**||**||**|
+#&gt; 186             grape berry pericarp|**||**||**|
+#&gt; 187             grape berry pericarp|**||**||**|
+#&gt; 188             grape berry pericarp|**||**||**|
+#&gt; 189             grape berry pericarp|**||**||**|
+#&gt; 190             grape berry pericarp|**||**||**|
+#&gt; 191             grape berry pericarp|**||**||**|
+#&gt; 192             grape berry pericarp|**||**||**|
+#&gt; 193             grape berry pericarp|**||**||**|
+#&gt; 194             grape berry pericarp|**||**||**|
+#&gt; 195             grape berry pericarp|**||**||**|
+#&gt; 196             grape berry pericarp|**||**||**|
+#&gt; 197             grape berry pericarp|**||**||**|
+#&gt; 198             grape berry pericarp|**||**||**|
+#&gt; 199             grape berry pericarp|**||**||**|
+#&gt; 200             grape berry pericarp|**||**||**|
+#&gt; 201             grape berry pericarp|**||**||**|
+#&gt; 202             grape berry pericarp|**||**||**|
+#&gt; 203             grape berry pericarp|**||**||**|
+#&gt; 204             grape berry pericarp|**||**||**|
+#&gt; 205             grape berry pericarp|**||**||**|
+#&gt; 206             grape berry pericarp|**||**||**|
+#&gt; 207             grape berry pericarp|**||**||**|
+#&gt; 208             grape berry pericarp|**||**||**|
+#&gt; 209             grape berry pericarp|**||**||**|
+#&gt; 210             grape berry pericarp|**||**||**|
+#&gt; 211             grape berry pericarp|**||**||**|
+#&gt; 212             grape berry pericarp|**||**||**|
+#&gt; 213             grape berry pericarp|**||**||**|
+#&gt; 214             grape berry pericarp|**||**||**|
+#&gt; 215             grape berry pericarp|**||**||**|
+#&gt; 216             grape berry pericarp|**||**||**|
+#&gt; 217             grape berry pericarp|**||**||**|
+#&gt; 218             grape berry pericarp|**||**||**|
+#&gt; 219             grape berry pericarp|**||**||**|</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

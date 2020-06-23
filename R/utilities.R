@@ -1,8 +1,8 @@
 #' build_query
 #'
-#' @param query a string, the graphql query
+#' @param query A string, the GraphQL query
 #'
-#' @return a list
+#' @return A list
 #' @export
 #'
 #' @examples
@@ -14,14 +14,6 @@
 #' }"
 #' build_query(my_query)
 build_query <- function(query){
-  qry <- ghql::Query$new()
-  qry$query('myquery', query)
-  con <- ghql::GraphqlClient$new(url="http://compass.fmach.it/graphql/")
-  jsonlite::fromJSON(con$exec(qry$queries$myquery),flatten = FALSE)$data
-}
-
-
-build_query2 <- function(query){
   qry <- ghql::Query$new()
   qry$query('myquery', query)
   con <- ghql::GraphqlClient$new(url="http://compass.fmach.it/graphql/")

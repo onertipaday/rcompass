@@ -6,24 +6,22 @@
 \usage{
 create_module(
   compendium = "vespucci",
+  version = "legacy",
   biofeaturesNames = NULL,
-  samplesetNames = NULL,
-  samplesetIds = c("U2FtcGxlU2V0VHlwZTo0OTY2", "U2FtcGxlU2V0VHlwZToyNDgy",
-    "U2FtcGxlU2V0VHlwZTo4NzQ="),
-  version = "legacy"
+  samplesetNames = NULL
 )
 }
 \arguments{
-\item{compendium}{string - the selected compendium}
+\item{compendium}{A string - the selected compendium}
 
-\item{biofeaturesNames}{a character vector (here gene_names)}
+\item{version}{A string ('legacy' as default)}
 
-\item{samplesetNames}{a character vector (here sampleset names)}
+\item{biofeaturesNames}{A character vector (gene_names)}
 
-\item{version}{string ('legacy' as default)}
+\item{samplesetNames}{A character vector (sampleset names)}
 }
 \value{
-a list with three data.frame
+A data.frame - the module
 }
 \description{
 create module providing both biological features and sample sets
@@ -31,8 +29,9 @@ create module providing both biological features and sample sets
 \examples{
 \dontrun{
 my_bf <- c("VIT_00s0332g00110","VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030")
-my_ss <- c("GSE27180_48hours-1-vs-GSE27180_0h-2","E-MTAB-1514.US_03_3.ch1-vs-E-MTAB-1514.US_03_1.ch1")
-my_mod <- create_module(biofeaturesNames=my_bf, samplesetNames=my_ss)
+my_ss <- c("GSM671720.ch1-vs-GSM671719.ch1","GSM671721.ch1-vs-GSM671719.ch1"
+,"GSM671722.ch1-vs-GSM671719.ch1","GSM147672.ch1-vs-GSM147690.ch1")
+my_mod <- create_module(biofeaturesNames = my_bf, samplesetNames = my_ss)
 pheatmap::pheatmap(my_mod, col = RColorBrewer::brewer.pal(11,name="RdBu"))
 # compare to vespucci:
 # url <- "http://vespucci.colombos.fmach.it/cws_data/export_data/colombos_20190828_nEwFDG.txt"

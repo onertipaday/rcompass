@@ -12,16 +12,16 @@ plot_heatmap(
 )
 }
 \arguments{
-\item{compendium}{string - the selected compendium}
+\item{compendium}{A string - the selected compendium}
 
-\item{version}{string ('legacy' as default)}
+\item{version}{A string ('legacy' as default)}
 
-\item{samplesetNames}{a character vector - the sampleSets names}
+\item{biofeaturesNames}{A character vector (here gene_names)}
 
-\item{biofeatureNames}{a character vector (here gene_names)}
+\item{samplesetNames}{A character vector - the sampleSets names}
 }
 \value{
-an html page with the heatmap
+An html page with the heatmap
 }
 \description{
 plot_heatmap

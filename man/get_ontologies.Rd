@@ -7,10 +7,10 @@
 get_ontologies(compendium = "vespucci")
 }
 \arguments{
-\item{compendium}{A string- the selected compendium}
+\item{compendium}{A string - the selected compendium}
 }
 \value{
-a data.frame
+A data.frame
 }
 \description{
 Get all ontologies for

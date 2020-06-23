@@ -12,23 +12,24 @@ create_module_bf(
 )
 }
 \arguments{
-\item{compendium}{string - the selected compendium}
+\item{compendium}{A string - the selected compendium}
 
-\item{biofeaturesNames}{a character vector (here gene_names)}
+\item{biofeaturesNames}{A character vector (gene_names)}
 
-\item{version}{string ('legacy' as default)}
+\item{version}{A string ('legacy' as default)}
 
-\item{rank}{string ('magnitude' as default)}
+\item{rank}{A string ('magnitude' as default)
+b}
 }
 \value{
-a data.frame
+A data.frame - the module
 }
 \description{
 create_module_bf
 }
 \examples{
-gene_names <- c("VIT_00s0246g00220","VIT_00s0332g00060","VIT_00s0332g00110","VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030","VIT_00s0505g00060","VIT_00s0873g00020","VIT_00s0904g00010")
-mod1 <- create_module_bf(biofeaturesNames=gene_names, version = "legacy")
-my_genes <- c("VIT_00s0332g00110","VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030")
-mod2 <- create_module_bf(biofeaturesNames=my_genes, version = "legacy")
+my_bf <- c("VIT_00s0246g00220","VIT_00s0332g00060","VIT_00s0332g00110"
+,"VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030","VIT_00s0505g00060"
+,"VIT_00s0873g00020","VIT_00s0904g00010")
+mod_bf <- create_module_bf(biofeaturesNames=my_bf, version = "legacy")
 }

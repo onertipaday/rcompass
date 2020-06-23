@@ -15,7 +15,7 @@ get_samplesets_ranking(
 )
 }
 \arguments{
-\item{compendium}{A string- the selected compendium}
+\item{compendium}{A string - the selected compendium}
 
 \item{version}{A string('legacy' as default)}
 
@@ -27,10 +27,10 @@ get_samplesets_ranking(
 
 \item{biofeaturesIds}{A vector of character strings - the biofeature ids}
 
-\item{top_n}{A numeric- an integer for selecting the top ranked samplesets}
+\item{top_n}{A numeric - an integer for selecting the top ranked samplesets}
 }
 \value{
-a data.frame with four character vectors (id,name,type,value)
+A data.frame with four character vectors (id,name,type,value)
 }
 \description{
 get_samplesets_ranking

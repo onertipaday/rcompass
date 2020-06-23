@@ -6,8 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get experiment Accessids and name
-use <code><a href='get_available_compendia.html'>get_available_compendia</a></code> to check all the available compendia — get_experiments • rcompass</title>
+<title>Get experiment Accessid and name — get_experiments • rcompass</title>
 
 
 <!-- jquery -->
@@ -40,10 +39,8 @@ use <code><a href='get_available_compendia.html'>get_available_compendia</a></co
 
 
 
-<meta property="og:title" content="Get experiment Accessids and name
-use <code><a href='get_available_compendia.html'>get_available_compendia</a></code> to check all the available compendia — get_experiments" />
-<meta property="og:description" content="Get experiment Accessids and name
-use get_available_compendia to check all the available compendia" />
+<meta property="og:title" content="Get experiment Accessid and name — get_experiments" />
+<meta property="og:description" content="use get_available_compendia to check all the available compendia" />
 
 
 
@@ -101,6 +98,9 @@ use get_available_compendia to check all the available compendia" />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/dashboard.html">rCOMPASS dashboard</a>
+    </li>
+    <li>
       <a href="../articles/usecase01.html">Use Case 01</a>
     </li>
   </ul>
@@ -126,15 +126,13 @@ use get_available_compendia to check all the available compendia" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get experiment Accessids and name
-use <code><a href='get_available_compendia.html'>get_available_compendia</a></code> to check all the available compendia</h1>
+    <h1>Get experiment Accessid and name</h1>
     <small class="dont-index">Source: <a href='https://github.com/onertipaday/rcompass/blob/master/R/queries.R'><code>R/queries.R</code></a></small>
     <div class="hidden name"><code>get_experiments.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get experiment Accessids and name
-use <code><a href='get_available_compendia.html'>get_available_compendia</a></code> to check all the available compendia</p>
+    <p>use <code><a href='get_available_compendia.html'>get_available_compendia</a></code> to check all the available compendia</p>
     </div>
 
     <pre class="usage"><span class='fu'>get_experiments</span>(<span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>, <span class='kw'>sampleName</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
@@ -144,18 +142,18 @@ use <code><a href='get_available_compendia.html'>get_available_compendia</a></co
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>compendium</th>
-      <td><p>A string- the selected compendium</p></td>
+      <td><p>A string - the selected compendium</p></td>
     </tr>
     <tr>
       <th>sampleName</th>
-      <td><p>A string- if NULL(default) returns all available experiments ids
+      <td><p>A string - if NULL(default) returns all available experiments ids
 for the selected compendium</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a data.frame with experimentAccessId and EsperimentName</p>
+    <p>A data.frame with experimentAccessId and esperimentName</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>get_experiments</span>()</div><div class='output co'>#&gt;     experimentAccessId

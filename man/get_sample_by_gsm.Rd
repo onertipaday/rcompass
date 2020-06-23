@@ -2,20 +2,20 @@
 % Please edit documentation in R/queries.R
 \name{get_sample_by_gsm}
 \alias{get_sample_by_gsm}
-\title{get_sample_by_gsm}
+\title{get samples id, name, description from sample id}
 \usage{
 get_sample_by_gsm(compendium = "vespucci", sampleName_Icontains = "GSM1313535")
 }
 \arguments{
-\item{compendium}{A string- the selected compendium}
+\item{compendium}{A string - the selected compendium}
 
-\item{sampleName_Icontains}{A string- GSM (GEO Sample access id)}
+\item{sampleName_Icontains}{A string - GSM (GEO Sample access id)}
 }
 \value{
-a data.frame with three columns: id, name, description
+A data.frame with three columns: sampleId, sampleName, sampleDescription
 }
 \description{
-get_sample_by_gsm
+get samples id, name, description from sample id
 }
 \examples{
 get_sample_by_gsm(sampleName_Icontains="GSM1313535")

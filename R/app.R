@@ -16,10 +16,10 @@ u <- shinyUI(pageWithSidebar(
 
 s <- shinyServer(function(input, output) {
 
-  output$oid1 <- renderPrint({
+  output$oid1 <- shiny::renderPrint({
     cat("Biofeatures:\n")
     # cat(input$term)
-    tmp <- getBiofeatureByAnnotationTerm(term=input$term)
+    tmp <- get_biofeature_by_name(name_In = input$term)
     cat(tmp)
   }
   )

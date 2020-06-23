@@ -7,27 +7,27 @@
 create_module_ss(
   compendium = "vespucci",
   samplesetNames = NULL,
-  samplesetIds = NULL,
   version = "legacy",
   rank = "uncentered_correlation"
 )
 }
 \arguments{
-\item{compendium}{string - the selected compendium}
+\item{compendium}{A string - the selected compendium}
 
-\item{samplesetNames}{a character vector - the sampleSets names}
+\item{samplesetNames}{A character vector (sampleset names)}
 
-\item{version}{string ('legacy' as default)}
+\item{version}{A string ('legacy' as default)}
 
-\item{rank}{string ('magnitude' as default) - use \code{\link{get_ranking}}}
+\item{rank}{A string ('magnitude' as default) - use \code{\link{get_ranking}}}
 }
 \value{
-a data.frame - the module
+A data.frame - the module
 }
 \description{
 create_module_ss
 }
 \examples{
-my_ss <- c("E-MTAB-1514.US_30_2.ch1-vs-E-MTAB-1514.US_03_1.ch1","E-MTAB-1514.US_03_3.ch1-vs-E-MTAB-1514.US_03_1.ch1")
+my_ss <- c("GSM671720.ch1-vs-GSM671719.ch1","GSM671721.ch1-vs-GSM671719.ch1"
+,"GSM671722.ch1-vs-GSM671719.ch1","GSM147672.ch1-vs-GSM147690.ch1")
 mod_ss <- create_module_ss(samplesetNames = my_ss)
 }

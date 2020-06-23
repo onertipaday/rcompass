@@ -7,9 +7,9 @@
 get_available_normalization(compendium = "vespucci", version = "latest")
 }
 \arguments{
-\item{compendium}{A string- the selected compendium}
+\item{compendium}{A string - the selected compendium}
 
-\item{version}{A string- either (default) 'latest' or '2.0'}
+\item{version}{A string - either (default) 'latest' or '2.0'}
 }
 \value{
 A vector of character strings with the available normalization methods
