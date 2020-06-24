@@ -2,8 +2,7 @@ pandoc: 2.7.3
 pkgdown: 1.5.1
 pkgdown_sha: ~
 articles:
-  dashboard: dashboard.html
   rcompass: rcompass.html
   usecase01: usecase01.html
-last_built: 2020-06-23T15:32Z
+last_built: 2020-06-24T10:33Z
 

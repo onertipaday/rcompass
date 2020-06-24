@@ -17,11 +17,11 @@ get_samplesets_ranking(
 \arguments{
 \item{compendium}{A string - the selected compendium}
 
-\item{version}{A string('legacy' as default)}
+\item{version}{A string ('legacy' as default)}
 
-\item{rankTarget}{A string('sampleset' as default)}
+\item{rankTarget}{A string ('sampleset' as default)}
 
-\item{rank}{A string('magnitude' as default)}
+\item{rank}{A string ('magnitude' as default)}
 
 \item{biofeaturesNames}{A vector of character strings (here gene_names)}
 
@@ -30,7 +30,7 @@ get_samplesets_ranking(
 \item{top_n}{A numeric - an integer for selecting the top ranked samplesets}
 }
 \value{
-A data.frame with four character vectors (id,name,type,value)
+A data.frame with three columns id, name, value
 }
 \description{
 get_samplesets_ranking

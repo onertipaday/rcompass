@@ -367,9 +367,6 @@ get_annotation_triples <- function(compendium = "vespucci",
     }
   }')
   as.character(build_query(my_query)$annotationPrettyPrint$rdfTriples)
-  #tmp <- as.data.frame(t(sapply(build_query(my_query)$annotationPrettyPrint$rdfTriples, unlist)))
-  # colnames(tmp) <-  c("locusTag","Type","alternative"); rownames(tmp) <-  NULL
-  #tmp
 }
 
 
@@ -590,7 +587,6 @@ get_biofeature_id <- function(compendium = "vespucci",
           }
         }
       }')
-    # tmp <- t(as.data.frame(sapply(build_query(my_query)$biofeatures$edges, unlist)))
     tmp <- t(sapply(build_query(my_query)$biofeatures$edges, unlist))
     colnames(tmp) <- c("id", "name", "description"); rownames(tmp) <- NULL
     as.data.frame(tmp)
@@ -653,14 +649,14 @@ get_ranking <- function(compendium = "vespucci"){
 #' get_samplesets_ranking
 #'
 #' @param compendium A string - the selected compendium
-#' @param rank A string('magnitude' as default)
-#' @param version A string('legacy' as default)
+#' @param rank A string ('magnitude' as default)
+#' @param version A string ('legacy' as default)
 #' @param biofeaturesNames A vector of character strings (here gene_names)
 #' @param biofeaturesIds A vector of character strings - the biofeature ids
 #' @param top_n A numeric - an integer for selecting the top ranked samplesets
-#' @param rankTarget A string('sampleset' as default)
+#' @param rankTarget A string ('sampleset' as default)
 #'
-#' @return A data.frame with four character vectors (id,name,type,value)
+#' @return A data.frame with three columns id, name, value
 #' @export
 #'
 #' @examples
@@ -690,7 +686,6 @@ get_samplesets_ranking <- function(compendium = "vespucci",
       value
       }
   }')
-  # as.data.frame(build_query(my_query)$ranking)[1:top_n,]
   as.data.frame(sapply(build_query(my_query)$ranking,unlist))[1:top_n,]
 }
 
@@ -698,31 +693,30 @@ get_samplesets_ranking <- function(compendium = "vespucci",
 #' get_biofeature_ranking()
 #'
 #' @param compendium A string - the selected compendium
-#' @param samplesetIds A vector of character strings (here gene_names)
 #' @param samplesetNames A vector of character strings (here sampleset names)
-#' @param version A string('legacy' as default)
-#' @param rank A string('magnitude' as default) - use \code{\link{get_ranking}}
-#' @param top_n A numeric- an integer for selecting the top ranked samplesets
-#' @param rankTarget A string('biofeature' as default)
-#' for the available values
+#' @param version A string ('legacy' as default)
+#' @param rank A string ('magnitude' as default) - use \code{\link{get_ranking}}
+#' @param top_n A numeric - an integer for selecting the top ranked samplesets
+#' @param rankTarget A string ('biofeature' as default)
 #'
-#' @return A data.frame with three character vectors (id, name, value)
+#' @return A data.frame with three columns id, name, value
 #' @export
 #'
 #' @examples
-#' junk <- get_biofeature_ranking(samplesetIds = c("U2FtcGxlU2V0VHlwZTo0OTY2",
-#' "U2FtcGxlU2V0VHlwZToyNDgy", "U2FtcGxlU2V0VHlwZTo4NzQ="), top_n = 10)
+#' my_ss <- c("GSM671720.ch1-vs-GSM671719.ch1","GSM671721.ch1-vs-GSM671719.ch1"
+#' ,"GSM671722.ch1-vs-GSM671719.ch1","GSM147672.ch1-vs-GSM147690.ch1")
+#' get_biofeature_ranking(samplesetNames = my_ss, top_n = 10)
+#'
 get_biofeature_ranking <- function(compendium = "vespucci",
-                                   samplesetIds = NULL,
+                                   # samplesetIds = NULL,
                                    samplesetNames = NULL,
                                    version = "legacy",
                                    rank = "uncentered_correlation",
                                    rankTarget = "biofeatures",
                                    top_n = 50){
-  if(is.null(samplesetNames) & is.null(samplesetIds)) stop("provide either samplesetNames XOR samplesetIds")
-  else if(is.null(samplesetIds)) {
-    samplesetIds <- get_biofeature_id(name_In=samplesetNames)$id
-  }
+  if(is.null(samplesetNames)) stop("provide samplesetNames")
+  samplesetIds <- get_sampleset_id(name_In=samplesetNames)$id
+
   my_query <- paste0('{
   ranking(compendium:\"', compendium, '\",
     version:\"', version, '\",
@@ -734,7 +728,6 @@ get_biofeature_ranking <- function(compendium = "vespucci",
       value
       }
 }')
-  #as.data.frame(build_query(my_query)$ranking)[1:top_n,]
   as.data.frame(sapply(build_query(my_query)$ranking,unlist))[1:top_n,]
 }
 

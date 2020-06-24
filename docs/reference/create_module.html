@@ -98,9 +98,6 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/dashboard.html">rCOMPASS dashboard</a>
-    </li>
-    <li>
       <a href="../articles/usecase01.html">Use Case 01</a>
     </li>
   </ul>
@@ -169,6 +166,10 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='no'>gene_names</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'VIT_00s0246g00220'</span>,<span class='st'>'VIT_00s0332g00060'</span>,<span class='st'>'VIT_00s0332g00110'</span>,
+<span class='st'>'VIT_00s0332g00160'</span>,<span class='st'>'VIT_00s0396g00010'</span>,<span class='st'>'VIT_00s0505g00030'</span>,
+<span class='st'>'VIT_00s0505g00060'</span>,<span class='st'>'VIT_00s0873g00020'</span>,<span class='st'>'VIT_00s0904g00010'</span>)
+<span class='no'>mod_bf</span> <span class='kw'>&lt;-</span> <span class='fu'>create_module</span>(<span class='kw'>biofeaturesNames</span> <span class='kw'>=</span> <span class='no'>gene_names</span>)
 <span class='no'>my_bf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"VIT_00s0332g00110"</span>,<span class='st'>"VIT_00s0332g00160"</span>,<span class='st'>"VIT_00s0396g00010"</span>,<span class='st'>"VIT_00s0505g00030"</span>)
 <span class='no'>my_ss</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"GSM671720.ch1-vs-GSM671719.ch1"</span>,<span class='st'>"GSM671721.ch1-vs-GSM671719.ch1"</span>
 ,<span class='st'>"GSM671722.ch1-vs-GSM671719.ch1"</span>,<span class='st'>"GSM147672.ch1-vs-GSM147690.ch1"</span>)

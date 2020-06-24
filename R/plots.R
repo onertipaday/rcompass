@@ -46,7 +46,6 @@ plot_heatmap  <- function(compendium = "vespucci",
         html
         }
   }')
-  # build_query(my_query)$plotHeatmap
   build_query(my_query)$plotHeatmap
 }
 
@@ -75,7 +74,6 @@ plot_network_coexpression  <- function(compendium = "vespucci",
         html
         }
   }')
-  # build_query(my_query)$plotHeatmap
   build_query(my_query)$plotHeatmap
 }
 
