@@ -380,16 +380,18 @@ get_annotation_triples <- function(compendium = "vespucci",
 #' @export
 #'
 #' @examples
-#' get_sparql_annotation_triples()
+#' my_query <- "SELECT ?s ?p ?o WHERE { ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.obolibrary.org/obo/NCIT_C19157> . ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.obolibrary.org/obo/PO_0009010>}"
+#' get_sparql_annotation_triples(query = my_query)
 get_sparql_annotation_triples <- function(compendium = "vespucci",
-                                           target="sample",
-                                           query="SELECT ?s ?p ?o WHERE { ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.obolibrary.org/obo/NCIT_C19157> . ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.obolibrary.org/obo/PO_0009010>}"){
+                                           target = "sample",
+                                           query = NULL){
   my_query <- paste0('{
   sparql(compendium:\"', compendium, '\", target:\"',target,'\", query:\"', query, '\") {
         rdfTriples
         }
   }')
-  as.character(build_query(my_query)$sparql$rdfTriples)
+  # as.character(build_query(my_query)$sparql$rdfTriples)
+  sapply(build_query(my_query)$sparql$rdfTriples, unlist)
 }
 
 

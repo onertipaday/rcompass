@@ -19,11 +19,7 @@
 #' ,"GSM671722.ch1-vs-GSM671719.ch1","GSM147672.ch1-vs-GSM147690.ch1")
 #' my_mod <- create_module(biofeaturesNames = my_bf, samplesetNames = my_ss)
 #' pheatmap::pheatmap(my_mod, col = RColorBrewer::brewer.pal(11,name="RdBu"))
-#' # compare to vespucci:
-#' # url <- "http://vespucci.colombos.fmach.it/cws_data/export_data/colombos_20190828_nEwFDG.txt"
-#' # vesp_test=readr::read_tsv(url)
 #' }
-#'
 create_module <- function(compendium = "vespucci",
                           version = "legacy",
                           biofeaturesNames = NULL,
@@ -72,6 +68,7 @@ create_module <- function(compendium = "vespucci",
 #' ,"VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030","VIT_00s0505g00060"
 #' ,"VIT_00s0873g00020","VIT_00s0904g00010")
 #' mod_bf <- create_module_bf(biofeaturesNames=my_bf, version = "legacy")
+#' d3heatmap::d3heatmap(mod_bf, labRow = my_bf,scale = "column")
 create_module_bf <- function(compendium = "vespucci",
                              biofeaturesNames=NULL,
                              version = "legacy",

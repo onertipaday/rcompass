@@ -33,10 +33,19 @@ get_available_plot_methods <- function(compendium = "vespucci"){
 #' @export
 plot_heatmap  <- function(compendium = "vespucci",
                           version = "legacy",
-                          biofeaturesNames=NULL,
-                          samplesetNames=NULL){
-  biofeaturesIds <- get_biofeature_id(name_In=biofeaturesNames)$id
-  samplesetIds <- get_biofeature_id(name_In=samplesetNames)$id
+                          biofeaturesNames = NULL,
+                          samplesetNames = NULL){
+  if(all(c(biofeaturesNames, samplesetNames) %in% NULL)) stop("You need to provide either biofeaturesNames or samplesetsNames")
+  if (is.null(biofeaturesNames)) {
+    biofeaturesIds <- get_biofeature_ranking(samplesetNames = samplesetNames, top_n = 10)$id
+  } else if (is.null(samplesetNames)){
+    samplesetIds <-  get_samplesets_ranking(biofeaturesNames = biofeaturesNames, top_n = 10)$id
+  } else {
+    biofeaturesIds <- get_biofeature_ranking(samplesetNames = samplesetNames, top_n = 10)$id
+    samplesetIds <-  get_samplesets_ranking(biofeaturesNames = biofeaturesNames, top_n = 10)$id
+  }
+  # biofeaturesIds <- get_biofeature_id(name_In = biofeaturesNames)$id
+  # samplesetIds <- get_sampleset_id(name_In = samplesetNames)$id
   my_query <- paste0('{
   plotHeatmap(compendium:\"', compendium, '\",
     version:\"', version, '\",

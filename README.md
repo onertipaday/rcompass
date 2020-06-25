@@ -25,5 +25,5 @@ devtools::install_github("onertipaday/rcompass")
 ``` r
 #  Get all available compendia
 library(rcompass)
-get_compendia()
+get_available_compendia()
 ```

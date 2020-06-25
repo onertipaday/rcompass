@@ -37,9 +37,5 @@ my_ss <- c("GSM671720.ch1-vs-GSM671719.ch1","GSM671721.ch1-vs-GSM671719.ch1"
 ,"GSM671722.ch1-vs-GSM671719.ch1","GSM147672.ch1-vs-GSM147690.ch1")
 my_mod <- create_module(biofeaturesNames = my_bf, samplesetNames = my_ss)
 pheatmap::pheatmap(my_mod, col = RColorBrewer::brewer.pal(11,name="RdBu"))
-# compare to vespucci:
-# url <- "http://vespucci.colombos.fmach.it/cws_data/export_data/colombos_20190828_nEwFDG.txt"
-# vesp_test=readr::read_tsv(url)
 }
-
 }

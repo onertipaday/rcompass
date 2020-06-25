@@ -20,11 +20,160 @@ knitr::opts_chunk$set(
 )
 ```
 
-VESPUCCI is the gene expression database for grapevine and we can access it via its GraphQL interface, called COMPASS. The rcompass package is a R package that wraps some functionalities to simplify communication with the COMPASS interface.
+[VESPUCCI](https://vespucci.readthedocs.io/) is the gene expression database for grapevine and we can access it via its GraphQL interface, called [COMPASS](https://compass-.readthedocs.io/). The [rCOMPASS](https://onertipaday.github.io/rcompass/) package is a R package that wraps some functionalities to simplify communication with the COMPASS interface.
 
 In this first exercise we will perform few basic operations with VESPUCCI. We will create a Module starting from few genes and then automatically extend it by adding more genes. We will also have a look at gene and samples annotations.:
 
 ```{r}
+# devtools::install_github("onertipaday/rcompass")
 library(rcompass)
 ```
 
+The COMPASS GraphQL endpoint might hosts different compendia. At the moment there is only the VESPUCCI compendium, but there are different version of VESPUCCI, and each version might have data normalized in different ways. In this case there are 2 versions of VESPUCCI, version 1.0 (legacy) and version 2.0 (latest). The latter has data normalized in 2 different ways, TPM normalization and LIMMA (the default one) while the legacy version has the legacy normalization only (i.e. per-sample logratios). For every query we will need to indicate the compendium we want to use, if no version, no normalization and no database is specified the default values will be used.
+
+```{r}
+get_available_compendia()
+```
+
+# Genes
+Let's build our module starting from a bunch of genes that might come from a previous analysis. Gene name used are the VIT_ ids
+
+```{r}
+gene_names <- c('VIT_00s0246g00220','VIT_00s0332g00060','VIT_00s0332g00110','VIT_00s0332g00160','VIT_00s0396g00010','VIT_00s0505g00030','VIT_00s0505g00060','VIT_00s0873g00020','VIT_00s0904g00010')
+```
+
+We can query the compendium with the list of gene names and get a list of BiologicalFeature objects that represents our genes of interest. The easiest way to know which are the valid filter values to be used is to use the autocompletition (ALT + SPACEBAR) in the COMPASS GraphiQL interface at [http://compass.fmach.it/graphql](http://compass.fmach.it/graphql).
+
+
+```{r}
+bf_ids <- get_biofeature_id(compendium = "vespucci", name_In = gene_names) 
+DT::datatable(bf_ids)
+```
+
+
+
+
+# Create a Module
+We are now ready to create our first module. If we pass a list of genes (BiologicalFeature objects) it will automatically retrieve the "best" conditions (SampleSet objects).
+
+```{r}
+module_1 <- create_module_bf(biofeaturesNames=gene_names)
+```
+
+A module can be thought as a matrix composed by BiologicalFeature objects (genes in our case) as rows and SampleSet objects (conditions contrasts in our case) as columns. Each SampleSet, as the name suggests, is composed by 1 or more Sample objects. Since we are using the legacy normalization each SampleSet is composed by 2 samples, one Test sample and one Reference sample and the value associated is the logratio between the Test and Reference for a specific gene (BiologicalFeature).
+
+```{r}
+DT::datatable(head(module_1), class = 'cell-border stripe')
+```
+```{r}
+get_sample_by_gsm(sampleName_Icontains="GSM1313535")
+```
+
+# Plot a module
+
+The easiest way to visualize a module is using a heatmap. The Plot object wraps a module and can return different plot type with different format (the Plotly JSON format or HTML). To see an heatmap embedded in a Jupyter Notebook we can retrieve the HTML code of the Plot (that uses Plotly) and display it directly into the notebook.
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
+# Plot correlation network
+
+Given a module we can plot the correlation network between Biological Features (genes) by looking at the Pearson correlation coefficient of the module's Sample Sets (contrast). The default threshold is 0.7, but it can be changed. Edges in orange represent anti-correlation.
+
+```{r}
+
+```
+
+
+
+
+
+# Automatically expand a module
+
+One of the classic way to use VESPUCCI is to start with a set of genes selected from previous analysis, have a look at the top conditions in which they show a consistent (and strong) behaviour and then look for other genes that have the same behavior across those same conditions.
+
+The way to do it is to plot the distribution of genes that show a similar behaviour of the module's genes across the same condition in order pick up a suitable threshold.
+
+```{r}
+
+
+```
+
+For example, if we pick a threshold around 0.65 (looking at the top plot) we might expect to have around 30 Biological Features (genes) with a score equal or greater than that, to be added in our module. In this case let's just pick the top 30 genes and create e new module.
+
+```{r}
+
+```
+
+The new module is created by adding Biological Feature objects to the old module. This operation will modify the module object in-place, so we might want to clone the module_1 object first, if we don't want to lose it, or we might want to save it in a local file and then create e new module by simply loading it.
+
+```{r}
+
+```
+
+We can have a look at the heatmap of the new module
+
+```{r}
+
+```
+
+
+# Annotations
+
+In VESPUCCI, both Biological Feature (gene) and Sample annotations are represented using RDF. We can visualize annotation as a set of RDF triples.
+
+```{r}
+
+```
+
+
+Another way is to visualize the annotation is with RDF graph.
+
+```{r}
+
+```
+
+Annotations can also be used to retrieve Sample or Biological Features (gene) starting from a SPARQL query. For example we might want to select all seed Sample.
+
+
+```
+sparql = "SELECT ?s ?p ?o " + \
+    "WHERE { ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.obolibrary.org/obo/NCIT_C19157> . " + \
+            "?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.obolibrary.org/obo/PO_0009010>}"
+```
+
+The term http://purl.obolibrary.org/obo/NCIT_C19157 indicates speciemen while http://purl.obolibrary.org/obo/PO_0009010 is the Plant Ontology term for seed. To indicate a gene, instead the term http://purl.obolibrary.org/obo/NCIT_C16612 is used.
+
+
+```{r}
+
+```
+
+Now we can collect all the Sample Sets in which these samples are used and then create a new module based on Sample Sets only leaving VESPUCCI to figure out which are the genes (Biological Feature objects) that show a consistent up or down-regulated profile.
+
+
+```{r}
+
+```
+
+
+And now we can plot the heatmap
+
+
+```{r}
+
+```
+
+# Session information
+
+```{r si, echo=FALSE}
+print(sessionInfo(), locale = FALSE)
+```
