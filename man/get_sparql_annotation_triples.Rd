@@ -24,6 +24,9 @@ A list
 get_sparql_annotation_triples
 }
 \examples{
-my_query <- "SELECT ?s ?p ?o WHERE { ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.obolibrary.org/obo/NCIT_C19157> . ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.obolibrary.org/obo/PO_0009010>}"
+my_query=paste0('SELECT ?s ?p ?o WHERE { ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>',
+'<http://purl.obolibrary.org/obo/NCIT_C19157>',
+'. ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>',
+'<http://purl.obolibrary.org/obo/PO_0009010>}')
 get_sparql_annotation_triples(query = my_query)
 }

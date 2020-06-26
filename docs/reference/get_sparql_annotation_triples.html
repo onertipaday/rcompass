@@ -135,8 +135,7 @@
     <pre class="usage"><span class='fu'>get_sparql_annotation_triples</span>(
   <span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>,
   <span class='kw'>target</span> <span class='kw'>=</span> <span class='st'>"sample"</span>,
-
-    <span class='kw'>query</span> <span class='kw'>=</span> <span class='st'>"SELECT ?s ?p ?o WHERE { ?s &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://purl.obolibrary.org/obo/NCIT_C19157&gt; . ?s &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://purl.obolibrary.org/obo/PO_0009010&gt;}"</span>
+  <span class='kw'>query</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -161,26 +160,59 @@
     <p>A list</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>get_sparql_annotation_triples</span>()</div><div class='output co'>#&gt;  [1] "c(\"U2FtcGxlVHlwZToxMDI4\", NA, NA)" "c(\"U2FtcGxlVHlwZTozMDQ5\", NA, NA)"
-#&gt;  [3] "c(\"U2FtcGxlVHlwZTo3MTY=\", NA, NA)" "c(\"U2FtcGxlVHlwZTo3MTA=\", NA, NA)"
-#&gt;  [5] "c(\"U2FtcGxlVHlwZTo3MTQ=\", NA, NA)" "c(\"U2FtcGxlVHlwZTo3MTM=\", NA, NA)"
-#&gt;  [7] "c(\"U2FtcGxlVHlwZTo3MTE=\", NA, NA)" "c(\"U2FtcGxlVHlwZTo3MjE=\", NA, NA)"
-#&gt;  [9] "c(\"U2FtcGxlVHlwZTo3MTk=\", NA, NA)" "c(\"U2FtcGxlVHlwZTo3MTc=\", NA, NA)"
-#&gt; [11] "c(\"U2FtcGxlVHlwZTo3MjA=\", NA, NA)" "c(\"U2FtcGxlVHlwZTo3MTU=\", NA, NA)"
-#&gt; [13] "c(\"U2FtcGxlVHlwZTo3MTI=\", NA, NA)" "c(\"U2FtcGxlVHlwZTo3MTg=\", NA, NA)"
-#&gt; [15] "c(\"U2FtcGxlVHlwZToxMDMx\", NA, NA)" "c(\"U2FtcGxlVHlwZToxMDMy\", NA, NA)"
-#&gt; [17] "c(\"U2FtcGxlVHlwZToxMDMz\", NA, NA)" "c(\"U2FtcGxlVHlwZToxMDM0\", NA, NA)"
-#&gt; [19] "c(\"U2FtcGxlVHlwZToxMDM1\", NA, NA)" "c(\"U2FtcGxlVHlwZToxMDM2\", NA, NA)"
-#&gt; [21] "c(\"U2FtcGxlVHlwZToxMDM3\", NA, NA)" "c(\"U2FtcGxlVHlwZToxMDM4\", NA, NA)"
-#&gt; [23] "c(\"U2FtcGxlVHlwZToxMDM5\", NA, NA)" "c(\"U2FtcGxlVHlwZToxMDQw\", NA, NA)"
-#&gt; [25] "c(\"U2FtcGxlVHlwZToxMDQx\", NA, NA)" "c(\"U2FtcGxlVHlwZToxMDQy\", NA, NA)"
-#&gt; [27] "c(\"U2FtcGxlVHlwZToxMDQz\", NA, NA)" "c(\"U2FtcGxlVHlwZToxMDQ0\", NA, NA)"
-#&gt; [29] "c(\"U2FtcGxlVHlwZToxMDQ1\", NA, NA)" "c(\"U2FtcGxlVHlwZToxMDQ2\", NA, NA)"
-#&gt; [31] "c(\"U2FtcGxlVHlwZToxMDQ3\", NA, NA)" "c(\"U2FtcGxlVHlwZToxMDQ4\", NA, NA)"
-#&gt; [33] "c(\"U2FtcGxlVHlwZToxMDI5\", NA, NA)" "c(\"U2FtcGxlVHlwZToxMDMw\", NA, NA)"
-#&gt; [35] "c(\"U2FtcGxlVHlwZTozMDQ0\", NA, NA)" "c(\"U2FtcGxlVHlwZTozMDQ1\", NA, NA)"
-#&gt; [37] "c(\"U2FtcGxlVHlwZTozMDQ2\", NA, NA)" "c(\"U2FtcGxlVHlwZTozMDQ3\", NA, NA)"
-#&gt; [39] "c(\"U2FtcGxlVHlwZTozMDQ4\", NA, NA)"</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>my_query</span> <span class='kw'>&lt;-</span> <span class='st'>"SELECT ?s ?p ?o WHERE { ?s &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://purl.obolibrary.org/obo/NCIT_C19157&gt; . ?s &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://purl.obolibrary.org/obo/PO_0009010&gt;}"</span>
+<span class='fu'>get_sparql_annotation_triples</span>(<span class='kw'>query</span> <span class='kw'>=</span> <span class='no'>my_query</span>)</div><div class='output co'>#&gt;      [,1]                   [,2]                   [,3]                  
+#&gt; [1,] "U2FtcGxlVHlwZToxMDI4" "U2FtcGxlVHlwZTozMDQ5" "U2FtcGxlVHlwZTo3MTY="
+#&gt; [2,] NA                     NA                     NA                    
+#&gt; [3,] NA                     NA                     NA                    
+#&gt;      [,4]                   [,5]                   [,6]                  
+#&gt; [1,] "U2FtcGxlVHlwZTo3MTA=" "U2FtcGxlVHlwZTo3MTQ=" "U2FtcGxlVHlwZTo3MTM="
+#&gt; [2,] NA                     NA                     NA                    
+#&gt; [3,] NA                     NA                     NA                    
+#&gt;      [,7]                   [,8]                   [,9]                  
+#&gt; [1,] "U2FtcGxlVHlwZTo3MTE=" "U2FtcGxlVHlwZTo3MjE=" "U2FtcGxlVHlwZTo3MTk="
+#&gt; [2,] NA                     NA                     NA                    
+#&gt; [3,] NA                     NA                     NA                    
+#&gt;      [,10]                  [,11]                  [,12]                 
+#&gt; [1,] "U2FtcGxlVHlwZTo3MTc=" "U2FtcGxlVHlwZTo3MjA=" "U2FtcGxlVHlwZTo3MTU="
+#&gt; [2,] NA                     NA                     NA                    
+#&gt; [3,] NA                     NA                     NA                    
+#&gt;      [,13]                  [,14]                  [,15]                 
+#&gt; [1,] "U2FtcGxlVHlwZTo3MTI=" "U2FtcGxlVHlwZTo3MTg=" "U2FtcGxlVHlwZToxMDMx"
+#&gt; [2,] NA                     NA                     NA                    
+#&gt; [3,] NA                     NA                     NA                    
+#&gt;      [,16]                  [,17]                  [,18]                 
+#&gt; [1,] "U2FtcGxlVHlwZToxMDMy" "U2FtcGxlVHlwZToxMDMz" "U2FtcGxlVHlwZToxMDM0"
+#&gt; [2,] NA                     NA                     NA                    
+#&gt; [3,] NA                     NA                     NA                    
+#&gt;      [,19]                  [,20]                  [,21]                 
+#&gt; [1,] "U2FtcGxlVHlwZToxMDM1" "U2FtcGxlVHlwZToxMDM2" "U2FtcGxlVHlwZToxMDM3"
+#&gt; [2,] NA                     NA                     NA                    
+#&gt; [3,] NA                     NA                     NA                    
+#&gt;      [,22]                  [,23]                  [,24]                 
+#&gt; [1,] "U2FtcGxlVHlwZToxMDM4" "U2FtcGxlVHlwZToxMDM5" "U2FtcGxlVHlwZToxMDQw"
+#&gt; [2,] NA                     NA                     NA                    
+#&gt; [3,] NA                     NA                     NA                    
+#&gt;      [,25]                  [,26]                  [,27]                 
+#&gt; [1,] "U2FtcGxlVHlwZToxMDQx" "U2FtcGxlVHlwZToxMDQy" "U2FtcGxlVHlwZToxMDQz"
+#&gt; [2,] NA                     NA                     NA                    
+#&gt; [3,] NA                     NA                     NA                    
+#&gt;      [,28]                  [,29]                  [,30]                 
+#&gt; [1,] "U2FtcGxlVHlwZToxMDQ0" "U2FtcGxlVHlwZToxMDQ1" "U2FtcGxlVHlwZToxMDQ2"
+#&gt; [2,] NA                     NA                     NA                    
+#&gt; [3,] NA                     NA                     NA                    
+#&gt;      [,31]                  [,32]                  [,33]                 
+#&gt; [1,] "U2FtcGxlVHlwZToxMDQ3" "U2FtcGxlVHlwZToxMDQ4" "U2FtcGxlVHlwZToxMDI5"
+#&gt; [2,] NA                     NA                     NA                    
+#&gt; [3,] NA                     NA                     NA                    
+#&gt;      [,34]                  [,35]                  [,36]                 
+#&gt; [1,] "U2FtcGxlVHlwZToxMDMw" "U2FtcGxlVHlwZTozMDQ0" "U2FtcGxlVHlwZTozMDQ1"
+#&gt; [2,] NA                     NA                     NA                    
+#&gt; [3,] NA                     NA                     NA                    
+#&gt;      [,37]                  [,38]                  [,39]                 
+#&gt; [1,] "U2FtcGxlVHlwZTozMDQ2" "U2FtcGxlVHlwZTozMDQ3" "U2FtcGxlVHlwZTozMDQ4"
+#&gt; [2,] NA                     NA                     NA                    
+#&gt; [3,] NA                     NA                     NA                    </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

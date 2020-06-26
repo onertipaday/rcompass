@@ -380,7 +380,10 @@ get_annotation_triples <- function(compendium = "vespucci",
 #' @export
 #'
 #' @examples
-#' my_query <- "SELECT ?s ?p ?o WHERE { ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.obolibrary.org/obo/NCIT_C19157> . ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.obolibrary.org/obo/PO_0009010>}"
+#' my_query=paste0('SELECT ?s ?p ?o WHERE { ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>',
+#' '<http://purl.obolibrary.org/obo/NCIT_C19157>',
+#' '. ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>',
+#' '<http://purl.obolibrary.org/obo/PO_0009010>}')
 #' get_sparql_annotation_triples(query = my_query)
 get_sparql_annotation_triples <- function(compendium = "vespucci",
                                            target = "sample",
@@ -405,7 +408,7 @@ get_sparql_annotation_triples <- function(compendium = "vespucci",
 #'
 #' @examples
 #' get_available_normalization()
-get_available_normalization <- function(compendium='vespucci',
+get_available_normalization <- function(compendium="vespucci",
                                    version='latest'){
   my_query <- paste0('{
   normalizations(compendium:\"', compendium, '\", version:\"', version, '\") {
@@ -422,17 +425,18 @@ get_available_normalization <- function(compendium='vespucci',
 #' get_ontology_structure
 #'
 #' @param compendium character - the selected compendium
-#' @param name character - the name of the ontology of interest
+#' @param name_In character - the name of the ontology/ies of interest
 #'
 #' @return a character
 #' @export
 #'
 #' @examples
-#' get_ontology_structure()
-get_ontology_structure <- function(compendium='vespucci',
-                                   name='Gene ontology'){
+#' get_ontology_structure(name_In="Agronomy")
+#' get_ontology_structure(name_In=c("Agronomy","Gene ontology"))
+get_ontology_structure <- function(compendium="vespucci",
+                                   name_In="Gene ontology"){
   my_query <- paste0('{
-  ontology(compendium:\"', compendium, '\", name:\"', name, '\") {
+  ontology(compendium:\"', compendium, '\", name_In:\"', paste0(name_In, collapse =","), '\") {
   edges {
     node {
       structure
@@ -440,9 +444,8 @@ get_ontology_structure <- function(compendium='vespucci',
   }
  }
 }')
-  build_query(my_query)$ontology$edges
-
-  #TODO - it kills Rstudio!
+  RJSONIO::fromJSON(sapply(build_query(my_query)$ontology$edges, unlist))
+  #CHECK!!! - it kills Rstudio!
 }
 
 

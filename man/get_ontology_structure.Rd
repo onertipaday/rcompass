@@ -4,12 +4,12 @@
 \alias{get_ontology_structure}
 \title{get_ontology_structure}
 \usage{
-get_ontology_structure(compendium = "vespucci", name = "Gene ontology")
+get_ontology_structure(compendium = "vespucci", name_In = "Gene ontology")
 }
 \arguments{
 \item{compendium}{character - the selected compendium}
 
-\item{name}{character - the name of the ontology of interest}
+\item{name_In}{character - the name of the ontology/ies of interest}
 }
 \value{
 a character
@@ -18,5 +18,6 @@ a character
 get_ontology_structure
 }
 \examples{
-get_ontology_structure()
+get_ontology_structure(name_In="Agronomy")
+get_ontology_structure(name_In=c("Agronomy","Gene ontology"))
 }
