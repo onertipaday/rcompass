@@ -32,7 +32,7 @@ ui <- fluidPage(theme = shinytheme("cosmo"),
 
 
             # textInput:
-            textAreaInput("tAI_bf", h4("Insert comma-separated gene ids"), "VIT_00s0246g00220,VIT_00s0332g00060,VIT_00s0332g00110,VIT_00s0332g00160,VIT_00s0396g00010,VIT_00s0505g00030,VIT_00s0505g00060,VIT_00s0873g00020,VIT_00s0904g00010"),
+            textAreaInput("tAI_bf", h4("Insert comma-separated gene ids"), "VIT_00s0246g00220,VIT_00s0332g00060,VIT_00s0332g00110,VIT_00s0332g00160,VIT_00s0396g00010,VIT_00s0505g00030,VIT_00s0505g00060,VIT_00s0873g00020,VIT_00s0904g00010", height = 160),
             hr(),
             submitButton()
             ),
@@ -100,7 +100,7 @@ server <- function(input, output) {
         constructed by collecting, homogenizing and formally annotating publicly available
         microarray and RNA-seq experiments. COMPASS (COMpendia Programmatic Access Support
         Software) is a software layer that provides a GraphQL endpoint to query compendia
-        built using COMMAND>_ technology. We are using rCOMPASS version", utils::packageVersion("rcompass"), "as a R wrapper to COMPASS and shiny version", utils::packageVersion("shiny"), "for the web app interface."))
+        built using COMMAND>_ technology. We are using ", tags$a(href="https://onertipaday.github.io/rcompass/", "rCOMPASS")," version", utils::packageVersion("rcompass"), "as a R wrapper to COMPASS and shiny version", utils::packageVersion("shiny"), "for the web app interface."))
     })
 
     output$stats01 <- renderText({
@@ -113,7 +113,7 @@ server <- function(input, output) {
     })
 
     output$stats02 <- renderText({
-        paste("For annotations, VESPUCCI relies on the following Ontologies:","Ncbi taxon, Gene ontology, Environment, Plant experimental conditions, Agronomy, Phenotype and trait, Plant trait, Unit of measurement, Nci thesaurus, Plant ontology, Bioassay ontology, Bao properties, Experimental factor ontology, Edam.")
+        paste0("For annotations, VESPUCCI relies on the following Ontologies: ", paste(get_ontologies()$name, collapse = ", "),".")
     })
 
     output$tbl = renderDT(

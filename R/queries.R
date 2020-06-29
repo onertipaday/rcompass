@@ -431,8 +431,10 @@ get_available_normalization <- function(compendium="vespucci",
 #' @export
 #'
 #' @examples
+#'\dontrun{
 #' get_ontology_structure(name_In="Agronomy")
 #' get_ontology_structure(name_In=c("Agronomy","Gene ontology"))
+#' }
 get_ontology_structure <- function(compendium="vespucci",
                                    name_In="Gene ontology"){
   my_query <- paste0('{
@@ -449,13 +451,15 @@ get_ontology_structure <- function(compendium="vespucci",
 }
 
 
-#' Get all ontologies for
+#' Get all available ontologies for the selected compendium
 #'
 #' @param compendium A string - the selected compendium
 #'
 #' @return A data.frame
 #' @export
 #'
+#' @examples
+#' get_ontologies()
 get_ontologies <- function(compendium = "vespucci"){
   my_query <- paste0('{
 
@@ -463,17 +467,15 @@ get_ontologies <- function(compendium = "vespucci"){
     edges{
       node{
         id
-        originalFilename
         name
-        description
-        creationDate
-        isBiofeature
-        isSample
       }
     }
   }
 }')
-  build_query(my_query)$ontology$edges$node
+  tmp <- as.data.frame(t(sapply(build_query(my_query)$ontology$edges, unlist)))
+  colnames(tmp) <- c("id", "name")
+  rownames(tmp) <- NULL
+  tmp
 }
 
 

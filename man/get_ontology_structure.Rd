@@ -18,6 +18,8 @@ a character
 get_ontology_structure
 }
 \examples{
+\dontrun{
 get_ontology_structure(name_In="Agronomy")
 get_ontology_structure(name_In=c("Agronomy","Gene ontology"))
+}
 }

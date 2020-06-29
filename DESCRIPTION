@@ -16,13 +16,12 @@ Depends:
 Imports:
     httr,
     ghql,
-    jsonlite,
     RJSONIO,
     checkmate,
     shiny,
-    flexdashboard,
-    biclust
-RoxygenNote: 7.1.0
+    biclust,
+    DT
+RoxygenNote: 7.1.1
 Language: en-US
 Suggests: 
     dplyr,

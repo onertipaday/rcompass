@@ -68,7 +68,7 @@ create_module <- function(compendium = "vespucci",
 #' ,"VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030","VIT_00s0505g00060"
 #' ,"VIT_00s0873g00020","VIT_00s0904g00010")
 #' mod_bf <- create_module_bf(biofeaturesNames=my_bf, version = "legacy")
-#' d3heatmap::d3heatmap(mod_bf, labRow = my_bf,scale = "column")
+#' #d3heatmap::d3heatmap(mod_bf, labRow = my_bf,scale = "column")
 create_module_bf <- function(compendium = "vespucci",
                              biofeaturesNames=NULL,
                              version = "legacy",

@@ -2,7 +2,7 @@
 % Please edit documentation in R/queries.R
 \name{get_ontologies}
 \alias{get_ontologies}
-\title{Get all ontologies for}
+\title{Get all available ontologies for the selected compendium}
 \usage{
 get_ontologies(compendium = "vespucci")
 }
@@ -13,5 +13,8 @@ get_ontologies(compendium = "vespucci")
 A data.frame
 }
 \description{
-Get all ontologies for
+Get all available ontologies for the selected compendium
+}
+\examples{
+get_ontologies()
 }
