@@ -6,19 +6,19 @@
 \usage{
 get_sparql_annotation_triples(
   compendium = "vespucci",
-  target = "sample",
+  target = NULL,
   query = NULL
 )
 }
 \arguments{
 \item{compendium}{A string - the selected compendium}
 
-\item{target}{A string}
+\item{target}{A string - either sample or biofeature}
 
 \item{query}{A string - sparql query}
 }
 \value{
-A list
+A data.frame with 3 columns
 }
 \description{
 get_sparql_annotation_triples
@@ -28,5 +28,5 @@ my_query=paste0('SELECT ?s ?p ?o WHERE { ?s <http://www.w3.org/1999/02/22-rdf-sy
 '<http://purl.obolibrary.org/obo/NCIT_C19157>',
 '. ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>',
 '<http://purl.obolibrary.org/obo/PO_0009010>}')
-get_sparql_annotation_triples(query = my_query)
+get_sparql_annotation_triples(target = "sample", query = my_query)
 }

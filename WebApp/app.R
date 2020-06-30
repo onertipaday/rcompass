@@ -105,7 +105,7 @@ server <- function(input, output) {
 
     output$stats01 <- renderText({
         paste("<h4>","Compendium Stats","</h4>",
-              "The Vitis gene expression compendium version", paste(get_available_compendia()$versions[[1]], collapse = " "),"normalized contains values for","29090 biological features, measured for"," 3687 sample sets. This corresponds to a total of","160 experiments and","4105 samples measured on", dim(get_platform_information())[[1]],"different platforms:")
+              "The Vitis gene expression compendium version", paste(get_available_compendia()$versions[[1]], collapse = " "),"normalized contains values for", totalCounts(version="1.0", aggregate_type="biofeatures"), " biological features, measured for", totalCounts(version="1.0", aggregate_type="sampleSets"), " sample sets. This corresponds to a total of", totalCounts(aggregate_type = "experiments"), " experiments and", totalCounts(aggregate_type = "samples"), " samples measured on", totalCounts(aggregate_type = "platforms")," different platforms:")
     })
 
     output$table <- renderTable({

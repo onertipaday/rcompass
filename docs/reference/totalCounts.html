@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>get_annotation_triples — get_annotation_triples • rcompass</title>
+<title>totalCounts for aggregated types — totalCounts • rcompass</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="get_annotation_triples — get_annotation_triples" />
-<meta property="og:description" content="get_annotation_triples" />
+<meta property="og:title" content="totalCounts for aggregated types — totalCounts" />
+<meta property="og:description" content="totalCounts for aggregated types" />
 
 
 
@@ -123,19 +123,19 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>get_annotation_triples</h1>
-    <small class="dont-index">Source: <a href='https://github.com/onertipaday/rcompass/blob/master/R/queries.R'><code>R/queries.R</code></a></small>
-    <div class="hidden name"><code>get_annotation_triples.Rd</code></div>
+    <h1>totalCounts for aggregated types</h1>
+    <small class="dont-index">Source: <a href='https://github.com/onertipaday/rcompass/blob/master/R/aggregate.R'><code>R/aggregate.R</code></a></small>
+    <div class="hidden name"><code>totalCounts.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>get_annotation_triples</p>
+    <p>totalCounts for aggregated types</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_annotation_triples</span>(
+    <pre class="usage"><span class='fu'>totalCounts</span>(
   <span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>,
-  <span class='kw'>biofeaturesNames</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>samplesetNames</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+  <span class='kw'>version</span> <span class='kw'>=</span> <span class='st'>"legacy"</span>,
+  <span class='kw'>aggregate_type</span> <span class='kw'>=</span> <span class='st'>"biofeatures"</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -146,22 +146,27 @@
       <td><p>A string - the selected compendium</p></td>
     </tr>
     <tr>
-      <th>biofeaturesNames</th>
-      <td><p>A character vector (gene_names)</p></td>
+      <th>version</th>
+      <td><p>A string - either (default) 'latest' or '2.0'</p></td>
     </tr>
     <tr>
-      <th>samplesetNames</th>
-      <td><p>A character vector (sampleset names)</p></td>
+      <th>aggregate_type</th>
+      <td><p>A string - an aggregate type ('biofeatures','sampleSets')</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A character vector</p>
+    <p>A numeric - the total count for the selected aggregate type</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>#get_annotation_triples(samplesetName = "GSM147672.ch1-vs-GSM147690.ch1") # TO FIX!</span>
-<span class='fu'>get_annotation_triples</span>(<span class='kw'>biofeaturesNames</span> <span class='kw'>=</span> <span class='st'>"VIT_00s0332g00110"</span>)</div><div class='output co'>#&gt; [1] "VIT_00s0332g00110" "Gene Alias"        "Vv00s0332g00110"  </div></pre>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'>totalCounts</span>(<span class='kw'>version</span><span class='kw'>=</span><span class='st'>"1.0"</span>, <span class='kw'>aggregate_type</span><span class='kw'>=</span><span class='st'>"sampleSets"</span>)
+<span class='fu'>totalCounts</span>(<span class='kw'>version</span><span class='kw'>=</span><span class='st'>"1.0"</span>, <span class='kw'>aggregate_type</span><span class='kw'>=</span><span class='st'>"biofeatures"</span>)
+<span class='fu'>totalCounts</span>(<span class='kw'>aggregate_type</span> <span class='kw'>=</span> <span class='st'>"platforms"</span>)
+<span class='fu'>totalCounts</span>(<span class='kw'>aggregate_type</span> <span class='kw'>=</span> <span class='st'>"samples"</span>)
+<span class='fu'>totalCounts</span>(<span class='kw'>aggregate_type</span> <span class='kw'>=</span> <span class='st'>"experiments"</span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

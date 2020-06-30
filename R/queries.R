@@ -126,7 +126,7 @@ get_platform_types <- function(compendium = "vespucci"){
 #' @examples
 #' get_sample_info(sampleName = "GSM287866.ch1")
 get_sample_info <-function(compendium = "vespucci", sampleName=NULL){
-  if(missing(sampleName)){stop("Provide a sampleName.")}
+  if(missing(sampleName))stop("Provide a sampleName.")
     my_query <- paste0('{
       samples(compendium:\"', compendium, '\", sampleName:\"', sampleName,'\") {
       edges{
@@ -298,14 +298,31 @@ get_sample_by_gsm <- function(compendium = "vespucci",
 #' use \code{\link{get_available_compendia}} to check all the available compendia
 #'
 #' @param compendium A string - the selected compendium
-#' @param platformAccessId string
+#' @param platformAccessId A string - A GPL ID
+#' @param allSamples A logical (FALSE default)
 #'
 #' @return A data.frame
 #' @export
 #'
 #' @examples
-#' get_samples()
-get_samples <- function(compendium = "vespucci", platformAccessId = "GPL11004"){
+#' get_samples(platformAccessId = "GPL11004")
+#' #get_samples(allSamples = TRUE)
+get_samples <- function(compendium = "vespucci",
+                        allSamples = FALSE,
+                        platformAccessId = NULL){
+  if(allSamples & is.null(platformAccessId)){
+  my_query <- paste0('{
+      samples(compendium:\"', compendium, '\") {
+      edges {
+        node {
+          sampleName,
+          description
+        }
+      }
+    }
+  }')
+  }
+  else {}
   my_query <- paste0('{
  samples(compendium:\"', compendium, '\", platform_PlatformAccessId:\"', platformAccessId,'\") {
         edges {
@@ -349,11 +366,11 @@ get_samples <- function(compendium = "vespucci", platformAccessId = "GPL11004"){
 #' @param biofeaturesNames A character vector (gene_names)
 #' @param samplesetNames A character vector (sampleset names)
 #'
-#' @return A data.frame
+#' @return A character vector
 #' @export
 #'
 #' @examples
-#' get_annotation_triples(samplesetName = "GSM147672.ch1-vs-GSM147690.ch1") #TODO
+#' #get_annotation_triples(samplesetName = "GSM147672.ch1-vs-GSM147690.ch1") # TO FIX!
 #' get_annotation_triples(biofeaturesNames = "VIT_00s0332g00110")
 get_annotation_triples <- function(compendium = "vespucci",
                                            biofeaturesNames = NULL,
@@ -366,17 +383,17 @@ get_annotation_triples <- function(compendium = "vespucci",
   rdfTriples
     }
   }')
-  as.character(build_query(my_query)$annotationPrettyPrint$rdfTriples)
+  build_query(my_query)$annotationPrettyPrint$rdfTriples[[1]]
 }
 
 
 #' get_sparql_annotation_triples
 #'
-#' @param target A string
+#' @param target A string - either sample or biofeature
 #' @param query A string - sparql query
 #' @param compendium A string - the selected compendium
 #'
-#' @return A list
+#' @return A data.frame with 3 columns
 #' @export
 #'
 #' @examples
@@ -384,17 +401,17 @@ get_annotation_triples <- function(compendium = "vespucci",
 #' '<http://purl.obolibrary.org/obo/NCIT_C19157>',
 #' '. ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>',
 #' '<http://purl.obolibrary.org/obo/PO_0009010>}')
-#' get_sparql_annotation_triples(query = my_query)
+#' get_sparql_annotation_triples(target = "sample", query = my_query)
 get_sparql_annotation_triples <- function(compendium = "vespucci",
-                                           target = "sample",
+                                           target = NULL,
                                            query = NULL){
+  if(is.null(query) | is.null(target)) stop("Provide both a target ('sample' or 'biofeature') AND a proper sparql query!")
   my_query <- paste0('{
   sparql(compendium:\"', compendium, '\", target:\"',target,'\", query:\"', query, '\") {
         rdfTriples
         }
   }')
-  # as.character(build_query(my_query)$sparql$rdfTriples)
-  sapply(build_query(my_query)$sparql$rdfTriples, unlist)
+  as.data.frame(t(sapply(build_query(my_query)$sparql$rdfTriples, unlist)))
 }
 
 

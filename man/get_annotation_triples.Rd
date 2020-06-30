@@ -18,12 +18,12 @@ get_annotation_triples(
 \item{samplesetNames}{A character vector (sampleset names)}
 }
 \value{
-A data.frame
+A character vector
 }
 \description{
 get_annotation_triples
 }
 \examples{
-get_annotation_triples(samplesetName = "GSM147672.ch1-vs-GSM147690.ch1") #TODO
+#get_annotation_triples(samplesetName = "GSM147672.ch1-vs-GSM147690.ch1") # TO FIX!
 get_annotation_triples(biofeaturesNames = "VIT_00s0332g00110")
 }

@@ -4,12 +4,18 @@
 \alias{get_samples}
 \title{Get all samples measured with a given platform}
 \usage{
-get_samples(compendium = "vespucci", platformAccessId = "GPL11004")
+get_samples(
+  compendium = "vespucci",
+  allSamples = FALSE,
+  platformAccessId = NULL
+)
 }
 \arguments{
 \item{compendium}{A string - the selected compendium}
 
-\item{platformAccessId}{string}
+\item{allSamples}{A logical (FALSE default)}
+
+\item{platformAccessId}{A string - A GPL ID}
 }
 \value{
 A data.frame
@@ -19,5 +25,6 @@ Get all available samples for the selected compendium,
 use \code{\link{get_available_compendia}} to check all the available compendia
 }
 \examples{
-get_samples()
+get_samples(platformAccessId = "GPL11004")
+#get_samples(allSamples = TRUE)
 }
