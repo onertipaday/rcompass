@@ -6,7 +6,7 @@
 \usage{
 plot_heatmap(
   compendium = "vespucci",
-  version = "legacy",
+  normalization = NULL,
   biofeaturesNames = NULL,
   samplesetNames = NULL
 )
@@ -14,7 +14,7 @@ plot_heatmap(
 \arguments{
 \item{compendium}{A string - the selected compendium}
 
-\item{version}{A string ('legacy' as default)}
+\item{normalization}{A string - either 'limma','tpm_sample' or legacy as normalization}
 
 \item{biofeaturesNames}{A character vector (here gene_names)}
 
@@ -25,4 +25,14 @@ An html page with the heatmap
 }
 \description{
 plot_heatmap
+}
+\examples{
+\dontrun{
+my_plot_html <- plot_heatmap(QuickSearch_ABAcoreset)
+tempDir <- tempfile()
+dir.create(tempDir)
+htmlFile <- file.path(tempDir, "plot_heatmap.html")
+xml2::write_html(my_plot_html,file=htmlFile)
+rstudioapi::viewer(htmlFile)
+}
 }

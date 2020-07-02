@@ -2,7 +2,8 @@
 #'
 #' @param compendium A string - the selected compendium
 #' @param version A string - either (default) 'latest' or '2.0'
-#' @param aggregate_type A string - an aggregate type ('biofeatures','sampleSets')
+#' @param aggregate_type A string - an aggregate type (either 'biofeatures','sampleSets',
+#' 'platforms', 'samples', 'experiments')
 #'
 #' @return A numeric - the total count for the selected aggregate type
 #' @export
@@ -24,7 +25,6 @@ totalCounts <- function(compendium="vespucci", version ="legacy", aggregate_type
 # }')
   my_query <- paste0('{', aggregate_type, '(compendium:\"', compendium, '\", version:\"', version,'\") {
     totalCount
-
   }
 }')
   build_query(my_query)[[1]]

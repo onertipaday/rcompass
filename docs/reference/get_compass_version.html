@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>get_available_plot_methods — get_available_plot_methods • rcompass</title>
+<title>get the current version of COMPASS — get_compass_version • rcompass</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="get_available_plot_methods — get_available_plot_methods" />
-<meta property="og:description" content="get_available_plot_methods" />
+<meta property="og:title" content="get the current version of COMPASS — get_compass_version" />
+<meta property="og:description" content="get the current version of COMPASS" />
 
 
 
@@ -123,48 +123,25 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>get_available_plot_methods</h1>
-    <small class="dont-index">Source: <a href='https://github.com/onertipaday/rcompass/blob/master/R/plots.R'><code>R/plots.R</code></a></small>
-    <div class="hidden name"><code>get_available_plot_methods.Rd</code></div>
+    <h1>get the current version of COMPASS</h1>
+    <small class="dont-index">Source: <a href='https://github.com/onertipaday/rcompass/blob/master/R/queries.R'><code>R/queries.R</code></a></small>
+    <div class="hidden name"><code>get_compass_version.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>get_available_plot_methods</p>
+    <p>get the current version of COMPASS</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_available_plot_methods</span>(<span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>)</pre>
+    <pre class="usage"><span class='fu'>get_compass_version</span>()</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>compendium</th>
-      <td><p>A string - the selected compendium</p></td>
-    </tr>
-    </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list with plot methods for distribution, heatmap and network</p>
+    <p>A string</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>get_available_plot_methods</span>()</div><div class='output co'>#&gt; $distributions
-#&gt;      [,1]                                
-#&gt; [1,] "sample_sets_magnitude_distribution"
-#&gt; [2,] "magnitude"                         
-#&gt;      [,2]                                   
-#&gt; [1,] "sample_sets_coexpression_distribution"
-#&gt; [2,] "coexpression"                         
-#&gt;      [,3]                                                     
-#&gt; [1,] "biological_features_uncentered_correlation_distribution"
-#&gt; [2,] "uncentered_correlation"                                 
-#&gt; 
-#&gt; $heatmap
-#&gt; [1] "module_heatmap_expression"
-#&gt; 
-#&gt; $network
-#&gt; [1] "module_coexpression_network"
-#&gt; </div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>get_compass_version</span>()</div><div class='output co'>#&gt; version 
+#&gt; "0.8.0" </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

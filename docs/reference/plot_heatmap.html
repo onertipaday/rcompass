@@ -134,7 +134,7 @@
 
     <pre class="usage"><span class='fu'>plot_heatmap</span>(
   <span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>,
-  <span class='kw'>version</span> <span class='kw'>=</span> <span class='st'>"legacy"</span>,
+  <span class='kw'>normalization</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>biofeaturesNames</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>samplesetNames</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )</pre>
@@ -147,8 +147,8 @@
       <td><p>A string - the selected compendium</p></td>
     </tr>
     <tr>
-      <th>version</th>
-      <td><p>A string ('legacy' as default)</p></td>
+      <th>normalization</th>
+      <td><p>A string - either 'limma','tpm_sample' or legacy as normalization</p></td>
     </tr>
     <tr>
       <th>biofeaturesNames</th>
@@ -164,6 +164,15 @@
 
     <p>An html page with the heatmap</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='no'>my_plot_html</span> <span class='kw'>&lt;-</span> <span class='fu'>plot_heatmap</span>(<span class='no'>QuickSearch_ABAcoreset</span>)
+<span class='no'>tempDir</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>()
+<span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.create</a></span>(<span class='no'>tempDir</span>)
+<span class='no'>htmlFile</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='no'>tempDir</span>, <span class='st'>"plot_heatmap.html"</span>)
+<span class='kw pkg'>xml2</span><span class='kw ns'>::</span><span class='fu'><a href='http://xml2.r-lib.org/reference/write_xml.html'>write_html</a></span>(<span class='no'>my_plot_html</span>,<span class='kw'>file</span><span class='kw'>=</span><span class='no'>htmlFile</span>)
+<span class='kw pkg'>rstudioapi</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rstudioapi/man/viewer.html'>viewer</a></span>(<span class='no'>htmlFile</span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

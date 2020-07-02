@@ -10,7 +10,7 @@ get_available_plot_methods(compendium = "vespucci")
 \item{compendium}{A string - the selected compendium}
 }
 \value{
-a list with plot methods for distribution, heatmap and network
+A list with plot methods for distribution, heatmap and network
 }
 \description{
 get_available_plot_methods

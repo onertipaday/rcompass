@@ -1,3 +1,15 @@
+#' get the current version of COMPASS
+#'
+#' @return A string
+#' @export
+#'
+#' @examples
+#' get_compass_version()
+get_compass_version <- function(){
+  build_query('{ version }')
+}
+
+
 #' Get all available compendia in COMPASS
 #'
 #' @return a list with info e version information

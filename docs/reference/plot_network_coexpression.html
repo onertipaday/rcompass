@@ -134,7 +134,7 @@
 
     <pre class="usage"><span class='fu'>plot_network_coexpression</span>(
   <span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>,
-  <span class='kw'>version</span> <span class='kw'>=</span> <span class='st'>"legacy"</span>,
+  <span class='kw'>normalization</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>biofeaturesNames</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>samplesetNames</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )</pre>
@@ -147,8 +147,8 @@
       <td><p>A string - the selected compendium</p></td>
     </tr>
     <tr>
-      <th>version</th>
-      <td><p>A string ('legacy' as default)</p></td>
+      <th>normalization</th>
+      <td><p>A string - either 'limma','tpm_sample' or legacy as normalization</p></td>
     </tr>
     <tr>
       <th>biofeaturesNames</th>

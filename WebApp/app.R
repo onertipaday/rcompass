@@ -3,8 +3,6 @@ library(shinythemes)
 library(plotly)
 library(heatmaply)
 library(DT)
-# library(shinyHeatmaply)
-
 
 # Define UI for random distribution app ----
 # ui <- fluidPage(theme = shinytheme("slate"),
@@ -44,6 +42,7 @@ ui <- fluidPage(theme = shinytheme("cosmo"),
             # Output: Tabset w/ plot, summary, and table ----
             tabsetPanel(type = "tabs",
                         tabPanel("Heatmaply", plotlyOutput("heatmaply", height = "640px")),
+                        tabPanel("pheatmap", plotOutput("pheatmap", height = "640px")),
                         # tabPanel("Heatmap plotly", plotlyOutput("heatmap")),
                         # tabPanel("Summary", verbatimTextOutput("summary")),
                         # tabPanel("Network", plotOutput("network")),
@@ -68,11 +67,6 @@ server <- function(input, output) {
     mod <- create_module_bf(biofeaturesNames = my_bf, version = version)
     })
 
-    # my_info <- reactive({
-    #     # get_platform_information() %>% dplyr::count(source)
-    #     get_platform_information() %>% dplyr::count(type, source)
-    # })
-
     output$heatmaply <- renderPlotly({
         heatmaply(my_module(),
                   labRow = strsplit(input$tAI_bf, split=",")[[1]],
@@ -80,6 +74,11 @@ server <- function(input, output) {
                   fontsize_col = 7.5,
                   col = gplots::greenred(50),
                   plot_method = 'plotly')
+    })
+
+
+    output$pheatmap <- renderPlot({
+        pheatmap::pheatmap(mat =  as.matrix(my_module()))
     })
 
     # output$heatmap <- renderPlotly({
