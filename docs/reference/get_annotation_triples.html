@@ -132,11 +132,7 @@
     <p>get_annotation_triples</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_annotation_triples</span>(
-  <span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>,
-  <span class='kw'>biofeaturesNames</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>samplesetNames</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>get_annotation_triples</span>(<span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>, <span class='kw'>ids</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -146,22 +142,137 @@
       <td><p>A string - the selected compendium</p></td>
     </tr>
     <tr>
-      <th>biofeaturesNames</th>
-      <td><p>A character vector (gene_names)</p></td>
-    </tr>
-    <tr>
-      <th>samplesetNames</th>
-      <td><p>A character vector (sampleset names)</p></td>
+      <th>ids</th>
+      <td><p>A string - unique id of a biofeature, a sample, etc.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A character vector</p>
+    <p>A matrix with 3 columns</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>#get_annotation_triples(samplesetName = "GSM147672.ch1-vs-GSM147690.ch1") # TO FIX!</span>
-<span class='fu'>get_annotation_triples</span>(<span class='kw'>biofeaturesNames</span> <span class='kw'>=</span> <span class='st'>"VIT_00s0332g00110"</span>)</div><div class='output co'>#&gt; [1] "VIT_00s0332g00110" "Gene Alias"        "Vv00s0332g00110"  </div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>get_annotation_triples</span>(<span class='kw'>ids</span> <span class='kw'>=</span> <span class='st'>"U2FtcGxlVHlwZTozMjAw"</span>)</div><div class='output co'>#&gt;       [,1]                               
+#&gt;  [1,] "Na40b86b0d5674343a220a9232de33222"
+#&gt;  [2,] "Na40b86b0d5674343a220a9232de33222"
+#&gt;  [3,] "Nc274a0c72ad449b7bed4d1c26fe82c0f"
+#&gt;  [4,] "UO_0000032"                       
+#&gt;  [5,] "Nc274a0c72ad449b7bed4d1c26fe82c0f"
+#&gt;  [6,] "GSM2627902.ch1"                   
+#&gt;  [7,] "GSM2627902.ch1"                   
+#&gt;  [8,] "NCBITaxon_29760"                  
+#&gt;  [9,] "GSM2627902.ch1"                   
+#&gt; [10,] "GSM2627902.ch1"                   
+#&gt; [11,] "GSM2627902.ch1"                   
+#&gt; [12,] "Na05acd2da1c646f59f1d54b1c2baf3b9"
+#&gt; [13,] "UO_0000036"                       
+#&gt; [14,] "Na05acd2da1c646f59f1d54b1c2baf3b9"
+#&gt; [15,] "PO_0009084"                       
+#&gt; [16,] "GSM2627902.ch1"                   
+#&gt; [17,] "GSM2627902.ch1"                   
+#&gt; [18,] "N3a56ef3da39f43e4898308064c9c52b8"
+#&gt; [19,] "ENVO_00000116"                    
+#&gt; [20,] "N3a56ef3da39f43e4898308064c9c52b8"
+#&gt; [21,] "N2cf6afb97b484d7999564397b5255225"
+#&gt; [22,] "N2cf6afb97b484d7999564397b5255225"
+#&gt; [23,] "N2cf6afb97b484d7999564397b5255225"
+#&gt; [24,] "Ncacd067f02f9408085cfe1e983d91174"
+#&gt; [25,] "UO_0000185"                       
+#&gt; [26,] "Ncacd067f02f9408085cfe1e983d91174"
+#&gt; [27,] "Nd6784b30f1c74ebea0f5f2567939b80e"
+#&gt; [28,] "UO_0000185"                       
+#&gt; [29,] "Nd6784b30f1c74ebea0f5f2567939b80e"
+#&gt; [30,] "GSM2627902.ch1"                   
+#&gt; [31,] "Nd549454f14a444709974bb6d5babc550"
+#&gt; [32,] "Nd549454f14a444709974bb6d5babc550"
+#&gt; [33,] "UO_0000032"                       
+#&gt; [34,] "Na1186d707d874d9691fef2c5c422818d"
+#&gt; [35,] "Na1186d707d874d9691fef2c5c422818d"
+#&gt;       [,2]                                         
+#&gt;  [1,] "Duration"                                   
+#&gt;  [2,] "type"                                       
+#&gt;  [3,] "value"                                      
+#&gt;  [4,] "name"                                       
+#&gt;  [5,] "unit"                                       
+#&gt;  [6,] "whole plant development stage"              
+#&gt;  [7,] "whole plant development stage"              
+#&gt;  [8,] "name"                                       
+#&gt;  [9,] "Genotype"                                   
+#&gt; [10,] "cultivar"                                   
+#&gt; [11,] "Year of Onset"                              
+#&gt; [12,] "value"                                      
+#&gt; [13,] "name"                                       
+#&gt; [14,] "unit"                                       
+#&gt; [15,] "name"                                       
+#&gt; [16,] "type"                                       
+#&gt; [17,] "is grown in"                                
+#&gt; [18,] "http://purl.obolibrary.org/obo/GAZ_00000448"
+#&gt; [19,] "name"                                       
+#&gt; [20,] "type"                                       
+#&gt; [21,] "Description"                                
+#&gt; [22,] "Latitude"                                   
+#&gt; [23,] "Longitude"                                  
+#&gt; [24,] "value"                                      
+#&gt; [25,] "name"                                       
+#&gt; [26,] "unit"                                       
+#&gt; [27,] "value"                                      
+#&gt; [28,] "name"                                       
+#&gt; [29,] "unit"                                       
+#&gt; [30,] "whole plant development stage"              
+#&gt; [31,] "Duration"                                   
+#&gt; [32,] "type"                                       
+#&gt; [33,] "name"                                       
+#&gt; [34,] "unit"                                       
+#&gt; [35,] "value"                                      
+#&gt;       [,3]                               
+#&gt;  [1,] "Nc274a0c72ad449b7bed4d1c26fe82c0f"
+#&gt;  [2,] "35"                               
+#&gt;  [3,] "-144.0"                           
+#&gt;  [4,] "hour"                             
+#&gt;  [5,] "UO_0000032"                       
+#&gt;  [6,] "26"                               
+#&gt;  [7,] "Na40b86b0d5674343a220a9232de33222"
+#&gt;  [8,] "Vitis vinifera"                   
+#&gt;  [9,] "NCBITaxon_29760"                  
+#&gt; [10,] "Pinot Noir"                       
+#&gt; [11,] "Na05acd2da1c646f59f1d54b1c2baf3b9"
+#&gt; [12,] "2014"                             
+#&gt; [13,] "year"                             
+#&gt; [14,] "UO_0000036"                       
+#&gt; [15,] "pericarp"                         
+#&gt; [16,] "PO_0009084"                       
+#&gt; [17,] "N3a56ef3da39f43e4898308064c9c52b8"
+#&gt; [18,] "N2cf6afb97b484d7999564397b5255225"
+#&gt; [19,] "vineyard"                         
+#&gt; [20,] "ENVO_00000116"                    
+#&gt; [21,] "Modesto California USA"           
+#&gt; [22,] "Ncacd067f02f9408085cfe1e983d91174"
+#&gt; [23,] "Nd6784b30f1c74ebea0f5f2567939b80e"
+#&gt; [24,] "37.638585"                        
+#&gt; [25,] "degree"                           
+#&gt; [26,] "UO_0000185"                       
+#&gt; [27,] "-120.993462"                      
+#&gt; [28,] "degree"                           
+#&gt; [29,] "UO_0000185"                       
+#&gt; [30,] "Nd549454f14a444709974bb6d5babc550"
+#&gt; [31,] "Na1186d707d874d9691fef2c5c422818d"
+#&gt; [32,] "35"                               
+#&gt; [33,] "hour"                             
+#&gt; [34,] "UO_0000032"                       
+#&gt; [35,] "-480.0"                           </div><div class='input'><span class='no'>my_ids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_biofeature_id.html'>get_biofeature_id</a></span>(<span class='kw'>name_In</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"VIT_00s0332g00160"</span>,<span class='st'>"VIT_00s0396g00010"</span>
+,<span class='st'>"VIT_00s0505g00030"</span>))$<span class='no'>id</span>
+<span class='fu'>get_annotation_triples</span>(<span class='kw'>ids</span> <span class='kw'>=</span> <span class='no'>my_ids</span>)</div><div class='output co'>#&gt;       [,1]                [,2]         [,3]               
+#&gt;  [1,] "VIT_00s0332g00160" "Gene Alias" "1.6.5.3"          
+#&gt;  [2,] "VIT_00s0332g00160" "Gene Alias" "EC:1.6.5.3"       
+#&gt;  [3,] "VIT_00s0332g00160" "Gene Alias" "1.6.99.3"         
+#&gt;  [4,] "VIT_00s0332g00160" "Gene Alias" "EC:1.6.99.3"      
+#&gt;  [5,] "VIT_00s0332g00160" "Gene Alias" "VIT_00s0332g00160"
+#&gt;  [6,] "VIT_00s0332g00160" "Gene Alias" "Vv00s0332g00160"  
+#&gt;  [7,] "VIT_00s0396g00010" "Gene Alias" "Vv00s0396g00010"  
+#&gt;  [8,] "VIT_00s0505g00030" "Gene Alias" "1.6.5.3"          
+#&gt;  [9,] "VIT_00s0505g00030" "Gene Alias" "EC:1.6.5.3"       
+#&gt; [10,] "VIT_00s0505g00030" "Gene Alias" "VIT_00s0505g00030"
+#&gt; [11,] "VIT_00s0505g00030" "Gene Alias" "Vv00s0505g00030"  </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

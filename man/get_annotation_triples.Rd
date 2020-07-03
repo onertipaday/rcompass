@@ -4,26 +4,22 @@
 \alias{get_annotation_triples}
 \title{get_annotation_triples}
 \usage{
-get_annotation_triples(
-  compendium = "vespucci",
-  biofeaturesNames = NULL,
-  samplesetNames = NULL
-)
+get_annotation_triples(compendium = "vespucci", ids = NULL)
 }
 \arguments{
 \item{compendium}{A string - the selected compendium}
 
-\item{biofeaturesNames}{A character vector (gene_names)}
-
-\item{samplesetNames}{A character vector (sampleset names)}
+\item{ids}{A string - unique id of a biofeature, a sample, etc.}
 }
 \value{
-A character vector
+A matrix with 3 columns
 }
 \description{
 get_annotation_triples
 }
 \examples{
-#get_annotation_triples(samplesetName = "GSM147672.ch1-vs-GSM147690.ch1") # TO FIX!
-get_annotation_triples(biofeaturesNames = "VIT_00s0332g00110")
+get_annotation_triples(ids = "U2FtcGxlVHlwZTozMjAw")
+my_ids <- get_biofeature_id(name_In = c("VIT_00s0332g00160","VIT_00s0396g00010"
+,"VIT_00s0505g00030"))$id
+get_annotation_triples(ids = my_ids)
 }

@@ -31,7 +31,12 @@ plot_module
 }
 \examples{
 \dontrun{
-my_plot_html <- plot_heatmap(QuickSearch_ABAcoreset)
+gene_names <- c('VIT_00s0246g00220','VIT_00s0332g00060','VIT_00s0332g00110',
+'VIT_00s0332g00160','VIT_00s0396g00010','VIT_00s0505g00030',
+'VIT_00s0505g00060','VIT_00s0873g00020','VIT_00s0904g00010')
+mod_bf <- create_module(biofeaturesNames = gene_names)
+my_plot_html <- plot_heatmap(plot_type = "heatmap",
+biofeaturesNames = gene_names, normalization = "legacy")
 tempDir <- tempfile()
 dir.create(tempDir)
 htmlFile <- file.path(tempDir, "plot_heatmap.html")

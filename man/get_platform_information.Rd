@@ -19,5 +19,5 @@ use \code{\link{get_available_compendia}} to check all the available compendia
 }
 \examples{
 info <- get_platform_information()
-dplyr::count(info,type, source)
+dplyr::count(info, type, source)
 }

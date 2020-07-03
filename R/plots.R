@@ -35,7 +35,12 @@ get_available_plot_methods <- function(compendium = "vespucci"){
 #'
 #' @examples
 #'\dontrun{
-#' my_plot_html <- plot_heatmap(QuickSearch_ABAcoreset)
+#' gene_names <- c('VIT_00s0246g00220','VIT_00s0332g00060','VIT_00s0332g00110',
+#' 'VIT_00s0332g00160','VIT_00s0396g00010','VIT_00s0505g00030',
+#' 'VIT_00s0505g00060','VIT_00s0873g00020','VIT_00s0904g00010')
+#' mod_bf <- create_module(biofeaturesNames = gene_names)
+#' my_plot_html <- plot_heatmap(plot_type = "heatmap",
+#' biofeaturesNames = gene_names, normalization = "legacy")
 #' tempDir <- tempfile()
 #' dir.create(tempDir)
 #' htmlFile <- file.path(tempDir, "plot_heatmap.html")
@@ -49,7 +54,7 @@ plot_module  <- function(compendium = "vespucci",
                           normalization = NULL,
                           biofeaturesNames = NULL,
                           samplesetNames = NULL){
-  if (is.null(normalization)) stop ("Select either 'limma','tpm_sample' or legacy as normalization.")
+  if (is.null(normalization)) stop ("normalization has to be either 'limma','tpm_sample' or 'legacy'.")
   else if (normalization == "limma" | normalization == "tpm_sample") version <- "latest"
   else version <- "legacy"
   if (all(c(biofeaturesNames, samplesetNames) %in% NULL)) stop("You need to provide either biofeaturesNames or samplesetsNames")
@@ -142,8 +147,6 @@ plot_heatmap  <- function(compendium = "vespucci",
 #' @return An html page with the coexpression network
 #' @export
 plot_network_coexpression  <- function(compendium = "vespucci",
-                                       # version = "legacy",
-                                       # database = "vitis_vinifera",
                                        normalization = NULL,
                                        biofeaturesNames=NULL,
                                        samplesetNames=NULL){
@@ -174,27 +177,5 @@ plot_network_coexpression  <- function(compendium = "vespucci",
 }
 
 
-#' plot_heatmap
-#'
-#' @param compendium A string - the selected compendium
-#' @param version A string ('legacy' as default)
-#' @param biofeaturesNames A character vector (here gene_names)
-#' @param biofeaturesIds A character vector - the biofeature ids
-#'
-#' @return An html page with the distribution
-#' @export
-plot_distribution_coexpressed_samplesets  <- function(compendium = "vespucci",
-                          version = "legacy",
-                          biofeaturesNames=NULL,
-                          biofeaturesIds=NULL){
-  my_query <- paste0('{
-  plotHeatmap(compendium:\"', compendium, '\",
-    version:\"', version, '\",
-    plotType:"sample_sets_coexpression_distribution",
-    biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"],
-    samplesetIds:["', paste0(biofeaturesIds, collapse = '","'),'\"]) {
-        html
-        }
-  }')
-  build_query(my_query)$plotHeatmap
-}
+# plot_network <- function(){}
+

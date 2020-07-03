@@ -77,7 +77,7 @@ get_compendium_data_source <- function(compendium = "vespucci"){
 #'
 #' @examples
 #' info <- get_platform_information()
-#' dplyr::count(info,type, source)
+#' dplyr::count(info, type, source)
 get_platform_information <- function(compendium = "vespucci"){
   my_query <- paste0('{
   platforms(compendium:\"', compendium, '\") {
@@ -375,27 +375,24 @@ get_samples <- function(compendium = "vespucci",
 #' get_annotation_triples
 #'
 #' @param compendium A string - the selected compendium
-#' @param biofeaturesNames A character vector (gene_names)
-#' @param samplesetNames A character vector (sampleset names)
+#' @param ids A string - unique id of a biofeature, a sample, etc.
 #'
-#' @return A character vector
+#' @return A matrix with 3 columns
 #' @export
 #'
 #' @examples
-#' #get_annotation_triples(samplesetName = "GSM147672.ch1-vs-GSM147690.ch1") # TO FIX!
-#' get_annotation_triples(biofeaturesNames = "VIT_00s0332g00110")
-get_annotation_triples <- function(compendium = "vespucci",
-                                           biofeaturesNames = NULL,
-                                           samplesetNames = NULL) {
-  if(all(c(biofeaturesNames, samplesetNames) %in% NULL)) stop("You need to provide either biofeaturesNames or samplesetsNames")
-  if (is.null(biofeaturesNames)) ids <- get_sampleset_id(name_In = samplesetNames)$id
-  else ids <- get_biofeature_id(name_In = biofeaturesNames)$id
+#' get_annotation_triples(ids = "U2FtcGxlVHlwZTozMjAw")
+#' my_ids <- get_biofeature_id(name_In = c("VIT_00s0332g00160","VIT_00s0396g00010"
+#' ,"VIT_00s0505g00030"))$id
+#' get_annotation_triples(ids = my_ids)
+get_annotation_triples <- function(compendium = "vespucci", ids = NULL) {
+  if(is.null(ids)) stop("You need to provide and id")
   my_query <- paste0('{
-  annotationPrettyPrint(compendium:\"', compendium, '\", ids:\"', ids, '\") {
+  annotationPrettyPrint(compendium:\"', compendium, '\", ids:["', paste0(ids, collapse = '","'),'\" ]) {
   rdfTriples
     }
   }')
-  build_query(my_query)$annotationPrettyPrint$rdfTriples[[1]]
+  matrix(sapply(build_query(my_query)$annotationPrettyPrint$rdfTriples, unlist), ncol = 3, byrow = TRUE)
 }
 
 
