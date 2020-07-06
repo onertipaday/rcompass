@@ -136,7 +136,8 @@
   <span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>,
   <span class='kw'>samplesetNames</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>version</span> <span class='kw'>=</span> <span class='st'>"legacy"</span>,
-  <span class='kw'>rank</span> <span class='kw'>=</span> <span class='st'>"uncentered_correlation"</span>
+  <span class='kw'>rank</span> <span class='kw'>=</span> <span class='st'>"uncentered_correlation"</span>,
+  <span class='kw'>useIds</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -158,11 +159,15 @@
       <th>rank</th>
       <td><p>A string ('magnitude' as default) - use <code><a href='get_ranking.html'>get_ranking</a></code></p></td>
     </tr>
+    <tr>
+      <th>useIds</th>
+      <td><p>A logical (FALSE as default) - It allows using samplesetIds</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data.frame - the module</p>
+    <p>A matrix - the module</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>my_ss</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"GSM671720.ch1-vs-GSM671719.ch1"</span>,<span class='st'>"GSM671721.ch1-vs-GSM671719.ch1"</span>

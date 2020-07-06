@@ -4,8 +4,9 @@
 #' @param version A string ('legacy' as default)
 #' @param biofeaturesNames A character vector (gene_names)
 #' @param samplesetNames A character vector (sampleset names)
+#' @param useIds A logical (FALSE as default) - It allows using biofeatureIds
 #'
-#' @return A data.frame - the module
+#' @return A matrix - the module
 #' @export
 #'
 #' @examples
@@ -18,26 +19,35 @@
 #' my_ss <- c("GSM671720.ch1-vs-GSM671719.ch1","GSM671721.ch1-vs-GSM671719.ch1"
 #' ,"GSM671722.ch1-vs-GSM671719.ch1","GSM147672.ch1-vs-GSM147690.ch1")
 #' my_mod <- create_module(biofeaturesNames = my_bf, samplesetNames = my_ss)
-#' pheatmap::pheatmap(my_mod, col = RColorBrewer::brewer.pal(11,name="RdBu"))
+#' pheatmap::pheatmap(na.omit(my_mod), col = RColorBrewer::brewer.pal(11,name="RdBu"))
 #' }
 create_module <- function(compendium = "vespucci",
                           version = "legacy",
                           biofeaturesNames = NULL,
-                          samplesetNames = NULL){
+                          samplesetNames = NULL,
+                          useIds = FALSE){
   if(all(c(biofeaturesNames, samplesetNames) %in% NULL)) stop("You need to provide at least biofeaturesNames or samplesetsNames")
   else if (is.null(biofeaturesNames)) {
     return(create_module_ss(compendium = compendium,
                             version = version,
-                            samplesetNames =  samplesetNames))
+                            samplesetNames =  samplesetNames,
+                            useIds = useIds))
   }
   else if (is.null(samplesetNames)) {
     return(create_module_bf(compendium = compendium,
                             version = version,
-                            biofeaturesNames = biofeaturesNames))
+                            biofeaturesNames = biofeaturesNames,
+                            useIds = useIds))
   }
   else {
-    biofeaturesIds <- get_biofeature_id(name_In = biofeaturesNames)$id
-    samplesetIds <- get_sampleset_id(name_In = samplesetNames)$id
+    if(useIds){
+      biofeaturesIds <- biofeaturesNames
+      samplesetIds <- samplesetNames
+    }
+    else {
+      biofeaturesIds <- get_biofeature_id(name_In = biofeaturesNames)$id
+      samplesetIds <- get_sampleset_id(name_In = samplesetNames)$id
+    }
     my_query <- paste0('{
     modules(compendium:\"', compendium, '\", version:\"', version, '\",
     biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"],
@@ -59,8 +69,9 @@ create_module <- function(compendium = "vespucci",
 #' @param biofeaturesNames A character vector (gene_names)
 #' @param version A string ('legacy' as default)
 #' @param rank A string ('magnitude' as default)
+#' @param useIds A logical (FALSE as default) - It allows using biofeatureIds
 #'b
-#' @return A data.frame - the module
+#' @return A matrix - the module
 #' @export
 #'
 #' @examples
@@ -72,9 +83,11 @@ create_module <- function(compendium = "vespucci",
 create_module_bf <- function(compendium = "vespucci",
                              biofeaturesNames=NULL,
                              version = "legacy",
-                             rank = "magnitude") {
+                             rank = "magnitude",
+                             useIds = FALSE) {
   if(is.null(biofeaturesNames)) stop("You need to provide biofeaturesNames")
-  biofeaturesIds <- get_biofeature_id(name_In=biofeaturesNames)$id
+  if(useIds) biofeaturesIds <- biofeaturesNames
+  else biofeaturesIds <- get_biofeature_id(name_In=biofeaturesNames)$id
   # samplesetIds <- get_samplesets_ranking(compendium =  compendium,
   #                                        biofeaturesNames = NULL,
   #                                        biofeaturesIds = biofeaturesIds,
@@ -107,8 +120,9 @@ create_module_bf <- function(compendium = "vespucci",
 #' @param version A string ('legacy' as default)
 #' @param samplesetNames A character vector (sampleset names)
 #' @param rank A string ('magnitude' as default) - use \code{\link{get_ranking}}
+#' @param useIds A logical (FALSE as default) - It allows using samplesetIds
 #'
-#' @return A data.frame - the module
+#' @return A matrix - the module
 #' @export
 #'
 #' @examples
@@ -118,9 +132,11 @@ create_module_bf <- function(compendium = "vespucci",
 create_module_ss <- function(compendium = "vespucci",
                              samplesetNames = NULL,
                              version = "legacy",
-                             rank = "uncentered_correlation"){
+                             rank = "uncentered_correlation",
+                             useIds = FALSE){
   if(is.null(samplesetNames)) stop("You need to provide samplesetNames")
-  samplesetIds <- get_sampleset_id(name_In=samplesetNames)$id
+  if(useIds) samplesetIds <- samplesetNames
+  else samplesetIds <- get_sampleset_id(name_In=samplesetNames)$id
   my_query <- paste0('{
     modules(compendium:\"', compendium, '\", version:\"', version, '\", samplesetIds:["', paste0(samplesetIds, collapse = '","'),'\"]), {
       normalizedValues
@@ -146,7 +162,7 @@ create_module_ss <- function(compendium = "vespucci",
 #' @param mod1 first module to merge
 #' @param mod2 second module to merge
 #'
-#' @return A data.frame - the module
+#' @return A matrix - the module
 #' @export
 #'
 #' @examples

@@ -8,7 +8,8 @@ create_module(
   compendium = "vespucci",
   version = "legacy",
   biofeaturesNames = NULL,
-  samplesetNames = NULL
+  samplesetNames = NULL,
+  useIds = FALSE
 )
 }
 \arguments{
@@ -19,9 +20,11 @@ create_module(
 \item{biofeaturesNames}{A character vector (gene_names)}
 
 \item{samplesetNames}{A character vector (sampleset names)}
+
+\item{useIds}{A logical (FALSE as default) - It allows using biofeatureIds}
 }
 \value{
-A data.frame - the module
+A matrix - the module
 }
 \description{
 create module providing both biological features and sample sets
@@ -36,6 +39,6 @@ my_bf <- c("VIT_00s0332g00110","VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0
 my_ss <- c("GSM671720.ch1-vs-GSM671719.ch1","GSM671721.ch1-vs-GSM671719.ch1"
 ,"GSM671722.ch1-vs-GSM671719.ch1","GSM147672.ch1-vs-GSM147690.ch1")
 my_mod <- create_module(biofeaturesNames = my_bf, samplesetNames = my_ss)
-pheatmap::pheatmap(my_mod, col = RColorBrewer::brewer.pal(11,name="RdBu"))
+pheatmap::pheatmap(na.omit(my_mod), col = RColorBrewer::brewer.pal(11,name="RdBu"))
 }
 }

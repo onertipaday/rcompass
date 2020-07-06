@@ -42,18 +42,45 @@ Let's build our module starting from a bunch of genes that might come from a pre
 gene_names <- c('VIT_00s0246g00220','VIT_00s0332g00060','VIT_00s0332g00110','VIT_00s0332g00160','VIT_00s0396g00010','VIT_00s0505g00030','VIT_00s0505g00060','VIT_00s0873g00020','VIT_00s0904g00010')
 ```
 
-We can query the compendium with the list of gene names and get a list of BiologicalFeature objects that represents our genes of interest. The easiest way to know which are the valid filter values to be used is to use the autocompletition (ALT + SPACEBAR) in the COMPASS GraphiQL interface at [http://compass.fmach.it/graphql](http://compass.fmach.it/graphql).
+We can query the compendium with the list of gene names and get a list of BiologicalFeature objects that represents our genes of interest. The easiest way to know which are the valid filter values to be used is to use the autocompletion (ALT + SPACEBAR) in the COMPASS GraphQL interface at [http://compass.fmach.it/graphql](http://compass.fmach.it/graphql).
 
 
 ```{r}
 bf_ids <- get_biofeature_id(compendium = "vespucci", name_In = gene_names) 
 DT::datatable(bf_ids)
 ```
+Genes might have different aliases, all of which are defined in VESPUCCI as annotations. Since annotations (for both genes and samples) are represented as RDF triples using different ontologies, we can perform a [SPARQL](https://en.wikipedia.org/wiki/SPARQL) query to retrieve all the biological features (genes here) that has an ***alias*** ([NCIT_C41095](https://www.ebi.ac.uk/ols/ontologies/ncit/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FNCIT_C41095) term on the NCIT Ontology, http://purl.obolibrary.org/obo/) equal to the ones specified in the list.
 
+```{r}
+my_query <- "SELECT ?s ?p ?o WHERE { {?s <http://purl.obolibrary.org/obo/NCIT_C41095> 'B9S8R7'} UNION {?s <http://purl.obolibrary.org/obo/NCIT_C41095> 'Q7M2G6'} UNION {?s <http://purl.obolibrary.org/obo/NCIT_C41095> 'D7SZ93'} UNION {?s <http://purl.obolibrary.org/obo/NCIT_C41095> 'B8XIJ8'} UNION {?s <http://purl.obolibrary.org/obo/NCIT_C41095> 'Vv00s0125g00280'} UNION {?s <http://purl.obolibrary.org/obo/NCIT_C41095> 'Vv00s0187g00140'} UNION {?s <http://purl.obolibrary.org/obo/NCIT_C41095> 'Vv00s0246g00010'} UNION {?s <http://purl.obolibrary.org/obo/NCIT_C41095> 'Vv00s0246g00080'} UNION {?s <http://purl.obolibrary.org/obo/NCIT_C41095> 'Vv00s0438g00020'} UNION {?s <http://purl.obolibrary.org/obo/NCIT_C41095> 'Vv00s0246g00200'} }"
+sparql_results <- get_sparql_annotation_triples(target = "biofeature", query = my_query) 
+sparql_results[,1]  
+```
 
+or we can use the wrapper function `get_ids_from_alias()`:
 
+```{r}
+aliases <- c('B9S8R7','Q7M2G6','D7SZ93','B8XIJ8','Vv00s0125g00280','Vv00s0187g00140','Vv00s0246g00010','Vv00s0246g00080','Vv00s0438g00020','Vv00s0246g00200')
+get_ids_from_alias(target = "biofeature", alias_names = aliases)
+```
+
+Another examples returning samples ids selected by [PO ontology](https://www.ebi.ac.uk/ols/ontologies/po) term [seed](http://purl.obolibrary.org/obo/PO_0009010):
+```{r}
+my_query <- paste0('SELECT ?s ?p ?o WHERE { ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>',
+'<http://purl.obolibrary.org/obo/NCIT_C19157>',
+'. ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>',
+'<http://purl.obolibrary.org/obo/PO_0009010>}')
+get_sparql_annotation_triples(target = "sample", query = my_query)[,1]
+```
+
+Each BiologicalFeature object has several fields. In our case, since the BiologicalFeature represent a gene, we have sequence. The id is the identifier used internally in the database.
+
+```{r}
+DT::datatable(get_biofeature_by_name(name_In = gene_names))
+```
 
 # Create a Module
+
 We are now ready to create our first module. If we pass a list of genes (BiologicalFeature objects) it will automatically retrieve the "best" conditions (SampleSet objects).
 
 ```{r}

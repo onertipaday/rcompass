@@ -9,7 +9,7 @@ get_biofeature_annotations(compendium = "vespucci", name = "VIT_00s0332g00060")
 \arguments{
 \item{compendium}{A string - the selected compendium}
 
-\item{name}{A stringthe biofeature of interest}
+\item{name}{A string - the name of biofeature of interest}
 }
 \value{
 A data.frame

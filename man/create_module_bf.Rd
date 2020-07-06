@@ -8,7 +8,8 @@ create_module_bf(
   compendium = "vespucci",
   biofeaturesNames = NULL,
   version = "legacy",
-  rank = "magnitude"
+  rank = "magnitude",
+  useIds = FALSE
 )
 }
 \arguments{
@@ -18,11 +19,13 @@ create_module_bf(
 
 \item{version}{A string ('legacy' as default)}
 
-\item{rank}{A string ('magnitude' as default)
+\item{rank}{A string ('magnitude' as default)}
+
+\item{useIds}{A logical (FALSE as default) - It allows using biofeatureIds
 b}
 }
 \value{
-A data.frame - the module
+A matrix - the module
 }
 \description{
 create_module_bf

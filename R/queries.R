@@ -398,9 +398,9 @@ get_annotation_triples <- function(compendium = "vespucci", ids = NULL) {
 
 #' get_sparql_annotation_triples
 #'
+#' @param compendium A string - the selected compendium
 #' @param target A string - either sample or biofeature
 #' @param query A string - sparql query
-#' @param compendium A string - the selected compendium
 #'
 #' @return A data.frame with 3 columns
 #' @export
@@ -423,6 +423,31 @@ get_sparql_annotation_triples <- function(compendium = "vespucci",
   as.data.frame(t(sapply(build_query(my_query)$sparql$rdfTriples, unlist)))
 }
 
+#' get_ids_from_alias
+#'
+#' @param compendium A string - the selected compendium
+#' @param target A string - either sample or biofeature
+#' @param alias_names A character vector - the aliases
+#'
+#' @return A character vector - the ids corresponding to the provided aliases
+#' @export
+#'
+#' @examples
+#' my_names <- c('Vv00s0125g00280','Vv00s0187g00140','Vv00s0246g00010',
+#' 'Vv00s0246g00080','Vv00s0438g00020','Vv00s0246g00200','Q7M2G6','B9S8R7','B8XIJ8','D7SZ93')
+#' get_ids_from_alias(target = "biofeature", alias_names = my_names)
+get_ids_from_alias <- function(compendium = "vespucci",
+                               target = "biofeature",
+                               alias_names = NULL){
+  if(is.null(alias_names)) stop("Provide aliases to be converted.")
+  body <- "SELECT ?s ?p ?o WHERE { "
+  for (i in 1:length(alias_names)){
+    body = paste0(body, "{?s <http://purl.obolibrary.org/obo/NCIT_C41095> \'",alias_names[i],"\'} ")
+  }
+  my_query <- paste0( gsub("\\} \\{"," \\} UNION \\{",body), "}" )
+  get_sparql_annotation_triples(compendium = compendium, target = target, query = my_query)[,1]
+}
+
 
 #' get_available_normalization
 #'
@@ -433,9 +458,9 @@ get_sparql_annotation_triples <- function(compendium = "vespucci",
 #' @export
 #'
 #' @examples
-#' get_available_normalization()
-get_available_normalization <- function(compendium="vespucci",
-                                   version='latest'){
+#' get_available_normalization(version = "legacy")
+get_available_normalization <- function(compendium = "vespucci",
+                                   version = 'latest'){
   my_query <- paste0('{
   normalizations(compendium:\"', compendium, '\", version:\"', version, '\") {
   edges {
@@ -461,8 +486,8 @@ get_available_normalization <- function(compendium="vespucci",
 #' get_ontology_structure(name_In="Agronomy")
 #' get_ontology_structure(name_In=c("Agronomy","Gene ontology"))
 #' }
-get_ontology_structure <- function(compendium="vespucci",
-                                   name_In="Gene ontology"){
+get_ontology_structure <- function(compendium = "vespucci",
+                                   name_In = "Gene ontology"){
   my_query <- paste0('{
   ontology(compendium:\"', compendium, '\", name_In:\"', paste0(name_In, collapse =","), '\") {
   edges {
@@ -508,7 +533,7 @@ get_ontologies <- function(compendium = "vespucci"){
 #' get_biofeature_annotations
 #'
 #' @param compendium A string - the selected compendium
-#' @param name A stringthe biofeature of interest
+#' @param name A string - the name of biofeature of interest
 #'
 #' @return A data.frame
 #' @export
@@ -530,7 +555,10 @@ get_biofeature_annotations <- function(compendium = "vespucci",
     }
   }
 }')
-build_query(my_query)$biofeatureAnnotations$edges$node
+  tmp <- as.data.frame(t(sapply(build_query(my_query)$biofeatureAnnotations$edges, unlist)))
+  colnames(tmp) <- c("annotationId", "annotation","bioFeatureId")
+  rownames(tmp) <- NULL
+  tmp
 }
 
 
@@ -573,27 +601,6 @@ get_biofeature_by_name <- function(compendium = "vespucci",
   data.frame(name = name_In, tmp)
 }
 
-
-#' get_biofeature_annotation_rdf
-#'
-#' @param compendium A string - the selected compendium
-#' @param ids unique biologicafeature annotation from \code{\link{get_biofeature_by_name}}
-#'
-#' @return A data.frame
-#' @export
-#'
-#' @examples
-#' get_biofeature_annotation_rdf(ids="QmlvRmVhdHVyZVR5cGU6Mg==")
-get_biofeature_annotation_rdf <- function(compendium = "vespucci",
-                                   ids="QmlvRmVhdHVyZVR5cGU6Mg=="){
-  if(is.null(ids)) stop("Provide ids (e.g. ids = 'QmlvRmVhdHVyZVR5cGU6Mg==')")
-  my_query <- paste0('{
-  annotationPrettyPrint(compendium:\"', compendium, '\", ids:\"',ids, '\") {
-        rdfTriples
-          }
-  }')
-  build_query(my_query)$annotationPrettyPrint$rdfTriples
-}
 
 #' get_biofeature_id
 #'

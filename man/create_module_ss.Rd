@@ -8,7 +8,8 @@ create_module_ss(
   compendium = "vespucci",
   samplesetNames = NULL,
   version = "legacy",
-  rank = "uncentered_correlation"
+  rank = "uncentered_correlation",
+  useIds = FALSE
 )
 }
 \arguments{
@@ -19,9 +20,11 @@ create_module_ss(
 \item{version}{A string ('legacy' as default)}
 
 \item{rank}{A string ('magnitude' as default) - use \code{\link{get_ranking}}}
+
+\item{useIds}{A logical (FALSE as default) - It allows using samplesetIds}
 }
 \value{
-A data.frame - the module
+A matrix - the module
 }
 \description{
 create_module_ss

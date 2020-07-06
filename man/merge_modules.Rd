@@ -12,7 +12,7 @@ merge_modules(mod1, mod2)
 \item{mod2}{second module to merge}
 }
 \value{
-A data.frame - the module
+A matrix - the module
 }
 \description{
 Union of two modules

@@ -179,3 +179,28 @@ plot_network_coexpression  <- function(compendium = "vespucci",
 
 # plot_network <- function(){}
 
+
+#' plotDistribution
+#'
+#' @return An html - the plot
+#' @export
+#'
+#' @examples
+#'\dontrun{
+#' my_plot_html <- plotDistribution()
+#' tempDir <- tempfile()
+#' dir.create(tempDir)
+#' htmlFile <- file.path(tempDir, "plotDistribution.html")
+#' xml2::write_html(my_plot_html,file=htmlFile)
+#' rstudioapi::viewer(htmlFile)
+#' }
+plotDistribution <- function(){
+my_query <- paste0('{
+  plotDistribution(compendium:"vespucci", version:"legacy",
+    plotType:"sample_sets_coexpression_distribution",
+    biofeaturesIds: ["QmlvRmVhdHVyZVR5cGU6MQ==","QmlvRmVhdHVyZVR5cGU6Mg=="]) {
+        html
+  }
+}')
+build_query(my_query)$plotDistribution
+  }

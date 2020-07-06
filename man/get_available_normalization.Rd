@@ -18,5 +18,5 @@ A vector of character strings with the available normalization methods
 get_available_normalization
 }
 \examples{
-get_available_normalization()
+get_available_normalization(version = "legacy")
 }

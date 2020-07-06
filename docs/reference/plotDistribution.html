@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Union of two modules — merge_modules • rcompass</title>
+<title>plotDistribution — plotDistribution • rcompass</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Union of two modules — merge_modules" />
-<meta property="og:description" content="Union of two modules" />
+<meta property="og:title" content="plotDistribution — plotDistribution" />
+<meta property="og:description" content="plotDistribution" />
 
 
 
@@ -123,43 +123,31 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Union of two modules</h1>
-    <small class="dont-index">Source: <a href='https://github.com/onertipaday/rcompass/blob/master/R/modules.R'><code>R/modules.R</code></a></small>
-    <div class="hidden name"><code>merge_modules.Rd</code></div>
+    <h1>plotDistribution</h1>
+    <small class="dont-index">Source: <a href='https://github.com/onertipaday/rcompass/blob/master/R/plots.R'><code>R/plots.R</code></a></small>
+    <div class="hidden name"><code>plotDistribution.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Union of two modules</p>
+    <p>plotDistribution</p>
     </div>
 
-    <pre class="usage"><span class='fu'>merge_modules</span>(<span class='no'>mod1</span>, <span class='no'>mod2</span>)</pre>
+    <pre class="usage"><span class='fu'>plotDistribution</span>()</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>mod1</th>
-      <td><p>first module to merge</p></td>
-    </tr>
-    <tr>
-      <th>mod2</th>
-      <td><p>second module to merge</p></td>
-    </tr>
-    </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A matrix - the module</p>
+    <p>An html - the plot</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>my_ss</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"GSM671720.ch1-vs-GSM671719.ch1"</span>,<span class='st'>"GSM671721.ch1-vs-GSM671719.ch1"</span>
-,<span class='st'>"GSM671722.ch1-vs-GSM671719.ch1"</span>,<span class='st'>"GSM147672.ch1-vs-GSM147690.ch1"</span>)
-<span class='no'>mod_ss</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_module_ss.html'>create_module_ss</a></span>(<span class='kw'>samplesetNames</span> <span class='kw'>=</span> <span class='no'>my_ss</span>)
-<span class='no'>my_bf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"VIT_00s0246g00220"</span>,<span class='st'>"VIT_00s0332g00060"</span>,<span class='st'>"VIT_00s0332g00110"</span>
-,<span class='st'>"VIT_00s0332g00160"</span>,<span class='st'>"VIT_00s0396g00010"</span>,<span class='st'>"VIT_00s0505g00030"</span>,<span class='st'>"VIT_00s0505g00060"</span>
-,<span class='st'>"VIT_00s0873g00020"</span>,<span class='st'>"VIT_00s0904g00010"</span>)
-<span class='no'>mod_bf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_module_bf.html'>create_module_bf</a></span>(<span class='kw'>biofeaturesNames</span><span class='kw'>=</span> <span class='no'>my_bf</span>, <span class='kw'>version</span> <span class='kw'>=</span> <span class='st'>"legacy"</span>)
-<span class='no'>mod_union</span> <span class='kw'>&lt;-</span> <span class='fu'>merge_modules</span>(<span class='kw'>mod1</span> <span class='kw'>=</span> <span class='no'>mod_ss</span>, <span class='kw'>mod2</span> <span class='kw'>=</span> <span class='no'>mod_bf</span>)</div></pre>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='no'>my_plot_html</span> <span class='kw'>&lt;-</span> <span class='fu'>plotDistribution</span>()
+<span class='no'>tempDir</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>()
+<span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.create</a></span>(<span class='no'>tempDir</span>)
+<span class='no'>htmlFile</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='no'>tempDir</span>, <span class='st'>"plotDistribution.html"</span>)
+<span class='kw pkg'>xml2</span><span class='kw ns'>::</span><span class='fu'><a href='http://xml2.r-lib.org/reference/write_xml.html'>write_html</a></span>(<span class='no'>my_plot_html</span>,<span class='kw'>file</span><span class='kw'>=</span><span class='no'>htmlFile</span>)
+<span class='kw pkg'>rstudioapi</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rstudioapi/man/viewer.html'>viewer</a></span>(<span class='no'>htmlFile</span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
