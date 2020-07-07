@@ -78,56 +78,63 @@ Each BiologicalFeature object has several fields. In our case, since the Biologi
 ```{r}
 DT::datatable(get_biofeature_by_name(name_In = gene_names))
 ```
-
 # Create a Module
-
 We are now ready to create our first module. If we pass a list of genes (BiologicalFeature objects) it will automatically retrieve the "best" conditions (SampleSet objects).
 
 ```{r}
-module_1 <- create_module_bf(biofeaturesNames=gene_names)
+module_1 <- create_module(biofeaturesNames=gene_names, version = "legacy")
 ```
 
 A module can be thought as a matrix composed by BiologicalFeature objects (genes in our case) as rows and SampleSet objects (conditions contrasts in our case) as columns. Each SampleSet, as the name suggests, is composed by 1 or more Sample objects. Since we are using the legacy normalization each SampleSet is composed by 2 samples, one Test sample and one Reference sample and the value associated is the logratio between the Test and Reference for a specific gene (BiologicalFeature).
 
 ```{r}
-DT::datatable(head(module_1), class = 'cell-border stripe')
+DT::datatable(module_1, class = 'cell-border stripe')
 ```
 ```{r}
-get_sample_by_gsm(sampleName_Icontains="GSM1313535")
+# get_sample_by_gsm(sampleName_Icontains="GSM1313535")
+# get_sampleset_id(name_In = "GSM605594.ch1-vs-GSM605578.ch1")
+get_sampleset_id(name_In = colnames(module_1)[1:10])
 ```
 
 # Plot a module
-
 The easiest way to visualize a module is using a heatmap. The Plot object wraps a module and can return different plot type with different format (the Plotly JSON format or HTML). To see an heatmap embedded in a Jupyter Notebook we can retrieve the HTML code of the Plot (that uses Plotly) and display it directly into the notebook.
 
 ```{r}
-
+#' my_plot_html <- plot_heatmap(plot_type = "heatmap",
+#' biofeaturesNames = gene_names, normalization = "legacy")
 ```
 
+Alternatively you can use directly any R function to cluster data and produce an heatmap, e.g.:
 
+```{r}
+# library(heatmaply)
+# my_h <- heatmaply(module_1,
+#           showticklabels = c(TRUE, TRUE),
+#           fontsize_col = 7.5,
+#           col = gplots::greenred(50),
+#           plot_method = 'plotly')
+# my_h
+```
+```{r}
+library(pheatmap)
+pheat_cl <- pheatmap::pheatmap(mat =  as.matrix(module_1))
+pheat_cl
+```
+Biological Features (genes) and Sample Sets (contrasts) have no particular order in a module. But since the heatmap is clustered we can retrieve the sorted list of Biological Features and Sample Sets respectively. An easy way is to use a the variable containing the order for both rows and columns produced by the pheatmap function.
 
-
-
-
-
-
+```{r}
+DT::datatable(module_1[pheat_cl$tree_row$order,pheat_cl$tree_col$order])
+```
 # Plot correlation network
-
 Given a module we can plot the correlation network between Biological Features (genes) by looking at the Pearson correlation coefficient of the module's Sample Sets (contrast). The default threshold is 0.7, but it can be changed. Edges in orange represent anti-correlation.
 
 ```{r}
 
 ```
 
-
-
-
-
 # Automatically expand a module
-
-One of the classic way to use VESPUCCI is to start with a set of genes selected from previous analysis, have a look at the top conditions in which they show a consistent (and strong) behaviour and then look for other genes that have the same behavior across those same conditions.
-
-The way to do it is to plot the distribution of genes that show a similar behaviour of the module's genes across the same condition in order pick up a suitable threshold.
+One of the classic way to use VESPUCCI is to start with a set of genes selected from previous analysis, have a look at the top conditions in which they show a consistent (and strong) behavior and then look for other genes that behave the same across those same conditions.
+The way to do it is to plot the distribution of genes that show a similar behavior of the module's genes across the same condition in order pick up a suitable threshold.
 
 ```{r}
 
@@ -154,9 +161,7 @@ We can have a look at the heatmap of the new module
 
 
 # Annotations
-
-In VESPUCCI, both Biological Feature (gene) and Sample annotations are represented using RDF. We can visualize annotation as a set of RDF triples.
-
+In VESPUCCI, both Biological Feature (gene) and Sample annotations are represented using [RDF](https://en.wikipedia.org/wiki/Resource_Description_Framework). We can visualize annotation as a set of RDF triples.
 ```{r}
 
 ```
@@ -171,32 +176,26 @@ Another way is to visualize the annotation is with RDF graph.
 Annotations can also be used to retrieve Sample or Biological Features (gene) starting from a SPARQL query. For example we might want to select all seed Sample.
 
 
-```
-sparql = "SELECT ?s ?p ?o " + \
-    "WHERE { ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.obolibrary.org/obo/NCIT_C19157> . " + \
-            "?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.obolibrary.org/obo/PO_0009010>}"
+```{r}
+sparql = "SELECT ?s ?p ?o WHERE { ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.obolibrary.org/obo/NCIT_C19157> . ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.obolibrary.org/obo/PO_0009010>}"
 ```
 
-The term http://purl.obolibrary.org/obo/NCIT_C19157 indicates speciemen while http://purl.obolibrary.org/obo/PO_0009010 is the Plant Ontology term for seed. To indicate a gene, instead the term http://purl.obolibrary.org/obo/NCIT_C16612 is used.
-
+The term [NCIT_C19157](http://purl.obolibrary.org/obo/NCIT_C19157) indicates ***specimen*** while [PO_0009010](http://purl.obolibrary.org/obo/PO_0009010) is the Plant Ontology term for ***seed***. To indicate a gene, instead the term [NCIT_C16612](http://purl.obolibrary.org/obo/NCIT_C16612) is used.
 
 ```{r}
-
+seed_samples <- get_sparql_annotation_triples(target = "sample", query = sparql)[,1]
 ```
 
 Now we can collect all the Sample Sets in which these samples are used and then create a new module based on Sample Sets only leaving VESPUCCI to figure out which are the genes (Biological Feature objects) that show a consistent up or down-regulated profile.
 
-
 ```{r}
-
+# module_3 <- create_module(samplesetNames = seed_samples, useIds = TRUE)
 ```
-
 
 And now we can plot the heatmap
 
-
 ```{r}
-
+# pheatmap::pheatmap(mat = as.matrix(module_3))
 ```
 
 # Session information

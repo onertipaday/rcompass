@@ -4,14 +4,21 @@
 \alias{get_sampleset_id}
 \title{get_sampleset_id}
 \usage{
-get_sampleset_id(compendium = "vespucci", version = "legacy", name_In = NULL)
+get_sampleset_id(
+  compendium = "vespucci",
+  version = "legacy",
+  name_In = NULL,
+  useIds = FALSE
+)
 }
 \arguments{
 \item{compendium}{A string - the selected compendium}
 
 \item{version}{A string - either 'latest' or 'legacy'}
 
-\item{name_In}{A vector of character strings - the sampleset name}
+\item{name_In}{A vector of character strings - either samplesetNames or sampleSetIds}
+
+\item{useIds}{A logical (FALSE as default) - It allows using sampleSetIds}
 }
 \value{
 A data.frame with two columns: id and name
@@ -23,4 +30,6 @@ get_sampleset_id
 my_ss <- c("GSM671720.ch1-vs-GSM671719.ch1","GSM671721.ch1-vs-GSM671719.ch1"
 ,"GSM671722.ch1-vs-GSM671719.ch1","GSM147672.ch1-vs-GSM147690.ch1")
 get_sampleset_id(name_In = my_ss)
+my_ids <- c("U2FtcGxlVHlwZToxMDI4","U2FtcGxlVHlwZTozMDQ5","U2FtcGxlVHlwZTo3MTY=")
+get_sampleset_id(name_In = my_ids, useIds = TRUE)
 }

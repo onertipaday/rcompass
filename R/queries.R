@@ -452,7 +452,7 @@ get_ids_from_alias <- function(compendium = "vespucci",
 #' get_available_normalization
 #'
 #' @param compendium A string - the selected compendium
-#' @param version A string - either (default) 'latest' or '2.0'
+#' @param version A string - either (default) 'latest' or 'legacy'
 #'
 #' @return A vector of character strings with the available normalization methods
 #' @export
@@ -460,7 +460,7 @@ get_ids_from_alias <- function(compendium = "vespucci",
 #' @examples
 #' get_available_normalization(version = "legacy")
 get_available_normalization <- function(compendium = "vespucci",
-                                   version = 'latest'){
+                                        version = 'latest'){
   my_query <- paste0('{
   normalizations(compendium:\"', compendium, '\", version:\"', version, '\") {
   edges {
@@ -562,7 +562,7 @@ get_biofeature_annotations <- function(compendium = "vespucci",
 }
 
 
-#' get biofeature sequence by name
+#' get_biofeature_by_name
 #'
 #' @param compendium A string - the selected compendium
 #' @param field biofeature field of interest ('sequence' as default)
@@ -635,8 +635,9 @@ get_biofeature_id <- function(compendium = "vespucci",
 #' get_sampleset_id
 #'
 #' @param compendium A string - the selected compendium
-#' @param name_In A vector of character strings - the sampleset name
+#' @param name_In A vector of character strings - either samplesetNames or sampleSetIds
 #' @param version A string - either 'latest' or 'legacy'
+#' @param useIds A logical (FALSE as default) - It allows using sampleSetIds
 #'
 #' @return A data.frame with two columns: id and name
 #' @export
@@ -645,13 +646,16 @@ get_biofeature_id <- function(compendium = "vespucci",
 #' my_ss <- c("GSM671720.ch1-vs-GSM671719.ch1","GSM671721.ch1-vs-GSM671719.ch1"
 #' ,"GSM671722.ch1-vs-GSM671719.ch1","GSM147672.ch1-vs-GSM147690.ch1")
 #' get_sampleset_id(name_In = my_ss)
+#' my_ids <- c("U2FtcGxlVHlwZToxMDI4","U2FtcGxlVHlwZTozMDQ5","U2FtcGxlVHlwZTo3MTY=")
+#' get_sampleset_id(name_In = my_ids, useIds = TRUE)
 get_sampleset_id <- function(compendium = "vespucci",
                              version = "legacy",
-                             name_In = NULL){
-  if(is.null(name_In))stop(" Provide name_In (e.g. name_In = 'GSM671720.ch1-vs-GSM671719.ch1','GSM671721.ch1-vs-GSM671719.ch1'")
-
-  my_query <- paste0('{
-    sampleSets(compendium:\"', compendium, '\", version:\"', version, '\", name_In:\"', paste0(name_In, collapse =","), '\") {
+                             name_In = NULL,
+                             useIds = FALSE){
+  if(is.null(name_In)) stop("Provide name_In (e.g. name_In = 'GSM671720.ch1-vs-GSM671719.ch1','GSM671721.ch1-vs-GSM671719.ch1'")
+  if(useIds) {
+    my_query <- paste0('{
+    sampleSets(compendium:\"', compendium, '\", version:\"', version, '\", samples:["', paste0(name_In, collapse = '","'),'\"]) {
     edges {
       node {
         id,
@@ -660,6 +664,19 @@ get_sampleset_id <- function(compendium = "vespucci",
       }
     }
   }')
+  }
+  else {
+    my_query <- paste0('{
+    sampleSets(compendium:\"', compendium, '\", version:\"', version, '\", name_In:\"', paste0(name_In, collapse =","), '\") {
+    edges {
+      node {
+        id,
+        name
+        }
+      }
+    }
+    }')
+  }
   tmp <- as.data.frame(t(sapply(build_query(my_query)$sampleSets$edges, unlist)))
   colnames(tmp) <-  c("id","name"); rownames(tmp) <-  NULL
   tmp

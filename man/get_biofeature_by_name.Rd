@@ -2,7 +2,7 @@
 % Please edit documentation in R/queries.R
 \name{get_biofeature_by_name}
 \alias{get_biofeature_by_name}
-\title{get biofeature sequence by name}
+\title{get_biofeature_by_name}
 \usage{
 get_biofeature_by_name(
   compendium = "vespucci",
@@ -21,7 +21,7 @@ get_biofeature_by_name(
 A data.frame with three columns: name,id and value
 }
 \description{
-get biofeature sequence by name
+get_biofeature_by_name
 }
 \examples{
 get_biofeature_by_name(name_In = c("VIT_00s0332g00060", "VIT_00s0246g00220",

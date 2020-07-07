@@ -65,6 +65,8 @@ server <- function(input, output) {
     my_bf <- strsplit(input$tAI_bf, split=",")[[1]]
     if(input$version == 1) version = "legacy"
     mod <- create_module_bf(biofeaturesNames = my_bf, version = version)
+    #ids <- get_ids_from_alias(target = "biofeature", alias_names = my_bf)
+    #mod <- create_module_bf(biofeaturesNames = ids, version = version, useIds = TRUE)
     })
 
     output$heatmaply <- renderPlotly({
