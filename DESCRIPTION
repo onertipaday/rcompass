@@ -17,10 +17,9 @@ Imports:
     httr,
     ghql,
     RJSONIO,
-    checkmate,
     shiny,
-    biclust,
-    DT
+    DT,
+    pheatmap
 RoxygenNote: 7.1.1
 Language: en-US
 Suggests: 

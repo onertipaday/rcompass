@@ -12,12 +12,14 @@ get_compass_version <- function(){
 
 #' Get all available compendia in COMPASS
 #'
+#' @param show_query if TRUE return the GraphQL query used by the function
+#'
 #' @return a list with info e version information
 #' @export
 #'
 #' @examples
 #' get_available_compendia()
-get_available_compendia <- function(){
+get_available_compendia <- function(show_query = FALSE){
   my_query <- '{
     compendia {
       name,
@@ -32,6 +34,7 @@ get_available_compendia <- function(){
       }
     }
   }'
+  if(show_query) return(cat(my_query))
   tmp <- build_query(my_query)$compendia[[1]]
   list(info = c(name =  tmp$name,
                 fullName =  tmp$fullName,
