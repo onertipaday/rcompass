@@ -182,6 +182,8 @@ plot_network_coexpression  <- function(compendium = "vespucci",
 
 #' plotDistribution
 #'
+#' @param type either 'html' (default) or 'json
+#'
 #' @return An html - the plot
 #' @export
 #'
@@ -193,13 +195,17 @@ plot_network_coexpression  <- function(compendium = "vespucci",
 #' htmlFile <- file.path(tempDir, "plotDistribution.html")
 #' xml2::write_html(my_plot_html,file=htmlFile)
 #' rstudioapi::viewer(htmlFile)
+#'
+#' junk=plotDistribution(type = "json")
+#' RJSONIO::isValidJSON(junk, asText = T)
+#' tmp=RJSONIO::fromJSON(junk)
 #' }
-plotDistribution <- function(){
+plotDistribution <- function(type = "html"){
 my_query <- paste0('{
   plotDistribution(compendium:"vespucci", version:"legacy",
     plotType:"sample_sets_coexpression_distribution",
-    biofeaturesIds: ["QmlvRmVhdHVyZVR5cGU6MQ==","QmlvRmVhdHVyZVR5cGU6Mg=="]) {
-        html
+    biofeaturesIds: ["QmlvRmVhdHVyZVR5cGU6MQ==","QmlvRmVhdHVyZVR5cGU6Mg=="]) {',
+        type,'
   }
 }')
 build_query(my_query)$plotDistribution

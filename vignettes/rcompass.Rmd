@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+options(scipen = 2, digits = 6)
 ```
 # Introduction
 
@@ -44,98 +45,23 @@ To get help open an issue on the `rcompass`
 
 COMPASS (COMpendia Programmatic Access Support Software) is a software layer that provides a GraphQL endpoint to query compendia built using COMMAND>_ technology [1](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6348648/). 
 COMPASS is meant to be the barebone interface on top of a compendium database from a
-single location with a unified output format. The `rcompass`
-package make this possible from within R. Do do so, it relies on the
-`httr` package to query the GraphQL interface, and access
-and retrieve data.
+single location with a unified output format. The `rcompass` package make this possible from within R. It relies on both the `httr` and `ghql` packages for querying the GraphQL interface, access and retrieve data.
 
 # A Brief rCOMPASS overview
 
-The `rcompass` package is build around a bunch of functions
-enable to query the compendium of interest and retrieve, store and manipulate data. Each of
-these functions are described in more details in their respective manual
-pages. We start by loading the package.
+The `rcompass` package is build around a bunch of functions enable to query the compendium of interest and retrieve, store and manipulate data. Each of these functions are described in more details in their respective manual pages. We start by loading the package.
 
 ```{r setup}
 library(rcompass)
 ```
 
-# Case Study
-
-Here we illustrate one of the most common usages of rCOMPASS: how to create a module from a set of known genes and automatically selecting condition contrasts. To demonstrate all this we will focus on a set of genes regulated by the phytohormone abscisic acid (ABA) in pre-véraison berries in Vitis vinifera.
-
-## Step 1 - create the initial module
-
-We start by creating a module with these 55 ABA modulated genes and refining it by selecting the most co-expressed genes. The module will be manually split to distinguish different condition contrasts, corresponding to different biological contexts, in which ABA affects gene expression. Finally, we will extend these modules to include other relevant genes by coexpression (which could hint at similar forms of regulation). 
+The COMPASS GraphQL endpoint might hosts different compendia. At the moment there is only the VESPUCCI compendium, but there are different version of VESPUCCI, and each version might have data normalized in different ways. In this case there are 2 versions of VESPUCCI, version 1.0 (legacy) and version 2.0 (latest). The latter has data normalized in 2 different ways, TPM normalization and LIMMA (the default one) while the legacy version has the legacy normalization only (i.e. per-sample logratios). For every query we will need to indicate the compendium we want to use, if no version, no normalization and no database is specified the default values will be used.
 
 ```{r}
-# aba_genes <- c("VIT_05s0077g00430", "VIT_14s0060g00790", "VIT_14s0066g00810", "VIT_16s0050g00390", "VIT_18s0001g10450", "VIT_11s0016g03180", "VIT_08s0058g00470", "VIT_17s0000g01080", "VIT_06s0004g04860", "VIT_00s0322g00030", "VIT_06s0061g00730", "VIT_07s0005g00140", "VIT_00s0934g00010", "VIT_18s0001g04800", "VIT_01s0011g04820", "VIT_00s0216g00060", "VIT_18s0072g01220", "VIT_15s0048g02870", "VIT_00s0203g00070", "VIT_19s0014g03290", "VIT_01s0026g02710", "VIT_17s0000g08080", "VIT_00s0429g00040", "VIT_00s1206g00010", "VIT_09s0002g03690", "VIT_13s0067g00240", "VIT_07s0104g00350", "VIT_04s0023g02480", "VIT_18s0001g08490", "VIT_13s0019g02110", "VIT_04s0008g01120", "VIT_10s0003g00390", "VIT_03s0017g01410", "VIT_08s0007g08030", "VIT_08s0040g01820", "VIT_08s0058g01260", "VIT_09s0002g00630", "VIT_14s0068g01620", "VIT_18s0001g01030", "VIT_16s0050g01880", "VIT_08s0007g08280", "VIT_09s0002g06790", "VIT_09s0002g00640", "VIT_03s0063g01790", "VIT_04s0044g01230", "VIT_08s0040g02610", "VIT_01s0010g03680", "VIT_01s0137g00780", "VIT_02s0025g00500", "VIT_06s0004g05650", "VIT_07s0005g01080", "VIT_13s0156g00100", "VIT_17s0000g01120", "VIT_18s0001g07840", "VIT_18s0001g09290")
-# mod_aba_coreset <- create_module_bf(compendium = "vespucci", biofeaturesNames = aba_genes)
-gene_names <- c('VIT_00s0246g00220','VIT_00s0332g00060','VIT_00s0332g00110','VIT_00s0332g00160','VIT_00s0396g00010','VIT_00s0505g00030','VIT_00s0505g00060','VIT_00s0873g00020','VIT_00s0904g00010')
-# mod_bf <- create_module_bf(biofeaturesNames=my_bf, version = "legacy")
+get_available_compendia()
 ```
 
-Plot the heatmap
-
-```{r}
-# biclustering
-# library(ECLRMC)
-# library(biclust)
-# impdata <- ECLRMC(mod_bf, beta = 0.1)
-# set.seed(1)
-# res <- biclust(impdata, method=BCPlaid(), verbose=FALSE)
-```
-
-```{r}
-# num = 1
-# col = colorRampPalette(c("red", "white", "darkblue"), space="Lab")(10)
-#     p = par(mai=c(0,0,0,0))
-#     heatmapBC(impdata, res, number=num, 
-#               xlab="", ylab="",
-#               order=TRUE, useRaster=TRUE, col=col)
-#     par(p)
-#       parallelCoordinates(impdata, res, number=num)
-#       impdata[which(res@RowxNumber[, num]), which(res@NumberxCol[num, ])]
-```
-
-```{r}
-
-```
-
-
-```{r plotly}
-# suppressPackageStartupMessages(library("plotly"))
-# library(tidyr)
-# library(ggplot2)
-# options(scipen = 0)
-# df <- data.frame(mod_bf)
-# df <- data.frame(names = row.names(df), df)
-# 
-# pivot_longer(cols = everything(),
-#                names_to = "gene", 
-#                values_to = "expression")
-#   
-# exp.long <- pivot_longer(data = df, 
-#                          cols = everything(),
-#                          names_to = "gene", 
-#                          values_to = "expression")
-# head(exp.long)
-# 
-# p <- ggplot(mod_bf, aes(x, y, color = Country)) +
-#   geom_point(aes(frame = Date)) + theme_bw()
-# 
-# ggplotly(p)
-
-# fig <- plot_ly(
-#             z = mod_bf,
-#             colorscale = list(c(0,0.5,1),c("green", "white", "red")),
-#             type = "heatmap"
-#             )
-# 
-# fig
-
-```
-
+Now we can use `rcompass` to retrieve some stats about VESPUCCI. The Vitis gene expression compendium version `r paste(get_available_compendia()$versions[[1]], collapse = " ")` normalized contains values for `r totalCounts(version="1.0", aggregate_type="biofeatures")` biological features (genes), measured for `r totalCounts(version="1.0", aggregate_type="sampleSets")` sample sets. This corresponds to a total of `r totalCounts(aggregate_type = "experiments")` experiments and `r totalCounts(aggregate_type = "samples")` samples measured on `r  totalCounts(aggregate_type = "platforms")` different platforms.
 
 # Session information
 

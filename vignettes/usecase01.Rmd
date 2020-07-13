@@ -61,7 +61,13 @@ or we can use the wrapper function `get_ids_from_alias()`:
 
 ```{r}
 aliases <- c('B9S8R7','Q7M2G6','D7SZ93','B8XIJ8','Vv00s0125g00280','Vv00s0187g00140','Vv00s0246g00010','Vv00s0246g00080','Vv00s0438g00020','Vv00s0246g00200')
-get_ids_from_alias(target = "biofeature", alias_names = aliases)
+sparql_results_check <- get_ids_from_alias(target = "biofeature", alias_names = aliases)
+```
+
+and check the results are the same:
+
+```{r}
+identical(sparql_results[,1],sparql_results_check)
 ```
 
 Another examples returning samples ids selected by [PO ontology](https://www.ebi.ac.uk/ols/ontologies/po) term [seed](http://purl.obolibrary.org/obo/PO_0009010):

@@ -4,7 +4,10 @@
 \alias{plotDistribution}
 \title{plotDistribution}
 \usage{
-plotDistribution()
+plotDistribution(type = "html")
+}
+\arguments{
+\item{type}{either 'html' (default) or 'json}
 }
 \value{
 An html - the plot
