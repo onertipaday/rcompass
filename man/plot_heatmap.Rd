@@ -2,37 +2,78 @@
 % Please edit documentation in R/plots.R
 \name{plot_heatmap}
 \alias{plot_heatmap}
-\title{plot_heatmap}
+\title{plot heatmap from a module}
 \usage{
 plot_heatmap(
   compendium = "vespucci",
-  normalization = NULL,
   biofeaturesNames = NULL,
-  samplesetNames = NULL
+  samplesetNames = NULL,
+  normalization = "legacy",
+  plotType = "module_heatmap_expression",
+  type = "json",
+  useIds = TRUE
 )
 }
 \arguments{
 \item{compendium}{A string - the selected compendium}
 
-\item{normalization}{A string - either 'limma','tpm_sample' or legacy as normalization}
-
 \item{biofeaturesNames}{A character vector (here gene_names)}
 
 \item{samplesetNames}{A character vector - the sampleSets names}
+
+\item{normalization}{A string - either 'limma','tpm_sample' or legacy as normalization}
+
+\item{plotType}{A string - "module_heatmap_expression"}
+
+\item{type}{string -  either 'html'  or 'json}
+
+\item{useIds}{A logical - TRUE as default}
 }
 \value{
-An html page with the heatmap
+A list
 }
 \description{
-plot_heatmap
+plot heatmap from a module
 }
 \examples{
 \dontrun{
-my_plot_html <- plot_heatmap(QuickSearch_ABAcoreset)
-tempDir <- tempfile()
-dir.create(tempDir)
-htmlFile <- file.path(tempDir, "plot_heatmap.html")
-xml2::write_html(my_plot_html,file=htmlFile)
-rstudioapi::viewer(htmlFile)
+library(plotly)
+my_bf_ids <- c("QmlvRmVhdHVyZVR5cGU6MQ==", "QmlvRmVhdHVyZVR5cGU6Mg==",
+"QmlvRmVhdHVyZVR5cGU6Mw==", "QmlvRmVhdHVyZVR5cGU6NA==", "QmlvRmVhdHVyZVR5cGU6NQ==")
+my_ss_ids <- c("U2FtcGxlU2V0VHlwZToxNDg=", "U2FtcGxlU2V0VHlwZToxNDk=",
+"U2FtcGxlU2V0VHlwZToxNTA=", "U2FtcGxlU2V0VHlwZToxNTE=", "U2FtcGxlU2V0VHlwZToxNTI=")
+tmp <- plot_heatmap(biofeaturesNames = my_bf_ids, samplesetNames = my_ss_ids)
+RJSONIO::isValidJSON(tmp, asText = T)
+tmp=RJSONIO::fromJSON(tmp)[[1]]
+data = matrix(unlist(sapply(tmp[[2]]$z, unlist)),5,5)
+plot_ly(x=tmp[[2]]$x, y=tmp[[2]]$y, z = data,
+type = tmp[[1]]$type,
+colorscale= c( "rgb(0, 0, 0)", "rgb(100, 100, 100)"),
+showscale = T) \%>\%
+layout(margin = list(l=120))
+
+gene_names <- c('VIT_00s0246g00220','VIT_00s0332g00060','VIT_00s0332g00110',
+'VIT_00s0332g00160','VIT_00s0396g00010','VIT_00s0505g00030',
+'VIT_00s0505g00060','VIT_00s0873g00020','VIT_00s0904g00010')
+module_1 <- create_module(biofeaturesNames=gene_names, version = "legacy")
+sample_names <- get_sampleset_id(name_In = colnames(module_1))$name
+test = plot_heatmap(biofeaturesNames = gene_names, samplesetNames = sample_names, useIds = F)
+tmp=RJSONIO::fromJSON(test)[[1]]
+#data = matrix(unlist(sapply(tmp[[2]]$z, unlist)),length(gene_names),length(sample_names))
+data = sapply(tmp[[2]]$z, unlist)
+mlen <- max(sapply(data,length))
+out <- sapply(data,'[', 1:mlen)
+colnames(out) <- gene_names
+rownames(out) <- sample_names
+plot_ly(y = colnames(out), x = sample_names,z= t(out), type = "heatmap") \%>\%
+layout(margin = list(l=120))
+p = plot_ly(x=tmp[[2]]$x, y=tmp[[2]]$y, z = data,
+type = tmp[[1]]$type,
+showscale = T) \%>\%
+layout(margin = list(l=120))
+p
+# save the widget
+#library(htmlwidgets)
+#saveWidget(p, file=paste0( getwd(), "/plotlyHeatmap.html"))
 }
 }

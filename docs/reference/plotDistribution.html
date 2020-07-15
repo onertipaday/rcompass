@@ -132,16 +132,68 @@
     <p>plotDistribution</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plotDistribution</span>()</pre>
+    <pre class="usage"><span class='fu'>plotDistribution</span>(
+  <span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>,
+  <span class='kw'>biofeaturesNames</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>samplesetNames</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>normalization</span> <span class='kw'>=</span> <span class='st'>"legacy"</span>,
+  <span class='kw'>plotType</span> <span class='kw'>=</span> <span class='st'>"biological_features_uncentered_correlation_distribution"</span>,
+  <span class='kw'>useIds</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"json"</span>,
+  <span class='kw'>plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>compendium</th>
+      <td><p>A string - the selected compendium</p></td>
+    </tr>
+    <tr>
+      <th>biofeaturesNames</th>
+      <td><p>A character vector (here gene_names)</p></td>
+    </tr>
+    <tr>
+      <th>samplesetNames</th>
+      <td><p>A character vector - the sampleSets names</p></td>
+    </tr>
+    <tr>
+      <th>normalization</th>
+      <td><p>A string - either 'limma','tpm_sample' or legacy as normalization</p></td>
+    </tr>
+    <tr>
+      <th>plotType</th>
+      <td><p>A string - see  <code><a href='get_available_plot_methods.html'>get_available_plot_methods</a></code></p></td>
+    </tr>
+    <tr>
+      <th>useIds</th>
+      <td><p>A logical - TRUE as default</p></td>
+    </tr>
+    <tr>
+      <th>type</th>
+      <td><p>A string -  either 'html'  or 'json</p></td>
+    </tr>
+    <tr>
+      <th>plot</th>
+      <td><p>A logical - it return the graphics object</p></td>
+    </tr>
+    </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An html - the plot</p>
+    <p>Eiher a json, an html or a plotly htmlwidget</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>my_plot_html</span> <span class='kw'>&lt;-</span> <span class='fu'>plotDistribution</span>()
+<span class='no'>b_ids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"QmlvRmVhdHVyZVR5cGU6MQ=="</span>, <span class='st'>"QmlvRmVhdHVyZVR5cGU6Mg=="</span>,<span class='st'>"QmlvRmVhdHVyZVR5cGU6Mw=="</span>
+,<span class='st'>"QmlvRmVhdHVyZVR5cGU6NA=="</span>, <span class='st'>"QmlvRmVhdHVyZVR5cGU6NQ=="</span>)
+<span class='no'>s_ids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"U2FtcGxlU2V0VHlwZToxNDg="</span>, <span class='st'>"U2FtcGxlU2V0VHlwZToxNDk="</span>, <span class='st'>"U2FtcGxlU2V0VHlwZToxNTA="</span>,
+ <span class='st'>"U2FtcGxlU2V0VHlwZToxNTE="</span>, <span class='st'>"U2FtcGxlU2V0VHlwZToxNTI="</span>)
+<span class='fu'>plotDistribution</span>(<span class='kw'>biofeaturesNames</span> <span class='kw'>=</span> <span class='no'>b_ids</span>, <span class='kw'>samplesetNames</span> <span class='kw'>=</span> <span class='no'>s_ids</span>,
+<span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"json"</span>, <span class='kw'>useIds</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='no'>my_plot_html</span> <span class='kw'>&lt;-</span> <span class='fu'>plotDistribution</span>(<span class='kw'>biofeaturesNames</span> <span class='kw'>=</span> <span class='no'>b_ids</span>, <span class='kw'>samplesetNames</span> <span class='kw'>=</span> <span class='no'>s_ids</span>,
+<span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"html"</span>, <span class='kw'>useIds</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/graphics/layout.html'>layout</a></span>(<span class='kw'>xaxis</span> <span class='kw'>=</span> <span class='no'>x</span>, <span class='kw'>yaxis</span> <span class='kw'>=</span> <span class='no'>y</span>)
 <span class='no'>tempDir</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>()
 <span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.create</a></span>(<span class='no'>tempDir</span>)
 <span class='no'>htmlFile</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='no'>tempDir</span>, <span class='st'>"plotDistribution.html"</span>)

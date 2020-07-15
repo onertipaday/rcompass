@@ -6,9 +6,11 @@
 \usage{
 plot_network_coexpression(
   compendium = "vespucci",
-  normalization = NULL,
+  normalization = "legacy",
   biofeaturesNames = NULL,
-  samplesetNames = NULL
+  samplesetNames = NULL,
+  useIds = TRUE,
+  type = "json"
 )
 }
 \arguments{
@@ -19,9 +21,13 @@ plot_network_coexpression(
 \item{biofeaturesNames}{A character vector (here gene_names)}
 
 \item{samplesetNames}{A character vector - the sampleSets names}
+
+\item{useIds}{A logical - TRUE as default}
+
+\item{type}{string -  either 'html'  or 'json}
 }
 \value{
-An html page with the coexpression network
+Either a json, an html or a plotly htmlwidget
 }
 \description{
 plot_network_coexpression

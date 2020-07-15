@@ -99,13 +99,14 @@ DT::datatable(module_1, class = 'cell-border stripe')
 ```{r}
 # get_sample_by_gsm(sampleName_Icontains="GSM1313535")
 # get_sampleset_id(name_In = "GSM605594.ch1-vs-GSM605578.ch1")
-get_sampleset_id(name_In = colnames(module_1)[1:10])
+DT::datatable(get_sampleset_id(name_In = colnames(module_1)[1:10]))
 ```
 
 # Plot a module
 The easiest way to visualize a module is using a heatmap. The Plot object wraps a module and can return different plot type with different format (the Plotly JSON format or HTML). To see an heatmap embedded in a Jupyter Notebook we can retrieve the HTML code of the Plot (that uses Plotly) and display it directly into the notebook.
 
 ```{r}
+library(plotly)
 #' my_plot_html <- plot_heatmap(plot_type = "heatmap",
 #' biofeaturesNames = gene_names, normalization = "legacy")
 ```
@@ -143,14 +144,15 @@ One of the classic way to use VESPUCCI is to start with a set of genes selected 
 The way to do it is to plot the distribution of genes that show a similar behavior of the module's genes across the same condition in order pick up a suitable threshold.
 
 ```{r}
-
-
+p = plotDistribution(biofeaturesNames = gene_names, samplesetNames =  colnames(module_1), type = "json", useIds = FALSE, plot = TRUE)
+p
 ```
 
 For example, if we pick a threshold around 0.65 (looking at the top plot) we might expect to have around 30 Biological Features (genes) with a score equal or greater than that, to be added in our module. In this case let's just pick the top 30 genes and create e new module.
 
 ```{r}
-
+# top_30_bf_ids = ranked_bf['id'][:30]
+# top_30_bf = BiologicalFeature.using(compendium).get(filter={'id_In': top_30_bf_ids})
 ```
 
 The new module is created by adding Biological Feature objects to the old module. This operation will modify the module object in-place, so we might want to clone the module_1 object first, if we don't want to lose it, or we might want to save it in a local file and then create e new module by simply loading it.

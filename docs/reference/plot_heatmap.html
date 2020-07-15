@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>plot_heatmap — plot_heatmap • rcompass</title>
+<title>plot heatmap from a module — plot_heatmap • rcompass</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="plot_heatmap — plot_heatmap" />
-<meta property="og:description" content="plot_heatmap" />
+<meta property="og:title" content="plot heatmap from a module — plot_heatmap" />
+<meta property="og:description" content="plot heatmap from a module" />
 
 
 
@@ -123,20 +123,23 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>plot_heatmap</h1>
+    <h1>plot heatmap from a module</h1>
     <small class="dont-index">Source: <a href='https://github.com/onertipaday/rcompass/blob/master/R/plots.R'><code>R/plots.R</code></a></small>
     <div class="hidden name"><code>plot_heatmap.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>plot_heatmap</p>
+    <p>plot heatmap from a module</p>
     </div>
 
     <pre class="usage"><span class='fu'>plot_heatmap</span>(
   <span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>,
-  <span class='kw'>normalization</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>biofeaturesNames</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>samplesetNames</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+  <span class='kw'>samplesetNames</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>normalization</span> <span class='kw'>=</span> <span class='st'>"legacy"</span>,
+  <span class='kw'>plotType</span> <span class='kw'>=</span> <span class='st'>"module_heatmap_expression"</span>,
+  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"json"</span>,
+  <span class='kw'>useIds</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -147,10 +150,6 @@
       <td><p>A string - the selected compendium</p></td>
     </tr>
     <tr>
-      <th>normalization</th>
-      <td><p>A string - either 'limma','tpm_sample' or legacy as normalization</p></td>
-    </tr>
-    <tr>
       <th>biofeaturesNames</th>
       <td><p>A character vector (here gene_names)</p></td>
     </tr>
@@ -158,20 +157,68 @@
       <th>samplesetNames</th>
       <td><p>A character vector - the sampleSets names</p></td>
     </tr>
+    <tr>
+      <th>normalization</th>
+      <td><p>A string - either 'limma','tpm_sample' or legacy as normalization</p></td>
+    </tr>
+    <tr>
+      <th>plotType</th>
+      <td><p>A string - "module_heatmap_expression"</p></td>
+    </tr>
+    <tr>
+      <th>type</th>
+      <td><p>string -  either 'html'  or 'json</p></td>
+    </tr>
+    <tr>
+      <th>useIds</th>
+      <td><p>A logical - TRUE as default</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An html page with the heatmap</p>
+    <p>A list</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>my_plot_html</span> <span class='kw'>&lt;-</span> <span class='fu'>plot_heatmap</span>(<span class='no'>QuickSearch_ABAcoreset</span>)
-<span class='no'>tempDir</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>()
-<span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.create</a></span>(<span class='no'>tempDir</span>)
-<span class='no'>htmlFile</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='no'>tempDir</span>, <span class='st'>"plot_heatmap.html"</span>)
-<span class='kw pkg'>xml2</span><span class='kw ns'>::</span><span class='fu'><a href='http://xml2.r-lib.org/reference/write_xml.html'>write_html</a></span>(<span class='no'>my_plot_html</span>,<span class='kw'>file</span><span class='kw'>=</span><span class='no'>htmlFile</span>)
-<span class='kw pkg'>rstudioapi</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rstudioapi/man/viewer.html'>viewer</a></span>(<span class='no'>htmlFile</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>plotly</span>)
+<span class='no'>my_bf_ids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"QmlvRmVhdHVyZVR5cGU6MQ=="</span>, <span class='st'>"QmlvRmVhdHVyZVR5cGU6Mg=="</span>,
+<span class='st'>"QmlvRmVhdHVyZVR5cGU6Mw=="</span>, <span class='st'>"QmlvRmVhdHVyZVR5cGU6NA=="</span>, <span class='st'>"QmlvRmVhdHVyZVR5cGU6NQ=="</span>)
+<span class='no'>my_ss_ids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"U2FtcGxlU2V0VHlwZToxNDg="</span>, <span class='st'>"U2FtcGxlU2V0VHlwZToxNDk="</span>,
+<span class='st'>"U2FtcGxlU2V0VHlwZToxNTA="</span>, <span class='st'>"U2FtcGxlU2V0VHlwZToxNTE="</span>, <span class='st'>"U2FtcGxlU2V0VHlwZToxNTI="</span>)
+<span class='no'>tmp</span> <span class='kw'>&lt;-</span> <span class='fu'>plot_heatmap</span>(<span class='kw'>biofeaturesNames</span> <span class='kw'>=</span> <span class='no'>my_bf_ids</span>, <span class='kw'>samplesetNames</span> <span class='kw'>=</span> <span class='no'>my_ss_ids</span>)
+<span class='kw pkg'>RJSONIO</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/RJSONIO/man/isValidJSON.html'>isValidJSON</a></span>(<span class='no'>tmp</span>, <span class='kw'>asText</span> <span class='kw'>=</span> <span class='no'>T</span>)
+<span class='no'>tmp</span><span class='kw'>=</span><span class='kw pkg'>RJSONIO</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/RJSONIO/man/fromJSON.html'>fromJSON</a></span>(<span class='no'>tmp</span>)<span class='kw'>[[</span><span class='fl'>1</span>]]
+<span class='no'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span>(<span class='no'>tmp</span><span class='kw'>[[</span><span class='fl'>2</span>]]$<span class='no'>z</span>, <span class='no'>unlist</span>)),<span class='fl'>5</span>,<span class='fl'>5</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/plotly/man/plot_ly.html'>plot_ly</a></span>(<span class='kw'>x</span><span class='kw'>=</span><span class='no'>tmp</span><span class='kw'>[[</span><span class='fl'>2</span>]]$<span class='no'>x</span>, <span class='kw'>y</span><span class='kw'>=</span><span class='no'>tmp</span><span class='kw'>[[</span><span class='fl'>2</span>]]$<span class='no'>y</span>, <span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>data</span>,
+<span class='kw'>type</span> <span class='kw'>=</span> <span class='no'>tmp</span><span class='kw'>[[</span><span class='fl'>1</span>]]$<span class='no'>type</span>,
+<span class='kw'>colorscale</span><span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>( <span class='st'>"rgb(0, 0, 0)"</span>, <span class='st'>"rgb(100, 100, 100)"</span>),
+<span class='kw'>showscale</span> <span class='kw'>=</span> <span class='no'>T</span>) <span class='kw'>%&gt;%</span>
+<span class='fu'><a href='https://rdrr.io/pkg/plotly/man/layout.html'>layout</a></span>(<span class='kw'>margin</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>l</span><span class='kw'>=</span><span class='fl'>120</span>))
+
+<span class='no'>gene_names</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'VIT_00s0246g00220'</span>,<span class='st'>'VIT_00s0332g00060'</span>,<span class='st'>'VIT_00s0332g00110'</span>,
+<span class='st'>'VIT_00s0332g00160'</span>,<span class='st'>'VIT_00s0396g00010'</span>,<span class='st'>'VIT_00s0505g00030'</span>,
+<span class='st'>'VIT_00s0505g00060'</span>,<span class='st'>'VIT_00s0873g00020'</span>,<span class='st'>'VIT_00s0904g00010'</span>)
+<span class='no'>module_1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_module.html'>create_module</a></span>(<span class='kw'>biofeaturesNames</span><span class='kw'>=</span><span class='no'>gene_names</span>, <span class='kw'>version</span> <span class='kw'>=</span> <span class='st'>"legacy"</span>)
+<span class='no'>sample_names</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_sampleset_id.html'>get_sampleset_id</a></span>(<span class='kw'>name_In</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>module_1</span>))$<span class='no'>name</span>
+<span class='no'>test</span> <span class='kw'>=</span> <span class='fu'>plot_heatmap</span>(<span class='kw'>biofeaturesNames</span> <span class='kw'>=</span> <span class='no'>gene_names</span>, <span class='kw'>samplesetNames</span> <span class='kw'>=</span> <span class='no'>sample_names</span>, <span class='kw'>useIds</span> <span class='kw'>=</span> <span class='no'>F</span>)
+<span class='no'>tmp</span><span class='kw'>=</span><span class='kw pkg'>RJSONIO</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/RJSONIO/man/fromJSON.html'>fromJSON</a></span>(<span class='no'>test</span>)<span class='kw'>[[</span><span class='fl'>1</span>]]
+<span class='co'>#data = matrix(unlist(sapply(tmp[[2]]$z, unlist)),length(gene_names),length(sample_names))</span>
+<span class='no'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span>(<span class='no'>tmp</span><span class='kw'>[[</span><span class='fl'>2</span>]]$<span class='no'>z</span>, <span class='no'>unlist</span>)
+<span class='no'>mlen</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span>(<span class='no'>data</span>,<span class='no'>length</span>))
+<span class='no'>out</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span>(<span class='no'>data</span>,<span class='st'>'['</span>, <span class='fl'>1</span>:<span class='no'>mlen</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>out</span>) <span class='kw'>&lt;-</span> <span class='no'>gene_names</span>
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>out</span>) <span class='kw'>&lt;-</span> <span class='no'>sample_names</span>
+<span class='fu'><a href='https://rdrr.io/pkg/plotly/man/plot_ly.html'>plot_ly</a></span>(<span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>out</span>), <span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>sample_names</span>,<span class='kw'>z</span><span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span>(<span class='no'>out</span>), <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"heatmap"</span>) <span class='kw'>%&gt;%</span>
+<span class='fu'><a href='https://rdrr.io/pkg/plotly/man/layout.html'>layout</a></span>(<span class='kw'>margin</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>l</span><span class='kw'>=</span><span class='fl'>120</span>))
+<span class='no'>p</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/plotly/man/plot_ly.html'>plot_ly</a></span>(<span class='kw'>x</span><span class='kw'>=</span><span class='no'>tmp</span><span class='kw'>[[</span><span class='fl'>2</span>]]$<span class='no'>x</span>, <span class='kw'>y</span><span class='kw'>=</span><span class='no'>tmp</span><span class='kw'>[[</span><span class='fl'>2</span>]]$<span class='no'>y</span>, <span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>data</span>,
+<span class='kw'>type</span> <span class='kw'>=</span> <span class='no'>tmp</span><span class='kw'>[[</span><span class='fl'>1</span>]]$<span class='no'>type</span>,
+<span class='kw'>showscale</span> <span class='kw'>=</span> <span class='no'>T</span>) <span class='kw'>%&gt;%</span>
+<span class='fu'><a href='https://rdrr.io/pkg/plotly/man/layout.html'>layout</a></span>(<span class='kw'>margin</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>l</span><span class='kw'>=</span><span class='fl'>120</span>))
+<span class='no'>p</span>
+<span class='co'># save the widget</span>
+<span class='co'>#library(htmlwidgets)</span>
+<span class='co'>#saveWidget(p, file=paste0( getwd(), "/plotlyHeatmap.html"))</span>
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

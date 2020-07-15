@@ -18,6 +18,7 @@ Imports:
     ghql,
     RJSONIO,
     shiny,
+    plotly,
     DT,
     pheatmap
 RoxygenNote: 7.1.1

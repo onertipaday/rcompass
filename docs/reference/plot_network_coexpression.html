@@ -134,9 +134,11 @@
 
     <pre class="usage"><span class='fu'>plot_network_coexpression</span>(
   <span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>,
-  <span class='kw'>normalization</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>normalization</span> <span class='kw'>=</span> <span class='st'>"legacy"</span>,
   <span class='kw'>biofeaturesNames</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>samplesetNames</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+  <span class='kw'>samplesetNames</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>useIds</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"json"</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -158,11 +160,19 @@
       <th>samplesetNames</th>
       <td><p>A character vector - the sampleSets names</p></td>
     </tr>
+    <tr>
+      <th>useIds</th>
+      <td><p>A logical - TRUE as default</p></td>
+    </tr>
+    <tr>
+      <th>type</th>
+      <td><p>string -  either 'html'  or 'json</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An html page with the coexpression network</p>
+    <p>Eiher a json, an html or a plotly htmlwidget</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

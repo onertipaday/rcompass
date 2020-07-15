@@ -4,20 +4,50 @@
 \alias{plotDistribution}
 \title{plotDistribution}
 \usage{
-plotDistribution(type = "html")
+plotDistribution(
+  compendium = "vespucci",
+  biofeaturesNames = NULL,
+  samplesetNames = NULL,
+  normalization = "legacy",
+  plotType = "biological_features_uncentered_correlation_distribution",
+  useIds = TRUE,
+  type = "json",
+  plot = TRUE
+)
 }
 \arguments{
-\item{type}{either 'html' (default) or 'json}
+\item{compendium}{A string - the selected compendium}
+
+\item{biofeaturesNames}{A character vector (here gene_names)}
+
+\item{samplesetNames}{A character vector - the sampleSets names}
+
+\item{normalization}{A string - either 'limma','tpm_sample' or legacy as normalization}
+
+\item{plotType}{A string - see  \code{\link{get_available_plot_methods}}}
+
+\item{useIds}{A logical - TRUE as default}
+
+\item{type}{A string -  either 'html'  or 'json}
+
+\item{plot}{A logical - it return the graphics object}
 }
 \value{
-An html - the plot
+Eiher a json, an html or a plotly htmlwidget
 }
 \description{
 plotDistribution
 }
 \examples{
 \dontrun{
-my_plot_html <- plotDistribution()
+b_ids <- c("QmlvRmVhdHVyZVR5cGU6MQ==", "QmlvRmVhdHVyZVR5cGU6Mg==","QmlvRmVhdHVyZVR5cGU6Mw=="
+,"QmlvRmVhdHVyZVR5cGU6NA==", "QmlvRmVhdHVyZVR5cGU6NQ==")
+s_ids <- c("U2FtcGxlU2V0VHlwZToxNDg=", "U2FtcGxlU2V0VHlwZToxNDk=", "U2FtcGxlU2V0VHlwZToxNTA=",
+ "U2FtcGxlU2V0VHlwZToxNTE=", "U2FtcGxlU2V0VHlwZToxNTI=")
+plotDistribution(biofeaturesNames = b_ids, samplesetNames = s_ids,
+type = "json", useIds = TRUE, plot = TRUE)
+my_plot_html <- plotDistribution(biofeaturesNames = b_ids, samplesetNames = s_ids,
+type = "html", useIds = TRUE) \%>\% layout(xaxis = x, yaxis = y)
 tempDir <- tempfile()
 dir.create(tempDir)
 htmlFile <- file.path(tempDir, "plotDistribution.html")
