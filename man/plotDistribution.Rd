@@ -47,7 +47,7 @@ s_ids <- c("U2FtcGxlU2V0VHlwZToxNDg=", "U2FtcGxlU2V0VHlwZToxNDk=", "U2FtcGxlU2V0
 plotDistribution(biofeaturesNames = b_ids, samplesetNames = s_ids,
 type = "json", useIds = TRUE, plot = TRUE)
 my_plot_html <- plotDistribution(biofeaturesNames = b_ids, samplesetNames = s_ids,
-type = "html", useIds = TRUE) \%>\% layout(xaxis = x, yaxis = y)
+type = "html", useIds = TRUE)
 tempDir <- tempfile()
 dir.create(tempDir)
 htmlFile <- file.path(tempDir, "plotDistribution.html")

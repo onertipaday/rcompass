@@ -12,7 +12,7 @@ get_compass_version <- function(){
 
 #' Get all available compendia in COMPASS
 #'
-#' @param show_query if TRUE return the GraphQL query used by the function
+#' @param show_query A logical - if TRUE return the GraphQL query used by the function
 #'
 #' @return a list with info e version information
 #' @export
@@ -712,9 +712,9 @@ get_ranking <- function(compendium = "vespucci"){
 #' @param rank A string ('magnitude' as default)
 #' @param version A string ('legacy' as default)
 #' @param biofeaturesNames A vector of character strings (here gene_names)
-#' @param biofeaturesIds A vector of character strings - the biofeature ids
 #' @param top_n A numeric - an integer for selecting the top ranked samplesets
 #' @param rankTarget A string ('sampleset' as default)
+#' @param useIds A logical - TRUE as default
 #'
 #' @return A data.frame with three columns id, name, value
 #' @export
@@ -722,19 +722,19 @@ get_ranking <- function(compendium = "vespucci"){
 #' @examples
 #' my_ids <- c("VIT_00s0332g00110","VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030")
 #' get_samplesets_ranking(biofeaturesNames = my_ids, top_n = 10)
-#' get_samplesets_ranking(biofeaturesIds=c("QmlvRmVhdHVyZVR5cGU6MQ==","QmlvRmVhdHVyZVR5cGU6Mg==",
-#'  "QmlvRmVhdHVyZVR5cGU6Mw==","QmlvRmVhdHVyZVR5cGU6NA==","QmlvRmVhdHVyZVR5cGU6NQ=="), top_n = 10)
+#' get_samplesets_ranking(biofeaturesNames=c("QmlvRmVhdHVyZVR5cGU6MQ==","QmlvRmVhdHVyZVR5cGU6Mg==",
+#'  "QmlvRmVhdHVyZVR5cGU6Mw==","QmlvRmVhdHVyZVR5cGU6NA==",
+#'  "QmlvRmVhdHVyZVR5cGU6NQ=="), useIds = TRUE, top_n = 10)
 get_samplesets_ranking <- function(compendium = "vespucci",
                                    version = "legacy",
                                    rankTarget = "samplesets",
                                    rank = "magnitude",
                                    biofeaturesNames=NULL,
-                                   biofeaturesIds=NULL,
-                                   top_n = 50){
-  if(is.null(biofeaturesNames) & is.null(biofeaturesIds)) stop("provide either biofeaturesNames XOR biofeatureIds")
-  else if(is.null(biofeaturesIds)) {
-    biofeaturesIds <- get_biofeature_id(name_In=biofeaturesNames)$id
-  }
+                                   top_n = 50,
+                                   useIds = FALSE){
+  if(is.null(biofeaturesNames)) stop("Provide biofeaturesNames")
+  if(useIds) biofeaturesIds <- biofeaturesNames
+  else biofeaturesIds <- get_biofeature_id(name_In=biofeaturesNames)$id
   my_query <- paste0('{
   ranking(compendium:\"', compendium, '\",
     version:\"', version, '\",
@@ -758,6 +758,7 @@ get_samplesets_ranking <- function(compendium = "vespucci",
 #' @param rank A string ('magnitude' as default) - use \code{\link{get_ranking}}
 #' @param top_n A numeric - an integer for selecting the top ranked samplesets
 #' @param rankTarget A string ('biofeature' as default)
+#' @param useIds A logical - TRUE as default
 #'
 #' @return A data.frame with three columns id, name, value
 #' @export
@@ -768,15 +769,15 @@ get_samplesets_ranking <- function(compendium = "vespucci",
 #' get_biofeature_ranking(samplesetNames = my_ss, top_n = 10)
 #'
 get_biofeature_ranking <- function(compendium = "vespucci",
-                                   # samplesetIds = NULL,
                                    samplesetNames = NULL,
                                    version = "legacy",
                                    rank = "uncentered_correlation",
                                    rankTarget = "biofeatures",
-                                   top_n = 50){
-  if(is.null(samplesetNames)) stop("provide samplesetNames")
-  samplesetIds <- get_sampleset_id(name_In=samplesetNames)$id
-
+                                   top_n = 50,
+                                   useIds = FALSE){
+  if(is.null(samplesetNames)) stop("Provide samplesetNames")
+  if(useIds) samplesetIds <- samplesetNames
+  else samplesetIds <- get_sampleset_id(name_In = samplesetNames)$id
   my_query <- paste0('{
   ranking(compendium:\"', compendium, '\",
     version:\"', version, '\",
@@ -790,9 +791,3 @@ get_biofeature_ranking <- function(compendium = "vespucci",
 }')
   as.data.frame(sapply(build_query(my_query)$ranking,unlist))[1:top_n,]
 }
-
-
-
-
-
-

@@ -10,7 +10,8 @@ get_biofeature_ranking(
   version = "legacy",
   rank = "uncentered_correlation",
   rankTarget = "biofeatures",
-  top_n = 50
+  top_n = 50,
+  useIds = FALSE
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ get_biofeature_ranking(
 \item{rankTarget}{A string ('biofeature' as default)}
 
 \item{top_n}{A numeric - an integer for selecting the top ranked samplesets}
+
+\item{useIds}{A logical - TRUE as default}
 }
 \value{
 A data.frame with three columns id, name, value

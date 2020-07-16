@@ -10,8 +10,8 @@ get_samplesets_ranking(
   rankTarget = "samplesets",
   rank = "magnitude",
   biofeaturesNames = NULL,
-  biofeaturesIds = NULL,
-  top_n = 50
+  top_n = 50,
+  useIds = FALSE
 )
 }
 \arguments{
@@ -25,9 +25,9 @@ get_samplesets_ranking(
 
 \item{biofeaturesNames}{A vector of character strings (here gene_names)}
 
-\item{biofeaturesIds}{A vector of character strings - the biofeature ids}
-
 \item{top_n}{A numeric - an integer for selecting the top ranked samplesets}
+
+\item{useIds}{A logical - TRUE as default}
 }
 \value{
 A data.frame with three columns id, name, value
@@ -38,6 +38,7 @@ get_samplesets_ranking
 \examples{
 my_ids <- c("VIT_00s0332g00110","VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030")
 get_samplesets_ranking(biofeaturesNames = my_ids, top_n = 10)
-get_samplesets_ranking(biofeaturesIds=c("QmlvRmVhdHVyZVR5cGU6MQ==","QmlvRmVhdHVyZVR5cGU6Mg==",
- "QmlvRmVhdHVyZVR5cGU6Mw==","QmlvRmVhdHVyZVR5cGU6NA==","QmlvRmVhdHVyZVR5cGU6NQ=="), top_n = 10)
+get_samplesets_ranking(biofeaturesNames=c("QmlvRmVhdHVyZVR5cGU6MQ==","QmlvRmVhdHVyZVR5cGU6Mg==",
+ "QmlvRmVhdHVyZVR5cGU6Mw==","QmlvRmVhdHVyZVR5cGU6NA==",
+ "QmlvRmVhdHVyZVR5cGU6NQ=="), useIds = TRUE, top_n = 10)
 }

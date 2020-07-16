@@ -9,9 +9,9 @@ plot_heatmap(
   biofeaturesNames = NULL,
   samplesetNames = NULL,
   normalization = "legacy",
-  plotType = "module_heatmap_expression",
   type = "json",
-  useIds = TRUE
+  useIds = TRUE,
+  plot = TRUE
 )
 }
 \arguments{
@@ -23,14 +23,14 @@ plot_heatmap(
 
 \item{normalization}{A string - either 'limma','tpm_sample' or legacy as normalization}
 
-\item{plotType}{A string - "module_heatmap_expression"}
-
-\item{type}{string -  either 'html'  or 'json}
+\item{type}{A string -  either 'html'  or 'json}
 
 \item{useIds}{A logical - TRUE as default}
+
+\item{plot}{A logical - it return the graphics object}
 }
 \value{
-A list
+Either a json, an html or a plotly htmlwidget
 }
 \description{
 plot heatmap from a module
@@ -42,7 +42,8 @@ my_bf_ids <- c("QmlvRmVhdHVyZVR5cGU6MQ==", "QmlvRmVhdHVyZVR5cGU6Mg==",
 "QmlvRmVhdHVyZVR5cGU6Mw==", "QmlvRmVhdHVyZVR5cGU6NA==", "QmlvRmVhdHVyZVR5cGU6NQ==")
 my_ss_ids <- c("U2FtcGxlU2V0VHlwZToxNDg=", "U2FtcGxlU2V0VHlwZToxNDk=",
 "U2FtcGxlU2V0VHlwZToxNTA=", "U2FtcGxlU2V0VHlwZToxNTE=", "U2FtcGxlU2V0VHlwZToxNTI=")
-tmp <- plot_heatmap(biofeaturesNames = my_bf_ids, samplesetNames = my_ss_ids)
+tmp <- plot_heatmap(biofeaturesNames = my_bf_ids, samplesetNames = my_ss_ids, plot = TRUE,
+useIds = TRUE)
 RJSONIO::isValidJSON(tmp, asText = T)
 tmp=RJSONIO::fromJSON(tmp)[[1]]
 data = matrix(unlist(sapply(tmp[[2]]$z, unlist)),5,5)

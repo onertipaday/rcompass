@@ -7,7 +7,7 @@
 get_available_compendia(show_query = FALSE)
 }
 \arguments{
-\item{show_query}{if TRUE return the GraphQL query used by the function}
+\item{show_query}{A logical - if TRUE return the GraphQL query used by the function}
 }
 \value{
 a list with info e version information
