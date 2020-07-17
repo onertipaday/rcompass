@@ -142,13 +142,13 @@ One of the classic way to use VESPUCCI is to start with a set of genes selected 
 The way to do it is to plot the distribution of genes that show a similar behavior of the module's genes across the same condition in order pick up a suitable threshold.
 
 ```{r}
-p = plotDistribution(biofeaturesNames = gene_names, samplesetNames =  colnames(module_1), type = "json", useIds = FALSE, plot = TRUE)
-p
+plot_module_distribution(module = module_1, plot = TRUE)
 ```
 
 For example, if we pick a threshold around 0.65 (looking at the top plot) we might expect to have around 30 Biological Features (genes) with a score equal or greater than that, to be added in our module. In this case let's just pick the top 30 genes and create e new module.
 
 ```{r}
+top_30_bf <- get_biofeature_ranking(samplesetNames =colnames(module_1), top_n = 30)
 # top_30_bf_ids = ranked_bf['id'][:30]
 # top_30_bf = BiologicalFeature.using(compendium).get(filter={'id_In': top_30_bf_ids})
 ```
@@ -158,8 +158,8 @@ The new module is created by adding Biological Feature objects to the old module
 ```{r}
 # write_table(module_1, file ="module_1.txt", sep ="\t")
 # module_1  <- read.table("module_1,txt")
-# module_2 <- create_module_bf(biofeaturesNames= top_30_bf, version = "legacy")
-# mod_union <- merge_modules(mod1 = module_1, mod2 = module_2)
+module_2 <- create_module(biofeaturesNames= top_30_bf$id[1:10], version = "legacy", useIds = TRUE)
+#mod_union <- merge_modules(mod1 = module_1, mod2 = module_2)
 ```
 
 We can have a look at the heatmap of the new module

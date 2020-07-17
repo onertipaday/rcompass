@@ -209,6 +209,71 @@ plotDistribution<- function(compendium = "vespucci",
   }
 
 
+#' Plot a distribution from a model
+#'
+#' @param compendium A string - the selected compendium
+#' @param module A matrix with valid rownames (biofeatureNames) and colnames (samplesetsNames)
+#' @param normalization A string - either 'limma','tpm_sample' or legacy as normalization
+#' @param type  A string -  either 'html'  or 'json
+#' @param plot A logical - it return the graphics object
+#' @param plotType A string - see  \code{\link{get_available_plot_methods}}
+#'
+#' @return Either a json, an html or a plotly htmlwidget
+#' @export
+#'
+#' @examples
+#'\dontrun{
+#'gene_names <- c('VIT_00s0246g00220','VIT_00s0332g00060','VIT_00s0332g00110',
+#''VIT_00s0332g00160','VIT_00s0396g00010','VIT_00s0505g00030','VIT_00s0505g00060',
+#''VIT_00s0873g00020','VIT_00s0904g00010')
+#' module_1 <- create_module(biofeaturesNames=gene_names, version = "legacy")
+#' plot_module_distribution(module = module_1,
+#' plotType = "biological_features_uncentered_correlation_distribution", plot = TRUE)
+#' plot_module_distribution(module = module_1,
+#' plotType = "sample_sets_magnitude_distribution", plot = TRUE)
+#' plot_module_distribution(module = module_1,
+#' plotType = "sample_sets_coexpression_distribution", plot = TRUE)
+#'}
+plot_module_distribution <- function(compendium = "vespucci",
+                                module = NULL,
+                                normalization = "legacy",
+                                type = "json",
+                                plot = TRUE,
+                                plotType = "biological_features_uncentered_correlation_distribution"){
+  if (is.null(module)) stop ("Provide a module.")
+  if (is.null(normalization)) stop ("Normalization has to be either 'limma','tpm_sample' or 'legacy'.")
+  else if (normalization == "limma" | normalization == "tpm_sample") version <- "latest"
+  else version <- "legacy"
+
+  biofeaturesIds <- get_biofeature_id(name_In = rownames(module))$id
+  samplesetIds <- get_sampleset_id(name_In = colnames(module))$id
+  my_query <- paste0('{
+    plotDistribution(compendium:\"', compendium, '\", version:\"', version, '\",
+    plotType:\"', plotType, '\",
+        biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"],
+        samplesetIds:["', paste0(samplesetIds, collapse = '","'),'\"]), {',
+                     type,'
+      }
+    }')
+
+  # if(show_query) return(cat(my_query))
+  output <- build_query(my_query)$plotDistribution
+  if (plot) {
+    my_data <- RJSONIO::fromJSON(output)$data
+    my_layout <- RJSONIO::fromJSON(output)$layout
+    fig1 <- plotly::plot_ly(x = my_data[[1]]$x, y = my_data[[1]]$y, type = my_data[[1]]$type,
+                            mode = my_data[[1]]$mode )
+    fig1 <- plotly::layout(fig1, xaxis = list(title = my_layout$xaxis2$title),
+                           yaxis = list(title = my_layout$yaxis2$title), showlegend = FALSE)
+    fig2 <- plotly::plot_ly(x = my_data[[2]]$x, y=my_data[[2]]$y, type = my_data[[2]]$type,
+                            mode = my_data[[1]]$mode)
+    fig2 <- plotly::layout(fig2, xaxis = list(title =  my_layout$xaxis$title),
+                           yaxis = list(title =  my_layout$yaxis$title))
+    plotly::subplot(fig2, fig1, nrows = 2, shareX = TRUE, titleX = TRUE, titleY = TRUE)
+  }
+  else output
+}
+
 #' plot heatmap from a module
 #'
 #' @param compendium A string - the selected compendium
