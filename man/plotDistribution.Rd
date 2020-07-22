@@ -2,7 +2,7 @@
 % Please edit documentation in R/plots.R
 \name{plotDistribution}
 \alias{plotDistribution}
-\title{plotDistribution}
+\title{plot distribution providing either biofeaturesNames of samplesetNames}
 \usage{
 plotDistribution(
   compendium = "vespucci",
@@ -36,7 +36,7 @@ plotDistribution(
 Eiher a json, an html or a plotly htmlwidget
 }
 \description{
-plotDistribution
+plot distribution providing either biofeaturesNames of samplesetNames
 }
 \examples{
 \dontrun{
@@ -47,11 +47,12 @@ s_ids <- c("U2FtcGxlU2V0VHlwZToxNDg=", "U2FtcGxlU2V0VHlwZToxNDk=", "U2FtcGxlU2V0
 plotDistribution(biofeaturesNames = b_ids, samplesetNames = s_ids,
 type = "json", useIds = TRUE, plot = TRUE)
 my_plot_html <- plotDistribution(biofeaturesNames = b_ids, samplesetNames = s_ids,
-type = "html", useIds = TRUE)
+type = "html", useIds = TRUE, plot = FALSE)
+h <- xml2::read_html(my_plot_html)
 tempDir <- tempfile()
 dir.create(tempDir)
 htmlFile <- file.path(tempDir, "plotDistribution.html")
-xml2::write_html(my_plot_html,file=htmlFile)
+xml2::write_html(h, tmpDir,file = htmlFile)
 rstudioapi::viewer(htmlFile)
 }
 }

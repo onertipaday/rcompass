@@ -37,21 +37,12 @@ plot heatmap from a module
 }
 \examples{
 \dontrun{
-library(plotly)
 my_bf_ids <- c("QmlvRmVhdHVyZVR5cGU6MQ==", "QmlvRmVhdHVyZVR5cGU6Mg==",
 "QmlvRmVhdHVyZVR5cGU6Mw==", "QmlvRmVhdHVyZVR5cGU6NA==", "QmlvRmVhdHVyZVR5cGU6NQ==")
 my_ss_ids <- c("U2FtcGxlU2V0VHlwZToxNDg=", "U2FtcGxlU2V0VHlwZToxNDk=",
 "U2FtcGxlU2V0VHlwZToxNTA=", "U2FtcGxlU2V0VHlwZToxNTE=", "U2FtcGxlU2V0VHlwZToxNTI=")
-tmp <- plot_heatmap(biofeaturesNames = my_bf_ids, samplesetNames = my_ss_ids, plot = TRUE,
-useIds = TRUE)
-RJSONIO::isValidJSON(tmp, asText = T)
-tmp=RJSONIO::fromJSON(tmp)[[1]]
-data = matrix(unlist(sapply(tmp[[2]]$z, unlist)),5,5)
-plot_ly(x=tmp[[2]]$x, y=tmp[[2]]$y, z = data,
-type = tmp[[1]]$type,
-colorscale= c( "rgb(0, 0, 0)", "rgb(100, 100, 100)"),
-showscale = T) \%>\%
-layout(margin = list(l=120))
+plot_heatmap(biofeaturesNames = my_bf_ids, samplesetNames = my_ss_ids,
+plot = TRUE, useIds = TRUE)
 
 gene_names <- c('VIT_00s0246g00220','VIT_00s0332g00060','VIT_00s0332g00110',
 'VIT_00s0332g00160','VIT_00s0396g00010','VIT_00s0505g00030',

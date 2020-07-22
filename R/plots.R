@@ -1,4 +1,4 @@
-#' get_available_plot_methods
+#' show all available plot methods
 #'
 #' @param compendium A string - the selected compendium
 #'
@@ -17,61 +17,10 @@ get_available_plot_methods <- function(compendium = "vespucci"){
   }')
   tmp <- build_query(my_query)$plotName
   list(distributions = sapply(tmp$distribution, unlist),
-                                     heatmap = tmp$heatmap,
-                                     network = tmp$network)
+       heatmap = tmp$heatmap,
+       network = tmp$network)
 }
 
-
-#' plot_network_coexpression
-#'
-#' @param compendium A string - the selected compendium
-#' @param biofeaturesNames A character vector (here gene_names)
-#' @param samplesetNames A character vector - the sampleSets names
-#' @param normalization A string - either 'limma','tpm_sample' or legacy as normalization
-#' @param useIds A logical - TRUE as default
-#' @param type  string -  either 'html'  or 'json
-#'
-#' @return Either a json, an html or a plotly htmlwidget
-#' @export
-plot_network_coexpression  <- function(compendium = "vespucci",
-                                       normalization = "legacy",
-                                       biofeaturesNames=NULL,
-                                       samplesetNames=NULL,
-                                       useIds = TRUE,
-                                       type = "json"){
-  if (is.null(normalization)) stop ("Select either 'limma','tpm_sample' or legacy as normalization.")
-  else if (normalization == "limma" | normalization == "tpm_sample") version <- "latest"
-  else version <- "legacy"
-  if (all(c(biofeaturesNames, samplesetNames) %in% NULL)) stop("You need to provide either biofeaturesNames or samplesetsNames")
-  if (is.null(biofeaturesNames)) {
-    biofeaturesIds <- get_biofeature_ranking(samplesetNames = samplesetNames, top_n = 10)$id
-  } else if (is.null(samplesetNames)){
-    samplesetIds <-  get_samplesets_ranking(biofeaturesNames = biofeaturesNames, top_n = 10)$id
-  } else {
-    biofeaturesIds <- get_biofeature_ranking(samplesetNames = samplesetNames, top_n = 10)$id
-    samplesetIds <-  get_samplesets_ranking(biofeaturesNames = biofeaturesNames, top_n = 10)$id
-  }
-  if(useIds){
-    biofeaturesIds <- biofeaturesNames
-    samplesetIds <- samplesetNames
-  }
-  else {
-    biofeaturesIds <- get_biofeature_id(name_In = biofeaturesNames)$id
-    samplesetIds <- get_sampleset_id(name_In = samplesetNames)$id
-  }
-  # biofeaturesIds <- get_biofeature_id(name_In=biofeaturesNames)$id
-  # samplesetIds <- get_biofeature_id(name_In=samplesetNames)$id
-  my_query <- paste0('{
-  plotNetwork(compendium:\"', compendium, '\",
-    version:\"', version, '\",
-    plotType: "module_coexpression_network",
-    biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"],
-    samplesetIds:["', paste0(samplesetIds, collapse = '","'),'\"]) {',
-                     type,'
-    }
-  }')
-  build_query(my_query)$plotNetwork
-}
 
 #' Plot a network from a model
 #'
@@ -114,6 +63,7 @@ plot_module_network <- function(compendium = "vespucci",
     }')
 
   # if(show_query) return(cat(my_query))
+  # TODO!!!
   output <- build_query(my_query)$plotNetwork
   if (plot) {
     my_data <- RJSONIO::fromJSON(output)$data
@@ -133,7 +83,7 @@ plot_module_network <- function(compendium = "vespucci",
 
 # -----------------------------------------------------------------------------
 
-#' plotDistribution
+#' plot distribution providing either biofeaturesNames of samplesetNames
 #'
 #' @param compendium A string - the selected compendium
 #' @param biofeaturesNames A character vector (here gene_names)
@@ -156,14 +106,15 @@ plot_module_network <- function(compendium = "vespucci",
 #' plotDistribution(biofeaturesNames = b_ids, samplesetNames = s_ids,
 #' type = "json", useIds = TRUE, plot = TRUE)
 #' my_plot_html <- plotDistribution(biofeaturesNames = b_ids, samplesetNames = s_ids,
-#' type = "html", useIds = TRUE)
+#' type = "html", useIds = TRUE, plot = FALSE)
+#' h <- xml2::read_html(my_plot_html)
 #' tempDir <- tempfile()
 #' dir.create(tempDir)
 #' htmlFile <- file.path(tempDir, "plotDistribution.html")
-#' xml2::write_html(my_plot_html,file=htmlFile)
+#' xml2::write_html(h, tmpDir,file = htmlFile)
 #' rstudioapi::viewer(htmlFile)
 #' }
-plotDistribution<- function(compendium = "vespucci",
+plotDistribution <- function(compendium = "vespucci",
                             biofeaturesNames = NULL,
                             samplesetNames = NULL,
                             normalization = "legacy",
@@ -174,23 +125,47 @@ plotDistribution<- function(compendium = "vespucci",
   if (is.null(normalization)) stop ("Normalization should to be either 'limma','tpm_sample' or 'legacy'.")
   else if (normalization == "limma" | normalization == "tpm_sample") version <- "latest"
   else version <- "legacy"
-  if(is.null(biofeaturesNames) && is.null(samplesetNames)) stop("Provide both biofeatureNames AND samplesetNames!")
-  if(useIds){
-    biofeaturesIds <- biofeaturesNames
-    samplesetIds <- samplesetNames
+  if(is.null(biofeaturesNames) && is.null(samplesetNames)) stop("Provide either biofeatureNames or samplesetNames!")
+  if(is.null(samplesetNames)  && !plotType == "biological_features_uncentered_correlation_distribution"){
+    if(useIds)  biofeaturesIds <- biofeaturesNames
+    else biofeaturesIds <- get_biofeature_id(name_In = biofeaturesNames)$id
+    my_query <- paste0('{
+      plotDistribution(compendium:\"', compendium, '\", version:\"', version, '\",
+      plotType:\"', plotType, '\",
+      biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"]) {',
+                         type,'
+      }
+    }')
   }
-  else {
-    biofeaturesIds <- get_biofeature_id(name_In = biofeaturesNames)$id
-    samplesetIds <- get_sampleset_id(name_In = samplesetNames)$id
+  else if(is.null(biofeaturesNames) && !plotType == "sample_sets_coexpression_distribution"){
+    if(useIds) samplesetIds <- samplesetNames
+    else samplesetIds <- get_sampleset_id(name_In = samplesetNames)$id
+    my_query <- paste0('{
+      plotDistribution(compendium:\"', compendium, '\", version:\"', version, '\",
+      plotType:\"', plotType, '\",
+      samplesetIds:["', paste0(samplesetIds, collapse = '","'),'\"]) {',
+                         type,'
+      }
+    }')
   }
-  my_query <- paste0('{
-    plotDistribution(compendium:\"', compendium, '\", version:\"', version, '\",
-    plotType:\"', plotType, '\",
-    biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"],
-    samplesetIds:["', paste0(samplesetIds, collapse = '","'),'\"]) {',
-                   type,'
-    }
-  }')
+  else{
+      if(useIds){
+        biofeaturesIds <- biofeaturesNames
+        samplesetIds <- samplesetNames
+      }
+      else {
+        biofeaturesIds <- get_biofeature_id(name_In = biofeaturesNames)$id
+        samplesetIds <- get_sampleset_id(name_In = samplesetNames)$id
+      }
+      my_query <- paste0('{
+      plotDistribution(compendium:\"', compendium, '\", version:\"', version, '\",
+      plotType:\"', plotType, '\",
+      biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"],
+      samplesetIds:["', paste0(samplesetIds, collapse = '","'),'\"]) {',
+                         type,'
+      }
+    }')
+  }
   output <- build_query(my_query)$plotDistribution
   if (plot) {
     my_data <- RJSONIO::fromJSON(output)$data
@@ -255,7 +230,6 @@ plot_module_distribution <- function(compendium = "vespucci",
                      type,'
       }
     }')
-
   # if(show_query) return(cat(my_query))
   output <- build_query(my_query)$plotDistribution
   if (plot) {
@@ -289,21 +263,12 @@ plot_module_distribution <- function(compendium = "vespucci",
 #'
 #' @examples
 #'\dontrun{
-#'library(plotly)
 #' my_bf_ids <- c("QmlvRmVhdHVyZVR5cGU6MQ==", "QmlvRmVhdHVyZVR5cGU6Mg==",
 #' "QmlvRmVhdHVyZVR5cGU6Mw==", "QmlvRmVhdHVyZVR5cGU6NA==", "QmlvRmVhdHVyZVR5cGU6NQ==")
 #' my_ss_ids <- c("U2FtcGxlU2V0VHlwZToxNDg=", "U2FtcGxlU2V0VHlwZToxNDk=",
 #' "U2FtcGxlU2V0VHlwZToxNTA=", "U2FtcGxlU2V0VHlwZToxNTE=", "U2FtcGxlU2V0VHlwZToxNTI=")
-#' tmp <- plot_heatmap(biofeaturesNames = my_bf_ids, samplesetNames = my_ss_ids, plot = TRUE,
-#' useIds = TRUE)
-#' RJSONIO::isValidJSON(tmp, asText = T)
-#' tmp=RJSONIO::fromJSON(tmp)[[1]]
-#' data = matrix(unlist(sapply(tmp[[2]]$z, unlist)),5,5)
-#' plot_ly(x=tmp[[2]]$x, y=tmp[[2]]$y, z = data,
-#' type = tmp[[1]]$type,
-#' colorscale= c( "rgb(0, 0, 0)", "rgb(100, 100, 100)"),
-#' showscale = T) %>%
-#' layout(margin = list(l=120))
+#' plot_heatmap(biofeaturesNames = my_bf_ids, samplesetNames = my_ss_ids,
+#' plot = TRUE, useIds = TRUE)
 #'
 #' gene_names <- c('VIT_00s0246g00220','VIT_00s0332g00060','VIT_00s0332g00110',
 #' 'VIT_00s0332g00160','VIT_00s0396g00010','VIT_00s0505g00030',

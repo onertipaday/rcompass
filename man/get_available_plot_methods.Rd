@@ -2,7 +2,7 @@
 % Please edit documentation in R/plots.R
 \name{get_available_plot_methods}
 \alias{get_available_plot_methods}
-\title{get_available_plot_methods}
+\title{show all available plot methods}
 \usage{
 get_available_plot_methods(compendium = "vespucci")
 }
@@ -13,7 +13,7 @@ get_available_plot_methods(compendium = "vespucci")
 A list with plot methods for distribution, heatmap and network
 }
 \description{
-get_available_plot_methods
+show all available plot methods
 }
 \examples{
 get_available_plot_methods()

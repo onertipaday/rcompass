@@ -49,6 +49,13 @@ We can query the compendium with the list of gene names and get a list of Biolog
 bf_ids <- get_biofeature_id(compendium = "vespucci", name_In = gene_names) 
 DT::datatable(bf_ids)
 ```
+Each BiologicalFeature object has several fields. In our case, since the BiologicalFeature represent a gene, we have sequence. The id is the identifier used internally in the database.
+
+```{r}
+DT::datatable(get_biofeature_by_name(name_In = gene_names))
+```
+
+## Get ids from aliases using SPARQL
 Genes might have different aliases, all of which are defined in VESPUCCI as annotations. Since annotations (for both genes and samples) are represented as RDF triples using different ontologies, we can perform a [SPARQL](https://en.wikipedia.org/wiki/SPARQL) query to retrieve all the biological features (genes here) that has an ***alias*** ([NCIT_C41095](https://www.ebi.ac.uk/ols/ontologies/ncit/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FNCIT_C41095) term on the NCIT Ontology, http://purl.obolibrary.org/obo/) equal to the ones specified in the list.
 
 ```{r}
@@ -64,13 +71,19 @@ aliases <- c('B9S8R7','Q7M2G6','D7SZ93','B8XIJ8','Vv00s0125g00280','Vv00s0187g00
 sparql_results_check <- get_ids_from_alias(target = "biofeature", alias_names = aliases)
 ```
 
-and check the results are the same:
+and check results are the same:
 
 ```{r}
 identical(sparql_results[,1],sparql_results_check)
 ```
+As before we can retrieve the sequence associate to our aliases using the ids from the database.
 
-Another examples returning samples ids selected by [PO ontology](https://www.ebi.ac.uk/ols/ontologies/po) term [seed](http://purl.obolibrary.org/obo/PO_0009010):
+```{r}
+DT::datatable(get_biofeature_by_name(name_In = unique(unique( get_annotation_triples(ids = sparql_results[,1])[,1]))))
+```
+
+**CHECK THIS!**
+Another examples returning samples ids (**they are not**)selected by [PO ontology](https://www.ebi.ac.uk/ols/ontologies/po) term [seed](http://purl.obolibrary.org/obo/PO_0009010):
 ```{r}
 my_query <- paste0('SELECT ?s ?p ?o WHERE { ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>',
 '<http://purl.obolibrary.org/obo/NCIT_C19157>',
@@ -79,11 +92,6 @@ my_query <- paste0('SELECT ?s ?p ?o WHERE { ?s <http://www.w3.org/1999/02/22-rdf
 get_sparql_annotation_triples(target = "sample", query = my_query)[,1]
 ```
 
-Each BiologicalFeature object has several fields. In our case, since the BiologicalFeature represent a gene, we have sequence. The id is the identifier used internally in the database.
-
-```{r}
-DT::datatable(get_biofeature_by_name(name_In = gene_names))
-```
 # Create a Module
 We are now ready to create our first module. If we pass a list of genes (BiologicalFeature objects) it will automatically retrieve the "best" conditions (SampleSet objects).
 
@@ -107,6 +115,17 @@ The easiest way to visualize a module is using a heatmap. The Plot object wraps 
 
 ```{r}
 plot_module_heatmap(module = module_1, plot = TRUE)
+```
+or
+
+```{r}
+my_plot_html <- plot_module_heatmap(module = module_1, type = "html", plot = FALSE)
+h <- xml2::read_html(my_plot_html)
+tempDir <- tempfile()
+dir.create(tempDir)
+htmlFile <- file.path(tempDir, "plot_heatmap.html")
+xml2::write_html(h, tmpDir,file = htmlFile)
+# rstudioapi::viewer(htmlFile)
 ```
 
 Alternatively you can use directly any R function to cluster data and produce an heatmap, e.g.:
@@ -168,13 +187,11 @@ We can have a look at the heatmap of the new module
 # plot_module_heatmap(module = module_2, plot = TRUE)
 ```
 
-
 # Annotations
 In VESPUCCI, both Biological Feature (gene) and Sample annotations are represented using [RDF](https://en.wikipedia.org/wiki/Resource_Description_Framework). We can visualize annotation as a set of RDF triples.
 ```{r}
 
 ```
-
 
 Another way is to visualize the annotation is with RDF graph.
 
@@ -198,7 +215,7 @@ seed_samples <- get_sparql_annotation_triples(target = "sample", query = sparql)
 Now we can collect all the Sample Sets in which these samples are used and then create a new module based on Sample Sets only leaving VESPUCCI to figure out which are the genes (Biological Feature objects) that show a consistent up or down-regulated profile.
 
 ```{r}
-# module_3 <- create_module(samplesetNames = seed_samples, useIds = TRUE)
+# module_3 <- create_module(biosamplesetNames = seed_samples, useIds = TRUE)
 ```
 
 And now we can plot the heatmap
