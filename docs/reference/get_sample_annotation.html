@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>get annotations for n samples from the selected compendium — get_sample_annotation • rcompass</title>
+<title>get annotations for either n samples or selected sampleName — get_sample_annotation • rcompass</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="get annotations for n samples from the selected compendium — get_sample_annotation" />
-<meta property="og:description" content="get annotations for n samples from the selected compendium" />
+<meta property="og:title" content="get annotations for either n samples or selected sampleName — get_sample_annotation" />
+<meta property="og:description" content="get annotations for either n samples or selected sampleName" />
 
 
 
@@ -123,16 +123,21 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>get annotations for n samples from the selected compendium</h1>
+    <h1>get annotations for either n samples or selected sampleName</h1>
     <small class="dont-index">Source: <a href='https://github.com/onertipaday/rcompass/blob/master/R/queries.R'><code>R/queries.R</code></a></small>
     <div class="hidden name"><code>get_sample_annotation.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>get annotations for n samples from the selected compendium</p>
+    <p>get annotations for either n samples or selected sampleName</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_sample_annotation</span>(<span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>10</span>)</pre>
+    <pre class="usage"><span class='fu'>get_sample_annotation</span>(
+  <span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>,
+  <span class='kw'>n</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>sampleName</span> <span class='kw'>=</span> <span class='st'>"GSM287866.ch1"</span>,
+  <span class='kw'>useIds</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -143,67 +148,66 @@
     </tr>
     <tr>
       <th>n</th>
-      <td><p>an integer: number of sample to retrieve (default 10)</p></td>
+      <td><p>A numeric (integer): number of sample to retrieve (default 10)</p></td>
+    </tr>
+    <tr>
+      <th>sampleName</th>
+      <td><p>A string - A sampleId or sampleName</p></td>
+    </tr>
+    <tr>
+      <th>useIds</th>
+      <td><p>A logical (FALSE as default) - It allows using sampleIds</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data.frame with three columns: sampleId sampleName annotation</p>
+    <p>A data.frame with three columns: sampleId sampleName sampleAnnotation</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>get_sample_annotation</span>(<span class='kw'>n</span><span class='kw'>=</span><span class='fl'>25</span>)</div><div class='output co'>#&gt;               sampleId      sampleName
-#&gt; 1  U2FtcGxlVHlwZTozMjAw GSM2627902.ch1
-#&gt; 2  U2FtcGxlVHlwZToyMw==  GSM147690.ch1
-#&gt; 3  U2FtcGxlVHlwZToyMw==  GSM147690.ch1
-#&gt; 4  U2FtcGxlVHlwZToyMw==  GSM147690.ch1
-#&gt; 5  U2FtcGxlVHlwZToyMw==  GSM147690.ch1
-#&gt; 6  U2FtcGxlVHlwZToyMw==  GSM147690.ch1
-#&gt; 7  U2FtcGxlVHlwZTo1OQ==  GSM147726.ch1
-#&gt; 8  U2FtcGxlVHlwZTo1OQ==  GSM147726.ch1
-#&gt; 9  U2FtcGxlVHlwZTo1OQ==  GSM147726.ch1
-#&gt; 10 U2FtcGxlVHlwZTo1OQ==  GSM147726.ch1
-#&gt; 11 U2FtcGxlVHlwZTo1OQ==  GSM147726.ch1
-#&gt; 12 U2FtcGxlVHlwZTo3Nw==  GSM786240.ch1
-#&gt; 13 U2FtcGxlVHlwZTo3Nw==  GSM786240.ch1
-#&gt; 14 U2FtcGxlVHlwZTo3Nw==  GSM786240.ch1
-#&gt; 15 U2FtcGxlVHlwZTo3Nw==  GSM786240.ch1
-#&gt; 16 U2FtcGxlVHlwZTo3Nw==  GSM786240.ch1
-#&gt; 17 U2FtcGxlVHlwZTo3Nw==  GSM786240.ch1
-#&gt; 18 U2FtcGxlVHlwZTo3Nw==  GSM786240.ch1
-#&gt; 19 U2FtcGxlVHlwZTo3Nw==  GSM786240.ch1
-#&gt; 20 U2FtcGxlVHlwZTo3Nw==  GSM786240.ch1
-#&gt; 21 U2FtcGxlVHlwZTo3Nw==  GSM786240.ch1
-#&gt; 22 U2FtcGxlVHlwZTo4Ng==  GSM786249.ch1
-#&gt; 23 U2FtcGxlVHlwZTo4Ng==  GSM786249.ch1
-#&gt; 24 U2FtcGxlVHlwZTo4Ng==  GSM786249.ch1
-#&gt; 25 U2FtcGxlVHlwZTo4Ng==  GSM786249.ch1
-#&gt;                                                                                                                                                                                                                                                                                                                                                         annotation
-#&gt; 1                                                                                                                                       {"@id": "_:Na40b86b0d5674343a220a9232de33222", "@type": ["https://www.awri.com.au/wp-content/uploads/grapegrowth.pdf#35"], "http://purl.obolibrary.org/obo/NCIT_C25330": [{"@id": "_:Nc274a0c72ad449b7bed4d1c26fe82c0f"}]}
-#&gt; 2                                                                                                                                                                                                                                                                                            {"@id": "23", "@type": ["http://purl.obolibrary.org/obo/PO_0025034"]}
-#&gt; 3                                                                                                                                                             {"@id": "23", "http://www.ebi.ac.uk/efo/EFO_0005136": [{"@value": "Cabernet-Sauvignon"}], "http://purl.obolibrary.org/obo/NCIT_C16631": [{"@id": "http://purl.obolibrary.org/obo/NCBITaxon_29760"}]}
-#&gt; 4                                                                                                                                                                                                                                               {"@id": "23", "http://www.bioassayontology.org/bao#BAO_0002924": [{"@id": "_:N2d9927bae3de4e06869ce4e73609766e"}]}
-#&gt; 5                                                                                                                                                                                                                                                     {"@id": "23", "http://purl.obolibrary.org/obo/TO_0000541": [{"@id": "_:N5d5f93f04bbc4a42ba69485eeccf03f6"}]}
-#&gt; 6                                                                                                                                                                                {"@id": "_:N5d5f93f04bbc4a42ba69485eeccf03f6", "@type": ["http://purl.obolibrary.org/obo/NCIT_C104788"], "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [{"@value": "3+4"}]}
-#&gt; 7                                                                                                                                                                                                                                                                                            {"@id": "59", "@type": ["http://purl.obolibrary.org/obo/PO_0025034"]}
-#&gt; 8                                                                                                                                                                          {"@id": "59", "http://www.ebi.ac.uk/efo/EFO_0005136": [{"@value": "Norton"}], "http://purl.obolibrary.org/obo/NCIT_C16631": [{"@id": "http://purl.obolibrary.org/obo/NCBITaxon_3605"}]}
-#&gt; 9                                                                                                                                                                                                                                               {"@id": "59", "http://www.bioassayontology.org/bao#BAO_0002924": [{"@id": "_:Nce5b27efb7b54c869201c68520da6f35"}]}
-#&gt; 10                                                                                                                                                                                                                                                    {"@id": "59", "http://purl.obolibrary.org/obo/TO_0000541": [{"@id": "_:N21e187a168b74adca9733457de8755c0"}]}
-#&gt; 11                                                                                                                                                                               {"@id": "_:N21e187a168b74adca9733457de8755c0", "@type": ["http://purl.obolibrary.org/obo/NCIT_C104788"], "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [{"@value": "3+4"}]}
-#&gt; 12                                                                                                                                                                                                                          {"@id": "77", "http://purl.obolibrary.org/obo/PO_0007033": [{"@id": "https://www.awri.com.au/wp-content/uploads/grapegrowth.pdf#33"}]}
-#&gt; 13                                                                                                                                                                                                                                                   {"@id": "77", "http://purl.obolibrary.org/obo/NCIT_C99800": [{"@id": "_:N9035ea19a82a4c759b09771a246cb3c3"}]}
-#&gt; 14                                                                      {"@id": "_:N9035ea19a82a4c759b09771a246cb3c3", "http://purl.obolibrary.org/obo/UO_0000000": [{"@id": "http://purl.obolibrary.org/obo/UO_0000036"}], "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [{"@type": "http://www.w3.org/2001/XMLSchema#positiveInteger", "@value": "2003"}]}
-#&gt; 15                                                                                                                                                                    {"@id": "77", "http://www.ebi.ac.uk/efo/EFO_0005136": [{"@value": "Pinot Noir"}], "http://purl.obolibrary.org/obo/NCIT_C16631": [{"@id": "http://purl.obolibrary.org/obo/NCBITaxon_29760"}]}
-#&gt; 16                                                                                                                                                                                                                                                                                           {"@id": "77", "@type": ["http://purl.obolibrary.org/obo/PO_0009001"]}
-#&gt; 17                                                                                                                                                                                                                                              {"@id": "77", "http://www.bioassayontology.org/bao#BAO_0002924": [{"@id": "_:N6f3c098ba2294b84883ec5f47323be9c"}]}
-#&gt; 18                                                                                                                                                      {"@id": "_:N6f3c098ba2294b84883ec5f47323be9c", "@type": ["http://purl.obolibrary.org/obo/ENVO_00000116"], "http://purl.obolibrary.org/obo/GAZ_00000448": [{"@id": "_:N1fc99c1d085841de8b0eaf6fc51cdf4c"}]}
-#&gt; 19 {"@id": "_:N1fc99c1d085841de8b0eaf6fc51cdf4c", "http://purl.obolibrary.org/obo/NCIT_C68642": [{"@id": "_:Naf56ba2ce56046d6aed156ff406fedbf"}], "http://purl.obolibrary.org/obo/NCIT_C68643": [{"@id": "_:Nab6e43fd86474951aa2b166e186c668d"}], "http://www.w3.org/1999/02/22-rdf-syntax-ns#Description": [{"@value": "Ai molini San Michele all'Adige Italy"}]}
-#&gt; 20                                                                           {"@id": "_:Naf56ba2ce56046d6aed156ff406fedbf", "http://purl.obolibrary.org/obo/UO_0000000": [{"@id": "http://purl.obolibrary.org/obo/UO_0000185"}], "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [{"@type": "http://www.w3.org/2001/XMLSchema#float", "@value": "46.192921"}]}
-#&gt; 21                                                                           {"@id": "_:Nab6e43fd86474951aa2b166e186c668d", "http://purl.obolibrary.org/obo/UO_0000000": [{"@id": "http://purl.obolibrary.org/obo/UO_0000185"}], "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [{"@type": "http://www.w3.org/2001/XMLSchema#float", "@value": "11.134089"}]}
-#&gt; 22                                                                                                                                                                                                                          {"@id": "86", "http://purl.obolibrary.org/obo/PO_0007033": [{"@id": "https://www.awri.com.au/wp-content/uploads/grapegrowth.pdf#33"}]}
-#&gt; 23                                                                                                                                                                                                                                                   {"@id": "86", "http://purl.obolibrary.org/obo/NCIT_C99800": [{"@id": "_:N3c5d346bcbd6423680ba678330f9fb90"}]}
-#&gt; 24                                                                      {"@id": "_:N3c5d346bcbd6423680ba678330f9fb90", "http://purl.obolibrary.org/obo/UO_0000000": [{"@id": "http://purl.obolibrary.org/obo/UO_0000036"}], "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [{"@type": "http://www.w3.org/2001/XMLSchema#positiveInteger", "@value": "2005"}]}
-#&gt; 25                                                                                                                                                                    {"@id": "86", "http://www.ebi.ac.uk/efo/EFO_0005136": [{"@value": "Pinot Noir"}], "http://purl.obolibrary.org/obo/NCIT_C16631": [{"@id": "http://purl.obolibrary.org/obo/NCBITaxon_29760"}]}</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>get_sample_annotation</span>(<span class='kw'>n</span><span class='kw'>=</span><span class='fl'>5</span>)</div><div class='output co'>#&gt;               sampleId     sampleName
+#&gt; 1  U2FtcGxlVHlwZToyMzQ= GSM287866.ch1
+#&gt; 2  U2FtcGxlVHlwZToyMzQ= GSM287866.ch1
+#&gt; 3  U2FtcGxlVHlwZToyMzQ= GSM287866.ch1
+#&gt; 4  U2FtcGxlVHlwZToyMzQ= GSM287866.ch1
+#&gt; 5  U2FtcGxlVHlwZToyMzQ= GSM287866.ch1
+#&gt; 6  U2FtcGxlVHlwZToyMzQ= GSM287866.ch1
+#&gt; 7  U2FtcGxlVHlwZToyMzQ= GSM287866.ch1
+#&gt; 8  U2FtcGxlVHlwZToyMzQ= GSM287866.ch1
+#&gt; 9  U2FtcGxlVHlwZToyMzQ= GSM287866.ch1
+#&gt; 10 U2FtcGxlVHlwZToyMzQ= GSM287866.ch1
+#&gt;                                                                                                                                                                                                                                                                                                                            sampleAnnotation
+#&gt; 1                                                                                                                                                                                                                                                                    {"@id": "234", "@type": ["http://purl.obolibrary.org/obo/PO_0008002"]}
+#&gt; 2                                                                                                                                                                                                   {"@id": "234", "http://purl.obolibrary.org/obo/PO_0007033": [{"@id": "https://www.awri.com.au/wp-content/uploads/grapegrowth.pdf#33"}]}
+#&gt; 3                                                                                                                                                                                                                            {"@id": "234", "http://purl.obolibrary.org/obo/NCIT_C99800": [{"@id": "_:N3635fe08137c4fe1b7f583913bddc9f5"}]}
+#&gt; 4                                                {"@id": "_:N3635fe08137c4fe1b7f583913bddc9f5", "http://purl.obolibrary.org/obo/UO_0000000": [{"@id": "http://purl.obolibrary.org/obo/UO_0000036"}], "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [{"@type": "http://www.w3.org/2001/XMLSchema#positiveInteger", "@value": "2006"}]}
+#&gt; 5                                                                                                                                     {"@id": "234", "http://www.ebi.ac.uk/efo/EFO_0005136": [{"@value": "Cabernet-Sauvignon"}], "http://purl.obolibrary.org/obo/NCIT_C16631": [{"@id": "http://purl.obolibrary.org/obo/NCBITaxon_29760"}]}
+#&gt; 6                                                                                                                                                                                                                       {"@id": "234", "http://www.bioassayontology.org/bao#BAO_0002924": [{"@id": "_:N9c3e1f5881ef4de9abdb6d404b99a274"}]}
+#&gt; 7                                                                                                                                {"@id": "_:N9c3e1f5881ef4de9abdb6d404b99a274", "@type": ["http://purl.obolibrary.org/obo/ENVO_00000116"], "http://purl.obolibrary.org/obo/GAZ_00000448": [{"@id": "_:N8afe597919f2432dae18737a4c1efdd9"}]}
+#&gt; 8  {"@id": "_:N8afe597919f2432dae18737a4c1efdd9", "http://purl.obolibrary.org/obo/NCIT_C68642": [{"@id": "_:N61959c4c39744318be2f9ef10ecc4682"}], "http://purl.obolibrary.org/obo/NCIT_C68643": [{"@id": "_:Nacaa47321a9c41939e500067bd77ce98"}], "http://www.w3.org/1999/02/22-rdf-syntax-ns#Description": [{"@value": "Osoyoos Canada"}]}
+#&gt; 9                                                     {"@id": "_:N61959c4c39744318be2f9ef10ecc4682", "http://purl.obolibrary.org/obo/UO_0000000": [{"@id": "http://purl.obolibrary.org/obo/UO_0000185"}], "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [{"@type": "http://www.w3.org/2001/XMLSchema#float", "@value": "49.027968"}]}
+#&gt; 10                                                  {"@id": "_:Nacaa47321a9c41939e500067bd77ce98", "http://purl.obolibrary.org/obo/UO_0000000": [{"@id": "http://purl.obolibrary.org/obo/UO_0000185"}], "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [{"@type": "http://www.w3.org/2001/XMLSchema#float", "@value": "-119.484439"}]}</div><div class='input'><span class='fu'>get_sample_annotation</span>(<span class='kw'>sampleName</span> <span class='kw'>=</span> <span class='st'>"GSM287866.ch1"</span>)</div><div class='output co'>#&gt;               sampleId     sampleName
+#&gt; 1  U2FtcGxlVHlwZToyMzQ= GSM287866.ch1
+#&gt; 2  U2FtcGxlVHlwZToyMzQ= GSM287866.ch1
+#&gt; 3  U2FtcGxlVHlwZToyMzQ= GSM287866.ch1
+#&gt; 4  U2FtcGxlVHlwZToyMzQ= GSM287866.ch1
+#&gt; 5  U2FtcGxlVHlwZToyMzQ= GSM287866.ch1
+#&gt; 6  U2FtcGxlVHlwZToyMzQ= GSM287866.ch1
+#&gt; 7  U2FtcGxlVHlwZToyMzQ= GSM287866.ch1
+#&gt; 8  U2FtcGxlVHlwZToyMzQ= GSM287866.ch1
+#&gt; 9  U2FtcGxlVHlwZToyMzQ= GSM287866.ch1
+#&gt; 10 U2FtcGxlVHlwZToyMzQ= GSM287866.ch1
+#&gt;                                                                                                                                                                                                                                                                                                                            sampleAnnotation
+#&gt; 1                                                                                                                                                                                                                                                                    {"@id": "234", "@type": ["http://purl.obolibrary.org/obo/PO_0008002"]}
+#&gt; 2                                                                                                                                                                                                   {"@id": "234", "http://purl.obolibrary.org/obo/PO_0007033": [{"@id": "https://www.awri.com.au/wp-content/uploads/grapegrowth.pdf#33"}]}
+#&gt; 3                                                                                                                                                                                                                            {"@id": "234", "http://purl.obolibrary.org/obo/NCIT_C99800": [{"@id": "_:N3635fe08137c4fe1b7f583913bddc9f5"}]}
+#&gt; 4                                                {"@id": "_:N3635fe08137c4fe1b7f583913bddc9f5", "http://purl.obolibrary.org/obo/UO_0000000": [{"@id": "http://purl.obolibrary.org/obo/UO_0000036"}], "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [{"@type": "http://www.w3.org/2001/XMLSchema#positiveInteger", "@value": "2006"}]}
+#&gt; 5                                                                                                                                     {"@id": "234", "http://www.ebi.ac.uk/efo/EFO_0005136": [{"@value": "Cabernet-Sauvignon"}], "http://purl.obolibrary.org/obo/NCIT_C16631": [{"@id": "http://purl.obolibrary.org/obo/NCBITaxon_29760"}]}
+#&gt; 6                                                                                                                                                                                                                       {"@id": "234", "http://www.bioassayontology.org/bao#BAO_0002924": [{"@id": "_:N9c3e1f5881ef4de9abdb6d404b99a274"}]}
+#&gt; 7                                                                                                                                {"@id": "_:N9c3e1f5881ef4de9abdb6d404b99a274", "@type": ["http://purl.obolibrary.org/obo/ENVO_00000116"], "http://purl.obolibrary.org/obo/GAZ_00000448": [{"@id": "_:N8afe597919f2432dae18737a4c1efdd9"}]}
+#&gt; 8  {"@id": "_:N8afe597919f2432dae18737a4c1efdd9", "http://purl.obolibrary.org/obo/NCIT_C68642": [{"@id": "_:N61959c4c39744318be2f9ef10ecc4682"}], "http://purl.obolibrary.org/obo/NCIT_C68643": [{"@id": "_:Nacaa47321a9c41939e500067bd77ce98"}], "http://www.w3.org/1999/02/22-rdf-syntax-ns#Description": [{"@value": "Osoyoos Canada"}]}
+#&gt; 9                                                     {"@id": "_:N61959c4c39744318be2f9ef10ecc4682", "http://purl.obolibrary.org/obo/UO_0000000": [{"@id": "http://purl.obolibrary.org/obo/UO_0000185"}], "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [{"@type": "http://www.w3.org/2001/XMLSchema#float", "@value": "49.027968"}]}
+#&gt; 10                                                  {"@id": "_:Nacaa47321a9c41939e500067bd77ce98", "http://purl.obolibrary.org/obo/UO_0000000": [{"@id": "http://purl.obolibrary.org/obo/UO_0000185"}], "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [{"@type": "http://www.w3.org/2001/XMLSchema#float", "@value": "-119.484439"}]}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

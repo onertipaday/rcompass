@@ -128,13 +128,21 @@
 
 <div id="todo" class="section level1">
 
+<hr>
+<p>Aggiungere questi 2 parametri a plot_Heatmap</p>
+<p>{ plotHeatmap(compendium: “vespucci”, version: “legacy”, ) { html, sortedBiofeatures, sortedSamplesets } }</p>
+<p>altri parametri puoi dare min e max in heatmap (es -6,6)</p>
+<p>1) sparql query 2) ids dei samples 3) partendo dai samples ottengo i samplesets a seconda della normalizzazione 4) creo il modulo sulla base dei nuovi sampleSets</p>
+<p>Query per ottenere i sampleset dai samples ottenuti dalla query sparql</p>
+<p>{ sampleSets(compendium:“vespucci”, samples:[“U2FtcGxlVHlwZTox”]) { edges { node { id, name } } } }</p>
+<p>crea modulo basato su samplesets ottenuti</p>
+<p>crea un modulo in cui campioni sono presi cosi’ e poi trovo i sampleset</p>
+<hr>
 <ul>
-<li><p>creare package gemello con golem o dashboard o dash</p></li>
-<li><p>usare checkmate per controllare gli argomenti delle funzioni</p></li>
-<li><p>aggiungere un parametro che permette di salvare gli oggetti prodotti da create_module() come semplice data.frame o come ExpressionSet.</p></li>
-<li><p>replicare applicazione dash usando shiny dashbar o dash for r o golem, etc…</p></li>
-<li><p>upload to CRAN/Bioconductor</p></li>
-<li><p>examples of interaction with other packages: rols, etc.</p></li>
+<li>usare checkmate per controllare gli argomenti delle funzioni</li>
+<li>aggiungere un parametro che permette di salvare gli oggetti prodotti da create_module() come semplice data.frame o come ExpressionSet.</li>
+<li>replicare applicazione dash usando shiny dashbar o dash for r o golem, etc…</li>
+<li>upload to CRAN/Bioconductor</li>
 </ul>
 <hr>
 </div>

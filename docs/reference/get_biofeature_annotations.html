@@ -132,7 +132,7 @@
     <p>get_biofeature_annotations</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_biofeature_annotations</span>(<span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"VIT_00s0332g00060"</span>)</pre>
+    <pre class="usage"><span class='fu'>get_biofeature_annotations</span>(<span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>, <span class='kw'>bioFeature_Name_In</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -142,8 +142,8 @@
       <td><p>A string - the selected compendium</p></td>
     </tr>
     <tr>
-      <th>name</th>
-      <td><p>A string - the name of biofeature of interest</p></td>
+      <th>bioFeature_Name_In</th>
+      <td><p>A character vector with bioFeature names</p></td>
     </tr>
     </table>
 
@@ -152,21 +152,27 @@
     <p>A data.frame</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>get_biofeature_annotations</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"VIT_00s0332g00060"</span>)</div><div class='output co'>#&gt;                               annotationId
+    <pre class="examples"><div class='input'><span class='fu'>get_biofeature_annotations</span>(<span class='kw'>bioFeature_Name_In</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"VIT_00s0332g00060"</span>,<span class='st'>"VIT_00s0332g00070"</span>))</div><div class='output co'>#&gt;                               annotationId
 #&gt; 1 QmlvRmVhdHVyZUFubm90YXRpb25UeXBlOjE4MjU5
 #&gt; 2 QmlvRmVhdHVyZUFubm90YXRpb25UeXBlOjE4MjYw
 #&gt; 3 QmlvRmVhdHVyZUFubm90YXRpb25UeXBlOjMxMTIz
 #&gt; 4 QmlvRmVhdHVyZUFubm90YXRpb25UeXBlOjU5MDQw
-#&gt;                                                                                          annotation
+#&gt; 5 QmlvRmVhdHVyZUFubm90YXRpb25UeXBlOjE0ODQ1
+#&gt; 6 QmlvRmVhdHVyZUFubm90YXRpb25UeXBlOjU5MDQx
+#&gt;                                                                                bioFeatureAnnotation
 #&gt; 1          {"@id": "27892", "http://purl.obolibrary.org/obo/NCIT_C41095": [{"@value": "3.6.3.14"}]}
 #&gt; 2       {"@id": "27892", "http://purl.obolibrary.org/obo/NCIT_C41095": [{"@value": "EC:3.6.3.14"}]}
 #&gt; 3 {"@id": "27892", "http://purl.obolibrary.org/obo/NCIT_C41095": [{"@value": "VIT_00s0332g00060"}]}
 #&gt; 4   {"@id": "27892", "http://purl.obolibrary.org/obo/NCIT_C41095": [{"@value": "Vv00s0332g00060"}]}
-#&gt;                   bioFeatureId
-#&gt; 1 QmlvRmVhdHVyZVR5cGU6Mjc4OTI=
-#&gt; 2 QmlvRmVhdHVyZVR5cGU6Mjc4OTI=
-#&gt; 3 QmlvRmVhdHVyZVR5cGU6Mjc4OTI=
-#&gt; 4 QmlvRmVhdHVyZVR5cGU6Mjc4OTI=</div></pre>
+#&gt; 5 {"@id": "27893", "http://purl.obolibrary.org/obo/NCIT_C41095": [{"@value": "VIT_00s0332g00070"}]}
+#&gt; 6   {"@id": "27893", "http://purl.obolibrary.org/obo/NCIT_C41095": [{"@value": "Vv00s0332g00070"}]}
+#&gt;                   bioFeatureId    bioFeatureName
+#&gt; 1 QmlvRmVhdHVyZVR5cGU6Mjc4OTI= VIT_00s0332g00060
+#&gt; 2 QmlvRmVhdHVyZVR5cGU6Mjc4OTI= VIT_00s0332g00060
+#&gt; 3 QmlvRmVhdHVyZVR5cGU6Mjc4OTI= VIT_00s0332g00060
+#&gt; 4 QmlvRmVhdHVyZVR5cGU6Mjc4OTI= VIT_00s0332g00060
+#&gt; 5 QmlvRmVhdHVyZVR5cGU6Mjc4OTM= VIT_00s0332g00070
+#&gt; 6 QmlvRmVhdHVyZVR5cGU6Mjc4OTM= VIT_00s0332g00070</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

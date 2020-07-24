@@ -9,7 +9,8 @@ plot_module_heatmap(
   module = NULL,
   normalization = "legacy",
   type = "json",
-  plot = TRUE
+  plot = TRUE,
+  sorted = FALSE
 )
 }
 \arguments{
@@ -21,17 +22,21 @@ plot_module_heatmap(
 
 \item{type}{A string -  either 'html'  or 'json}
 
-\item{plot}{A logical - it return the graphics object}
+\item{plot}{A logical - it returns the graphics object}
+
+\item{sorted}{A logical - it returns sorted index for both bf and ss}
 }
 \value{
-Either a json, an html or a plotly htmlwidget
+Either a json, an html, a plotly htmlwidget, or a list of sorted features
 }
 \description{
 Plot a heatmap from a model
 }
 \examples{
 \dontrun{
+gene_names <- c('VIT_00s0246g00220','VIT_00s0332g00060','VIT_00s0332g00110')
 module_1 <- create_module(biofeaturesNames=gene_names, version = "legacy")
 plot_module_heatmap(module = module_1, plot = TRUE)
+plot_module_heatmap(module = module_1, sorted = TRUE, plot = FALSE)
 }
 }

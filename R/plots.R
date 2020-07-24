@@ -341,21 +341,25 @@ plot_heatmap <- function(compendium = "vespucci",
 #' @param module A matrix with valid rownames (biofeatureNames) and colnames (samplesetsNames)
 #' @param normalization A string - either 'limma','tpm_sample' or legacy as normalization
 #' @param type  A string -  either 'html'  or 'json
-#' @param plot A logical - it return the graphics object
+#' @param plot A logical - it returns the graphics object
+#' @param sorted A logical - it returns sorted index for both bf and ss
 #'
-#' @return Either a json, an html or a plotly htmlwidget
+#' @return Either a json, an html, a plotly htmlwidget, or a list of sorted features
 #' @export
 #'
 #' @examples
 #'\dontrun{
+#'gene_names <- c('VIT_00s0246g00220','VIT_00s0332g00060','VIT_00s0332g00110')
 #' module_1 <- create_module(biofeaturesNames=gene_names, version = "legacy")
 #' plot_module_heatmap(module = module_1, plot = TRUE)
+#' plot_module_heatmap(module = module_1, sorted = TRUE, plot = FALSE)
 #'}
 plot_module_heatmap <- function(compendium = "vespucci",
                                 module = NULL,
                                 normalization = "legacy",
                                 type = "json",
-                                plot = TRUE){
+                                plot = TRUE,
+                                sorted = FALSE){
   if (is.null(module)) stop ("Provide a module.")
   if (is.null(normalization)) stop ("Normalization has to be either 'limma','tpm_sample' or 'legacy'.")
   else if (normalization == "limma" | normalization == "tpm_sample") version <- "latest"
@@ -363,16 +367,34 @@ plot_module_heatmap <- function(compendium = "vespucci",
 
   biofeaturesIds <- get_biofeature_id(name_In = rownames(module))$id
   samplesetIds <- get_sampleset_id(name_In = colnames(module))$id
-  my_query <- paste0('{
+  if(sorted){
+    my_query <- paste0('{
+      plotHeatmap(compendium:\"', compendium, '\", version:\"', version, '\",
+      plotType:"module_heatmap_expression",
+        biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"],
+        samplesetIds:["', paste0(samplesetIds, collapse = '","'),'\"]), {
+                       sortedBiofeatures {
+                         id
+                       },
+                       sortedSamplesets {
+                         id
+                       }
+      }
+    }')
+    output <- build_query(my_query)$plotHeatmap
+    return(list(sortedBiofeatures = sapply(output$sortedSamplesets, unlist),
+                sortedSamplesets = sapply(output$sortedBiofeatures, unlist)))
+  } else {
+    my_query <- paste0('{
       plotHeatmap(compendium:\"', compendium, '\", version:\"', version, '\",
       plotType:"module_heatmap_expression",
         biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"],
         samplesetIds:["', paste0(samplesetIds, collapse = '","'),'\"]), {',
-                     type,'
+                       type,'
       }
     }')
-
-  # if(show_query) return(cat(my_query))
+  }
+  # cat(my_query)
   output <- build_query(my_query)$plotHeatmap
   if (plot) {
     my_data <- RJSONIO::fromJSON(output)$data

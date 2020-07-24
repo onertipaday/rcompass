@@ -124,7 +124,7 @@ tempDir <- tempfile()
 dir.create(tempDir)
 htmlFile <- file.path(tempDir, "plot_heatmap.html")
 xml2::write_html(h, tmpDir,file = htmlFile)
-rstudioapi::viewer(htmlFile)
+# rstudioapi::viewer(htmlFile)
 ```
 
 Alternatively you can use directly any R function to cluster data and produce an heatmap, e.g.:
@@ -143,7 +143,13 @@ library(pheatmap)
 pheat_cl <- pheatmap(mat =  as.matrix(module_1))
 pheat_cl
 ```
-Biological Features (genes) and Sample Sets (contrasts) have no particular order in a module. But since the heatmap is clustered we can retrieve the sorted list of Biological Features and Sample Sets respectively. An easy way is to use a the variable containing the order for both rows and columns produced by the pheatmap function.
+Biological Features (genes) and Sample Sets (contrasts) have no particular order in a module. But since the heatmap is clustered we can retrieve the sorted list of Biological Features and Sample Sets respectively. 
+
+```{r}
+my_sorted_indexes <- plot_module_heatmap(module = module_1, plot = FALSE, sorted = TRUE)
+```
+
+Alternatively we can use variables containing the order for both rows and columns produced by the `pheatmap` function.
 
 ```{r}
 DT::datatable(module_1[pheat_cl$tree_row$order,pheat_cl$tree_col$order])
@@ -158,7 +164,7 @@ tempDir <- tempfile()
 dir.create(tempDir)
 htmlFile <- file.path(tempDir, "plot_network.html")
 xml2::write_html(h, tmpDir,file = htmlFile)
-rstudioapi::viewer(htmlFile)
+# rstudioapi::viewer(htmlFile)
 ```
 
 # Automatically expand a module
@@ -175,7 +181,7 @@ tempDir <- tempfile()
 dir.create(tempDir)
 htmlFile <- file.path(tempDir, "plot_dist.html")
 xml2::write_html(h, tmpDir,file = htmlFile)
-rstudioapi::viewer(htmlFile)
+# rstudioapi::viewer(htmlFile)
 ```
 For example, if we pick a threshold around 0.65 (looking at the top plot) we might expect to have around 30 Biological Features (genes) with a score equal or greater than that, to be added in our module. In this case let's just pick the top 30 genes and create e new module.
 
@@ -203,13 +209,13 @@ We can have a look at the heatmap of the new module
 # Annotations
 In VESPUCCI, both Biological Feature (gene) and Sample annotations are represented using [RDF](https://en.wikipedia.org/wiki/Resource_Description_Framework). We can visualize annotation as a set of RDF triples.
 ```{r}
-
+#TODO
 ```
 
 Another way is to visualize the annotation is with RDF graph.
 
 ```{r}
-
+#TODO
 ```
 
 Annotations can also be used to retrieve Sample or Biological Features (gene) starting from a SPARQL query. For example we might want to select all seed Sample.
@@ -221,6 +227,7 @@ sparql = "SELECT ?s ?p ?o WHERE { ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns
 
 The term [NCIT_C19157](http://purl.obolibrary.org/obo/NCIT_C19157) indicates ***specimen*** while [PO_0009010](http://purl.obolibrary.org/obo/PO_0009010) is the Plant Ontology term for ***seed***. To indicate a gene, instead the term [NCIT_C16612](http://purl.obolibrary.org/obo/NCIT_C16612) is used.
 
+Here we retrieve all the samples used based on the sparql query:
 ```{r}
 seed_samples <- get_sparql_annotation_triples(target = "sample", query = sparql)[,1]
 ```
@@ -228,13 +235,14 @@ seed_samples <- get_sparql_annotation_triples(target = "sample", query = sparql)
 Now we can collect all the Sample Sets in which these samples are used and then create a new module based on Sample Sets only leaving VESPUCCI to figure out which are the genes (Biological Feature objects) that show a consistent up or down-regulated profile.
 
 ```{r}
-# module_3 <- create_module(biosamplesetNames = seed_samples, useIds = TRUE)
+seed_ss <- get_sampleset_id(name_In = seed_samples, useIds = TRUE)
+module_3 <- create_module_ss(samplesetNames = seed_ss$id, useIds = TRUE)
 ```
 
 And now we can plot the heatmap
 
 ```{r}
-# pheatmap::pheatmap(mat = as.matrix(module_3))
+pheatmap::pheatmap(mat = as.matrix(module_3))
 ```
 
 # Session information
