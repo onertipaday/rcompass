@@ -2,7 +2,7 @@
 % Please edit documentation in R/queries.R
 \name{get_experiments}
 \alias{get_experiments}
-\title{Get experiment Accessid and name}
+\title{Get experimentAccessid and experimentName from sampleName}
 \usage{
 get_experiments(compendium = "vespucci", sampleName = NULL)
 }

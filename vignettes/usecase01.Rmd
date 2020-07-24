@@ -54,7 +54,6 @@ Each BiologicalFeature object has several fields. In our case, since the Biologi
 ```{r}
 DT::datatable(get_biofeature_by_name(name_In = gene_names))
 ```
-
 ## Get ids from aliases using SPARQL
 Genes might have different aliases, all of which are defined in VESPUCCI as annotations. Since annotations (for both genes and samples) are represented as RDF triples using different ontologies, we can perform a [SPARQL](https://en.wikipedia.org/wiki/SPARQL) query to retrieve all the biological features (genes here) that has an ***alias*** ([NCIT_C41095](https://www.ebi.ac.uk/ols/ontologies/ncit/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FNCIT_C41095) term on the NCIT Ontology, http://purl.obolibrary.org/obo/) equal to the ones specified in the list.
 
@@ -125,7 +124,7 @@ tempDir <- tempfile()
 dir.create(tempDir)
 htmlFile <- file.path(tempDir, "plot_heatmap.html")
 xml2::write_html(h, tmpDir,file = htmlFile)
-# rstudioapi::viewer(htmlFile)
+rstudioapi::viewer(htmlFile)
 ```
 
 Alternatively you can use directly any R function to cluster data and produce an heatmap, e.g.:
@@ -153,7 +152,13 @@ DT::datatable(module_1[pheat_cl$tree_row$order,pheat_cl$tree_col$order])
 Given a module we can plot the correlation network between Biological Features (genes) by looking at the Pearson correlation coefficient of the module's Sample Sets (contrast). The default threshold is 0.7, but it can be changed. Edges in orange represent anti-correlation.
 
 ```{r}
-
+my_plot_html <- plot_module_network(module = module_1, type = "html", plot = FALSE)
+h <- xml2::read_html(my_plot_html)
+tempDir <- tempfile()
+dir.create(tempDir)
+htmlFile <- file.path(tempDir, "plot_network.html")
+xml2::write_html(h, tmpDir,file = htmlFile)
+rstudioapi::viewer(htmlFile)
 ```
 
 # Automatically expand a module
@@ -163,7 +168,15 @@ The way to do it is to plot the distribution of genes that show a similar behavi
 ```{r}
 plot_module_distribution(module = module_1, plot = TRUE)
 ```
-
+```{r}
+my_plot_html <- plot_module_distribution(module = module_1, type = "html", plot = FALSE)
+h <- xml2::read_html(my_plot_html)
+tempDir <- tempfile()
+dir.create(tempDir)
+htmlFile <- file.path(tempDir, "plot_dist.html")
+xml2::write_html(h, tmpDir,file = htmlFile)
+rstudioapi::viewer(htmlFile)
+```
 For example, if we pick a threshold around 0.65 (looking at the top plot) we might expect to have around 30 Biological Features (genes) with a score equal or greater than that, to be added in our module. In this case let's just pick the top 30 genes and create e new module.
 
 ```{r}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/queries.R
 \name{get_samples_by_gse}
 \alias{get_samples_by_gse}
-\title{get samples id, name (GSM), description from experiment id (GSE)}
+\title{retrieve internal id, name (GSM), description from all samples with experiment id (GSE)}
 \usage{
 get_samples_by_gse(compendium = "vespucci", experimentAccessId = NULL)
 }
@@ -15,7 +15,7 @@ get_samples_by_gse(compendium = "vespucci", experimentAccessId = NULL)
 A data.frame with three columns: sampleId, sampleName, sampleDescription
 }
 \description{
-get samples id, name (GSM), description from experiment id (GSE)
+retrieve internal id, name (GSM), description from all samples with experiment id (GSE)
 }
 \examples{
 get_samples_by_gse(experimentAccessId = "GSE98923")

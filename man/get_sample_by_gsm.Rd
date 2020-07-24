@@ -2,7 +2,7 @@
 % Please edit documentation in R/queries.R
 \name{get_sample_by_gsm}
 \alias{get_sample_by_gsm}
-\title{get samples id, name, description from sample id}
+\title{retrieve internal id, name (GSM), description for sample providing sampleName (GSM)}
 \usage{
 get_sample_by_gsm(compendium = "vespucci", sampleName_Icontains = "GSM1313535")
 }
@@ -15,7 +15,7 @@ get_sample_by_gsm(compendium = "vespucci", sampleName_Icontains = "GSM1313535")
 A data.frame with three columns: sampleId, sampleName, sampleDescription
 }
 \description{
-get samples id, name, description from sample id
+retrieve internal id, name (GSM), description for sample providing sampleName (GSM)
 }
 \examples{
 get_sample_by_gsm(sampleName_Icontains="GSM1313535")

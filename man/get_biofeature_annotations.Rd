@@ -4,12 +4,12 @@
 \alias{get_biofeature_annotations}
 \title{get_biofeature_annotations}
 \usage{
-get_biofeature_annotations(compendium = "vespucci", name = "VIT_00s0332g00060")
+get_biofeature_annotations(compendium = "vespucci", bioFeature_Name_In = NULL)
 }
 \arguments{
 \item{compendium}{A string - the selected compendium}
 
-\item{name}{A string - the name of biofeature of interest}
+\item{bioFeature_Name_In}{A character vector with bioFeature names}
 }
 \value{
 A data.frame
@@ -18,5 +18,5 @@ A data.frame
 get_biofeature_annotations
 }
 \examples{
-get_biofeature_annotations(name = "VIT_00s0332g00060")
+get_biofeature_annotations(bioFeature_Name_In = c("VIT_00s0332g00060","VIT_00s0332g00070"))
 }

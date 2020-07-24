@@ -12,14 +12,12 @@ get_compass_version <- function(){
 
 #' Get all available compendia in COMPASS
 #'
-#' @param show_query A logical - if TRUE return the GraphQL query used by the function
-#'
-#' @return a list with info e version information
+#' @return a list with info and version information
 #' @export
 #'
 #' @examples
 #' get_available_compendia()
-get_available_compendia <- function(show_query = FALSE){
+get_available_compendia <- function(){
   my_query <- '{
     compendia {
       name,
@@ -34,7 +32,6 @@ get_available_compendia <- function(show_query = FALSE){
       }
     }
   }'
-  if(show_query) return(cat(my_query))
   tmp <- build_query(my_query)$compendia[[1]]
   list(info = c(name =  tmp$name,
                 fullName =  tmp$fullName,
@@ -103,7 +100,6 @@ get_platform_information <- function(compendium = "vespucci"){
   colnames(tmp) <-  c("accessId","name", "description","source","type")
   rownames(tmp) <-  NULL
   tmp
-
 }
 
 
@@ -175,7 +171,7 @@ get_sample_info <-function(compendium = "vespucci", sampleName=NULL){
   tmp
 }
 
-#' Get experiment Accessid and name
+#' Get experimentAccessid and experimentName from sampleName
 #'
 #' use \code{\link{get_available_compendia}} to check all the available compendia
 #'
@@ -194,9 +190,9 @@ get_experiments <- function(compendium = "vespucci",
     my_query <- paste0('{
       experiments(compendium:\"', compendium, '\") {')}
   else{
-    sampleId <- get_sample_info(sampleName = sampleName)
+    tmp <- get_sample_info(sampleName = sampleName)
     my_query <- paste0('{
-    experiments(compendium:\"', compendium, '\", id:\"', sampleId$id,'\") {')
+    experiments(compendium:\"', compendium, '\", id:\"', tmp$sampleId,'\") {')
   }
   my_query <- paste0(my_query,'
         edges {
@@ -214,19 +210,34 @@ get_experiments <- function(compendium = "vespucci",
 }
 
 
-#' get annotations for n samples from the selected compendium
+#' get annotations for either n samples or selected sampleName
 #'
 #' @param compendium A string - the selected compendium
-#' @param n an integer: number of sample to retrieve (default 10)
+#' @param n A numeric (integer): number of sample to retrieve (default 10)
+#' @param sampleName A string - A sampleId or sampleName
+#' @param useIds A logical (FALSE as default) - It allows using sampleIds
 #'
-#' @return A data.frame with three columns: sampleId sampleName annotation
+#' @return A data.frame with three columns: sampleId sampleName sampleAnnotation
 #' @export
 #'
 #' @examples
-#' get_sample_annotation(n=25)
-get_sample_annotation <- function(compendium = "vespucci", n = 10){
+#' get_sample_annotation(n=5)
+#' get_sample_annotation(sampleName = "GSM287866.ch1")
+get_sample_annotation <- function(compendium = "vespucci",
+                                  n = NULL,
+                                  sampleName = "GSM287866.ch1",
+                                  useIds = FALSE){
+  if(is.null(sampleName) && is.null(n)) stop("provide either n (an integer) XOR sampleId_In!")
+  if(is.null(sampleName)){
     my_query <- paste0('{
-    sampleAnnotations(compendium:\"', compendium, '\", first: ', n,') {
+      sampleAnnotations(compendium:\"', compendium, '\", first: ', n,') {')}
+  else{
+    if(useIds) tmp = sampleName
+    else tmp <- get_sample_info(sampleName = sampleName)
+    my_query <- paste0('{
+    sampleAnnotations(compendium:\"', compendium, '\", sampleId:\"', tmp$sampleId,'\") {')
+  }
+  my_query <- paste0(my_query,'
         edges {
           node {
             sample {
@@ -243,12 +254,12 @@ get_sample_annotation <- function(compendium = "vespucci", n = 10){
                 sampleId = tmp$sample$id,
                 annotation = tmp$annotation)
     tmp <- as.data.frame(t(sapply(build_query(my_query)$sampleAnnotations$edges, unlist)))
-    colnames(tmp) <-  c("sampleId ","sampleName","annotation")
+    colnames(tmp) <-  c("sampleId ","sampleName","sampleAnnotation")
     rownames(tmp) <-  NULL
     tmp
 }
 
-#' get samples id, name (GSM), description from experiment id (GSE)
+#' retrieve internal id, name (GSM), description from all samples with experiment id (GSE)
 #'
 #' @param compendium A string - the selected compendium
 #' @param experimentAccessId A string - GSE (GEO Series (experiment) access id)
@@ -278,7 +289,7 @@ get_samples_by_gse <- function(compendium = "vespucci",
   tmp
 }
 
-#' get samples id, name, description from sample id
+#' retrieve internal id, name (GSM), description for sample providing sampleName (GSM)
 #'
 #' @param compendium A string - the selected compendium
 #' @param sampleName_Icontains A string - GSM (GEO Sample access id)
@@ -536,30 +547,33 @@ get_ontologies <- function(compendium = "vespucci"){
 #' get_biofeature_annotations
 #'
 #' @param compendium A string - the selected compendium
-#' @param name A string - the name of biofeature of interest
+#' @param bioFeature_Name_In A character vector with bioFeature names
 #'
 #' @return A data.frame
 #' @export
 #'
 #' @examples
-#' get_biofeature_annotations(name = "VIT_00s0332g00060")
+#' get_biofeature_annotations(bioFeature_Name_In = c("VIT_00s0332g00060","VIT_00s0332g00070"))
 get_biofeature_annotations <- function(compendium = "vespucci",
-                                name = "VIT_00s0332g00060"){
+                                bioFeature_Name_In = NULL
+                                ){
+  if(is.null(bioFeature_Name_In)) stop("Provide a vector with bioFeatureNames!")
   my_query <- paste0('{
-    biofeatureAnnotations(compendium:\"', compendium, '\", bioFeature_Name:\"', name, '\") {
+    biofeatureAnnotations(compendium:\"', compendium, '\", bioFeature_Name_In:\"',paste0(bioFeature_Name_In, collapse =","), '\") {
     edges {
       node {
         id
         annotation
         bioFeature {
           		  id
+          		  name
         }
       }
     }
   }
 }')
   tmp <- as.data.frame(t(sapply(build_query(my_query)$biofeatureAnnotations$edges, unlist)))
-  colnames(tmp) <- c("annotationId", "annotation","bioFeatureId")
+  colnames(tmp) <- c("annotationId", "bioFeatureAnnotation","bioFeatureId","bioFeatureName")
   rownames(tmp) <- NULL
   tmp
 }

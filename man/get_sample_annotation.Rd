@@ -2,21 +2,31 @@
 % Please edit documentation in R/queries.R
 \name{get_sample_annotation}
 \alias{get_sample_annotation}
-\title{get annotations for n samples from the selected compendium}
+\title{get annotations for either n samples or selected sampleName}
 \usage{
-get_sample_annotation(compendium = "vespucci", n = 10)
+get_sample_annotation(
+  compendium = "vespucci",
+  n = NULL,
+  sampleName = "GSM287866.ch1",
+  useIds = FALSE
+)
 }
 \arguments{
 \item{compendium}{A string - the selected compendium}
 
-\item{n}{an integer: number of sample to retrieve (default 10)}
+\item{n}{A numeric (integer): number of sample to retrieve (default 10)}
+
+\item{sampleName}{A string - A sampleId or sampleName}
+
+\item{useIds}{A logical (FALSE as default) - It allows using sampleIds}
 }
 \value{
-A data.frame with three columns: sampleId sampleName annotation
+A data.frame with three columns: sampleId sampleName sampleAnnotation
 }
 \description{
-get annotations for n samples from the selected compendium
+get annotations for either n samples or selected sampleName
 }
 \examples{
-get_sample_annotation(n=25)
+get_sample_annotation(n=5)
+get_sample_annotation(sampleName = "GSM287866.ch1")
 }

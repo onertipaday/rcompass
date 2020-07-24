@@ -4,13 +4,10 @@
 \alias{get_available_compendia}
 \title{Get all available compendia in COMPASS}
 \usage{
-get_available_compendia(show_query = FALSE)
-}
-\arguments{
-\item{show_query}{A logical - if TRUE return the GraphQL query used by the function}
+get_available_compendia()
 }
 \value{
-a list with info e version information
+a list with info and version information
 }
 \description{
 Get all available compendia in COMPASS
