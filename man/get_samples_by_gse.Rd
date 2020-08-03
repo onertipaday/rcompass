@@ -18,5 +18,7 @@ A data.frame with three columns: sampleId, sampleName, sampleDescription
 retrieve internal id, name (GSM), description from all samples with experiment id (GSE)
 }
 \examples{
+\dontrun{
 get_samples_by_gse(experimentAccessId = "GSE98923")
+}
 }

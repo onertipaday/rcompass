@@ -7,7 +7,7 @@
 get_sample_annotation(
   compendium = "vespucci",
   n = NULL,
-  sampleName = "GSM287866.ch1",
+  sampleName = NULL,
   useIds = FALSE
 )
 }
@@ -27,6 +27,8 @@ A data.frame with three columns: sampleId sampleName sampleAnnotation
 get annotations for either n samples or selected sampleName
 }
 \examples{
+\dontrun{
 get_sample_annotation(n=5)
 get_sample_annotation(sampleName = "GSM287866.ch1")
+}
 }

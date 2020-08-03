@@ -47,12 +47,12 @@ We can query the compendium with the list of gene names and get a list of Biolog
 
 ```{r}
 bf_ids <- get_biofeature_id(compendium = "vespucci", name_In = gene_names) 
-DT::datatable(bf_ids)
+knitr::kable(bf_ids)
 ```
 Each BiologicalFeature object has several fields. In our case, since the BiologicalFeature represent a gene, we have sequence. The id is the identifier used internally in the database.
 
 ```{r}
-DT::datatable(get_biofeature_by_name(name_In = gene_names))
+knitr::kable(get_biofeature_by_name(name_In = gene_names))
 ```
 ## Get ids from aliases using SPARQL
 Genes might have different aliases, all of which are defined in VESPUCCI as annotations. Since annotations (for both genes and samples) are represented as RDF triples using different ontologies, we can perform a [SPARQL](https://en.wikipedia.org/wiki/SPARQL) query to retrieve all the biological features (genes here) that has an ***alias*** ([NCIT_C41095](https://www.ebi.ac.uk/ols/ontologies/ncit/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FNCIT_C41095) term on the NCIT Ontology, http://purl.obolibrary.org/obo/) equal to the ones specified in the list.
@@ -76,13 +76,13 @@ and check results are the same:
 identical(sparql_results[,1],sparql_results_check)
 ```
 As before we can retrieve the sequence associate to our aliases using the ids from the database.
-
 ```{r}
-DT::datatable(get_biofeature_by_name(name_In = unique(unique( get_annotation_triples(ids = sparql_results[,1])[,1]))))
+knitr::kable(get_biofeature_by_name(name_In = unique(unique( get_annotation_triples(ids = sparql_results[,1])[,1]))))
 ```
 
 **CHECK THIS!**
 Another examples returning samples ids (**they are not**)selected by [PO ontology](https://www.ebi.ac.uk/ols/ontologies/po) term [seed](http://purl.obolibrary.org/obo/PO_0009010):
+
 ```{r}
 my_query <- paste0('SELECT ?s ?p ?o WHERE { ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>',
 '<http://purl.obolibrary.org/obo/NCIT_C19157>',
@@ -95,20 +95,19 @@ get_sparql_annotation_triples(target = "sample", query = my_query)[,1]
 We are now ready to create our first module. If we pass a list of genes (BiologicalFeature objects) it will automatically retrieve the "best" conditions (SampleSet objects).
 
 ```{r}
-module_1 <- create_module(biofeaturesNames=gene_names, version = "legacy")
+module_1 <- create_module(biofeaturesNames=gene_names, normalization = "legacy")
 ```
 
 A module can be thought as a matrix composed by BiologicalFeature objects (genes in our case) as rows and SampleSet objects (conditions contrasts in our case) as columns. Each SampleSet, as the name suggests, is composed by 1 or more Sample objects. Since we are using the legacy normalization each SampleSet is composed by 2 samples, one Test sample and one Reference sample and the value associated is the logratio between the Test and Reference for a specific gene (BiologicalFeature).
 
 ```{r}
-DT::datatable(module_1, class = 'cell-border stripe')
+knitr::kable(module_1, class = 'cell-border stripe')
 ```
 ```{r}
 # get_sample_by_gsm(sampleName_Icontains="GSM1313535")
 # get_sampleset_id(name_In = "GSM605594.ch1-vs-GSM605578.ch1")
-DT::datatable(get_sampleset_id(name_In = colnames(module_1)[1:10]))
+knitr::kable(get_sampleset_id(name_In = colnames(module_1)[1:10]))
 ```
-
 # Plot a module
 The easiest way to visualize a module is using a heatmap. The Plot object wraps a module and can return different plot type with different format (the Plotly JSON format or HTML). To see an heatmap embedded in a Jupyter Notebook we can retrieve the HTML code of the Plot (that uses Plotly) and display it directly into the notebook.
 
@@ -152,7 +151,7 @@ my_sorted_indexes <- plot_module_heatmap(module = module_1, plot = FALSE, sorted
 Alternatively we can use variables containing the order for both rows and columns produced by the `pheatmap` function.
 
 ```{r}
-DT::datatable(module_1[pheat_cl$tree_row$order,pheat_cl$tree_col$order])
+knitr::kable(module_1[pheat_cl$tree_row$order,pheat_cl$tree_col$order])
 ```
 # Plot correlation network
 Given a module we can plot the correlation network between Biological Features (genes) by looking at the Pearson correlation coefficient of the module's Sample Sets (contrast). The default threshold is 0.7, but it can be changed. Edges in orange represent anti-correlation.
@@ -196,7 +195,7 @@ The new module is created by adding Biological Feature objects to the old module
 ```{r}
 # write_table(module_1, file ="module_1.txt", sep ="\t")
 # module_1  <- read.table("module_1,txt")
-module_2 <- create_module(biofeaturesNames= top_30_bf$id[1:10], version = "legacy", useIds = TRUE)
+module_2 <- create_module(biofeaturesNames= top_30_bf$id[1:10], normalization = "legacy", useIds = TRUE)
 #mod_union <- merge_modules(mod1 = module_1, mod2 = module_2)
 ```
 
@@ -242,11 +241,9 @@ module_3 <- create_module_ss(samplesetNames = seed_ss$id, useIds = TRUE)
 And now we can plot the heatmap
 
 ```{r}
-pheatmap::pheatmap(mat = as.matrix(module_3))
+#pheatmap::pheatmap(mat = as.matrix(module_3))
 ```
-
 # Session information
-
 ```{r si, echo=FALSE}
 print(sessionInfo(), locale = FALSE)
 ```

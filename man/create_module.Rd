@@ -6,7 +6,7 @@
 \usage{
 create_module(
   compendium = "vespucci",
-  version = "legacy",
+  normalization = "legacy",
   biofeaturesNames = NULL,
   samplesetNames = NULL,
   useIds = FALSE
@@ -15,7 +15,7 @@ create_module(
 \arguments{
 \item{compendium}{A string - the selected compendium}
 
-\item{version}{A string ('legacy' as default)}
+\item{normalization}{A string ('legacy' as default)}
 
 \item{biofeaturesNames}{A character vector (gene_names)}
 

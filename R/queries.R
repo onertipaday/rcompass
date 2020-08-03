@@ -221,14 +221,16 @@ get_experiments <- function(compendium = "vespucci",
 #' @export
 #'
 #' @examples
+#'\dontrun{
 #' get_sample_annotation(n=5)
 #' get_sample_annotation(sampleName = "GSM287866.ch1")
+#' }
 get_sample_annotation <- function(compendium = "vespucci",
                                   n = NULL,
-                                  sampleName = "GSM287866.ch1",
+                                  sampleName = NULL,
                                   useIds = FALSE){
-  if(is.null(sampleName) && is.null(n)) stop("provide either n (an integer) XOR sampleId_In!")
-  if(is.null(sampleName)){
+  if(is.null(sampleName) && is.null(n)) stop("provide either n (an integer) XOR sampleName.")
+  if(!is.null(n)){
     my_query <- paste0('{
       sampleAnnotations(compendium:\"', compendium, '\", first: ', n,') {')}
   else{
@@ -268,7 +270,9 @@ get_sample_annotation <- function(compendium = "vespucci",
 #' @export
 #'
 #' @examples
+#'\dontrun{
 #' get_samples_by_gse(experimentAccessId = "GSE98923")
+#' }
 get_samples_by_gse <- function(compendium = "vespucci",
                                experimentAccessId = NULL){
   if(is.null(experimentAccessId)) stop("Provide experimentAccessId (e.g. GSE98923)")
@@ -298,7 +302,9 @@ get_samples_by_gse <- function(compendium = "vespucci",
 #' @export
 #'
 #' @examples
+#'\dontrun{
 #' get_sample_by_gsm(sampleName_Icontains="GSM1313535")
+#' }
 get_sample_by_gsm <- function(compendium = "vespucci",
                               sampleName_Icontains="GSM1313535"){
   my_query <- paste0('{
@@ -331,8 +337,10 @@ get_sample_by_gsm <- function(compendium = "vespucci",
 #' @export
 #'
 #' @examples
+#'\dontrun{
 #' get_samples(platformAccessId = "GPL11004")
-#' #get_samples(allSamples = TRUE)
+#' get_samples(allSamples = TRUE)
+#' }
 get_samples <- function(compendium = "vespucci",
                         allSamples = FALSE,
                         platformAccessId = NULL){

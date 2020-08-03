@@ -7,7 +7,7 @@
 create_module_bf(
   compendium = "vespucci",
   biofeaturesNames = NULL,
-  version = "legacy",
+  normalization = "legacy",
   rank = "magnitude",
   useIds = FALSE
 )
@@ -17,7 +17,7 @@ create_module_bf(
 
 \item{biofeaturesNames}{A character vector (gene_names)}
 
-\item{version}{A string ('legacy' as default)}
+\item{normalization}{A string ('legacy' as default)}
 
 \item{rank}{A string ('magnitude' as default)}
 
@@ -34,6 +34,5 @@ create_module_bf
 my_bf <- c("VIT_00s0246g00220","VIT_00s0332g00060","VIT_00s0332g00110"
 ,"VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030","VIT_00s0505g00060"
 ,"VIT_00s0873g00020","VIT_00s0904g00010")
-mod_bf <- create_module_bf(biofeaturesNames=my_bf, version = "legacy")
-#d3heatmap::d3heatmap(mod_bf, labRow = my_bf,scale = "column")
+mod_bf <- create_module_bf(biofeaturesNames=my_bf, normalization = "legacy")
 }

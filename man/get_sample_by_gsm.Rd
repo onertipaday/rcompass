@@ -18,5 +18,7 @@ A data.frame with three columns: sampleId, sampleName, sampleDescription
 retrieve internal id, name (GSM), description for sample providing sampleName (GSM)
 }
 \examples{
+\dontrun{
 get_sample_by_gsm(sampleName_Icontains="GSM1313535")
+}
 }

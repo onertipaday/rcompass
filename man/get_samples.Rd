@@ -25,6 +25,8 @@ Get all available samples for the selected compendium,
 use \code{\link{get_available_compendia}} to check all the available compendia
 }
 \examples{
+\dontrun{
 get_samples(platformAccessId = "GPL11004")
-#get_samples(allSamples = TRUE)
+get_samples(allSamples = TRUE)
+}
 }

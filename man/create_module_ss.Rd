@@ -7,7 +7,7 @@
 create_module_ss(
   compendium = "vespucci",
   samplesetNames = NULL,
-  version = "legacy",
+  normalization = "legacy",
   rank = "uncentered_correlation",
   useIds = FALSE
 )
@@ -17,7 +17,7 @@ create_module_ss(
 
 \item{samplesetNames}{A character vector (sampleset names)}
 
-\item{version}{A string ('legacy' as default)}
+\item{normalization}{A string ('legacy' as default)}
 
 \item{rank}{A string ('magnitude' as default) - use \code{\link{get_ranking}}}
 

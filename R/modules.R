@@ -1,7 +1,7 @@
 #' create module providing both biological features and sample sets
 #'
 #' @param compendium A string - the selected compendium
-#' @param version A string ('legacy' as default)
+#' @param normalization A string ('legacy' as default)
 #' @param biofeaturesNames A character vector (gene_names)
 #' @param samplesetNames A character vector (sampleset names)
 #' @param useIds A logical (FALSE as default) - It allows using biofeatureIds
@@ -22,20 +22,23 @@
 #' pheatmap::pheatmap(na.omit(my_mod), col = RColorBrewer::brewer.pal(11,name="RdBu"))
 #' }
 create_module <- function(compendium = "vespucci",
-                          version = "legacy",
+                          normalization = "legacy",
                           biofeaturesNames = NULL,
                           samplesetNames = NULL,
                           useIds = FALSE){
+  # if(normalization == "legacy") version <- "legacy"
+  # else if(normalization %in% c("limma","tpm_sample")) version <- "latest"
+  # else stop("normalization HAS TO BE either legacy, limma or tpm_sample.")
   if(all(c(biofeaturesNames, samplesetNames) %in% NULL)) stop("You need to provide at least biofeaturesNames or samplesetsNames")
   else if (is.null(biofeaturesNames)) {
     return(create_module_ss(compendium = compendium,
-                            version = version,
+                            normalization = normalization,
                             samplesetNames =  samplesetNames,
                             useIds = useIds))
   }
   else if (is.null(samplesetNames)) {
     return(create_module_bf(compendium = compendium,
-                            version = version,
+                            normalization = normalization,
                             biofeaturesNames = biofeaturesNames,
                             useIds = useIds))
   }
@@ -49,7 +52,7 @@ create_module <- function(compendium = "vespucci",
       samplesetIds <- get_sampleset_id(name_In = samplesetNames)$id
     }
     my_query <- paste0('{
-    modules(compendium:\"', compendium, '\", version:\"', version, '\",
+    modules(compendium:\"', compendium, '\", version:\"', version, '\", normalization:\"', normalization, '\",
     biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"],
     samplesetIds:["', paste0(samplesetIds, collapse = '","'),'\"]), {
       normalizedValues
@@ -67,7 +70,7 @@ create_module <- function(compendium = "vespucci",
 #'
 #' @param compendium A string - the selected compendium
 #' @param biofeaturesNames A character vector (gene_names)
-#' @param version A string ('legacy' as default)
+#' @param normalization A string ('legacy' as default)
 #' @param rank A string ('magnitude' as default)
 #' @param useIds A logical (FALSE as default) - It allows using biofeatureIds
 #'b
@@ -78,11 +81,11 @@ create_module <- function(compendium = "vespucci",
 #' my_bf <- c("VIT_00s0246g00220","VIT_00s0332g00060","VIT_00s0332g00110"
 #' ,"VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030","VIT_00s0505g00060"
 #' ,"VIT_00s0873g00020","VIT_00s0904g00010")
-#' mod_bf <- create_module_bf(biofeaturesNames=my_bf, version = "legacy")
-#' #d3heatmap::d3heatmap(mod_bf, labRow = my_bf,scale = "column")
+#' mod_bf <- create_module_bf(biofeaturesNames=my_bf, normalization = "legacy")
 create_module_bf <- function(compendium = "vespucci",
                              biofeaturesNames=NULL,
-                             version = "legacy",
+                             # version = "legacy",
+                             normalization = "legacy",
                              rank = "magnitude",
                              useIds = FALSE) {
   if(is.null(biofeaturesNames)) stop("You need to provide biofeaturesNames")
@@ -94,8 +97,11 @@ create_module_bf <- function(compendium = "vespucci",
   #                                        version = version,
   #                                        rank = rank,
   #                                        top_n = top_n)$id
+  if(normalization == "legacy") version <- "legacy"
+  else if(normalization %in% c("limma","tpm_sample")) version <- "latest"
+  else stop("normalization HAS TO BE either legacy, limma or tpm_sample.")
   my_query <- paste0('{
-    modules(compendium:\"', compendium, '\", version:\"', version, '\", biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"]), {
+    modules(compendium:\"', compendium, '\", version:\"', version, '\", normalization:\"', normalization, '\", biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"]), {
       normalizedValues
        sampleSets {
           edges {
@@ -117,7 +123,7 @@ create_module_bf <- function(compendium = "vespucci",
 #' create_module_ss
 #'
 #' @param compendium A string - the selected compendium
-#' @param version A string ('legacy' as default)
+#' @param normalization A string ('legacy' as default)
 #' @param samplesetNames A character vector (sampleset names)
 #' @param rank A string ('magnitude' as default) - use \code{\link{get_ranking}}
 #' @param useIds A logical (FALSE as default) - It allows using samplesetIds
@@ -131,12 +137,15 @@ create_module_bf <- function(compendium = "vespucci",
 #' mod_ss <- create_module_ss(samplesetNames = my_ss)
 create_module_ss <- function(compendium = "vespucci",
                              samplesetNames = NULL,
-                             version = "legacy",
+                             normalization = "legacy",
                              rank = "uncentered_correlation",
                              useIds = FALSE){
   if(is.null(samplesetNames)) stop("You need to provide samplesetNames")
   if(useIds) samplesetIds <- samplesetNames
   else samplesetIds <- get_sampleset_id(name_In=samplesetNames)$id
+  if(normalization == "legacy") version <- "legacy"
+  else if(normalization %in% c("limma","tpm_sample")) version <- "latest"
+  else stop("normalization HAS TO BE either legacy, limma or tpm_sample.")
   my_query <- paste0('{
     modules(compendium:\"', compendium, '\", version:\"', version, '\", samplesetIds:["', paste0(samplesetIds, collapse = '","'),'\"]), {
       normalizedValues
@@ -166,14 +175,16 @@ create_module_ss <- function(compendium = "vespucci",
 #' @export
 #'
 #' @examples
+#'\dontrun{
 #' my_ss <- c("GSM671720.ch1-vs-GSM671719.ch1","GSM671721.ch1-vs-GSM671719.ch1"
 #' ,"GSM671722.ch1-vs-GSM671719.ch1","GSM147672.ch1-vs-GSM147690.ch1")
-#' mod_ss <- create_module_ss(samplesetNames = my_ss)
+#' mod_ss <- create_module_ss(samplesetNames = my_ss, normalization = "legacy")
 #' my_bf <- c("VIT_00s0246g00220","VIT_00s0332g00060","VIT_00s0332g00110"
 #' ,"VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030","VIT_00s0505g00060"
 #' ,"VIT_00s0873g00020","VIT_00s0904g00010")
-#' mod_bf <- create_module_bf(biofeaturesNames= my_bf, version = "legacy")
+#' mod_bf <- create_module_bf(biofeaturesNames= my_bf, normalization = "legacy")
 #' mod_union <- merge_modules(mod1 = mod_ss, mod2 = mod_bf)
+#' }
 merge_modules <- function(mod1, mod2){
   create_module(biofeaturesNames = c(rownames(mod1),rownames(mod2)),
                 samplesetNames = c(colnames(mod1),colnames(mod2)))

@@ -20,7 +20,6 @@ Imports:
     shiny,
     plotly,
     xml2,
-    DT,
     pheatmap
 RoxygenNote: 7.1.1
 Language: en-US
