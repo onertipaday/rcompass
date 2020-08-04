@@ -2,7 +2,7 @@
 % Please edit documentation in R/modules.R
 \name{create_module}
 \alias{create_module}
-\title{create module providing both biological features and sample sets}
+\title{create a module providing both biological features and sample sets}
 \usage{
 create_module(
   compendium = "vespucci",
@@ -27,7 +27,7 @@ create_module(
 A matrix - the module
 }
 \description{
-create module providing both biological features and sample sets
+create a module providing both biological features and sample sets
 }
 \examples{
 \dontrun{

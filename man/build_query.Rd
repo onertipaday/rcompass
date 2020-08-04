@@ -2,7 +2,7 @@
 % Please edit documentation in R/utilities.R
 \name{build_query}
 \alias{build_query}
-\title{build_query}
+\title{Process a GraphQL query from COMPASS API}
 \usage{
 build_query(query)
 }
@@ -13,7 +13,7 @@ build_query(query)
 A list
 }
 \description{
-build_query
+Process a GraphQL query from COMPASS API
 }
 \examples{
 my_query <- "{

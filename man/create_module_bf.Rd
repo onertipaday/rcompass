@@ -2,7 +2,7 @@
 % Please edit documentation in R/modules.R
 \name{create_module_bf}
 \alias{create_module_bf}
-\title{create_module_bf}
+\title{create a module based on provided biological features}
 \usage{
 create_module_bf(
   compendium = "vespucci",
@@ -28,11 +28,13 @@ b}
 A matrix - the module
 }
 \description{
-create_module_bf
+create a module based on provided biological features
 }
 \examples{
+\dontrun{
 my_bf <- c("VIT_00s0246g00220","VIT_00s0332g00060","VIT_00s0332g00110"
 ,"VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030","VIT_00s0505g00060"
 ,"VIT_00s0873g00020","VIT_00s0904g00010")
 mod_bf <- create_module_bf(biofeaturesNames=my_bf, normalization = "legacy")
+}
 }

@@ -1,4 +1,4 @@
-#' build_query
+#' Process a GraphQL query from COMPASS API
 #'
 #' @param query A string, the GraphQL query
 #'

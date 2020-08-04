@@ -1,4 +1,4 @@
-#' create module providing both biological features and sample sets
+#' create a module providing both biological features and sample sets
 #'
 #' @param compendium A string - the selected compendium
 #' @param normalization A string ('legacy' as default)
@@ -26,9 +26,6 @@ create_module <- function(compendium = "vespucci",
                           biofeaturesNames = NULL,
                           samplesetNames = NULL,
                           useIds = FALSE){
-  # if(normalization == "legacy") version <- "legacy"
-  # else if(normalization %in% c("limma","tpm_sample")) version <- "latest"
-  # else stop("normalization HAS TO BE either legacy, limma or tpm_sample.")
   if(all(c(biofeaturesNames, samplesetNames) %in% NULL)) stop("You need to provide at least biofeaturesNames or samplesetsNames")
   else if (is.null(biofeaturesNames)) {
     return(create_module_ss(compendium = compendium,
@@ -66,7 +63,7 @@ create_module <- function(compendium = "vespucci",
 }
 
 
-#' create_module_bf
+#' create a module based on provided biological features
 #'
 #' @param compendium A string - the selected compendium
 #' @param biofeaturesNames A character vector (gene_names)
@@ -78,10 +75,12 @@ create_module <- function(compendium = "vespucci",
 #' @export
 #'
 #' @examples
+#'\dontrun{
 #' my_bf <- c("VIT_00s0246g00220","VIT_00s0332g00060","VIT_00s0332g00110"
 #' ,"VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030","VIT_00s0505g00060"
 #' ,"VIT_00s0873g00020","VIT_00s0904g00010")
 #' mod_bf <- create_module_bf(biofeaturesNames=my_bf, normalization = "legacy")
+#' }
 create_module_bf <- function(compendium = "vespucci",
                              biofeaturesNames=NULL,
                              # version = "legacy",
@@ -120,7 +119,7 @@ create_module_bf <- function(compendium = "vespucci",
 }
 
 
-#' create_module_ss
+#' create a module based on provided sample sets
 #'
 #' @param compendium A string - the selected compendium
 #' @param normalization A string ('legacy' as default)
@@ -132,9 +131,11 @@ create_module_bf <- function(compendium = "vespucci",
 #' @export
 #'
 #' @examples
+#'\dontrun{
 #' my_ss <- c("GSM671720.ch1-vs-GSM671719.ch1","GSM671721.ch1-vs-GSM671719.ch1"
 #' ,"GSM671722.ch1-vs-GSM671719.ch1","GSM147672.ch1-vs-GSM147690.ch1")
 #' mod_ss <- create_module_ss(samplesetNames = my_ss)
+#' }
 create_module_ss <- function(compendium = "vespucci",
                              samplesetNames = NULL,
                              normalization = "legacy",

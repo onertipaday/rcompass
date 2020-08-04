@@ -2,7 +2,7 @@
 % Please edit documentation in R/modules.R
 \name{create_module_ss}
 \alias{create_module_ss}
-\title{create_module_ss}
+\title{create a module based on provided sample sets}
 \usage{
 create_module_ss(
   compendium = "vespucci",
@@ -27,10 +27,12 @@ create_module_ss(
 A matrix - the module
 }
 \description{
-create_module_ss
+create a module based on provided sample sets
 }
 \examples{
+\dontrun{
 my_ss <- c("GSM671720.ch1-vs-GSM671719.ch1","GSM671721.ch1-vs-GSM671719.ch1"
 ,"GSM671722.ch1-vs-GSM671719.ch1","GSM147672.ch1-vs-GSM147690.ch1")
 mod_ss <- create_module_ss(samplesetNames = my_ss)
+}
 }
