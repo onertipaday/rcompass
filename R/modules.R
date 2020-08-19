@@ -48,6 +48,9 @@ create_module <- function(compendium = "vespucci",
       biofeaturesIds <- get_biofeature_id(name_In = biofeaturesNames)$id
       samplesetIds <- get_sampleset_id(name_In = samplesetNames)$id
     }
+    if(normalization == "legacy") version <- "legacy"
+    else if(normalization %in% c("limma","tpm_sample")) version <- "latest"
+    else stop("normalization HAS TO BE either legacy, limma or tpm_sample.")
     my_query <- paste0('{
     modules(compendium:\"', compendium, '\", version:\"', version, '\", normalization:\"', normalization, '\",
     biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"],
@@ -56,6 +59,7 @@ create_module <- function(compendium = "vespucci",
     }
   }')
   }
+  # cat(my_query)
   nv <- t(as.data.frame(sapply(build_query(my_query)$modules$normalizedValues, unlist)))
   rownames(nv) <- biofeaturesNames
   colnames(nv) <- samplesetNames

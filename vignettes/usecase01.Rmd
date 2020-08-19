@@ -63,7 +63,7 @@ sparql_results <- get_sparql_annotation_triples(target = "biofeature", query = m
 sparql_results[,1]  
 ```
 
-or we can use the wrapper function `get_ids_from_alias()`:
+alternatively we can use the wrapper function `get_ids_from_alias()`:
 
 ```{r}
 aliases <- c('B9S8R7','Q7M2G6','D7SZ93','B8XIJ8','Vv00s0125g00280','Vv00s0187g00140','Vv00s0246g00010','Vv00s0246g00080','Vv00s0438g00020','Vv00s0246g00200')
@@ -80,22 +80,12 @@ As before we can retrieve the sequence associate to our aliases using the ids fr
 knitr::kable(get_biofeature_by_name(name_In = unique(unique( get_annotation_triples(ids = sparql_results[,1])[,1]))))
 ```
 
-**CHECK THIS!**
-Another examples returning samples ids (**they are not**)selected by [PO ontology](https://www.ebi.ac.uk/ols/ontologies/po) term [seed](http://purl.obolibrary.org/obo/PO_0009010):
-
-```{r}
-my_query <- paste0('SELECT ?s ?p ?o WHERE { ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>',
-'<http://purl.obolibrary.org/obo/NCIT_C19157>',
-'. ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>',
-'<http://purl.obolibrary.org/obo/PO_0009010>}')
-get_sparql_annotation_triples(target = "sample", query = my_query)[,1]
-```
-
 # Create a Module
 We are now ready to create our first module. If we pass a list of genes (BiologicalFeature objects) it will automatically retrieve the "best" conditions (SampleSet objects).
 
-```{r}
+```{r module_1_creation}
 module_1 <- create_module(biofeaturesNames=gene_names, normalization = "legacy")
+# module_1_limma_norm <- create_module(biofeaturesNames=gene_names, normalization = "limma")
 ```
 
 A module can be thought as a matrix composed by BiologicalFeature objects (genes in our case) as rows and SampleSet objects (conditions contrasts in our case) as columns. Each SampleSet, as the name suggests, is composed by 1 or more Sample objects. Since we are using the legacy normalization each SampleSet is composed by 2 samples, one Test sample and one Reference sample and the value associated is the logratio between the Test and Reference for a specific gene (BiologicalFeature).
@@ -103,16 +93,19 @@ A module can be thought as a matrix composed by BiologicalFeature objects (genes
 ```{r}
 knitr::kable(module_1, class = 'cell-border stripe')
 ```
-```{r}
+```{r eval=FALSE, include=FALSE}
 # get_sample_by_gsm(sampleName_Icontains="GSM1313535")
 # get_sampleset_id(name_In = "GSM605594.ch1-vs-GSM605578.ch1")
-knitr::kable(get_sampleset_id(name_In = colnames(module_1)[1:10]))
+knitr::kable(get_sampleset_id(name_In = colnames(module_1), version="legacy"))
+# knitr::kable(get_sampleset_id(name_In = colnames(module_1)[1:10], version="latest"))
 ```
+
 # Plot a module
 The easiest way to visualize a module is using a heatmap. The Plot object wraps a module and can return different plot type with different format (the Plotly JSON format or HTML). To see an heatmap embedded in a Jupyter Notebook we can retrieve the HTML code of the Plot (that uses Plotly) and display it directly into the notebook.
 
 ```{r plot_module_heatmap, eval=FALSE, include=FALSE}
-plot_module_heatmap(module = module_1, plot = TRUE)
+plot_module_heatmap(module = module_1, normalization = "legacy", plot = TRUE)
+# plot_module_heatmap(module = module_1_limma, normalization = "limma", plot = TRUE)
 ```
 or
 
@@ -137,8 +130,7 @@ heatmaply::heatmaply(module_1,
 ```
 
 ```{r pheatmap_module1, eval=FALSE, include=FALSE}
-library(pheatmap)
-pheat_cl <- pheatmap(mat =  as.matrix(module_1))
+pheat_cl <- pheatmap::pheatmap(mat =  as.matrix(module_1))
 pheat_cl
 ```
 
@@ -147,6 +139,20 @@ Biological Features (genes) and Sample Sets (contrasts) have no particular order
 ```{r}
 my_sorted_indexes <- plot_module_heatmap(module = module_1, plot = FALSE, sorted = TRUE)
 ```
+
+```{r}
+unsorted_ids <- get_sampleset_id(name_In = colnames(module_1), version="legacy")
+#get_sampleset_id(name_In = my_sorted_indexes$sortedSamplesets, useIds = TRUE)
+unsorted_ids[match(my_sorted_indexes$sortedSamplesets,unsorted_ids$id),]
+```
+
+```{r}
+module_1_sorted <- create_module(biofeaturesNames = my_sorted_indexes$sortedBiofeatures, 
+                                 samplesetNames = my_sorted_indexes$sortedSamplesets, 
+                                 normalization = "legacy", 
+                                 useIds = TRUE)
+```
+
 
 Alternatively we can use variables containing the order for both rows and columns produced by the other heatmap functions.
 

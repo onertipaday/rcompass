@@ -382,8 +382,8 @@ plot_module_heatmap <- function(compendium = "vespucci",
       }
     }')
     output <- build_query(my_query)$plotHeatmap
-    return(list(sortedBiofeatures = sapply(output$sortedSamplesets, unlist),
-                sortedSamplesets = sapply(output$sortedBiofeatures, unlist)))
+    return(list(sortedSamplesets = sapply(output$sortedSamplesets, unlist),
+                sortedBiofeatures = sapply(output$sortedBiofeatures, unlist)))
   } else {
     my_query <- paste0('{
       plotHeatmap(compendium:\"', compendium, '\", version:\"', version, '\",
@@ -394,7 +394,6 @@ plot_module_heatmap <- function(compendium = "vespucci",
       }
     }')
   }
-  # cat(my_query)
   output <- build_query(my_query)$plotHeatmap
   if (plot) {
     my_data <- RJSONIO::fromJSON(output)$data
