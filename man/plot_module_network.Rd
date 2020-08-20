@@ -9,6 +9,7 @@ plot_module_network(
   module = NULL,
   normalization = "legacy",
   type = "json",
+  threshold = 0.7,
   plot = TRUE
 )
 }
@@ -21,7 +22,9 @@ plot_module_network(
 
 \item{type}{A string -  either 'html'  or 'json}
 
-\item{plot}{A logical - it return the graphics object}
+\item{threshold}{A numeric}
+
+\item{plot}{A logical - It return the graphics object}
 }
 \value{
 Either a json, an html or a plotly htmlwidget

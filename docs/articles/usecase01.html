@@ -261,7 +261,7 @@
 <span class="co">#&gt;  [5] "QmlvRmVhdHVyZVR5cGU6MjY0MzM=" "QmlvRmVhdHVyZVR5cGU6MjY4ODM="</span>
 <span class="co">#&gt;  [7] "QmlvRmVhdHVyZVR5cGU6Mjc0MjM=" "QmlvRmVhdHVyZVR5cGU6Mjc0MjY="</span>
 <span class="co">#&gt;  [9] "QmlvRmVhdHVyZVR5cGU6MjgxODM=" "QmlvRmVhdHVyZVR5cGU6Mjc0Mzc="</span></pre></body></html></div>
-<p>or we can use the wrapper function <code><a href="../reference/get_ids_from_alias.html">get_ids_from_alias()</a></code>:</p>
+<p>alternatively we can use the wrapper function <code><a href="../reference/get_ids_from_alias.html">get_ids_from_alias()</a></code>:</p>
 <div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">aliases</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'B9S8R7'</span>,<span class="st">'Q7M2G6'</span>,<span class="st">'D7SZ93'</span>,<span class="st">'B8XIJ8'</span>,<span class="st">'Vv00s0125g00280'</span>,<span class="st">'Vv00s0187g00140'</span>,<span class="st">'Vv00s0246g00010'</span>,<span class="st">'Vv00s0246g00080'</span>,<span class="st">'Vv00s0438g00020'</span>,<span class="st">'Vv00s0246g00200'</span>)
 <span class="no">sparql_results_check</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/get_ids_from_alias.html">get_ids_from_alias</a></span>(<span class="kw">target</span> <span class="kw">=</span> <span class="st">"biofeature"</span>, <span class="kw">alias_names</span> <span class="kw">=</span> <span class="no">aliases</span>)</pre></body></html></div>
 <p>and check results are the same:</p>
@@ -333,34 +333,16 @@
 </tr>
 </tbody>
 </table>
-<p><strong>CHECK THIS!</strong> Another examples returning samples ids (<strong>they are not</strong>)selected by <a href="https://www.ebi.ac.uk/ols/ontologies/po">PO ontology</a> term <a href="http://purl.obolibrary.org/obo/PO_0009010">seed</a>:</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">my_query</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">'SELECT ?s ?p ?o WHERE { ?s &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt;'</span>,
-<span class="st">'&lt;http://purl.obolibrary.org/obo/NCIT_C19157&gt;'</span>,
-<span class="st">'. ?s &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt;'</span>,
-<span class="st">'&lt;http://purl.obolibrary.org/obo/PO_0009010&gt;}'</span>)
-<span class="fu"><a href="../reference/get_sparql_annotation_triples.html">get_sparql_annotation_triples</a></span>(<span class="kw">target</span> <span class="kw">=</span> <span class="st">"sample"</span>, <span class="kw">query</span> <span class="kw">=</span> <span class="no">my_query</span>)[,<span class="fl">1</span>]
-<span class="co">#&gt;  [1] "U2FtcGxlVHlwZToxMDI4" "U2FtcGxlVHlwZTozMDQ5" "U2FtcGxlVHlwZTo3MTY="</span>
-<span class="co">#&gt;  [4] "U2FtcGxlVHlwZTo3MTA=" "U2FtcGxlVHlwZTo3MTQ=" "U2FtcGxlVHlwZTo3MTM="</span>
-<span class="co">#&gt;  [7] "U2FtcGxlVHlwZTo3MTE=" "U2FtcGxlVHlwZTo3MjE=" "U2FtcGxlVHlwZTo3MTk="</span>
-<span class="co">#&gt; [10] "U2FtcGxlVHlwZTo3MTc=" "U2FtcGxlVHlwZTo3MjA=" "U2FtcGxlVHlwZTo3MTU="</span>
-<span class="co">#&gt; [13] "U2FtcGxlVHlwZTo3MTI=" "U2FtcGxlVHlwZTo3MTg=" "U2FtcGxlVHlwZToxMDMx"</span>
-<span class="co">#&gt; [16] "U2FtcGxlVHlwZToxMDMy" "U2FtcGxlVHlwZToxMDMz" "U2FtcGxlVHlwZToxMDM0"</span>
-<span class="co">#&gt; [19] "U2FtcGxlVHlwZToxMDM1" "U2FtcGxlVHlwZToxMDM2" "U2FtcGxlVHlwZToxMDM3"</span>
-<span class="co">#&gt; [22] "U2FtcGxlVHlwZToxMDM4" "U2FtcGxlVHlwZToxMDM5" "U2FtcGxlVHlwZToxMDQw"</span>
-<span class="co">#&gt; [25] "U2FtcGxlVHlwZToxMDQx" "U2FtcGxlVHlwZToxMDQy" "U2FtcGxlVHlwZToxMDQz"</span>
-<span class="co">#&gt; [28] "U2FtcGxlVHlwZToxMDQ0" "U2FtcGxlVHlwZToxMDQ1" "U2FtcGxlVHlwZToxMDQ2"</span>
-<span class="co">#&gt; [31] "U2FtcGxlVHlwZToxMDQ3" "U2FtcGxlVHlwZToxMDQ4" "U2FtcGxlVHlwZToxMDI5"</span>
-<span class="co">#&gt; [34] "U2FtcGxlVHlwZToxMDMw" "U2FtcGxlVHlwZTozMDQ0" "U2FtcGxlVHlwZTozMDQ1"</span>
-<span class="co">#&gt; [37] "U2FtcGxlVHlwZTozMDQ2" "U2FtcGxlVHlwZTozMDQ3" "U2FtcGxlVHlwZTozMDQ4"</span></pre></body></html></div>
 </div>
 </div>
 <div id="create-a-module" class="section level1">
 <h1 class="hasAnchor">
 <a href="#create-a-module" class="anchor"></a>Create a Module</h1>
 <p>We are now ready to create our first module. If we pass a list of genes (BiologicalFeature objects) it will automatically retrieve the “best” conditions (SampleSet objects).</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">module_1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_module.html">create_module</a></span>(<span class="kw">biofeaturesNames</span><span class="kw">=</span><span class="no">gene_names</span>, <span class="kw">normalization</span> <span class="kw">=</span> <span class="st">"legacy"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">module_1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_module.html">create_module</a></span>(<span class="kw">biofeaturesNames</span><span class="kw">=</span><span class="no">gene_names</span>, <span class="kw">normalization</span> <span class="kw">=</span> <span class="st">"legacy"</span>)
+<span class="co"># module_1_limma_norm &lt;- create_module(biofeaturesNames=gene_names, normalization = "limma")</span></pre></body></html></div>
 <p>A module can be thought as a matrix composed by BiologicalFeature objects (genes in our case) as rows and SampleSet objects (conditions contrasts in our case) as columns. Each SampleSet, as the name suggests, is composed by 1 or more Sample objects. Since we are using the legacy normalization each SampleSet is composed by 2 samples, one Test sample and one Reference sample and the value associated is the logratio between the Test and Reference for a specific gene (BiologicalFeature).</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="no">module_1</span>, <span class="kw">class</span> <span class="kw">=</span> <span class="st">'cell-border stripe'</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="no">module_1</span>, <span class="kw">class</span> <span class="kw">=</span> <span class="st">'cell-border stripe'</span>)</pre></body></html></div>
 <table class="table">
 <colgroup>
 <col width="0%">
@@ -1388,57 +1370,6 @@
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="co"># get_sample_by_gsm(sampleName_Icontains="GSM1313535")</span>
-<span class="co"># get_sampleset_id(name_In = "GSM605594.ch1-vs-GSM605578.ch1")</span>
-<span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="fu"><a href="../reference/get_sampleset_id.html">get_sampleset_id</a></span>(<span class="kw">name_In</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">module_1</span>)[<span class="fl">1</span>:<span class="fl">10</span>]))</pre></body></html></div>
-<table class="table">
-<thead><tr class="header">
-<th align="left">id</th>
-<th align="left">name</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left">U2FtcGxlU2V0VHlwZTo0OTU3</td>
-<td align="left">ERR3025266-vs-ERR3025256</td>
-</tr>
-<tr class="even">
-<td align="left">U2FtcGxlU2V0VHlwZTo0OTU5</td>
-<td align="left">ERR3025268-vs-ERR3025256</td>
-</tr>
-<tr class="odd">
-<td align="left">U2FtcGxlU2V0VHlwZTo0OTY2</td>
-<td align="left">ERR3025271-vs-ERR3025258</td>
-</tr>
-<tr class="even">
-<td align="left">U2FtcGxlU2V0VHlwZToyNDgy</td>
-<td align="left">GSM1532841.ch1-vs-GSM1532832.ch1</td>
-</tr>
-<tr class="odd">
-<td align="left">U2FtcGxlU2V0VHlwZToyNDgz</td>
-<td align="left">GSM1532842.ch1-vs-GSM1532832.ch1</td>
-</tr>
-<tr class="even">
-<td align="left">U2FtcGxlU2V0VHlwZToyNDg1</td>
-<td align="left">GSM1532843.ch1-vs-GSM1532832.ch1</td>
-</tr>
-<tr class="odd">
-<td align="left">U2FtcGxlU2V0VHlwZTo0NjU2</td>
-<td align="left">GSM1565329.ch1-vs-GSM1565328.ch1</td>
-</tr>
-<tr class="even">
-<td align="left">U2FtcGxlU2V0VHlwZToyNDE2</td>
-<td align="left">GSM1957885.ch1-vs-GSM1957878.ch1</td>
-</tr>
-<tr class="odd">
-<td align="left">U2FtcGxlU2V0VHlwZTo4NzQ=</td>
-<td align="left">GSM881592.ch1-vs-GSM881586.ch1</td>
-</tr>
-<tr class="even">
-<td align="left">U2FtcGxlU2V0VHlwZTo4NzY=</td>
-<td align="left">GSM881594.ch1-vs-GSM881586.ch1</td>
-</tr>
-</tbody>
-</table>
 </div>
 <div id="plot-a-module" class="section level1">
 <h1 class="hasAnchor">
@@ -1447,8 +1378,49 @@
 <p>or</p>
 <p>Alternatively you can use directly any R function to cluster data and produce an heatmap, e.g.:</p>
 <p>Biological Features (genes) and Sample Sets (contrasts) have no particular order in a module. But since the heatmap is clustered we can retrieve the sorted list of Biological Features and Sample Sets respectively using the <code>sorted = TRUE</code> parameter.</p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">my_sorted_indexes</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/plot_module_heatmap.html">plot_module_heatmap</a></span>(<span class="kw">module</span> <span class="kw">=</span> <span class="no">module_1</span>, <span class="kw">plot</span> <span class="kw">=</span> <span class="fl">FALSE</span>, <span class="kw">sorted</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
-<p>Alternatively we can use variables containing the order for both rows and columns produced by the other heatmap functions.</p>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">my_sorted_indexes</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/plot_module_heatmap.html">plot_module_heatmap</a></span>(<span class="kw">module</span> <span class="kw">=</span> <span class="no">module_1</span>, <span class="kw">plot</span> <span class="kw">=</span> <span class="fl">FALSE</span>, <span class="kw">sorted</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">unsorted_ss</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/get_sampleset_id.html">get_sampleset_id</a></span>(<span class="kw">name_In</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">module_1</span>), <span class="kw">version</span><span class="kw">=</span><span class="st">"legacy"</span>)
+<span class="no">unsorted_bf</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/get_biofeature_id.html">get_biofeature_id</a></span>(<span class="kw">name_In</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/row.names.html">row.names</a></span>(<span class="no">module_1</span>))
+<span class="co">#get_sampleset_id(name_In = my_sorted_indexes$sortedSamplesets, useIds = TRUE)</span>
+<span class="no">sorted_ss</span> <span class="kw">&lt;-</span> <span class="no">unsorted_ss</span>[<span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span>(<span class="no">my_sorted_indexes</span>$<span class="no">sortedSamplesets</span>,<span class="no">unsorted_ss</span>$<span class="no">id</span>),]
+<span class="no">sorted_bf</span> <span class="kw">&lt;-</span> <span class="no">unsorted_bf</span>[<span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span>(<span class="no">my_sorted_indexes</span>$<span class="no">sortedBiofeatures</span>,<span class="no">unsorted_bf</span>$<span class="no">id</span>),]
+<span class="no">module_1</span>[<span class="no">sorted_bf</span>$<span class="no">name</span>,<span class="no">sorted_ss</span>$<span class="no">name</span>][<span class="fl">1</span>:<span class="fl">5</span>,<span class="fl">1</span>:<span class="fl">5</span>]
+<span class="co">#&gt;                   GSM881525.ch1-vs-GSM881520.ch1</span>
+<span class="co">#&gt; VIT_00s0873g00020                         3.2561</span>
+<span class="co">#&gt; VIT_00s0505g00060                         1.0837</span>
+<span class="co">#&gt; VIT_00s0505g00030                         1.2281</span>
+<span class="co">#&gt; VIT_00s0396g00010                         2.7481</span>
+<span class="co">#&gt; VIT_00s0332g00160                         1.0222</span>
+<span class="co">#&gt;                   GSM1532866.ch1-vs-GSM1532856.ch1</span>
+<span class="co">#&gt; VIT_00s0873g00020                          1.56660</span>
+<span class="co">#&gt; VIT_00s0505g00060                          1.95680</span>
+<span class="co">#&gt; VIT_00s0505g00030                          1.69140</span>
+<span class="co">#&gt; VIT_00s0396g00010                         -0.17791</span>
+<span class="co">#&gt; VIT_00s0332g00160                          1.63130</span>
+<span class="co">#&gt;                   GSM1532841.ch1-vs-GSM1532832.ch1</span>
+<span class="co">#&gt; VIT_00s0873g00020                           1.9944</span>
+<span class="co">#&gt; VIT_00s0505g00060                           5.2095</span>
+<span class="co">#&gt; VIT_00s0505g00030                           3.5150</span>
+<span class="co">#&gt; VIT_00s0396g00010                           3.7646</span>
+<span class="co">#&gt; VIT_00s0332g00160                           4.3616</span>
+<span class="co">#&gt;                   GSM1532842.ch1-vs-GSM1532832.ch1</span>
+<span class="co">#&gt; VIT_00s0873g00020                           1.6660</span>
+<span class="co">#&gt; VIT_00s0505g00060                           4.4270</span>
+<span class="co">#&gt; VIT_00s0505g00030                           3.0186</span>
+<span class="co">#&gt; VIT_00s0396g00010                           2.8414</span>
+<span class="co">#&gt; VIT_00s0332g00160                           3.4807</span>
+<span class="co">#&gt;                   GSM1532843.ch1-vs-GSM1532832.ch1</span>
+<span class="co">#&gt; VIT_00s0873g00020                           1.5892</span>
+<span class="co">#&gt; VIT_00s0505g00060                           3.5454</span>
+<span class="co">#&gt; VIT_00s0505g00030                           2.8332</span>
+<span class="co">#&gt; VIT_00s0396g00010                           2.4906</span>
+<span class="co">#&gt; VIT_00s0332g00160                           3.2895</span></pre></body></html></div>
+<p>or, alternatively:</p>
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">module_1_sorted</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_module.html">create_module</a></span>(<span class="kw">biofeaturesNames</span> <span class="kw">=</span> <span class="no">my_sorted_indexes</span>$<span class="no">sortedBiofeatures</span>,
+                                 <span class="kw">samplesetNames</span> <span class="kw">=</span> <span class="no">my_sorted_indexes</span>$<span class="no">sortedSamplesets</span>,
+                                 <span class="kw">normalization</span> <span class="kw">=</span> <span class="st">"legacy"</span>,
+                                 <span class="kw">useIds</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+<p>Alternatively we can use variables containing the order for both rows and columns produced by other heatmap functions.</p>
 </div>
 <div id="plot-correlation-network" class="section level1">
 <h1 class="hasAnchor">
@@ -1493,7 +1465,7 @@
 #&gt; Running under: Fedora 32 (Workstation Edition)
 #&gt; 
 #&gt; Matrix products: default
-#&gt; BLAS/LAPACK: /usr/lib64/libopenblas-r0.3.9.so
+#&gt; BLAS/LAPACK: /usr/lib64/libopenblas-r0.3.10.so
 #&gt; 
 #&gt; attached base packages:
 #&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     

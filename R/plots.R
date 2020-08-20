@@ -28,7 +28,8 @@ get_available_plot_methods <- function(compendium = "vespucci"){
 #' @param module A matrix with valid rownames (biofeatureNames) and colnames (samplesetsNames)
 #' @param normalization A string - either 'limma','tpm_sample' or legacy as normalization
 #' @param type  A string -  either 'html'  or 'json
-#' @param plot A logical - it return the graphics object
+#' @param threshold A numeric
+#' @param plot A logical - It return the graphics object
 #'
 #' @return Either a json, an html or a plotly htmlwidget
 #' @export
@@ -45,6 +46,7 @@ plot_module_network <- function(compendium = "vespucci",
                                 module = NULL,
                                 normalization = "legacy",
                                 type = "json",
+                                threshold = 0.7,
                                 plot = TRUE){
   if (is.null(module)) stop ("Provide a module.")
   if (is.null(normalization)) stop ("Normalization has to be either 'limma','tpm_sample' or 'legacy'.")
@@ -55,15 +57,12 @@ plot_module_network <- function(compendium = "vespucci",
   samplesetIds <- get_sampleset_id(name_In = colnames(module))$id
   my_query <- paste0('{
       plotNetwork(compendium:\"', compendium, '\", version:\"', version, '\",
-      plotType:"module_coexpression_network",
+      threshold:', threshold, ', plotType:"module_coexpression_network",
         biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"],
         samplesetIds:["', paste0(samplesetIds, collapse = '","'),'\"]), {',
                      type,'
       }
     }')
-
-  # if(show_query) return(cat(my_query))
-  # TODO!!!
   output <- build_query(my_query)$plotNetwork
   if (plot) {
     my_data <- RJSONIO::fromJSON(output)$data
