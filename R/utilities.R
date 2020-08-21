@@ -19,4 +19,3 @@ build_query <- function(query){
   con <- ghql::GraphqlClient$new(url="http://compass.fmach.it/graphql/")
   RJSONIO::fromJSON(con$exec(qry$queries$myquery), nullValue=NA)$data
 }
-

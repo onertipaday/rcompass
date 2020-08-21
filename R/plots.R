@@ -107,9 +107,9 @@ plot_module_network <- function(compendium = "vespucci",
 #' my_plot_html <- plotDistribution(biofeaturesNames = b_ids, samplesetNames = s_ids,
 #' type = "html", useIds = TRUE, plot = FALSE)
 #' h <- xml2::read_html(my_plot_html)
-#' tempDir <- tempfile()
-#' dir.create(tempDir)
-#' htmlFile <- file.path(tempDir, "plotDistribution.html")
+#' tmpDir <- tempfile()
+#' dir.create(tmpDir)
+#' htmlFile <- file.path(tmpDir, "plotDistribution.html")
 #' xml2::write_html(h, tmpDir,file = htmlFile)
 #' rstudioapi::viewer(htmlFile)
 #' }
@@ -404,4 +404,46 @@ plot_module_heatmap <- function(compendium = "vespucci",
     fig
   }
   else output
+}
+
+
+
+#' Show a plot using the rstudio viewer
+#'
+#' @param module A matrix with valid rownames (biofeatureNames) and colnames (samplesetsNames)
+#' @param type  A string -  either 'network', 'heatmap' or 'distribution'
+#' @param threshold A numeric - A Pearson correalation value
+#'
+#' @return A plotly htmlwidget
+#' @export
+#'
+view_plot <- function(module = NULL, type = "network", threshold = 0.7){
+  if(is.null(module)) stop("Provide a module build by create_module()")
+  if (type == "network"){
+    my_html <- plot_module_network(module = module,
+                                   type = "html",
+                                   threshold = threshold,
+                                   plot = FALSE)
+  } else if(type == "heatmap"){
+    my_html <- plot_module_heatmap(module = module,
+                                   type = "html",
+                                   plot = FALSE)
+  } else if(type == "distribution"){
+    my_html <- plot_module_distribution(module = module,
+                                   type = "html",
+                                   plot = FALSE)
+
+  } else stop("type has to be either 'network', 'heatmap' or 'distribution'")
+  h <- xml2::read_html(my_html)
+  tmpDir <- tempfile()
+  dir.create(tmpDir)
+  htmlFile <- file.path(tmpDir, "viewer.html")
+  xml2::write_html(h, tmpDir,file = htmlFile)
+  # rstudioapi::viewer(htmlFile)
+  viewer <- getOption("viewer")
+  if (!is.null(viewer))
+    viewer("http://localhost:8100")
+  else
+    utils::browseURL("http://localhost:8100")
+  viewer(htmlFile)
 }

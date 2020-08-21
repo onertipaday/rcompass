@@ -101,22 +101,23 @@ knitr::kable(get_sampleset_id(name_In = colnames(module_1), version="legacy"))
 ```
 
 # Plot a module
-The easiest way to visualize a module is using a heatmap. The Plot object wraps a module and can return different plot type with different format (the Plotly JSON format or HTML). To see an heatmap embedded in a Jupyter Notebook we can retrieve the HTML code of the Plot (that uses Plotly) and display it directly into the notebook.
-
-```{r plot_module_heatmap, eval=FALSE, include=FALSE}
-plot_module_heatmap(module = module_1, normalization = "legacy", plot = TRUE)
-# plot_module_heatmap(module = module_1_limma, normalization = "limma", plot = TRUE)
-```
-or
+The easiest way to visualize a module is using a heatmap. The Plot object wraps a module and can return different plot type with different format (the Plotly JSON format or HTML). To see an heatmap embedded in rstudio we can retrieve the HTML code of the Plot (that uses Plotly) and display it directly into the viewer.
 
 ```{r plot_module_heatmap_html, eval=FALSE, include=FALSE}
 my_plot_html <- plot_module_heatmap(module = module_1, type = "html", plot = FALSE)
 h <- xml2::read_html(my_plot_html)
-tempDir <- tempfile()
-dir.create(tempDir)
-htmlFile <- file.path(tempDir, "plot_heatmap.html")
+tmpDir <- tempfile()
+dir.create(tmpDir)
+htmlFile <- file.path(tmpDir, "plot_heatmap.html")
 xml2::write_html(h, tmpDir,file = htmlFile)
 rstudioapi::viewer(htmlFile)
+```
+
+or using the json result and plotly in R
+
+```{r plot_module_heatmap, eval=FALSE, include=FALSE}
+plot_module_heatmap(module = module_1, normalization = "legacy", plot = TRUE)
+# plot_module_heatmap(module = module_1_limma, normalization = "limma", plot = TRUE)
 ```
 
 Alternatively you can use directly any R function to cluster data and produce an heatmap, e.g.:
@@ -128,6 +129,8 @@ heatmaply::heatmaply(module_1,
                      col = gplots::greenred(50),
                      plot_method = 'plotly')
 ```
+
+or
 
 ```{r pheatmap_module1, eval=FALSE, include=FALSE}
 pheat_cl <- pheatmap::pheatmap(mat =  as.matrix(module_1))
@@ -163,13 +166,14 @@ knitr::kable(module_1[pheat_cl$tree_row$order,pheat_cl$tree_col$order])
 Given a module we can plot the correlation network between Biological Features (genes) by looking at the Pearson correlation coefficient of the module's Sample Sets (contrast). The default threshold is 0.7, but it can be changed. Edges in orange represent anti-correlation.
 
 ```{r plot_module_network, eval=FALSE, include=FALSE}
-my_plot_html <- plot_module_network(module = module_1, type = "html", threshold = 0.7, plot = FALSE)
-h <- xml2::read_html(my_plot_html)
-tempDir <- tempfile()
-dir.create(tempDir)
-htmlFile <- file.path(tempDir, "plot_network.html")
-xml2::write_html(h, tmpDir,file = htmlFile)
-rstudioapi::viewer(htmlFile)
+# my_plot_html <- plot_module_network(module = module_1, type = "html", threshold = 0.7, plot = FALSE)
+# h <- xml2::read_html(my_plot_html)
+# tmpDir <- tempfile()
+# dir.create(tmpDir)
+# htmlFile <- file.path(tmpDir, "plot_network.html")
+# xml2::write_html(h, tmpDir,file = htmlFile)
+# rstudioapi::viewer(htmlFile)
+view_plot(module = module_1, type = "network", threshold = 0.2)
 ```
 
 # Automatically expand a module
@@ -180,13 +184,14 @@ The way to do it is to plot the distribution of genes that show a similar behavi
 plot_module_distribution(module = module_1, plot = TRUE)
 ```
 ```{r plot_module_distribution html, eval=FALSE, include=FALSE}
-my_plot_html <- plot_module_distribution(module = module_1, type = "html", plot = FALSE)
-h <- xml2::read_html(my_plot_html)
-tempDir <- tempfile()
-dir.create(tempDir)
-htmlFile <- file.path(tempDir, "plot_dist.html")
-xml2::write_html(h, tmpDir,file = htmlFile)
-rstudioapi::viewer(htmlFile)
+# my_plot_html <- plot_module_distribution(module = module_1, type = "html", plot = FALSE)
+# h <- xml2::read_html(my_plot_html)
+# tmpDir <- tempfile()
+# dir.create(tmpDir)
+# htmlFile <- file.path(tmpDir, "plot_dist.html")
+# xml2::write_html(h, tmpDir,file = htmlFile)
+# rstudioapi::viewer(htmlFile)
+view_plot(module = module_1, type = "distribution")
 ```
 
 For example, if we pick a threshold around 0.65 (looking at the top plot) we might expect to have around 30 Biological Features (genes) with a score equal or greater than that, to be added in our module. In this case let's just pick the top 30 genes and create e new module.
@@ -250,9 +255,9 @@ And now we can plot the heatmap
 ```{r plot_heatmap_module_3, eval=FALSE, include=FALSE}
 my_plot_html <- plot_module_distribution(module = module_3, type = "html", plot = FALSE)
 h <- xml2::read_html(my_plot_html)
-tempDir <- tempfile()
-dir.create(tempDir)
-htmlFile <- file.path(tempDir, "plot_heat3.html")
+tmpDir <- tempfile()
+dir.create(tmpDir)
+htmlFile <- file.path(tmpDir, "plot_heat3.html")
 xml2::write_html(h, tmpDir,file = htmlFile)
 rstudioapi::viewer(htmlFile)
 pheatmap::pheatmap(mat = as.matrix(module_3))

@@ -49,9 +49,9 @@ type = "json", useIds = TRUE, plot = TRUE)
 my_plot_html <- plotDistribution(biofeaturesNames = b_ids, samplesetNames = s_ids,
 type = "html", useIds = TRUE, plot = FALSE)
 h <- xml2::read_html(my_plot_html)
-tempDir <- tempfile()
-dir.create(tempDir)
-htmlFile <- file.path(tempDir, "plotDistribution.html")
+tmpDir <- tempfile()
+dir.create(tmpDir)
+htmlFile <- file.path(tmpDir, "plotDistribution.html")
 xml2::write_html(h, tmpDir,file = htmlFile)
 rstudioapi::viewer(htmlFile)
 }
