@@ -104,20 +104,7 @@ knitr::kable(get_sampleset_id(name_In = colnames(module_1), version="legacy"))
 The easiest way to visualize a module is using a heatmap. The Plot object wraps a module and can return different plot type with different format (the Plotly JSON format or HTML). To see an heatmap embedded in rstudio we can retrieve the HTML code of the Plot (that uses Plotly) and display it directly into the viewer.
 
 ```{r plot_module_heatmap_html, eval=FALSE, include=FALSE}
-my_plot_html <- plot_module_heatmap(module = module_1, type = "html", plot = FALSE)
-h <- xml2::read_html(my_plot_html)
-tmpDir <- tempfile()
-dir.create(tmpDir)
-htmlFile <- file.path(tmpDir, "plot_heatmap.html")
-xml2::write_html(h, tmpDir,file = htmlFile)
-rstudioapi::viewer(htmlFile)
-```
-
-or using the json result and plotly in R
-
-```{r plot_module_heatmap, eval=FALSE, include=FALSE}
-plot_module_heatmap(module = module_1, normalization = "legacy", plot = TRUE)
-# plot_module_heatmap(module = module_1_limma, normalization = "limma", plot = TRUE)
+view_plot(module = module_1, plotType = "module_heatmap_expression", min = -6, max = 6)
 ```
 
 Alternatively you can use directly any R function to cluster data and produce an heatmap, e.g.:
@@ -162,44 +149,28 @@ Alternatively we can use variables containing the order for both rows and column
 ```{r pheatmap order, eval=FALSE, include=FALSE}
 knitr::kable(module_1[pheat_cl$tree_row$order,pheat_cl$tree_col$order])
 ```
+
 # Plot correlation network
 Given a module we can plot the correlation network between Biological Features (genes) by looking at the Pearson correlation coefficient of the module's Sample Sets (contrast). The default threshold is 0.7, but it can be changed. Edges in orange represent anti-correlation.
 
 ```{r plot_module_network, eval=FALSE, include=FALSE}
-# my_plot_html <- plot_module_network(module = module_1, type = "html", threshold = 0.7, plot = FALSE)
-# h <- xml2::read_html(my_plot_html)
-# tmpDir <- tempfile()
-# dir.create(tmpDir)
-# htmlFile <- file.path(tmpDir, "plot_network.html")
-# xml2::write_html(h, tmpDir,file = htmlFile)
-# rstudioapi::viewer(htmlFile)
-view_plot(module = module_1, type = "network", threshold = 0.2)
+view_plot(module = module_1, plotType = "module_coexpression_network", threshold = 0.2)
 ```
 
 # Automatically expand a module
 One of the classic way to use VESPUCCI is to start with a set of genes selected from previous analysis, have a look at the top conditions in which they show a consistent (and strong) behavior and then look for other genes that behave the same across those same conditions.
 The way to do it is to plot the distribution of genes that show a similar behavior of the module's genes across the same condition in order pick up a suitable threshold.
 
-```{r plot_module_distribution, eval=FALSE, include=FALSE}
-plot_module_distribution(module = module_1, plot = TRUE)
-```
 ```{r plot_module_distribution html, eval=FALSE, include=FALSE}
-# my_plot_html <- plot_module_distribution(module = module_1, type = "html", plot = FALSE)
-# h <- xml2::read_html(my_plot_html)
-# tmpDir <- tempfile()
-# dir.create(tmpDir)
-# htmlFile <- file.path(tmpDir, "plot_dist.html")
-# xml2::write_html(h, tmpDir,file = htmlFile)
-# rstudioapi::viewer(htmlFile)
-view_plot(module = module_1, type = "distribution")
+view_plot(module = module_1, plotType = "biological_features_uncentered_correlation_distribution")
 ```
 
-For example, if we pick a threshold around 0.65 (looking at the top plot) we might expect to have around 30 Biological Features (genes) with a score equal or greater than that, to be added in our module. In this case let's just pick the top 30 genes and create e new module.
+For example, if we pick a threshold around 0.8 (looking at the top plot) we might expect to have around 40 Biological Features (genes) with a score equal or greater than that, to be added in our module. In this case let's just pick the top 30 genes and create e new module.
 
 ```{r}
-top_30_bf <- get_biofeature_ranking(samplesetNames =colnames(module_1), top_n = 30)
-# top_30_bf_ids = ranked_bf['id'][:30]
-# top_30_bf = BiologicalFeature.using(compendium).get(filter={'id_In': top_30_bf_ids})
+top_bf <- get_biofeature_ranking(samplesetNames = colnames(module_1), top_n = 50)
+# top_bf_ids = ranked_bf['id'][:30]
+# top_bf = BiologicalFeature.using(compendium).get(filter={'id_In': top_bf_ids})
 ```
 
 The new module is created by adding Biological Feature objects to the old module. This operation will modify the module object in-place, so we might want to clone the module_1 object first, if we don't want to lose it, or we might want to save it in a local file and then create e new module by simply loading it.
@@ -207,7 +178,7 @@ The new module is created by adding Biological Feature objects to the old module
 ```{r}
 # write_table(module_1, file ="module_1.txt", sep ="\t")
 # module_1  <- read.table("module_1,txt")
-module_2 <- create_module(biofeaturesNames= top_30_bf$id[1:10], normalization = "legacy", useIds = TRUE)
+module_2 <- create_module(biofeaturesNames= top_bf$name[1:10], normalization = "legacy", useIds = FALSE)
 #mod_union <- merge_modules(mod1 = module_1, mod2 = module_2)
 ```
 

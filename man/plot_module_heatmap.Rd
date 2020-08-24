@@ -2,7 +2,7 @@
 % Please edit documentation in R/plots.R
 \name{plot_module_heatmap}
 \alias{plot_module_heatmap}
-\title{Plot a heatmap from a model}
+\title{plot heatmap from a module}
 \usage{
 plot_module_heatmap(
   compendium = "vespucci",
@@ -10,6 +10,8 @@ plot_module_heatmap(
   normalization = "legacy",
   type = "json",
   plot = TRUE,
+  min = -6,
+  max = 6,
   sorted = FALSE
 )
 }
@@ -24,13 +26,17 @@ plot_module_heatmap(
 
 \item{plot}{A logical - it returns the graphics object}
 
+\item{min}{A numeric (-6 default)}
+
+\item{max}{A numeric (6 default)}
+
 \item{sorted}{A logical - it returns sorted index for both bf and ss}
 }
 \value{
 Either a json, an html, a plotly htmlwidget, or a list of sorted features
 }
 \description{
-Plot a heatmap from a model
+plot heatmap from a module
 }
 \examples{
 \dontrun{

@@ -190,7 +190,7 @@ plotDistribution <- function(compendium = "vespucci",
 #' @param normalization A string - either 'limma','tpm_sample' or legacy as normalization
 #' @param type  A string -  either 'html'  or 'json
 #' @param plot A logical - it return the graphics object
-#' @param plotType A string - see  \code{\link{get_available_plot_methods}}
+#' @param plotType A string - see \code{\link{get_available_plot_methods}}
 #'
 #' @return Either a json, an html or a plotly htmlwidget
 #' @export
@@ -250,98 +250,13 @@ plot_module_distribution <- function(compendium = "vespucci",
 #' plot heatmap from a module
 #'
 #' @param compendium A string - the selected compendium
-#' @param biofeaturesNames A character vector (here gene_names)
-#' @param samplesetNames A character vector - the sampleSets names
-#' @param normalization A string - either 'limma','tpm_sample' or legacy as normalization
-#' @param type  A string -  either 'html'  or 'json
-#' @param useIds A logical - TRUE as default
-#' @param plot A logical - it return the graphics object
-#'
-#' @return Either a json, an html or a plotly htmlwidget
-#' @export
-#'
-#' @examples
-#'\dontrun{
-#' my_bf_ids <- c("QmlvRmVhdHVyZVR5cGU6MQ==", "QmlvRmVhdHVyZVR5cGU6Mg==",
-#' "QmlvRmVhdHVyZVR5cGU6Mw==", "QmlvRmVhdHVyZVR5cGU6NA==", "QmlvRmVhdHVyZVR5cGU6NQ==")
-#' my_ss_ids <- c("U2FtcGxlU2V0VHlwZToxNDg=", "U2FtcGxlU2V0VHlwZToxNDk=",
-#' "U2FtcGxlU2V0VHlwZToxNTA=", "U2FtcGxlU2V0VHlwZToxNTE=", "U2FtcGxlU2V0VHlwZToxNTI=")
-#' plot_heatmap(biofeaturesNames = my_bf_ids, samplesetNames = my_ss_ids,
-#' plot = TRUE, useIds = TRUE)
-#'
-#' gene_names <- c('VIT_00s0246g00220','VIT_00s0332g00060','VIT_00s0332g00110',
-#' 'VIT_00s0332g00160','VIT_00s0396g00010','VIT_00s0505g00030',
-#' 'VIT_00s0505g00060','VIT_00s0873g00020','VIT_00s0904g00010')
-#' module_1 <- create_module(biofeaturesNames=gene_names, version = "legacy")
-#' sample_names <- get_sampleset_id(name_In = colnames(module_1))$name
-#' test = plot_heatmap(biofeaturesNames = gene_names, samplesetNames = sample_names, useIds = F)
-#' tmp=RJSONIO::fromJSON(test)[[1]]
-#' #data = matrix(unlist(sapply(tmp[[2]]$z, unlist)),length(gene_names),length(sample_names))
-#' data = sapply(tmp[[2]]$z, unlist)
-#' mlen <- max(sapply(data,length))
-#' out <- sapply(data,'[', 1:mlen)
-#' colnames(out) <- gene_names
-#' rownames(out) <- sample_names
-#' plot_ly(y = colnames(out), x = sample_names,z= t(out), type = "heatmap") %>%
-#' layout(margin = list(l=120))
-#' p = plot_ly(x=tmp[[2]]$x, y=tmp[[2]]$y, z = data,
-#' type = tmp[[1]]$type,
-#' showscale = T) %>%
-#' layout(margin = list(l=120))
-#' p
-#' # save the widget
-#' #library(htmlwidgets)
-#' #saveWidget(p, file=paste0( getwd(), "/plotlyHeatmap.html"))
-#'}
-plot_heatmap <- function(compendium = "vespucci",
-               biofeaturesNames = NULL,
-               samplesetNames = NULL,
-               normalization = "legacy",
-               type = "json",
-               useIds = TRUE,
-               plot = TRUE){
-  if (is.null(normalization)) stop ("Normalization has to be either 'limma','tpm_sample' or 'legacy'.")
-  else if (normalization == "limma" | normalization == "tpm_sample") version <- "latest"
-  else version <- "legacy"
-  if(all(c(biofeaturesNames, samplesetNames) %in% NULL)) stop("You need to provide both biofeaturesNames and samplesetsNames")
-  if(!useIds){
-        biofeaturesIds <- get_biofeature_id(name_In = biofeaturesNames)$id
-        samplesetIds <- get_sampleset_id(name_In = samplesetNames)$id
-    }
-    else {
-      biofeaturesIds <- biofeaturesNames
-      samplesetIds <- samplesetNames
-    }
-    my_query <- paste0('{
-      plotHeatmap(compendium:\"', compendium, '\", version:\"', version, '\",
-      plotType:"module_heatmap_expression",
-        biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"],
-        samplesetIds:["', paste0(samplesetIds, collapse = '","'),'\"]), {',
-                         type,'
-      }
-    }')
-
-  # if(show_query) return(cat(my_query))
-  output <- build_query(my_query)$plotHeatmap
-  if (plot) {
-    my_data <- RJSONIO::fromJSON(output)$data
-    my_layout <- RJSONIO::fromJSON(output)$layout
-    fig <- plotly::plot_ly(x = my_data[[2]]$x, y = my_data[[2]]$y, z = my_data[[2]]$z,
-                           type = my_data[[1]]$type)
-    fig <- plotly::layout(fig, xaxis = list(title = my_layout$xaxis$title),
-                           yaxis = list(title = my_layout$yaxis$title))
-  }
-  else output
-}
-
-#' Plot a heatmap from a model
-#'
-#' @param compendium A string - the selected compendium
 #' @param module A matrix with valid rownames (biofeatureNames) and colnames (samplesetsNames)
 #' @param normalization A string - either 'limma','tpm_sample' or legacy as normalization
 #' @param type  A string -  either 'html'  or 'json
 #' @param plot A logical - it returns the graphics object
 #' @param sorted A logical - it returns sorted index for both bf and ss
+#' @param min A numeric (-6 default)
+#' @param max A numeric (6 default)
 #'
 #' @return Either a json, an html, a plotly htmlwidget, or a list of sorted features
 #' @export
@@ -358,6 +273,8 @@ plot_module_heatmap <- function(compendium = "vespucci",
                                 normalization = "legacy",
                                 type = "json",
                                 plot = TRUE,
+                                min = -6,
+                                max= 6,
                                 sorted = FALSE){
   if (is.null(module)) stop ("Provide a module.")
   if (is.null(normalization)) stop ("Normalization has to be either 'limma','tpm_sample' or 'legacy'.")
@@ -386,7 +303,7 @@ plot_module_heatmap <- function(compendium = "vespucci",
   } else {
     my_query <- paste0('{
       plotHeatmap(compendium:\"', compendium, '\", version:\"', version, '\",
-      plotType:"module_heatmap_expression",
+      plotType:"module_heatmap_expression",min:',min,',max:',max,',
         biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"],
         samplesetIds:["', paste0(samplesetIds, collapse = '","'),'\"]), {',
                        type,'
@@ -406,34 +323,48 @@ plot_module_heatmap <- function(compendium = "vespucci",
   else output
 }
 
-
-
 #' Show a plot using the rstudio viewer
 #'
 #' @param module A matrix with valid rownames (biofeatureNames) and colnames (samplesetsNames)
-#' @param type  A string -  either 'network', 'heatmap' or 'distribution'
+#' @param plotType A string - see \code{\link{get_available_plot_methods}}
+#' @param normalization A string - either 'limma','tpm_sample' or legacy as normalization
 #' @param threshold A numeric - A Pearson correalation value
+#' @param min A numeric (-6 default)
+#' @param max A numeric (6 default)
 #'
 #' @return A plotly htmlwidget
 #' @export
 #'
-view_plot <- function(module = NULL, type = "network", threshold = 0.7){
+view_plot <- function(module = NULL,
+                      plotType = "biological_features_uncentered_correlation_distribution",
+                      normalization = "legacy",
+                      threshold = 0.7,
+                      min = -6,
+                      max = 6){
   if(is.null(module)) stop("Provide a module build by create_module()")
-  if (type == "network"){
+  if (plotType == "module_coexpression_network"){
     my_html <- plot_module_network(module = module,
                                    type = "html",
+                                   normalization = normalization,
                                    threshold = threshold,
                                    plot = FALSE)
-  } else if(type == "heatmap"){
+  } else if(plotType == "module_heatmap_expression"){
     my_html <- plot_module_heatmap(module = module,
                                    type = "html",
+                                   normalization = normalization,
+                                   min = min,
+                                   max = max,
                                    plot = FALSE)
-  } else if(type == "distribution"){
+  } else if(plotType %in% c("biological_features_uncentered_correlation_distribution",
+                            "sample_sets_magnitude_distribution",
+                            "sample_sets_coexpression_distribution")){
     my_html <- plot_module_distribution(module = module,
                                    type = "html",
+                                   plotType = plotType,
+                                   normalization = normalization,
                                    plot = FALSE)
 
-  } else stop("type has to be either 'network', 'heatmap' or 'distribution'")
+  } else stop("type has to be one of available plot methods.")
   h <- xml2::read_html(my_html)
   tmpDir <- tempfile()
   dir.create(tmpDir)

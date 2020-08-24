@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot a distribution from a model — plot_module_distribution • rcompass</title>
+<title>Show a plot using the rstudio viewer — view_plot • rcompass</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Plot a distribution from a model — plot_module_distribution" />
-<meta property="og:description" content="Plot a distribution from a model" />
+<meta property="og:title" content="Show a plot using the rstudio viewer — view_plot" />
+<meta property="og:description" content="Show a plot using the rstudio viewer" />
 
 
 
@@ -123,70 +123,57 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plot a distribution from a model</h1>
+    <h1>Show a plot using the rstudio viewer</h1>
     <small class="dont-index">Source: <a href='https://github.com/onertipaday/rcompass/blob/master/R/plots.R'><code>R/plots.R</code></a></small>
-    <div class="hidden name"><code>plot_module_distribution.Rd</code></div>
+    <div class="hidden name"><code>view_plot.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Plot a distribution from a model</p>
+    <p>Show a plot using the rstudio viewer</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_module_distribution</span>(
-  <span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>,
+    <pre class="usage"><span class='fu'>view_plot</span>(
   <span class='kw'>module</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>plotType</span> <span class='kw'>=</span> <span class='st'>"biological_features_uncentered_correlation_distribution"</span>,
   <span class='kw'>normalization</span> <span class='kw'>=</span> <span class='st'>"legacy"</span>,
-  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"json"</span>,
-  <span class='kw'>plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>plotType</span> <span class='kw'>=</span> <span class='st'>"biological_features_uncentered_correlation_distribution"</span>
+  <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0.7</span>,
+  <span class='kw'>min</span> <span class='kw'>=</span> -<span class='fl'>6</span>,
+  <span class='kw'>max</span> <span class='kw'>=</span> <span class='fl'>6</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>compendium</th>
-      <td><p>A string - the selected compendium</p></td>
-    </tr>
-    <tr>
       <th>module</th>
       <td><p>A matrix with valid rownames (biofeatureNames) and colnames (samplesetsNames)</p></td>
+    </tr>
+    <tr>
+      <th>plotType</th>
+      <td><p>A string - see <code><a href='get_available_plot_methods.html'>get_available_plot_methods</a></code></p></td>
     </tr>
     <tr>
       <th>normalization</th>
       <td><p>A string - either 'limma','tpm_sample' or legacy as normalization</p></td>
     </tr>
     <tr>
-      <th>type</th>
-      <td><p>A string -  either 'html'  or 'json</p></td>
+      <th>threshold</th>
+      <td><p>A numeric - A Pearson correalation value</p></td>
     </tr>
     <tr>
-      <th>plot</th>
-      <td><p>A logical - it return the graphics object</p></td>
+      <th>min</th>
+      <td><p>A numeric (-6 default)</p></td>
     </tr>
     <tr>
-      <th>plotType</th>
-      <td><p>A string - see <code><a href='get_available_plot_methods.html'>get_available_plot_methods</a></code></p></td>
+      <th>max</th>
+      <td><p>A numeric (6 default)</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Either a json, an html or a plotly htmlwidget</p>
+    <p>A plotly htmlwidget</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>gene_names</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'VIT_00s0246g00220'</span>,<span class='st'>'VIT_00s0332g00060'</span>,<span class='st'>'VIT_00s0332g00110'</span>,
-<span class='st'>'VIT_00s0332g00160'</span>,<span class='st'>'VIT_00s0396g00010'</span>,<span class='st'>'VIT_00s0505g00030'</span>,<span class='st'>'VIT_00s0505g00060'</span>,
-<span class='st'>'VIT_00s0873g00020'</span>,<span class='st'>'VIT_00s0904g00010'</span>)
-<span class='no'>module_1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_module.html'>create_module</a></span>(<span class='kw'>biofeaturesNames</span><span class='kw'>=</span><span class='no'>gene_names</span>, <span class='kw'>version</span> <span class='kw'>=</span> <span class='st'>"legacy"</span>)
-<span class='fu'>plot_module_distribution</span>(<span class='kw'>module</span> <span class='kw'>=</span> <span class='no'>module_1</span>,
-<span class='kw'>plotType</span> <span class='kw'>=</span> <span class='st'>"biological_features_uncentered_correlation_distribution"</span>, <span class='kw'>plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'>plot_module_distribution</span>(<span class='kw'>module</span> <span class='kw'>=</span> <span class='no'>module_1</span>,
-<span class='kw'>plotType</span> <span class='kw'>=</span> <span class='st'>"sample_sets_magnitude_distribution"</span>, <span class='kw'>plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'>plot_module_distribution</span>(<span class='kw'>module</span> <span class='kw'>=</span> <span class='no'>module_1</span>,
-<span class='kw'>plotType</span> <span class='kw'>=</span> <span class='st'>"sample_sets_coexpression_distribution"</span>, <span class='kw'>plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

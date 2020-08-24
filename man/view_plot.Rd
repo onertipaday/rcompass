@@ -4,14 +4,27 @@
 \alias{view_plot}
 \title{Show a plot using the rstudio viewer}
 \usage{
-view_plot(module = NULL, type = "network", threshold = 0.7)
+view_plot(
+  module = NULL,
+  plotType = "biological_features_uncentered_correlation_distribution",
+  normalization = "legacy",
+  threshold = 0.7,
+  min = -6,
+  max = 6
+)
 }
 \arguments{
 \item{module}{A matrix with valid rownames (biofeatureNames) and colnames (samplesetsNames)}
 
-\item{type}{A string -  either 'network', 'heatmap' or 'distribution'}
+\item{plotType}{A string - see \code{\link{get_available_plot_methods}}}
+
+\item{normalization}{A string - either 'limma','tpm_sample' or legacy as normalization}
 
 \item{threshold}{A numeric - A Pearson correalation value}
+
+\item{min}{A numeric (-6 default)}
+
+\item{max}{A numeric (6 default)}
 }
 \value{
 A plotly htmlwidget
