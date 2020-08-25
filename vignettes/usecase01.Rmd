@@ -168,24 +168,23 @@ view_plot(module = module_1, plotType = "biological_features_uncentered_correlat
 For example, if we pick a threshold around 0.8 (looking at the top plot) we might expect to have around 40 Biological Features (genes) with a score equal or greater than that, to be added in our module. In this case let's just pick the top 30 genes and create e new module.
 
 ```{r}
-top_bf <- get_biofeature_ranking(samplesetNames = colnames(module_1), top_n = 50)
-# top_bf_ids = ranked_bf['id'][:30]
-# top_bf = BiologicalFeature.using(compendium).get(filter={'id_In': top_bf_ids})
+top_bf <- plot_module_distribution(module = module_1, 
+                                   plotType = "biological_features_uncentered_correlation_distribution", getRank = TRUE)
 ```
 
-The new module is created by adding Biological Feature objects to the old module. This operation will modify the module object in-place, so we might want to clone the module_1 object first, if we don't want to lose it, or we might want to save it in a local file and then create e new module by simply loading it.
+The new module is created by adding Biological Feature objects to the old module.
 
 ```{r}
-# write_table(module_1, file ="module_1.txt", sep ="\t")
-# module_1  <- read.table("module_1,txt")
-module_2 <- create_module(biofeaturesNames= top_bf$name[1:10], normalization = "legacy", useIds = FALSE)
-#mod_union <- merge_modules(mod1 = module_1, mod2 = module_2)
+module_2 <- create_module(biofeaturesNames = c(rownames(module_1),top_bf$name[1:30]), 
+                          normalization = "legacy", 
+                          useIds = FALSE)
+
 ```
 
 We can have a look at the heatmap of the new module
 
 ```{r pheatmap_module_2, eval=FALSE, include=FALSE}
-pheatmap::pheatmap(mat = module_2)
+view_plot(module_2, plotType = "module_heatmap_expression" )
 ```
 
 # Annotations
@@ -218,20 +217,13 @@ Now we can collect all the Sample Sets in which these samples are used and then 
 
 ```{r}
 seed_ss <- get_sampleset_id(name_In = seed_samples, useIds = TRUE)
-module_3 <- create_module_ss(samplesetNames = seed_ss$id, useIds = TRUE)
+module_3 <- create_module(samplesetNames = seed_ss$name, useIds = FALSE)
 ```
 
 And now we can plot the heatmap
 
 ```{r plot_heatmap_module_3, eval=FALSE, include=FALSE}
-my_plot_html <- plot_module_distribution(module = module_3, type = "html", plot = FALSE)
-h <- xml2::read_html(my_plot_html)
-tmpDir <- tempfile()
-dir.create(tmpDir)
-htmlFile <- file.path(tmpDir, "plot_heat3.html")
-xml2::write_html(h, tmpDir,file = htmlFile)
-rstudioapi::viewer(htmlFile)
-pheatmap::pheatmap(mat = as.matrix(module_3))
+view_plot(module_3, plotType = "module_heatmap_expression" )
 ```
 # Session information
 ```{r session information, echo=FALSE}

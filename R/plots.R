@@ -191,8 +191,9 @@ plotDistribution <- function(compendium = "vespucci",
 #' @param type  A string -  either 'html'  or 'json
 #' @param plot A logical - it return the graphics object
 #' @param plotType A string - see \code{\link{get_available_plot_methods}}
+#' @param getRank A logical - if TRUE return the ranking
 #'
-#' @return Either a json, an html or a plotly htmlwidget
+#' @return Either a json, an html, a plotly htmlwidget or a data.frame with the ranking
 #' @export
 #'
 #' @examples
@@ -213,7 +214,8 @@ plot_module_distribution <- function(compendium = "vespucci",
                                 normalization = "legacy",
                                 type = "json",
                                 plot = TRUE,
-                                plotType = "biological_features_uncentered_correlation_distribution"){
+                                plotType = "biological_features_uncentered_correlation_distribution",
+                                getRank = FALSE){
   if (is.null(module)) stop ("Provide a module.")
   if (is.null(normalization)) stop ("Normalization has to be either 'limma','tpm_sample' or 'legacy'.")
   else if (normalization == "limma" | normalization == "tpm_sample") version <- "latest"
@@ -221,15 +223,16 @@ plot_module_distribution <- function(compendium = "vespucci",
 
   biofeaturesIds <- get_biofeature_id(name_In = rownames(module))$id
   samplesetIds <- get_sampleset_id(name_In = colnames(module))$id
+  if(!getRank){
   my_query <- paste0('{
     plotDistribution(compendium:\"', compendium, '\", version:\"', version, '\",
     plotType:\"', plotType, '\",
         biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"],
         samplesetIds:["', paste0(samplesetIds, collapse = '","'),'\"]), {',
-                     type,'
+                       type,'
       }
     }')
-  # if(show_query) return(cat(my_query))
+  #return(cat(my_query))
   output <- build_query(my_query)$plotDistribution
   if (plot) {
     my_data <- RJSONIO::fromJSON(output)$data
@@ -245,6 +248,22 @@ plot_module_distribution <- function(compendium = "vespucci",
     plotly::subplot(fig2, fig1, nrows = 2, shareX = TRUE, titleX = TRUE, titleY = TRUE)
   }
   else output
+  } else {
+    plot <- FALSE
+    my_query <- paste0('{
+    plotDistribution(compendium:\"', compendium, '\", version:\"', version, '\",
+    plotType:\"', plotType, '\",
+        biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"],
+        samplesetIds:["', paste0(samplesetIds, collapse = '","'),'\"]), {
+                       ranking{
+                         name
+                         value
+                       }
+      }
+    }')
+    # output <- build_query(my_query)$plotDistribution$ranking
+    as.data.frame(sapply(build_query(my_query)$plotDistribution$ranking,unlist))
+  }
 }
 
 #' plot heatmap from a module

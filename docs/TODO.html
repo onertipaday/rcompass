@@ -128,10 +128,6 @@
 
 <div id="todo" class="section level1">
 
-<hr>
-<p>Aggiungere questi 2 parametri a plot_Heatmap</p>
-<p>{ plotHeatmap(compendium: “vespucci”, version: “legacy”, ) { html, sortedBiofeatures, sortedSamplesets } }</p>
-<p>altri parametri puoi dare min e max in heatmap (es -6,6)</p>
 <p>1) sparql query 2) ids dei samples 3) partendo dai samples ottengo i samplesets a seconda della normalizzazione 4) creo il modulo sulla base dei nuovi sampleSets</p>
 <p>Query per ottenere i sampleset dai samples ottenuti dalla query sparql</p>
 <p>{ sampleSets(compendium:“vespucci”, samples:[“U2FtcGxlVHlwZTox”]) { edges { node { id, name } } } }</p>

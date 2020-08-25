@@ -10,7 +10,8 @@ plot_module_distribution(
   normalization = "legacy",
   type = "json",
   plot = TRUE,
-  plotType = "biological_features_uncentered_correlation_distribution"
+  plotType = "biological_features_uncentered_correlation_distribution",
+  getRank = FALSE
 )
 }
 \arguments{
@@ -25,9 +26,11 @@ plot_module_distribution(
 \item{plot}{A logical - it return the graphics object}
 
 \item{plotType}{A string - see \code{\link{get_available_plot_methods}}}
+
+\item{getRank}{A logical - if TRUE return the ranking}
 }
 \value{
-Either a json, an html or a plotly htmlwidget
+Either a json, an html, a plotly htmlwidget or a data.frame with the ranking
 }
 \description{
 Plot a distribution from a model

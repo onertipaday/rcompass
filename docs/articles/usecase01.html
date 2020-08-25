@@ -1430,15 +1430,13 @@
 <h1 class="hasAnchor">
 <a href="#automatically-expand-a-module" class="anchor"></a>Automatically expand a module</h1>
 <p>One of the classic way to use VESPUCCI is to start with a set of genes selected from previous analysis, have a look at the top conditions in which they show a consistent (and strong) behavior and then look for other genes that behave the same across those same conditions. The way to do it is to plot the distribution of genes that show a similar behavior of the module’s genes across the same condition in order pick up a suitable threshold.</p>
-<p>For example, if we pick a threshold around 0.65 (looking at the top plot) we might expect to have around 30 Biological Features (genes) with a score equal or greater than that, to be added in our module. In this case let’s just pick the top 30 genes and create e new module.</p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">top_30_bf</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/get_biofeature_ranking.html">get_biofeature_ranking</a></span>(<span class="kw">samplesetNames</span> <span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">module_1</span>), <span class="kw">top_n</span> <span class="kw">=</span> <span class="fl">30</span>)
-<span class="co"># top_30_bf_ids = ranked_bf['id'][:30]</span>
-<span class="co"># top_30_bf = BiologicalFeature.using(compendium).get(filter={'id_In': top_30_bf_ids})</span></pre></body></html></div>
-<p>The new module is created by adding Biological Feature objects to the old module. This operation will modify the module object in-place, so we might want to clone the module_1 object first, if we don’t want to lose it, or we might want to save it in a local file and then create e new module by simply loading it.</p>
-<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="co"># write_table(module_1, file ="module_1.txt", sep ="\t")</span>
-<span class="co"># module_1  &lt;- read.table("module_1,txt")</span>
-<span class="no">module_2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_module.html">create_module</a></span>(<span class="kw">biofeaturesNames</span><span class="kw">=</span> <span class="no">top_30_bf</span>$<span class="no">id</span>[<span class="fl">1</span>:<span class="fl">10</span>], <span class="kw">normalization</span> <span class="kw">=</span> <span class="st">"legacy"</span>, <span class="kw">useIds</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-<span class="co">#mod_union &lt;- merge_modules(mod1 = module_1, mod2 = module_2)</span></pre></body></html></div>
+<p>For example, if we pick a threshold around 0.8 (looking at the top plot) we might expect to have around 40 Biological Features (genes) with a score equal or greater than that, to be added in our module. In this case let’s just pick the top 30 genes and create e new module.</p>
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">top_bf</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/plot_module_distribution.html">plot_module_distribution</a></span>(<span class="kw">module</span> <span class="kw">=</span> <span class="no">module_1</span>,
+                                   <span class="kw">plotType</span> <span class="kw">=</span> <span class="st">"biological_features_uncentered_correlation_distribution"</span>, <span class="kw">getRank</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+<p>The new module is created by adding Biological Feature objects to the old module.</p>
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">module_2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_module.html">create_module</a></span>(<span class="kw">biofeaturesNames</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">module_1</span>),<span class="no">top_bf</span>$<span class="no">name</span>[<span class="fl">1</span>:<span class="fl">30</span>]),
+                          <span class="kw">normalization</span> <span class="kw">=</span> <span class="st">"legacy"</span>,
+                          <span class="kw">useIds</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></body></html></div>
 <p>We can have a look at the heatmap of the new module</p>
 </div>
 <div id="annotations" class="section level1">
@@ -1453,7 +1451,7 @@
 <div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="no">seed_samples</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/get_sparql_annotation_triples.html">get_sparql_annotation_triples</a></span>(<span class="kw">target</span> <span class="kw">=</span> <span class="st">"sample"</span>, <span class="kw">query</span> <span class="kw">=</span> <span class="no">sparql</span>)[,<span class="fl">1</span>]</pre></body></html></div>
 <p>Now we can collect all the Sample Sets in which these samples are used and then create a new module based on Sample Sets only leaving VESPUCCI to figure out which are the genes (Biological Feature objects) that show a consistent up or down-regulated profile.</p>
 <div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">seed_ss</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/get_sampleset_id.html">get_sampleset_id</a></span>(<span class="kw">name_In</span> <span class="kw">=</span> <span class="no">seed_samples</span>, <span class="kw">useIds</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-<span class="no">module_3</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_module_ss.html">create_module_ss</a></span>(<span class="kw">samplesetNames</span> <span class="kw">=</span> <span class="no">seed_ss</span>$<span class="no">id</span>, <span class="kw">useIds</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+<span class="no">module_3</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_module.html">create_module</a></span>(<span class="kw">samplesetNames</span> <span class="kw">=</span> <span class="no">seed_ss</span>$<span class="no">name</span>, <span class="kw">useIds</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></body></html></div>
 <p>And now we can plot the heatmap</p>
 </div>
 <div id="session-information" class="section level1">
@@ -1481,7 +1479,7 @@
 #&gt; [21] RJSONIO_1.3-1.4  fs_1.5.0         triebeard_0.3.0  ghql_0.1.0      
 #&gt; [25] curl_4.3         crul_1.0.0       memoise_1.1.0    evaluate_0.14   
 #&gt; [29] rmarkdown_2.3    stringi_1.4.6    compiler_4.0.2   urltools_1.7.3  
-#&gt; [33] desc_1.2.0       backports_1.1.8  jsonlite_1.7.0</code></pre>
+#&gt; [33] desc_1.2.0       backports_1.1.9  jsonlite_1.7.0</code></pre>
 </div>
   </div>
 
