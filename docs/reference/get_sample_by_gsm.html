@@ -132,7 +132,7 @@
     <p>retrieve internal id, name (GSM), description for sample providing sampleName (GSM)</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_sample_by_gsm</span>(<span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>, <span class='kw'>sampleName_Icontains</span> <span class='kw'>=</span> <span class='st'>"GSM1313535"</span>)</pre>
+    <pre class="usage"><span class='fu'>get_sample_by_gsm</span>(<span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>, <span class='kw'>sampleName_In</span> <span class='kw'>=</span> <span class='st'>"GSM1313535"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -142,8 +142,8 @@
       <td><p>A string - the selected compendium</p></td>
     </tr>
     <tr>
-      <th>sampleName_Icontains</th>
-      <td><p>A string - GSM (GEO Sample access id)</p></td>
+      <th>sampleName_In</th>
+      <td><p>A character5 vector - GSMs (GEO Sample access ids)</p></td>
     </tr>
     </table>
 
@@ -153,7 +153,7 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>get_sample_by_gsm</span>(<span class='kw'>sampleName_Icontains</span><span class='kw'>=</span><span class='st'>"GSM1313535"</span>)
+<span class='fu'>get_sample_by_gsm</span>(<span class='kw'>sampleName_Icontains</span><span class='kw'>=</span><span class='st'>"GSM147672.ch1"</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -85,7 +85,6 @@ We are now ready to create our first module. If we pass a list of genes (Biologi
 
 ```{r module_1_creation}
 module_1 <- create_module(biofeaturesNames=gene_names, normalization = "legacy")
-# module_1_limma_norm <- create_module(biofeaturesNames=gene_names, normalization = "limma")
 ```
 
 A module can be thought as a matrix composed by BiologicalFeature objects (genes in our case) as rows and SampleSet objects (conditions contrasts in our case) as columns. Each SampleSet, as the name suggests, is composed by 1 or more Sample objects. Since we are using the legacy normalization each SampleSet is composed by 2 samples, one Test sample and one Reference sample and the value associated is the logratio between the Test and Reference for a specific gene (BiologicalFeature).
@@ -94,22 +93,19 @@ A module can be thought as a matrix composed by BiologicalFeature objects (genes
 knitr::kable(module_1, class = 'cell-border stripe')
 ```
 ```{r eval=FALSE, include=FALSE}
-# get_sample_by_gsm(sampleName_Icontains="GSM1313535")
-# get_sampleset_id(name_In = "GSM605594.ch1-vs-GSM605578.ch1")
 knitr::kable(get_sampleset_id(name_In = colnames(module_1), version="legacy"))
-# knitr::kable(get_sampleset_id(name_In = colnames(module_1)[1:10], version="latest"))
 ```
 
 # Plot a module
 The easiest way to visualize a module is using a heatmap. The Plot object wraps a module and can return different plot type with different format (the Plotly JSON format or HTML). To see an heatmap embedded in rstudio we can retrieve the HTML code of the Plot (that uses Plotly) and display it directly into the viewer.
 
-```{r plot_module_heatmap_html, eval=FALSE, include=FALSE}
-view_plot(module = module_1, plotType = "module_heatmap_expression", min = -6, max = 6)
+```{r plot_module_heatmap_html, echo = TRUE, eval = FALSE}
+view_plot(module = module_1, plotType = "module_heatmap_expression", min = -7, max = 7)
 ```
 
 Alternatively you can use directly any R function to cluster data and produce an heatmap, e.g.:
 
-```{r heatmaply, eval=FALSE, include=FALSE}
+```{r heatmaply, eval=FALSE, echo = TRUE}
 heatmaply::heatmaply(module_1,
                      showticklabels = c(TRUE, TRUE),
                      fontsize_col = 7.5,
@@ -119,7 +115,7 @@ heatmaply::heatmaply(module_1,
 
 or
 
-```{r pheatmap_module1, eval=FALSE, include=FALSE}
+```{r pheatmap_module1, eval=FALSE, echo = TRUE}
 pheat_cl <- pheatmap::pheatmap(mat =  as.matrix(module_1))
 pheat_cl
 ```
@@ -146,14 +142,14 @@ module_1_sorted <- create_module(biofeaturesNames = my_sorted_indexes$sortedBiof
 
 Alternatively we can use variables containing the order for both rows and columns produced by other heatmap functions.
 
-```{r pheatmap order, eval=FALSE, include=FALSE}
+```{r pheatmap order, echo = TRUE, eval = FALSE}
 knitr::kable(module_1[pheat_cl$tree_row$order,pheat_cl$tree_col$order])
 ```
 
 # Plot correlation network
 Given a module we can plot the correlation network between Biological Features (genes) by looking at the Pearson correlation coefficient of the module's Sample Sets (contrast). The default threshold is 0.7, but it can be changed. Edges in orange represent anti-correlation.
 
-```{r plot_module_network, eval=FALSE, include=FALSE}
+```{r plot_module_network, echo = TRUE, eval = FALSE}
 view_plot(module = module_1, plotType = "module_coexpression_network", threshold = 0.2)
 ```
 
@@ -161,7 +157,7 @@ view_plot(module = module_1, plotType = "module_coexpression_network", threshold
 One of the classic way to use VESPUCCI is to start with a set of genes selected from previous analysis, have a look at the top conditions in which they show a consistent (and strong) behavior and then look for other genes that behave the same across those same conditions.
 The way to do it is to plot the distribution of genes that show a similar behavior of the module's genes across the same condition in order pick up a suitable threshold.
 
-```{r plot_module_distribution html, eval=FALSE, include=FALSE}
+```{r plot_module_distribution html, echo = TRUE, eval = FALSE}
 view_plot(module = module_1, plotType = "biological_features_uncentered_correlation_distribution")
 ```
 
@@ -169,13 +165,14 @@ For example, if we pick a threshold around 0.8 (looking at the top plot) we migh
 
 ```{r}
 top_bf <- plot_module_distribution(module = module_1, 
-                                   plotType = "biological_features_uncentered_correlation_distribution", getRank = TRUE)
+                                   plotType = "biological_features_uncentered_correlation_distribution",
+                                   getRank = TRUE)
 ```
 
 The new module is created by adding Biological Feature objects to the old module.
 
 ```{r}
-module_2 <- create_module(biofeaturesNames = c(rownames(module_1),top_bf$name[1:30]), 
+module_2 <- create_module(biofeaturesNames = c(rownames(module_1), top_bf$name[1:30]), 
                           normalization = "legacy", 
                           useIds = FALSE)
 
@@ -183,14 +180,16 @@ module_2 <- create_module(biofeaturesNames = c(rownames(module_1),top_bf$name[1:
 
 We can have a look at the heatmap of the new module
 
-```{r pheatmap_module_2, eval=FALSE, include=FALSE}
+```{r pheatmap_module_2, echo = TRUE, eval = FALSE}
 view_plot(module_2, plotType = "module_heatmap_expression" )
 ```
 
 # Annotations
 In VESPUCCI, both Biological Feature (gene) and Sample annotations are represented using [RDF](https://en.wikipedia.org/wiki/Resource_Description_Framework). We can visualize annotation as a set of RDF triples.
-```{r eval=FALSE, include=FALSE}
-#TODO
+```{r echo=TRUE}
+samples <- strsplit(sorted_ss$name[[1]],split = "-vs-")[[1]]
+# knitr::kable(get_sample_by_gsm(sampleName_In =  samples))
+knitr::kable(get_annotation_triples(ids =  get_sample_by_gsm(sampleName_In =  samples)$sampleId))
 ```
 
 Another way is to visualize the annotation is with RDF graph.
@@ -201,7 +200,6 @@ Another way is to visualize the annotation is with RDF graph.
 
 Annotations can also be used to retrieve Sample or Biological Features (gene) starting from a SPARQL query. For example we might want to select all seed Sample.
 
-
 ```{r}
 sparql = "SELECT ?s ?p ?o WHERE { ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.obolibrary.org/obo/NCIT_C19157> . ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.obolibrary.org/obo/PO_0009010>}"
 ```
@@ -209,6 +207,7 @@ sparql = "SELECT ?s ?p ?o WHERE { ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns
 The term [NCIT_C19157](http://purl.obolibrary.org/obo/NCIT_C19157) indicates ***specimen*** while [PO_0009010](http://purl.obolibrary.org/obo/PO_0009010) is the Plant Ontology term for ***seed***. To indicate a gene, instead the term [NCIT_C16612](http://purl.obolibrary.org/obo/NCIT_C16612) is used.
 
 Here we retrieve all the samples used based on the sparql query:
+
 ```{r}
 seed_samples <- get_sparql_annotation_triples(target = "sample", query = sparql)[,1]
 ```
@@ -222,9 +221,10 @@ module_3 <- create_module(samplesetNames = seed_ss$name, useIds = FALSE)
 
 And now we can plot the heatmap
 
-```{r plot_heatmap_module_3, eval=FALSE, include=FALSE}
+```{r plot_heatmap_module_3, echo = TRUE, eval = FALSE}
 view_plot(module_3, plotType = "module_heatmap_expression" )
 ```
+
 # Session information
 ```{r session information, echo=FALSE}
 print(sessionInfo(), locale = FALSE)

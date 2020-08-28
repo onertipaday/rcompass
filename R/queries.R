@@ -296,19 +296,21 @@ get_samples_by_gse <- function(compendium = "vespucci",
 #' retrieve internal id, name (GSM), description for sample providing sampleName (GSM)
 #'
 #' @param compendium A string - the selected compendium
-#' @param sampleName_Icontains A string - GSM (GEO Sample access id)
+#' @param sampleName_In A character5 vector - GSMs (GEO Sample access ids)
 #'
 #' @return A data.frame with three columns: sampleId, sampleName, sampleDescription
 #' @export
 #'
 #' @examples
 #'\dontrun{
-#' get_sample_by_gsm(sampleName_Icontains="GSM1313535")
+#' get_sample_by_gsm(sampleName_Icontains="GSM147672.ch1")
 #' }
 get_sample_by_gsm <- function(compendium = "vespucci",
-                              sampleName_Icontains="GSM1313535"){
+                              sampleName_In="GSM1313535"){
+  # my_query <- paste0('{
+  # samples(compendium:\"', compendium, '\", sampleName_Icontains:\"', sampleName_Icontains, '\") {
   my_query <- paste0('{
-  samples(compendium:\"', compendium, '\", sampleName_Icontains:\"', sampleName_Icontains, '\") {
+  samples(compendium:\"', compendium, '\", sampleName_In:\"', paste0(sampleName_In, collapse = ','), '\") {
     edges {
       node {
       id,

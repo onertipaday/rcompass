@@ -4,12 +4,12 @@
 \alias{get_sample_by_gsm}
 \title{retrieve internal id, name (GSM), description for sample providing sampleName (GSM)}
 \usage{
-get_sample_by_gsm(compendium = "vespucci", sampleName_Icontains = "GSM1313535")
+get_sample_by_gsm(compendium = "vespucci", sampleName_In = "GSM1313535")
 }
 \arguments{
 \item{compendium}{A string - the selected compendium}
 
-\item{sampleName_Icontains}{A string - GSM (GEO Sample access id)}
+\item{sampleName_In}{A character5 vector - GSMs (GEO Sample access ids)}
 }
 \value{
 A data.frame with three columns: sampleId, sampleName, sampleDescription
@@ -19,6 +19,6 @@ retrieve internal id, name (GSM), description for sample providing sampleName (G
 }
 \examples{
 \dontrun{
-get_sample_by_gsm(sampleName_Icontains="GSM1313535")
+get_sample_by_gsm(sampleName_Icontains="GSM147672.ch1")
 }
 }
