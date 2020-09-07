@@ -193,8 +193,8 @@ knitr::kable(get_annotation_triples(ids =  get_sample_by_gsm(sampleName_In =  sa
 
 Another way is to visualize the annotation is with RDF graph.
 
-```{r eval=FALSE, include=FALSE}
-#TODO
+```{r plot_annotation_network, echo = TRUE, eval = FALSE}
+plot_annotation_network(ids = sorted_ss$id, viewer = T)
 ```
 
 Annotations can also be used to retrieve Sample or Biological Features (gene) starting from a SPARQL query. For example we might want to select all seed Sample.
