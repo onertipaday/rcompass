@@ -420,6 +420,50 @@ get_annotation_triples <- function(compendium = "vespucci", ids = NULL) {
 }
 
 
+#' plot rdf network
+#'
+#' @param compendium A string - the selected compendium
+#' @param ids A string - unique id of a biofeature, a sample, etc.
+#' @param viewer A logical - if TRUE will plot the html widget
+#'
+#' @return Either a json, an html or a plotly htmlwidget
+#' @export
+#'
+#' @examples
+#'\dontrun{
+#' my_ids <- get_biofeature_id(name_In = c("VIT_00s0332g00160","VIT_00s0396g00010"
+#' ,"VIT_00s0505g00030"))$id
+#' plot_annotation_network(ids = my_ids, viewer = TRUE)
+#' }
+plot_annotation_network <- function(compendium = "vespucci",
+                                    ids = NULL,
+                                    viewer = FALSE) {
+  if(is.null(ids)) stop("You need to provide and id")
+  type <- "html"
+  my_query <- paste0('{
+  annotationPrettyPrint(compendium:\"', compendium, '\", ids:["', paste0(ids, collapse = '","'),'\" ]) {',
+                     type,'
+    }
+  }')
+  my_html <- build_query(my_query)$annotationPrettyPrint
+  if(type == "html" && viewer){
+    h <- xml2::read_html(my_html)
+    tmpDir <- tempfile()
+    dir.create(tmpDir)
+    htmlFile <- file.path(tmpDir, "viewer.html")
+    xml2::write_html(h, tmpDir,file = htmlFile)
+    # rstudioapi::viewer(htmlFile)
+    viewer <- getOption("viewer")
+    if (!is.null(viewer))
+      viewer("http://localhost:8100")
+    else
+      utils::browseURL("http://localhost:8100")
+    viewer(htmlFile)
+  } else output
+}
+
+
+
 #' get_sparql_annotation_triples
 #'
 #' @param compendium A string - the selected compendium

@@ -175,7 +175,6 @@ The new module is created by adding Biological Feature objects to the old module
 module_2 <- create_module(biofeaturesNames = c(rownames(module_1), top_bf$name[1:30]), 
                           normalization = "legacy", 
                           useIds = FALSE)
-
 ```
 
 We can have a look at the heatmap of the new module
