@@ -6,7 +6,7 @@
 \usage{
 get_samplesets_ranking(
   compendium = "vespucci",
-  version = "legacy",
+  normalization = "legacy",
   rankTarget = "samplesets",
   rank = "magnitude",
   biofeaturesNames = NULL,
@@ -17,7 +17,7 @@ get_samplesets_ranking(
 \arguments{
 \item{compendium}{A string - the selected compendium}
 
-\item{version}{A string ('legacy' as default)}
+\item{normalization}{A string ('legacy' as default)}
 
 \item{rankTarget}{A string ('sampleset' as default)}
 

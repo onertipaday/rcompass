@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rcompass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -100,13 +100,16 @@
     <li>
       <a href="../articles/usecase01.html">Use Case 01</a>
     </li>
+    <li>
+      <a href="../articles/usecase02.html">Use Case 02</a>
+    </li>
   </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/onertipaday/rcompass/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -132,11 +135,12 @@
     <p>get_sparql_annotation_triples</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_sparql_annotation_triples</span>(
-  <span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>,
-  <span class='kw'>target</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>query</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>get_sparql_annotation_triples</span><span class='op'>(</span>
+  compendium <span class='op'>=</span> <span class='st'>"vespucci"</span>,
+  normalization <span class='op'>=</span> <span class='st'>"tpm"</span>,
+  target <span class='op'>=</span> <span class='cn'>NULL</span>,
+  query <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -144,6 +148,10 @@
     <tr>
       <th>compendium</th>
       <td><p>A string - the selected compendium</p></td>
+    </tr>
+    <tr>
+      <th>normalization</th>
+      <td><p>A string - 'tpm' (as default), 'limma' or 'legacy'</p></td>
     </tr>
     <tr>
       <th>target</th>
@@ -160,50 +168,12 @@
     <p>A data.frame with 3 columns</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>my_query</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>'SELECT ?s ?p ?o WHERE { ?s &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt;'</span>,
+    <pre class="examples"><div class='input'><span class='va'>my_query</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>'SELECT ?s ?p ?o WHERE { ?s &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt;'</span>,
 <span class='st'>'&lt;http://purl.obolibrary.org/obo/NCIT_C19157&gt;'</span>,
 <span class='st'>'. ?s &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt;'</span>,
-<span class='st'>'&lt;http://purl.obolibrary.org/obo/PO_0009010&gt;}'</span>)
-<span class='fu'>get_sparql_annotation_triples</span>(<span class='kw'>target</span> <span class='kw'>=</span> <span class='st'>"sample"</span>, <span class='kw'>query</span> <span class='kw'>=</span> <span class='no'>my_query</span>)</div><div class='output co'>#&gt;                      V1   V2   V3
-#&gt; 1  U2FtcGxlVHlwZToxMDI4 &lt;NA&gt; &lt;NA&gt;
-#&gt; 2  U2FtcGxlVHlwZTozMDQ5 &lt;NA&gt; &lt;NA&gt;
-#&gt; 3  U2FtcGxlVHlwZTo3MTY= &lt;NA&gt; &lt;NA&gt;
-#&gt; 4  U2FtcGxlVHlwZTo3MTA= &lt;NA&gt; &lt;NA&gt;
-#&gt; 5  U2FtcGxlVHlwZTo3MTQ= &lt;NA&gt; &lt;NA&gt;
-#&gt; 6  U2FtcGxlVHlwZTo3MTM= &lt;NA&gt; &lt;NA&gt;
-#&gt; 7  U2FtcGxlVHlwZTo3MTE= &lt;NA&gt; &lt;NA&gt;
-#&gt; 8  U2FtcGxlVHlwZTo3MjE= &lt;NA&gt; &lt;NA&gt;
-#&gt; 9  U2FtcGxlVHlwZTo3MTk= &lt;NA&gt; &lt;NA&gt;
-#&gt; 10 U2FtcGxlVHlwZTo3MTc= &lt;NA&gt; &lt;NA&gt;
-#&gt; 11 U2FtcGxlVHlwZTo3MjA= &lt;NA&gt; &lt;NA&gt;
-#&gt; 12 U2FtcGxlVHlwZTo3MTU= &lt;NA&gt; &lt;NA&gt;
-#&gt; 13 U2FtcGxlVHlwZTo3MTI= &lt;NA&gt; &lt;NA&gt;
-#&gt; 14 U2FtcGxlVHlwZTo3MTg= &lt;NA&gt; &lt;NA&gt;
-#&gt; 15 U2FtcGxlVHlwZToxMDMx &lt;NA&gt; &lt;NA&gt;
-#&gt; 16 U2FtcGxlVHlwZToxMDMy &lt;NA&gt; &lt;NA&gt;
-#&gt; 17 U2FtcGxlVHlwZToxMDMz &lt;NA&gt; &lt;NA&gt;
-#&gt; 18 U2FtcGxlVHlwZToxMDM0 &lt;NA&gt; &lt;NA&gt;
-#&gt; 19 U2FtcGxlVHlwZToxMDM1 &lt;NA&gt; &lt;NA&gt;
-#&gt; 20 U2FtcGxlVHlwZToxMDM2 &lt;NA&gt; &lt;NA&gt;
-#&gt; 21 U2FtcGxlVHlwZToxMDM3 &lt;NA&gt; &lt;NA&gt;
-#&gt; 22 U2FtcGxlVHlwZToxMDM4 &lt;NA&gt; &lt;NA&gt;
-#&gt; 23 U2FtcGxlVHlwZToxMDM5 &lt;NA&gt; &lt;NA&gt;
-#&gt; 24 U2FtcGxlVHlwZToxMDQw &lt;NA&gt; &lt;NA&gt;
-#&gt; 25 U2FtcGxlVHlwZToxMDQx &lt;NA&gt; &lt;NA&gt;
-#&gt; 26 U2FtcGxlVHlwZToxMDQy &lt;NA&gt; &lt;NA&gt;
-#&gt; 27 U2FtcGxlVHlwZToxMDQz &lt;NA&gt; &lt;NA&gt;
-#&gt; 28 U2FtcGxlVHlwZToxMDQ0 &lt;NA&gt; &lt;NA&gt;
-#&gt; 29 U2FtcGxlVHlwZToxMDQ1 &lt;NA&gt; &lt;NA&gt;
-#&gt; 30 U2FtcGxlVHlwZToxMDQ2 &lt;NA&gt; &lt;NA&gt;
-#&gt; 31 U2FtcGxlVHlwZToxMDQ3 &lt;NA&gt; &lt;NA&gt;
-#&gt; 32 U2FtcGxlVHlwZToxMDQ4 &lt;NA&gt; &lt;NA&gt;
-#&gt; 33 U2FtcGxlVHlwZToxMDI5 &lt;NA&gt; &lt;NA&gt;
-#&gt; 34 U2FtcGxlVHlwZToxMDMw &lt;NA&gt; &lt;NA&gt;
-#&gt; 35 U2FtcGxlVHlwZTozMDQ0 &lt;NA&gt; &lt;NA&gt;
-#&gt; 36 U2FtcGxlVHlwZTozMDQ1 &lt;NA&gt; &lt;NA&gt;
-#&gt; 37 U2FtcGxlVHlwZTozMDQ2 &lt;NA&gt; &lt;NA&gt;
-#&gt; 38 U2FtcGxlVHlwZTozMDQ3 &lt;NA&gt; &lt;NA&gt;
-#&gt; 39 U2FtcGxlVHlwZTozMDQ4 &lt;NA&gt; &lt;NA&gt;</div></pre>
+<span class='st'>'&lt;http://purl.obolibrary.org/obo/PO_0009010&gt;}'</span><span class='op'>)</span>
+<span class='fu'>get_sparql_annotation_triples</span><span class='op'>(</span>target <span class='op'>=</span> <span class='st'>"sample"</span>, query <span class='op'>=</span> <span class='va'>my_query</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; data frame with 0 columns and 1 row</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -219,7 +189,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

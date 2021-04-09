@@ -26,7 +26,7 @@ get_available_plot_methods <- function(compendium = "vespucci"){
 #'
 #' @param compendium A string - the selected compendium
 #' @param module A matrix with valid rownames (biofeatureNames) and colnames (samplesetsNames)
-#' @param normalization A string - either 'limma','tpm_sample' or legacy as normalization
+#' @param normalization A string - either 'limma','tpm' or legacy as normalization
 #' @param type  A string -  either 'html'  or 'json
 #' @param threshold A numeric
 #' @param plot A logical - It return the graphics object
@@ -49,8 +49,8 @@ plot_module_network <- function(compendium = "vespucci",
                                 threshold = 0.7,
                                 plot = TRUE){
   if (is.null(module)) stop ("Provide a module.")
-  if (is.null(normalization)) stop ("Normalization has to be either 'limma','tpm_sample' or 'legacy'.")
-  else if (normalization == "limma" | normalization == "tpm_sample") version <- "latest"
+  if (is.null(normalization)) stop ("Normalization has to be either 'limma','tpm' or 'legacy'.")
+  else if (normalization == "limma" | normalization == "tpm") version <- "2.0"
   else version <- "legacy"
 
   biofeaturesIds <- get_biofeature_id(name_In = rownames(module))$id
@@ -84,7 +84,7 @@ plot_module_network <- function(compendium = "vespucci",
 #'
 #' @param compendium A string - the selected compendium
 #' @param module A matrix with valid rownames (biofeatureNames) and colnames (samplesetsNames)
-#' @param normalization A string - either 'limma','tpm_sample' or legacy as normalization
+#' @param normalization A string - either 'limma','tpm' or legacy as normalization
 #' @param type  A string -  either 'html'  or 'json
 #' @param plot A logical - it return the graphics object
 #' @param plotType A string - see \code{\link{get_available_plot_methods}}
@@ -114,8 +114,8 @@ plot_module_distribution <- function(compendium = "vespucci",
                                 plotType = "biological_features_uncentered_correlation_distribution",
                                 getRank = FALSE){
   if (is.null(module)) stop ("Provide a module.")
-  if (is.null(normalization)) stop ("Normalization has to be either 'limma','tpm_sample' or 'legacy'.")
-  else if (normalization == "limma" | normalization == "tpm_sample") version <- "latest"
+  if (is.null(normalization)) stop ("Normalization has to be either 'limma','tpm' or 'legacy'.")
+  else if (normalization == "limma" | normalization == "tpm") version <- "2.0"
   else version <- "legacy"
 
   biofeaturesIds <- get_biofeature_id(name_In = rownames(module))$id
@@ -167,7 +167,7 @@ plot_module_distribution <- function(compendium = "vespucci",
 #'
 #' @param compendium A string - the selected compendium
 #' @param module A matrix with valid rownames (biofeatureNames) and colnames (samplesetsNames)
-#' @param normalization A string - either 'limma','tpm_sample' or legacy as normalization
+#' @param normalization A string - either 'limma','tpm' or legacy as normalization
 #' @param type  A string -  either 'html'  or 'json
 #' @param plot A logical - it returns the graphics object
 #' @param sorted A logical - it returns sorted index for both bf and ss
@@ -193,8 +193,8 @@ plot_module_heatmap <- function(compendium = "vespucci",
                                 max= 6,
                                 sorted = FALSE){
   if (is.null(module)) stop ("Provide a module.")
-  if (is.null(normalization)) stop ("Normalization has to be either 'limma','tpm_sample' or 'legacy'.")
-  else if (normalization == "limma" | normalization == "tpm_sample") version <- "latest"
+  if (is.null(normalization)) stop ("Normalization has to be either 'limma','tpm' or 'legacy'.")
+  else if (normalization == "limma" | normalization == "tpm") version <- "2.0"
   else version <- "legacy"
 
   biofeaturesIds <- get_biofeature_id(name_In = rownames(module))$id
@@ -243,7 +243,7 @@ plot_module_heatmap <- function(compendium = "vespucci",
 #'
 #' @param module A matrix with valid rownames (biofeatureNames) and colnames (samplesetsNames)
 #' @param plotType A string - see \code{\link{get_available_plot_methods}}
-#' @param normalization A string - either 'limma','tpm_sample' or legacy as normalization
+#' @param normalization A string - either 'limma','tpm' or legacy as normalization
 #' @param threshold A numeric - A Pearson correalation value
 #' @param min A numeric (-6 default)
 #' @param max A numeric (6 default)

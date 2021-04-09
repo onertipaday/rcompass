@@ -13,7 +13,7 @@ totalCounts(
 \arguments{
 \item{compendium}{A string - the selected compendium}
 
-\item{version}{A string - either (default) 'latest' or '2.0'}
+\item{version}{A string - either (default) 'legacy' or '2.0'}
 
 \item{aggregate_type}{A string - an aggregate type (either 'biofeatures','sampleSets',
 'platforms', 'samples', 'experiments')}

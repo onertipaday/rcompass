@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rcompass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -100,13 +100,16 @@
     <li>
       <a href="../articles/usecase01.html">Use Case 01</a>
     </li>
+    <li>
+      <a href="../articles/usecase02.html">Use Case 02</a>
+    </li>
   </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/onertipaday/rcompass/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -132,12 +135,12 @@
     <p>get_sampleset_id</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_sampleset_id</span>(
-  <span class='kw'>compendium</span> <span class='kw'>=</span> <span class='st'>"vespucci"</span>,
-  <span class='kw'>version</span> <span class='kw'>=</span> <span class='st'>"legacy"</span>,
-  <span class='kw'>name_In</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>useIds</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>get_sampleset_id</span><span class='op'>(</span>
+  compendium <span class='op'>=</span> <span class='st'>"vespucci"</span>,
+  normalization <span class='op'>=</span> <span class='st'>"tpm"</span>,
+  name_In <span class='op'>=</span> <span class='cn'>NULL</span>,
+  useIds <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -147,8 +150,8 @@
       <td><p>A string - the selected compendium</p></td>
     </tr>
     <tr>
-      <th>version</th>
-      <td><p>A string - either 'latest' or 'legacy'</p></td>
+      <th>normalization</th>
+      <td><p>A string ('legacy' as default)</p></td>
     </tr>
     <tr>
       <th>name_In</th>
@@ -165,48 +168,12 @@
     <p>A data.frame with two columns: id and name</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>my_ss</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"GSM671720.ch1-vs-GSM671719.ch1"</span>,<span class='st'>"GSM671721.ch1-vs-GSM671719.ch1"</span>
-,<span class='st'>"GSM671722.ch1-vs-GSM671719.ch1"</span>,<span class='st'>"GSM147672.ch1-vs-GSM147690.ch1"</span>)
-<span class='fu'>get_sampleset_id</span>(<span class='kw'>name_In</span> <span class='kw'>=</span> <span class='no'>my_ss</span>)</div><div class='output co'>#&gt;                         id                           name
-#&gt; 1 U2FtcGxlU2V0VHlwZToxNTE= GSM147672.ch1-vs-GSM147690.ch1
-#&gt; 2 U2FtcGxlU2V0VHlwZToxNDg= GSM671720.ch1-vs-GSM671719.ch1
-#&gt; 3 U2FtcGxlU2V0VHlwZToxNDk= GSM671721.ch1-vs-GSM671719.ch1
-#&gt; 4 U2FtcGxlU2V0VHlwZToxNTA= GSM671722.ch1-vs-GSM671719.ch1</div><div class='input'><span class='no'>my_ids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"U2FtcGxlVHlwZToxMDI4"</span>,<span class='st'>"U2FtcGxlVHlwZTozMDQ5"</span>,<span class='st'>"U2FtcGxlVHlwZTo3MTY="</span>)
-<span class='fu'>get_sampleset_id</span>(<span class='kw'>name_In</span> <span class='kw'>=</span> <span class='no'>my_ids</span>, <span class='kw'>useIds</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;                          id                             name
-#&gt; 1  U2FtcGxlU2V0VHlwZTo4Mzk=   GSM881634.ch1-vs-GSM881550.ch1
-#&gt; 2  U2FtcGxlU2V0VHlwZTo4ODk=   GSM881632.ch1-vs-GSM881634.ch1
-#&gt; 3  U2FtcGxlU2V0VHlwZTo4OTA=   GSM881631.ch1-vs-GSM881634.ch1
-#&gt; 4  U2FtcGxlU2V0VHlwZTo4OTE=   GSM881629.ch1-vs-GSM881634.ch1
-#&gt; 5  U2FtcGxlU2V0VHlwZTo4OTI=   GSM881628.ch1-vs-GSM881634.ch1
-#&gt; 6  U2FtcGxlU2V0VHlwZTo4OTM=   GSM881639.ch1-vs-GSM881634.ch1
-#&gt; 7  U2FtcGxlU2V0VHlwZTo4OTQ=   GSM881638.ch1-vs-GSM881634.ch1
-#&gt; 8  U2FtcGxlU2V0VHlwZTo4OTU=   GSM881633.ch1-vs-GSM881634.ch1
-#&gt; 9  U2FtcGxlU2V0VHlwZTo4OTY=   GSM881630.ch1-vs-GSM881634.ch1
-#&gt; 10 U2FtcGxlU2V0VHlwZTo4OTc=   GSM881637.ch1-vs-GSM881634.ch1
-#&gt; 11 U2FtcGxlU2V0VHlwZToxMTg3 GSM1201925.ch1-vs-GSM1201904.ch1
-#&gt; 12 U2FtcGxlU2V0VHlwZToxMTkw GSM1201928.ch1-vs-GSM1201925.ch1
-#&gt; 13 U2FtcGxlU2V0VHlwZToxMTkx GSM1201929.ch1-vs-GSM1201925.ch1
-#&gt; 14 U2FtcGxlU2V0VHlwZToxMTky GSM1201930.ch1-vs-GSM1201925.ch1
-#&gt; 15 U2FtcGxlU2V0VHlwZToxMTkz GSM1201931.ch1-vs-GSM1201925.ch1
-#&gt; 16 U2FtcGxlU2V0VHlwZToxMTk0 GSM1201932.ch1-vs-GSM1201925.ch1
-#&gt; 17 U2FtcGxlU2V0VHlwZToxMTk1 GSM1201933.ch1-vs-GSM1201925.ch1
-#&gt; 18 U2FtcGxlU2V0VHlwZToxMTk2 GSM1201934.ch1-vs-GSM1201925.ch1
-#&gt; 19 U2FtcGxlU2V0VHlwZToxMTk3 GSM1201935.ch1-vs-GSM1201925.ch1
-#&gt; 20 U2FtcGxlU2V0VHlwZToxMTk4 GSM1201936.ch1-vs-GSM1201925.ch1
-#&gt; 21 U2FtcGxlU2V0VHlwZToxMTk5 GSM1201937.ch1-vs-GSM1201925.ch1
-#&gt; 22 U2FtcGxlU2V0VHlwZToxMjAw GSM1201938.ch1-vs-GSM1201925.ch1
-#&gt; 23 U2FtcGxlU2V0VHlwZToxMjAx GSM1201939.ch1-vs-GSM1201925.ch1
-#&gt; 24 U2FtcGxlU2V0VHlwZToxMjAy GSM1201940.ch1-vs-GSM1201925.ch1
-#&gt; 25 U2FtcGxlU2V0VHlwZToxMjAz GSM1201941.ch1-vs-GSM1201925.ch1
-#&gt; 26 U2FtcGxlU2V0VHlwZToxMjA0 GSM1201942.ch1-vs-GSM1201925.ch1
-#&gt; 27 U2FtcGxlU2V0VHlwZToxMjA1 GSM1201943.ch1-vs-GSM1201925.ch1
-#&gt; 28 U2FtcGxlU2V0VHlwZToxMjA2 GSM1201944.ch1-vs-GSM1201925.ch1
-#&gt; 29 U2FtcGxlU2V0VHlwZToxMjA3 GSM1201945.ch1-vs-GSM1201925.ch1
-#&gt; 30 U2FtcGxlU2V0VHlwZToyOTI2 GSM2859589.ch1-vs-GSM2859591.ch1
-#&gt; 31 U2FtcGxlU2V0VHlwZToyOTI3 GSM2859590.ch1-vs-GSM2859591.ch1
-#&gt; 32 U2FtcGxlU2V0VHlwZToyOTI4 GSM2859593.ch1-vs-GSM2859591.ch1
-#&gt; 33 U2FtcGxlU2V0VHlwZToyOTI5 GSM2859588.ch1-vs-GSM2859591.ch1
-#&gt; 34 U2FtcGxlU2V0VHlwZToyOTMw GSM2859592.ch1-vs-GSM2859591.ch1</div></pre>
+    <pre class="examples"><div class='input'><span class='va'>my_ss</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"GSM671720.ch1-vs-GSM671719.ch1"</span>,<span class='st'>"GSM671721.ch1-vs-GSM671719.ch1"</span>
+,<span class='st'>"GSM671722.ch1-vs-GSM671719.ch1"</span>,<span class='st'>"GSM147672.ch1-vs-GSM147690.ch1"</span><span class='op'>)</span>
+<span class='fu'>get_sampleset_id</span><span class='op'>(</span>name_In <span class='op'>=</span> <span class='va'>my_ss</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in names(x) &lt;- value: 'names' attribute [2] must be the same length as the vector [0]</span></div><div class='input'><span class='va'>my_ids</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"U2FtcGxlVHlwZToxMDI4"</span>,<span class='st'>"U2FtcGxlVHlwZTozMDQ5"</span>,<span class='st'>"U2FtcGxlVHlwZTo3MTY="</span><span class='op'>)</span>
+<span class='fu'>get_sampleset_id</span><span class='op'>(</span>name_In <span class='op'>=</span> <span class='va'>my_ids</span>, useIds <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in names(x) &lt;- value: 'names' attribute [2] must be the same length as the vector [0]</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -222,7 +189,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

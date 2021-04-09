@@ -77,7 +77,7 @@ identical(sparql_results[,1],sparql_results_check)
 ```
 As before we can retrieve the sequence associate to our aliases using the ids from the database.
 ```{r}
-knitr::kable(get_biofeature_by_name(name_In = unique(unique( get_annotation_triples(ids = sparql_results[,1])[,1]))))
+# knitr::kable(get_biofeature_by_name(name_In = unique(unique( get_annotation_triples(ids = sparql_results[,1])[,1]))))
 ```
 
 # Create a Module
@@ -93,14 +93,14 @@ A module can be thought as a matrix composed by BiologicalFeature objects (genes
 knitr::kable(module_1, class = 'cell-border stripe')
 ```
 ```{r eval=FALSE, include=FALSE}
-knitr::kable(get_sampleset_id(name_In = colnames(module_1), version="legacy"))
+knitr::kable(get_sampleset_id(name_In = colnames(module_1), normalization = "legacy"))
 ```
 
 # Plot a module
 The easiest way to visualize a module is using a heatmap. The Plot object wraps a module and can return different plot type with different format (the Plotly JSON format or HTML). To see an heatmap embedded in rstudio we can retrieve the HTML code of the Plot (that uses Plotly) and display it directly into the viewer.
 
 ```{r plot_module_heatmap_html, echo = TRUE, eval = FALSE}
-view_plot(module = module_1, plotType = "module_heatmap_expression", min = -7, max = 7)
+# view_plot(module = module_1, plotType = "module_heatmap_expression", min = -7, max = 7)
 ```
 
 Alternatively you can use directly any R function to cluster data and produce an heatmap, e.g.:
@@ -208,7 +208,9 @@ The term [NCIT_C19157](http://purl.obolibrary.org/obo/NCIT_C19157) indicates ***
 Here we retrieve all the samples used based on the sparql query:
 
 ```{r}
-seed_samples <- get_sparql_annotation_triples(target = "sample", query = sparql)[,1]
+seed_samples <- get_sparql_annotation_triples(target = "sample", 
+                                              query = sparql,
+                                              normalization = "legacy")[,1]
 ```
 
 Now we can collect all the Sample Sets in which these samples are used and then create a new module based on Sample Sets only leaving VESPUCCI to figure out which are the genes (Biological Feature objects) that show a consistent up or down-regulated profile.

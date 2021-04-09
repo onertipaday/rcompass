@@ -1,7 +1,7 @@
 #' totalCounts for aggregated types
 #'
 #' @param compendium A string - the selected compendium
-#' @param version A string - either (default) 'latest' or '2.0'
+#' @param version A string - either (default) 'legacy' or '2.0'
 #' @param aggregate_type A string - an aggregate type (either 'biofeatures','sampleSets',
 #' 'platforms', 'samples', 'experiments')
 #'

@@ -18,7 +18,7 @@ plot_module_network(
 
 \item{module}{A matrix with valid rownames (biofeatureNames) and colnames (samplesetsNames)}
 
-\item{normalization}{A string - either 'limma','tpm_sample' or legacy as normalization}
+\item{normalization}{A string - either 'limma','tpm' or legacy as normalization}
 
 \item{type}{A string -  either 'html'  or 'json}
 

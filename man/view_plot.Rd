@@ -18,7 +18,7 @@ view_plot(
 
 \item{plotType}{A string - see \code{\link{get_available_plot_methods}}}
 
-\item{normalization}{A string - either 'limma','tpm_sample' or legacy as normalization}
+\item{normalization}{A string - either 'limma','tpm' or legacy as normalization}
 
 \item{threshold}{A numeric - A Pearson correalation value}
 

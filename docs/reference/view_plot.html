@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rcompass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -100,13 +100,16 @@
     <li>
       <a href="../articles/usecase01.html">Use Case 01</a>
     </li>
+    <li>
+      <a href="../articles/usecase02.html">Use Case 02</a>
+    </li>
   </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/onertipaday/rcompass/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -132,14 +135,14 @@
     <p>Show a plot using the rstudio viewer</p>
     </div>
 
-    <pre class="usage"><span class='fu'>view_plot</span>(
-  <span class='kw'>module</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>plotType</span> <span class='kw'>=</span> <span class='st'>"biological_features_uncentered_correlation_distribution"</span>,
-  <span class='kw'>normalization</span> <span class='kw'>=</span> <span class='st'>"legacy"</span>,
-  <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0.7</span>,
-  <span class='kw'>min</span> <span class='kw'>=</span> -<span class='fl'>6</span>,
-  <span class='kw'>max</span> <span class='kw'>=</span> <span class='fl'>6</span>
-)</pre>
+    <pre class="usage"><span class='fu'>view_plot</span><span class='op'>(</span>
+  module <span class='op'>=</span> <span class='cn'>NULL</span>,
+  plotType <span class='op'>=</span> <span class='st'>"biological_features_uncentered_correlation_distribution"</span>,
+  normalization <span class='op'>=</span> <span class='st'>"legacy"</span>,
+  threshold <span class='op'>=</span> <span class='fl'>0.7</span>,
+  min <span class='op'>=</span> <span class='op'>-</span><span class='fl'>6</span>,
+  max <span class='op'>=</span> <span class='fl'>6</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -154,7 +157,7 @@
     </tr>
     <tr>
       <th>normalization</th>
-      <td><p>A string - either 'limma','tpm_sample' or legacy as normalization</p></td>
+      <td><p>A string - either 'limma','tpm' or legacy as normalization</p></td>
     </tr>
     <tr>
       <th>threshold</th>
@@ -189,7 +192,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

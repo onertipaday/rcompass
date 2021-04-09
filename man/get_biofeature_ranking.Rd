@@ -7,7 +7,7 @@
 get_biofeature_ranking(
   compendium = "vespucci",
   samplesetNames = NULL,
-  version = "legacy",
+  normalization = "legacy",
   rank = "uncentered_correlation",
   rankTarget = "biofeatures",
   top_n = 50,
@@ -19,7 +19,7 @@ get_biofeature_ranking(
 
 \item{samplesetNames}{A vector of character strings (here sampleset names)}
 
-\item{version}{A string ('legacy' as default)}
+\item{normalization}{A string ('legacy' as default)}
 
 \item{rank}{A string ('magnitude' as default) - use \code{\link{get_ranking}}}
 
@@ -36,8 +36,10 @@ A data.frame with three columns id, name, value
 get_biofeature_ranking()
 }
 \examples{
-my_ss <- c("GSM671720.ch1-vs-GSM671719.ch1","GSM671721.ch1-vs-GSM671719.ch1"
-,"GSM671722.ch1-vs-GSM671719.ch1","GSM147672.ch1-vs-GSM147690.ch1")
-get_biofeature_ranking(samplesetNames = my_ss, top_n = 10)
-
+\dontrun{
+my_ss <- c("U2FtcGxlU2V0VHlwZToyMTk4Nw==", "U2FtcGxlU2V0VHlwZToyMTk4OA==",
+"U2FtcGxlU2V0VHlwZToyMTk4OQ==", "U2FtcGxlU2V0VHlwZToyMTk5MA==")
+get_biofeature_ranking(samplesetNames = my_ss, top_n = 10,
+normalization = "tpm", useIds = TRUE)
+}
 }

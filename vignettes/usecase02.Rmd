@@ -1,0 +1,121 @@
+---
+title: "Use Case 02"
+author: Paolo Sonego
+affiliation: https://github.com/onertipaday/rcompass
+package: rcompass
+abstract: > 
+  Beyond basics
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Use Case 02}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteKeywords{Bioinformatics, Gene Expression, data}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+[VESPUCCI](https://vespucci.readthedocs.io/) is the gene expression database for grapevine and we can access it via its GraphQL interface, called [COMPASS](https://compass-.readthedocs.io/). The [rCOMPASS](https://onertipaday.github.io/rcompass/) package is a R package that wraps some functionalities to simplify communication with the COMPASS interface.
+
+In this second exercise we will use [VESPUCCI](https://vespucci.readthedocs.io/) together with some dedicate R packages to create an integrated workflow that goes beyond the functionality that [VESPUCCI](https://vespucci.readthedocs.io/) alone provides.
+
+The goal here is to answer the following question: *which are the "biological processes" that get shut down in fruit?*
+To answer this question we will need to perform a GO enrichment analysis (using [topGO](http://www.bioconductor.org/packages/release/bioc/html/topGO.html) package) on a subset of genes that are not expressed in fruit tissue.
+
+```{r}
+# devtools::install_github("onertipaday/rcompass")
+library(rcompass)
+```
+
+The COMPASS GraphQL endpoint might hosts different compendia. At the moment there is only the VESPUCCI compendium, but there are different version of VESPUCCI, and each version might have data normalized in different ways. In this case there are 2 versions of VESPUCCI, version 1.0 (legacy) and version 2.0 (latest). The latter has data normalized in 2 different ways, TPM normalization and LIMMA (the default one) while the legacy version has the legacy normalization only (i.e. per-sample logratios). For every query we will need to indicate the compendium we want to use, if no version, no normalization and no database is specified the default values will be used.
+
+```{r}
+get_available_compendia()
+```
+
+For this case study we decide to use the TPM normalized values: versionNumber="2.0" and databases.normalizations1="tpm_sample".
+
+
+### Select berry samples
+Using a SPARQL query we can select only the samples annotated as berry using the following triple template where [PO_0030108](http://www.ontobee.org/ontology/PO?iri=http://purl.obolibrary.org/obo/PO_0030108) is the [Plant Ontology](https://www.ebi.ac.uk/ols/ontologies/po) term for ***berry fruit***.
+
+```{r}
+sparql = "SELECT ?s ?p ?o WHERE { ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.obolibrary.org/obo/PO_0030108>}"
+
+berry_samples <- get_sparql_annotation_triples(target = "sample", 
+                                               normalization = "tpm", 
+                                               query = sparql)[,1]
+```
+
+### Get the SampleSets
+Now that we have the samples we need to retrieve the **SampleSets** objects for this specific normalization (the TPM normalization).
+
+```{r}
+berry_ss <- get_sampleset_id(name_In = berry_samples, 
+                             normalization = "tpm",
+                             useIds = TRUE)
+```
+
+### Get the genes
+We will need to use all genes
+
+```{r}
+genes <- get_biofeature_id(name_In = NULL)
+```
+
+### Create the module
+Now that we have both the genes (**BiologicalFeatures**) and the **SampleSets**, we can create our **Module** and retrieve the TPM-normalized values.
+
+```{r}
+module <- create_module(compendium = "vespucci",
+                        normalization = "tpm",
+                        biofeaturesNames = genes$id, 
+                        samplesetNames = berry_ss$id, 
+                        useIds = TRUE)
+```
+
+
+### Format the values
+In order to better handle the module values and get rid of NaNs, we will create a data.frame starting from our Module values (we are using log2), with genes as rows and SampleSets as columns.
+
+```{r}
+# df = pd.DataFrame(np.log2(module.values), columns=[ss.name for ss in module.sample_sets], index=[bf.name for bf in module.biological_features])
+# df = df.replace([np.inf, -np.inf], np.nan)
+# df = df.T.fillna(df.mean(axis=1)).T
+# data = df.replace([np.inf, -np.inf], np.nan).dropna().values
+
+#module_df <- sapply(as.data.frame(module), function(x) replace(x, is.na(x), mean(x, na.rm = TRUE)))
+
+# alternatively (much, much faster!)
+
+module_df <- zoo::na.aggregate(module)
+
+colnames(module_df) <- berry_ss$name; row.names(module_df) <- genes$name
+```
+
+# Gaussian Mixture Model Analysis
+
+## Fit a 2-component Gaussian Mixture Model
+The idea to fit a 2-component Gaussian Mixture Model comes from the [following paper](https://www.embopress.org/doi/full/10.1038/msb.2011.28): Hebenstreit, D., Fang, M., Gu, M., Charoensawan, V., van Oudenaarden, A., & Teichmann, S. A. (2011). *RNA sequencing reveals two major classes of gene expression levels in metazoan cells*. Molecular systems biology, 7(1).
+
+```{r}
+
+```
+
+### Plot the data distribution and the fitted model
+
+```{r}
+
+```
+
+
+
+# Session information
+```{r session information, echo=FALSE}
+print(sessionInfo(), locale = FALSE)
+```

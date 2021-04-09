@@ -6,12 +6,15 @@
 \usage{
 get_sparql_annotation_triples(
   compendium = "vespucci",
+  normalization = "tpm",
   target = NULL,
   query = NULL
 )
 }
 \arguments{
 \item{compendium}{A string - the selected compendium}
+
+\item{normalization}{A string - 'tpm' (as default), 'limma' or 'legacy'}
 
 \item{target}{A string - either sample or biofeature}
 

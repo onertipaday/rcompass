@@ -49,8 +49,8 @@ create_module <- function(compendium = "vespucci",
       samplesetIds <- get_sampleset_id(name_In = samplesetNames)$id
     }
     if(normalization == "legacy") version <- "legacy"
-    else if(normalization %in% c("limma","tpm_sample")) version <- "latest"
-    else stop("normalization HAS TO BE either legacy, limma or tpm_sample.")
+    else if(normalization %in% c("limma","tpm")) version <- "2.0"
+    else stop("normalization HAS TO BE either legacy, limma or tpm.")
     my_query <- paste0('{
     modules(compendium:\"', compendium, '\", version:\"', version, '\", normalization:\"', normalization, '\",
     biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"],
@@ -101,8 +101,8 @@ create_module_bf <- function(compendium = "vespucci",
   #                                        rank = rank,
   #                                        top_n = top_n)$id
   if(normalization == "legacy") version <- "legacy"
-  else if(normalization %in% c("limma","tpm_sample")) version <- "latest"
-  else stop("normalization HAS TO BE either legacy, limma or tpm_sample.")
+  else if(normalization %in% c("limma","tpm")) version <- "2.0"
+  else stop("normalization HAS TO BE either legacy, limma or tpm.")
   my_query <- paste0('{
     modules(compendium:\"', compendium, '\", version:\"', version, '\", normalization:\"', normalization, '\", biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"]), {
       normalizedValues
@@ -149,8 +149,8 @@ create_module_ss <- function(compendium = "vespucci",
   if(useIds) samplesetIds <- samplesetNames
   else samplesetIds <- get_sampleset_id(name_In=samplesetNames)$id
   if(normalization == "legacy") version <- "legacy"
-  else if(normalization %in% c("limma","tpm_sample")) version <- "latest"
-  else stop("normalization HAS TO BE either legacy, limma or tpm_sample.")
+  else if(normalization %in% c("limma","tpm")) version <- "2.0"
+  else stop("normalization HAS TO BE either legacy, limma or tpm.")
   my_query <- paste0('{
     modules(compendium:\"', compendium, '\", version:\"', version, '\", samplesetIds:["', paste0(samplesetIds, collapse = '","'),'\"]), {
       normalizedValues

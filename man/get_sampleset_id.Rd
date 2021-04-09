@@ -6,7 +6,7 @@
 \usage{
 get_sampleset_id(
   compendium = "vespucci",
-  version = "legacy",
+  normalization = "legacy",
   name_In = NULL,
   useIds = FALSE
 )
@@ -14,7 +14,7 @@ get_sampleset_id(
 \arguments{
 \item{compendium}{A string - the selected compendium}
 
-\item{version}{A string - either 'latest' or 'legacy'}
+\item{normalization}{A string ('legacy' as default)}
 
 \item{name_In}{A vector of character strings - either samplesetNames or sampleSetIds}
 
@@ -29,7 +29,7 @@ get_sampleset_id
 \examples{
 my_ss <- c("GSM671720.ch1-vs-GSM671719.ch1","GSM671721.ch1-vs-GSM671719.ch1"
 ,"GSM671722.ch1-vs-GSM671719.ch1","GSM147672.ch1-vs-GSM147690.ch1")
-get_sampleset_id(name_In = my_ss)
+get_sampleset_id(name_In = my_ss, normalization = "legacy")
 my_ids <- c("U2FtcGxlVHlwZToxMDI4","U2FtcGxlVHlwZTozMDQ5","U2FtcGxlVHlwZTo3MTY=")
-get_sampleset_id(name_In = my_ids, useIds = TRUE)
+get_sampleset_id(name_In = my_ids, normalization = "legacy", useIds = TRUE)
 }
