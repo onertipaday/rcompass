@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rcompass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
       </span>
     </div>
 
@@ -39,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -59,13 +59,16 @@
 <li>
       <a href="../articles/usecase01.html">Use Case 01</a>
     </li>
+    <li>
+      <a href="../articles/usecase02.html">Use Case 02</a>
+    </li>
   </ul>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/onertipaday/rcompass/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -79,7 +82,7 @@
 
       
 
-      </header><script src="usecase01_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="usecase01_files/header-attrs-2.7/header-attrs.js"></script><script src="usecase01_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Use Case 01</h1>
@@ -99,12 +102,14 @@
     
 <p><a href="https://vespucci.readthedocs.io/">VESPUCCI</a> is the gene expression database for grapevine and we can access it via its GraphQL interface, called <a href="https://compass-.readthedocs.io/">COMPASS</a>. The <a href="https://onertipaday.github.io/rcompass/">rCOMPASS</a> package is a R package that wraps some functionalities to simplify communication with the COMPASS interface.</p>
 <p>In this first exercise we will perform few basic operations with VESPUCCI. We will create a Module starting from few genes and then automatically extend it by adding more genes. We will also have a look at gene and samples annotations.:</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="co"># devtools::install_github("onertipaday/rcompass")</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rcompass</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># devtools::install_github("onertipaday/rcompass")</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">rcompass</span><span class="op">)</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; This is 'rCOMPASS' version 0.0.3 based on COMPASS version 0.8.5.</span></pre></body></html></div>
+<span class="co">#&gt; This is 'rCOMPASS' version 0.0.4 based on COMPASS version 0.8.7.</span></code></pre></div>
 <p>The COMPASS GraphQL endpoint might hosts different compendia. At the moment there is only the VESPUCCI compendium, but there are different version of VESPUCCI, and each version might have data normalized in different ways. In this case there are 2 versions of VESPUCCI, version 1.0 (legacy) and version 2.0 (latest). The latter has data normalized in 2 different ways, TPM normalization and LIMMA (the default one) while the legacy version has the legacy normalization only (i.e. per-sample logratios). For every query we will need to indicate the compendium we want to use, if no version, no normalization and no database is specified the default values will be used.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="../reference/get_available_compendia.html">get_available_compendia</a></span>()
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/get_available_compendia.html">get_available_compendia</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; $info</span>
 <span class="co">#&gt;                                   name                               fullName </span>
 <span class="co">#&gt;                             "vespucci"                             "VESPUCCI" </span>
@@ -118,17 +123,19 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $versions[[2]]</span>
 <span class="co">#&gt;             versionNumber            databases.name databases.normalizations1 </span>
-<span class="co">#&gt;                     "2.0"          "vitis_vinifera"              "tpm_sample" </span>
+<span class="co">#&gt;                     "2.0"          "vitis_vinifera"                     "tpm" </span>
 <span class="co">#&gt; databases.normalizations2 </span>
-<span class="co">#&gt;         "limma (default)"</span></pre></body></html></div>
+<span class="co">#&gt;         "limma (default)"</span></code></pre></div>
 <div id="genes" class="section level1">
 <h1 class="hasAnchor">
 <a href="#genes" class="anchor"></a>Genes</h1>
 <p>Let’s build our module starting from a bunch of genes that might come from a previous analysis. Gene name used are the VIT_ ids</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">gene_names</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'VIT_00s0246g00220'</span>,<span class="st">'VIT_00s0332g00060'</span>,<span class="st">'VIT_00s0332g00110'</span>,<span class="st">'VIT_00s0332g00160'</span>,<span class="st">'VIT_00s0396g00010'</span>,<span class="st">'VIT_00s0505g00030'</span>,<span class="st">'VIT_00s0505g00060'</span>,<span class="st">'VIT_00s0873g00020'</span>,<span class="st">'VIT_00s0904g00010'</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">gene_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'VIT_00s0246g00220'</span>,<span class="st">'VIT_00s0332g00060'</span>,<span class="st">'VIT_00s0332g00110'</span>,<span class="st">'VIT_00s0332g00160'</span>,<span class="st">'VIT_00s0396g00010'</span>,<span class="st">'VIT_00s0505g00030'</span>,<span class="st">'VIT_00s0505g00060'</span>,<span class="st">'VIT_00s0873g00020'</span>,<span class="st">'VIT_00s0904g00010'</span><span class="op">)</span></code></pre></div>
 <p>We can query the compendium with the list of gene names and get a list of BiologicalFeature objects that represents our genes of interest. The easiest way to know which are the valid filter values to be used is to use the autocompletion (ALT + SPACEBAR) in the COMPASS GraphQL interface at <a href="http://compass.fmach.it/graphql">http://compass.fmach.it/graphql</a>.</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">bf_ids</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/get_biofeature_id.html">get_biofeature_id</a></span>(<span class="kw">compendium</span> <span class="kw">=</span> <span class="st">"vespucci"</span>, <span class="kw">name_In</span> <span class="kw">=</span> <span class="no">gene_names</span>)
-<span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="no">bf_ids</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">bf_ids</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_biofeature_id.html">get_biofeature_id</a></span><span class="op">(</span>compendium <span class="op">=</span> <span class="st">"vespucci"</span>, name_In <span class="op">=</span> <span class="va">gene_names</span><span class="op">)</span> 
+<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">bf_ids</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="27%">
@@ -189,7 +196,8 @@
 </tbody>
 </table>
 <p>Each BiologicalFeature object has several fields. In our case, since the BiologicalFeature represent a gene, we have sequence. The id is the identifier used internally in the database.</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="fu"><a href="../reference/get_biofeature_by_name.html">get_biofeature_by_name</a></span>(<span class="kw">name_In</span> <span class="kw">=</span> <span class="no">gene_names</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_biofeature_by_name.html">get_biofeature_by_name</a></span><span class="op">(</span>name_In <span class="op">=</span> <span class="va">gene_names</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="0%">
@@ -253,95 +261,37 @@
 <h2 class="hasAnchor">
 <a href="#get-ids-from-aliases-using-sparql" class="anchor"></a>Get ids from aliases using SPARQL</h2>
 <p>Genes might have different aliases, all of which are defined in VESPUCCI as annotations. Since annotations (for both genes and samples) are represented as RDF triples using different ontologies, we can perform a <a href="https://en.wikipedia.org/wiki/SPARQL">SPARQL</a> query to retrieve all the biological features (genes here) that has an <strong><em>alias</em></strong> (<a href="https://www.ebi.ac.uk/ols/ontologies/ncit/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FNCIT_C41095">NCIT_C41095</a> term on the NCIT Ontology, <a href="http://purl.obolibrary.org/obo/" class="uri">http://purl.obolibrary.org/obo/</a>) equal to the ones specified in the list.</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">my_query</span> <span class="kw">&lt;-</span> <span class="st">"SELECT ?s ?p ?o WHERE { {?s &lt;http://purl.obolibrary.org/obo/NCIT_C41095&gt; 'B9S8R7'} UNION {?s &lt;http://purl.obolibrary.org/obo/NCIT_C41095&gt; 'Q7M2G6'} UNION {?s &lt;http://purl.obolibrary.org/obo/NCIT_C41095&gt; 'D7SZ93'} UNION {?s &lt;http://purl.obolibrary.org/obo/NCIT_C41095&gt; 'B8XIJ8'} UNION {?s &lt;http://purl.obolibrary.org/obo/NCIT_C41095&gt; 'Vv00s0125g00280'} UNION {?s &lt;http://purl.obolibrary.org/obo/NCIT_C41095&gt; 'Vv00s0187g00140'} UNION {?s &lt;http://purl.obolibrary.org/obo/NCIT_C41095&gt; 'Vv00s0246g00010'} UNION {?s &lt;http://purl.obolibrary.org/obo/NCIT_C41095&gt; 'Vv00s0246g00080'} UNION {?s &lt;http://purl.obolibrary.org/obo/NCIT_C41095&gt; 'Vv00s0438g00020'} UNION {?s &lt;http://purl.obolibrary.org/obo/NCIT_C41095&gt; 'Vv00s0246g00200'} }"</span>
-<span class="no">sparql_results</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/get_sparql_annotation_triples.html">get_sparql_annotation_triples</a></span>(<span class="kw">target</span> <span class="kw">=</span> <span class="st">"biofeature"</span>, <span class="kw">query</span> <span class="kw">=</span> <span class="no">my_query</span>)
-<span class="no">sparql_results</span>[,<span class="fl">1</span>]
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">my_query</span> <span class="op">&lt;-</span> <span class="st">"SELECT ?s ?p ?o WHERE { {?s &lt;http://purl.obolibrary.org/obo/NCIT_C41095&gt; 'B9S8R7'} UNION {?s &lt;http://purl.obolibrary.org/obo/NCIT_C41095&gt; 'Q7M2G6'} UNION {?s &lt;http://purl.obolibrary.org/obo/NCIT_C41095&gt; 'D7SZ93'} UNION {?s &lt;http://purl.obolibrary.org/obo/NCIT_C41095&gt; 'B8XIJ8'} UNION {?s &lt;http://purl.obolibrary.org/obo/NCIT_C41095&gt; 'Vv00s0125g00280'} UNION {?s &lt;http://purl.obolibrary.org/obo/NCIT_C41095&gt; 'Vv00s0187g00140'} UNION {?s &lt;http://purl.obolibrary.org/obo/NCIT_C41095&gt; 'Vv00s0246g00010'} UNION {?s &lt;http://purl.obolibrary.org/obo/NCIT_C41095&gt; 'Vv00s0246g00080'} UNION {?s &lt;http://purl.obolibrary.org/obo/NCIT_C41095&gt; 'Vv00s0438g00020'} UNION {?s &lt;http://purl.obolibrary.org/obo/NCIT_C41095&gt; 'Vv00s0246g00200'} }"</span>
+<span class="va">sparql_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_sparql_annotation_triples.html">get_sparql_annotation_triples</a></span><span class="op">(</span>target <span class="op">=</span> <span class="st">"biofeature"</span>, query <span class="op">=</span> <span class="va">my_query</span><span class="op">)</span> 
+<span class="va">sparql_results</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>  
 <span class="co">#&gt;  [1] "QmlvRmVhdHVyZVR5cGU6MjcwOTc=" "QmlvRmVhdHVyZVR5cGU6Mjg1MDQ="</span>
 <span class="co">#&gt;  [3] "QmlvRmVhdHVyZVR5cGU6Mjc1NTU=" "QmlvRmVhdHVyZVR5cGU6Mjg2MzA="</span>
 <span class="co">#&gt;  [5] "QmlvRmVhdHVyZVR5cGU6MjY0MzM=" "QmlvRmVhdHVyZVR5cGU6MjY4ODM="</span>
 <span class="co">#&gt;  [7] "QmlvRmVhdHVyZVR5cGU6Mjc0MjM=" "QmlvRmVhdHVyZVR5cGU6Mjc0MjY="</span>
-<span class="co">#&gt;  [9] "QmlvRmVhdHVyZVR5cGU6MjgxODM=" "QmlvRmVhdHVyZVR5cGU6Mjc0Mzc="</span></pre></body></html></div>
+<span class="co">#&gt;  [9] "QmlvRmVhdHVyZVR5cGU6MjgxODM=" "QmlvRmVhdHVyZVR5cGU6Mjc0Mzc="</span></code></pre></div>
 <p>alternatively we can use the wrapper function <code><a href="../reference/get_ids_from_alias.html">get_ids_from_alias()</a></code>:</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">aliases</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'B9S8R7'</span>,<span class="st">'Q7M2G6'</span>,<span class="st">'D7SZ93'</span>,<span class="st">'B8XIJ8'</span>,<span class="st">'Vv00s0125g00280'</span>,<span class="st">'Vv00s0187g00140'</span>,<span class="st">'Vv00s0246g00010'</span>,<span class="st">'Vv00s0246g00080'</span>,<span class="st">'Vv00s0438g00020'</span>,<span class="st">'Vv00s0246g00200'</span>)
-<span class="no">sparql_results_check</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/get_ids_from_alias.html">get_ids_from_alias</a></span>(<span class="kw">target</span> <span class="kw">=</span> <span class="st">"biofeature"</span>, <span class="kw">alias_names</span> <span class="kw">=</span> <span class="no">aliases</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">aliases</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'B9S8R7'</span>,<span class="st">'Q7M2G6'</span>,<span class="st">'D7SZ93'</span>,<span class="st">'B8XIJ8'</span>,<span class="st">'Vv00s0125g00280'</span>,<span class="st">'Vv00s0187g00140'</span>,<span class="st">'Vv00s0246g00010'</span>,<span class="st">'Vv00s0246g00080'</span>,<span class="st">'Vv00s0438g00020'</span>,<span class="st">'Vv00s0246g00200'</span><span class="op">)</span>
+<span class="va">sparql_results_check</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_ids_from_alias.html">get_ids_from_alias</a></span><span class="op">(</span>target <span class="op">=</span> <span class="st">"biofeature"</span>, alias_names <span class="op">=</span> <span class="va">aliases</span><span class="op">)</span></code></pre></div>
 <p>and check results are the same:</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/identical.html">identical</a></span>(<span class="no">sparql_results</span>[,<span class="fl">1</span>],<span class="no">sparql_results_check</span>)
-<span class="co">#&gt; [1] TRUE</span></pre></body></html></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/identical.html">identical</a></span><span class="op">(</span><span class="va">sparql_results</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>,<span class="va">sparql_results_check</span><span class="op">)</span>
+<span class="co">#&gt; [1] TRUE</span></code></pre></div>
 <p>As before we can retrieve the sequence associate to our aliases using the ids from the database.</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="fu"><a href="../reference/get_biofeature_by_name.html">get_biofeature_by_name</a></span>(<span class="kw">name_In</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>( <span class="fu"><a href="../reference/get_annotation_triples.html">get_annotation_triples</a></span>(<span class="kw">ids</span> <span class="kw">=</span> <span class="no">sparql_results</span>[,<span class="fl">1</span>])[,<span class="fl">1</span>]))))</pre></body></html></div>
-<table class="table">
-<colgroup>
-<col width="0%">
-<col width="1%">
-<col width="97%">
-</colgroup>
-<thead><tr class="header">
-<th align="left">name</th>
-<th align="left">id</th>
-<th align="left">value</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left">VIT_00s0207g00210</td>
-<td align="left">QmlvRmVhdHVyZVZhbHVlVHlwZToyNjQzMw==</td>
-<td align="left">CATTTCTGTCCAACTCCCCTGCCAACTCGCCAACAATGTCTCTCACCATCCCCACAAACCTCTCCAAGCCCCTCAAGCCAAGGCTCAGCTCTCCCTCCTTCCAAAAGGCAAGGCCTATGATAGTGTGCTCAGCCTCAACTGAGCCACAGCCCACCAACAAATCTCCACTCCAAGCATTCTCTGCTGCGCTTGCACTCTCCTCCATCATTCTAGCTGCTCCAGTCCCTGCCTATGCTGACATCGCCGGGCTCACACCCTGCAAGGAGTCCAAACAGTTCGCCAAGCGGGAGAAGCAGGCACTGAAGAAGCTGGAGTCATCGCTGAAATTGTACGCGCCGGACTCAGCCCCAGCGCTGGCCATAAACGCGACGATCGAGAAGACAAAGAGGAGGTTCACAAACTATGCGAACCAAGGGTTGTTGTGTGGGTCGGATGGGCTGCCACACTTGATAGTGAGCGGGGACCAGAGGCACTGGGGAGAGTTCATTACACCAGGGATATTGTTTTTGTACATTGCTGGATGGATAGGGTGGGTTGGAAGGAGCTATCTGATAGCCATCAGGGATGATAAGAAGCCAACACAGAAGGAGATCATCATTGATGTGCCTTTGGCTTCTAGGTTGGTCTTCAGAGGCTTTATTTGGCCTGTTGCTGCCTACAGAGAGTTCGTCAATGGTGATCTCATTGCCAAGGATGTCTAATTATTTCTCTTCTAAGTTCTACCATCACCACCACCAGTGGGAAAGACTTTGGCTGACAGGAAGACAAGGCCTGAGATTTGGGAGTTGCATGTGAGAGGAAGAGAGGAGTGGAGGCCAGTGGGGGAGAGGTGAAAGATTTCTTGTATTTATTTTGTAAACTTAATTGTATCTAATGCTTTGTGTTGAACACTAAGTCTGCCTTGTCTTTCCAT</td>
-</tr>
-<tr class="even">
-<td align="left">VIT_00s0733g00010</td>
-<td align="left">QmlvRmVhdHVyZVZhbHVlVHlwZToyNjg4Mw==</td>
-<td align="left">CTTGATGGGTCAAAAATGCCCAACTTATCAATTTATTCGGTAAACTATTTGGGGCTCATGTAGCCCATGTCGGGTTAATCGTATTTTGGGTCAGAACAATAAACTTATTTGAAGTGACTCATTTCGTACCAAAGAAGCCCATGTATGAAAAATGATTAATTTTACTTCCCTACCTAGTTACTCTAGATTGGGGGTAGGTCCTGATGGGGAAGTTATAGACACCTTTTCATACTTTGTATTTGGAGTATTTCACTTAATTTTCTCCGCAGCATTAGACTTTGGCGGTATTTATCATGCAGAGAAGCTAGATTCACAAAATTTGATATTATTTTATATATGA</td>
-</tr>
-<tr class="odd">
-<td align="left">VIT_00s2608g00010</td>
-<td align="left">QmlvRmVhdHVyZVZhbHVlVHlwZToyNzA5Nw==</td>
-<td align="left">ATAGTTTGTAAGGTGGTAGGCAGAGACTCCTCCACACTCACTAGCCAGTGATAGCAAAGAAGAGAAAAAAATGGCAGCCTCATTGCAAGCAGCGGCCACGCTGATGCAGCCCACCAAGGTGGGCGTGCCAACTCGTACCAGCCTGCAATTGAGATCTTCCCAGAGTGTATGCAAGGCCTTTGGCTTGGAACCCGCTGGAGCCAGGTTCACTTGCTCTTTGCAGGCTGATCTCAAGGACTTGGCTCACAAGTGCGTGGATGCCACTAAGATCGCCGGCTTTGCTCTTGCCACTTCTGCTCTCCTCGTCTCGGGAGCAAGTGCAGAAGGAGCTCCAAAGCGGCTGACATACGATGAGATCCAGAGTAAGACATACATGGAAGTAAAGGGAACTGGAACTGCTAACCAATGCCCAACCATTGACGGAGGGGTCGATTCATTTGCCTTCAAGTCTGGAAAATACCAACTGAAGAAGTTCTGCTTAGAGCCTACATCATTCACCGTCAAGGCTGAGGGGGTGAGCAAGAATGCTCCACCTGAATTCCAAAACACCAAGCTCATGACTCGGTTAACATACACCCTTGATGAGATTGAGGGACCATTTGAAGTATCTAGTGATGGCACCGTTAAGTTTGAGGAGAAAGATGGAATTGACTATGCTGCTGTCACTGTTCAGCTGCCCGGTGGTGAGCGTGTGCCCTTCCTCTTCACCATCAAACAGCTCGTTGCATCCGGCAAACCAGACAAATTTGGAGGAGAGTTTCTGGTACCATCCTACCGGGGTTCGTCCTTCTTGGACCCAAAGGGAAGGGGTGGTTCAACTGGCTATGACAACGCAGTTGCATTGCCAGCAGGCGGGAGAGGAGATGAGGAAGAACTCAAAAAGGAGAATATAAAGGACGCGTCATCGTCAACAGGGAAAATCACTTTAAGTGTCACCAAAAGCAAGCCTGAGACTGGGGAAGTGATTGGAGTATTTGAGAGCATTCAGCCATCTGACACTGACTTGGGGGCTAAGACACCAAAGGAAGTGAAGATCCAGGGGTTCTGGTACGGTCAGCTTGAGTCGTAGAGCCTTTTCTTTATGGATGTATCTCTCGGTTCAGATTTTGTTTTAAGCTCAAAGGTGTTGCTAAGACTTCCCTGTGACCCCGGACAAGCTGAAACTATTATCTTGTTTGTATATTATTTATTATCATGGCTTCTAATGTAATGTTTGGAGATTTCATAAA</td>
-</tr>
-<tr class="even">
-<td align="left">VIT_00s0965g00010</td>
-<td align="left">QmlvRmVhdHVyZVZhbHVlVHlwZToyNzQyMw==</td>
-<td align="left">TGGGAGGACCCTACTCTCCTAATGCCACTCATTAGGGAATACCGGAAAGACTCATCTTCTTAGTCTTTCTTTTCTGCCGCTTTCTTTCATAACAGAGCCGAGAATAACGGCTGGCATAGAAGTCTCTCACGCGCAAGGAGATGCAGCTGCTGGATGTCACGGTTCTGGGGCGCCATGATCCTTCTCTCTGGAACAATCGAGGGCACTGCCTTCCTTCAGCTTTCAGAGGTAGGGGCTGCATCAATCATCGCTCAGTGAGCTATTTATTGCCACCAATAGCGCTTCGCTTGCATGCAAGGCGGCACGCCAGGTAGAGCTATCGCGCGCGGGCGAAGGAGATGCATTTCTGGTACTGGTAGTACTGGACAAGCTCTCAGGGAATAATCTCTTTCTTATTTCTGCCTTTCTTTCCCATGACGACTAGGAACGGGCAAATCACAAATTTCACTTCGAATTCCGGACCTCAACATCCTGCTGCTCATGGTGTTTCACGATCAGTATTGGAAATGAACGGAGAAGTGGTGGAACGTGCGGAACCACATATTGGATCACTCCAAGGGACTGAGAAATTAATAGAGTACAAAACTTATCTTCAAGCTTTACCTTATTCTGATCGTTCAGAGGGCGATCGCGGAGAGATAACAAGTAGAGCCAACGACCCACTAAGACTAACCGAGTGCACCGGAAAAGAACGGGAACTGGGTCGATCTATTCTATGGCGAAGCATCCGAAGCATAACTGCACACTCACACGATCTTTGCCGAGAGATAGGAGCATTCGGTGGAACCGGTGAACTACACTTGCTTCTGGATAGATGTGTGGGACAGAGGGCTCGTGGTACCTGCTGCCCACCCTTCCCCCTCTGCTTTGAGAACCGATTGGGGATTCAGTGGTGTAATGTTAAGAGGTCGTGCGACATGAAGACATTGATAGCAATATGGGGGAAGTTCCCATCAGGCAACAACGCCTCAAAAAGCGAAGGCCGAGCTGTAGGTCACGTGACCTGCACCGAGTTGGTGGCTGACTGGGCTTTTTCCTTGATCAAAGCAGATCCGCTCGCCTTCTTGTTATCCAAAAGTAGGTCGAATCGGGCTTGCCCCGGAACGTCGAATGAAATAGCGAACGGTCAGCGTGAAGGTTCAGGACTTAGCCGAGCGTTAGCGAAGCTAGATTCTCATAGCAAGGCGCTTCGAGTTAGCAAAGTGCTGTCTGGAGAGAGATGGGACCGGTTATATAATAGGGGGAGCAGATGCAAGCTTTTTCTTTCAATAGCCGGCCAAATGACTACAGGATCATCGGTCTACTCTACCTCAATTCACCATTTCGAACCTTATACAGAAGGTTTTTTCGTACCAGCTCCTTCTACCTATACCGCAGTTGAAGCACCTAAAGGAGAATTTGGTGTCTTTCTGGTCAGTAATGGAAGCAATCGTCCCTACCGTCGTAAAATAAGAGCACCTGGCTCTGCCCATTCACAAGGACTCGATTCTATGTCCAAACATCACATGCCAGCAGATGTGGTCACCATCATAGGTACTCAAGATATTGTGTCTGGAGAGGTAGATAGATAGGACTACTAGTTGCTCAATCAGGACCCTAGCTTTATTGCGAGCCAAAAACCTTGAT</td>
-</tr>
-<tr class="odd">
-<td align="left">VIT_00s0125g00280</td>
-<td align="left">QmlvRmVhdHVyZVZhbHVlVHlwZToyNzQyNg==</td>
-<td align="left">ATGAGGGTGATCTACGATCAGGCTGGTCGGAACGATCAGGGGGAAGTAGGGCTCCTATTGAAACACTTTCTCTCCCTCAAAAGGCGACCAGCTTTCAATACTAGTTGTTACGTTACGCTTTTCGTTGTTCGTTCCGTCGTCGACCCTATCTATGTTTCTACGATGGCCCAAGAGCACGCTCATTCTTCAGCCGTAGAGAGACTTTTGAATTGCGAGGTACCATTACGAGCTCAATATATACGAGTGTTATTCCGTGAAATAACTCGAATTTCAAATCATTCACTTGCTTTAACTACTCATGCTATGGATGTGGGAGCATCAACTCCGTCCCTGTGGGCTTCCGAGGAGCGGGAGAAATTGTTGGAATTCTATGAAAGAGTCTCGGGAGCCAGGATGCATGCCAGTTTCATACGACCAGGTGGAGTGGCACAAGATCTGCCTCTTGGCTTATGTCACGTGACCTGCACCGAGTTGGTGGCTGACTGGGCTTTTTCCTTGATCAAAGCAGATCCGCTCGCCTTCTTGTTATCCAAAAGTAGGTCGAATCGGGCTTGCCCTTCCCCCTATCCCTTATGTTTAGGAGCGGGATCCGCCCAAGAACGACCAGTCTTGTGGTGGTACGGAAGGCACGGACTCCGCGAACGGGTATGTTGGGATTCGCGAAGAGCAGCACCTTACGATGTTCATGACCAATCGGATCCTGACGTACCAGTAGGTACCAGAGGGGATCGCTATGATCGTTACTGTATCCGTATCGAAGAGATGCGACAAAGTGTTCGGATCATTGTGCAATGTCCTAATCAAATGCCTAGTGGCATGATCAAAGCCGATGATCGTAAGCTATGTCCTCCATCACGATGTCGAATGAAACTATCCATGGAATCGTGCGCCGTGTGAAACGTAGATCATCGCCGTTCTTAACCGAGACTCAGGTTAAGCTCCGTCTCGGAACCTTGTGGGGTTAGGAGTAAAGCATCCCGAGGTTGGCGCATCTCGTTGGGCGTGGAGAAGCATTGGGAACCCCAATTTCTTTCTTCGGAGCCGTTTCTTTTCCCGTCCCCCCGCCCCGGCATAGCGCTTCGCTTCCGGTTCTTCGGAAGAATCAACTGACTTCTCCCTTCTTCATTGATCTGGGGGAAAAGGAACCGTCTACCAGTTGGGAAGCTAGACATCAAGTAAGTGGCTTGATGAGTATAACTAAGCTGACATGCCGGAGTTGGCTG</td>
-</tr>
-<tr class="even">
-<td align="left">VIT_00s0187g00140</td>
-<td align="left">QmlvRmVhdHVyZVZhbHVlVHlwZToyNzQzNw==</td>
-<td align="left">AATGAATCGAGATGATAAGGAGTGATCAATGATGCTCGAACATGTACTGTTTGAGTGCCTATTTATTTTCTATCGGTATCTATGGATTGATCATGAGTCGAAATATGGTTAGAGCTCTTATGTGTCTTGAACTTATACTGAATGCAGTTAATATAAATTTCATAACATTTTCTGATTTTTTTTATAATCGACAATTAAAAGGAGACATTTTATCAATTTTTGTTATAGCTATTGCAGCCGCTGAAGCTGCTATTGGACCAGCTATTGTTTCATCAATTTATCGTAATAGAAAATCAACTCGTATCAATCAATCGAATTTGTTGAATAAGTAGTATTAATATAGAAATTTGAATATTCATCAATTCAAATTAGCATGTATAATACGTAACGTATGATTATGTTTGCGAAAACGTAAGAAATCAATCAAAGTATCTTGGCCCTCTCTCATGAGTCGATCCAGAAGTAAATTGATTAGAAAAATTCTGGTAAGTCATTGATTCATCTAGTGTTTAGATATATGATTCATTTATAAATTTACTAGATCGAAATTTTATGACGTTTAAAAATTTATAGATCCAATGTCACATTCAGTAAAGATTTATGATACATGTATAGGGTGTACTCAATGTGTCCGTGCCTGCCCCACAGATGTATTAGAAATGATACCTTGGGACGGATGTAAAGCTAAGCAAATTGCTTATGCTCCAAGGACAGAAGACTGCGTCGGTTGTAAGAGATGTGAATCTGCTTGTCCAACAGATTTCTTGAGTGTTCGGGTTTATTTATGGCATGAAACAACTCGCAGCATGGGTCTAGCTTATTGA</td>
-</tr>
-<tr class="odd">
-<td align="left">VIT_00s0246g00010</td>
-<td align="left">QmlvRmVhdHVyZVZhbHVlVHlwZToyODE4Mw==</td>
-<td align="left">TACAAGATCGAAAAGAATGCATTGGATTCCAAGTGAGATGCCCAAGATAAAAGGAACGAGGTTGGTCTACGATCTTAAGCAGGCTGATTGTAAATCATTTTATCCGAGAGGGCGAATCCATAACAAAAAATCGTGAAGAAAAAAGATAGCGTGACGAGAATTCTCAACTCGAGATGTTAGAAGGTGCAAAATCAATGGGTGCCGGAGCTGCTACAATTGCTTCAGCGGGAGCTGCAATCGATATTGGAAACGTGTTCAGTTCTTTGATCCATTCCATGGCACGAAATCCATCATTGGCTAAACAATCATTTGGTTATGCCATTTTGGGCTTTGCTCTAACCGAAGCTATTGCATCGTTTGCCCCAATGATGTCCTTTCTGATCTCATCCGTATTCTGATCCATTGGACTTTTAGCGGATTCAGAGTTAGGTGGGGCCCTCTCATTCCTTAGGGAGTGAGAGGGGTAAGGGGAAAGGGTGGGTGGCCCCTTGCGTTAGGATGAGTCCAGTGTAGTCGGATGGAACGGAAGCGCATATCAGAAACGAATCTGGCATCTATGGAACCCACGTGCGAACCTTCGGAGCTCGAAGTGAAACGATAACATCCGGAACTTTGAGTTTTCTATGGTAAACTTAGGCGAGTCCTTATAGACTACCTAGTTATGACACCTTGATGCACGTTGGTGCATTGGGGTGCACTGGTTGACGCGGAAGGCCAGCGTGGGGCCATTATAATGAATTAGGTCACATGATCGGGAGTCGTCTGGGTGGGTAGGTCTATCCATACCCCC</td>
-</tr>
-<tr class="even">
-<td align="left">VIT_00s0246g00080</td>
-<td align="left">QmlvRmVhdHVyZVZhbHVlVHlwZToyODUwNA==</td>
-<td align="left">GTCAAAACAAAAAGCGACATTCTCCCTTGACTCAATCTTTGAATTCATTATGGAATTCTCTCCCAGAGCTGCGGAACTCACGACTCTATTAGAAAGTAGGATTACCAACTTTTACACGAATTTGAAAGTGGATGAGATCGGTCGAGTGGTCTCAGTTGGAGATGGGATTGCACGTGTTTATGGATTGAACGAGATTCAAGCTGGGGAAATGGTTGAATTTGCCAGCAGTGTGAAAGGAATAGCCTTGAATCTTGATAATGAGAATGTAGGGATTGTTGTCTTTGGTAGTGATACCGCTATTAAAGAAGGAGATCTTGTCAAGCGCACTGGATCTATTGTGGATGTTCCTGCGGGAAAGGCTATGCTAGGGCGTGTGGTCGACGCGTTGGGAGTACCTATTGATGGAAGAGGGGCTCTAAGCGATCACGAGCGAAGACGTGTCGAAGTGAAAGCCCCTGGGATTATTGAACGTAAATCTATGCACGAGCCTATGCAAACAGGCTTAAAAGCGGTAGATAGCCTGGTTCCTATAGGTCGTGGTCAACGAGAACTTATAATTGGGGACCGACAAACTGGAAAAACAGCTATAGCTATCGATACCATATTAAACCAAAAGCTTTTGAACTCAAAGGCCACCTCTGATAGTGATACATTGTATTGTGTCTATGTAGCAATTGGACAGAAACGCTCAACTGTGGCACAATTAGTTCAAATTCTTTCAGAAGCGAATGCTTTGGAATATTCCATTCTTGTAGCAGCCACCGCTTCGGATCCTGCTCCTCTGCAATTTCTGGCCCCATATTCTGGTTGTGCCATGGGGGAATATTTCCGCCATAATGGAATGCACGCATTAATAATCTATGATGATCTTAGTAAACAGGCGGTGGCATATCGACAAATGTCATTATTGTTACGCCGACCACCAGGCCGTGAGGCTTTCCCAGGCGATCTCTTTTATCGCGGAATTAGACCTGCTATTAACGTCGGCTTATCTGTCAGTCGCGTCGGGTCTGCCGCTCAGTTGAAAGCTATGAAACAAGTCTGCGGTAGTTCAAAATTGGAATTGGCACAATATCGCGAAGTGGCCGCCCTTGCTCAATTTGGGTCAGACCTTGATGCTGCGAATCAGGCATTACTCAATAGAGGTGCAAGGCTTACAGAAGTCTCGAAACAACCACAATATGCACCACTTCCAATTGAAAAACAAATTCTAGTCATTTATGCAGCTGTCAATGGATTCTGTGATCGAATGCCACTAGACAGAATTTCTCAATATGAGAGAGCCATTCCAAGTAGTATAAAACCAGAATTTCTACAATCCCTTTTAGAAAAGGGTGGGTTAACTAATGAAAGAAAGATGGAACCAGATGCATTCTTAAAAGAAAGCGCTTTGCCTTACCTATGA</td>
-</tr>
-<tr class="odd">
-<td align="left">VIT_00s0438g00020</td>
-<td align="left">QmlvRmVhdHVyZVZhbHVlVHlwZToyODYzMA==</td>
-<td align="left">ATTGGGTAGCAGATAAGAGAAGGCGGACTTCTTCAACTCCTCACAAAGACCAAATTACAAACTCATGGCTGTTTCATCAACAGCACCGCCATGTTACTCTCTCTCTACCCTCCATTCTTCCCTTTTCCCTTCCTTCAAATCACGCTCTCTTCTTTCGTTTTCTTCCAAGCCAAAGCGCGCCCAAAGGCGTTTTGTTGTTCAGGCATCTGCAACTCTTGAGTCCAGCAATGGTGCCATTGTTGCTGAAGAGTCCGACAACAGCACTTCATATGGAAGGCAGTTCTTCCCATTGGCTGCCGTGGTTGGTCAGGATGCTATTAAAACTGCTCTGTTGCTTGGGGCTATTGACCGTGAGATCGGAGGGATTGCCATCTCTGGGAAAAGAGGAACTGCCAAGACAGTAATGGCACGTGGACTGCATGCAATTTTGCCCCCAATTGATGTTGTTGTTGGTTCAATAGCAAATGCTGATCCCACCCGCCCAGAAGA</td>
-</tr>
-<tr class="even">
-<td align="left">VIT_00s0246g00200</td>
-<td align="left">QmlvRmVhdHVyZVZhbHVlVHlwZToyNzU1NQ==</td>
-<td align="left">ATAAACAAAAATACCAAATGAAAGAATAAGTTCAATTGACAGTTTTTGATTCATCAATCAATTATTATAGGCGGCACTAACAAAGATAGAGTGACAGAGGTATAAAAAGAAATCAATTCATTATCTGTGGCATCTACCCATACCGTGATTCCGAATCAACAGACCGAATTTCCGAGATATGGCAACTCTTGAGTAAACTAATAATAAAATAAGAACTGTGCCGTGTAACTTCATTCACAAATGAAACTTTCTTTGCATCACTATGAAACAAAATTATAAAATCATTTCTATTTTGATCATTTCTTTTTTAATTGTATCGAATACATTTTCTATTTTGGAACGAAGAGTGCCCTTATAACAATAAAATCTTTTCTTTTACTTTTTACTTTAATTTTAACTCATTAGATTCAATAGTAGGTTCATTCACATAGTATCTCGAATGAGGAAAAAAAAAAAAAGATATCGCACGATCAGATCACTCGAAAAAAGAAAATCTGTATTTTGGTTCAATTATATTCTAAAAAATTCCTATTATCTTTTCCTTTATAGGTTCCACATTTTGTCTTTCCATATTATAACTTCTAGTTAGGTAGTTAGGTCAAGAAAGAACCCTTAGATCTAATACAACAATGCGTGCTTCGCGAATATTGATTGTTCCCATTATTTTATTCATTGTTCTCTTTCTTTCATCGAATACTATCTACTACTGTTACTTGTTATTGGATAACTAAGAAATTCTTTAAAATGAAAAAAATAAAGATTCAAAAAAAAAACCTCTTCTACAACCACAAAAACGAAAAGGCGATTTCTAGATTTCGTATCAATAAAATTGTGGGAATATGATACTCTCTTTCATGAATTATTAAAAAGAAATTTGTCAGATTCACATTTATTTTACCTGATCTTCAGTTTCTAGTCCGAAACCAATAGTAGAGAGAAACCCTATACTACAAGAATTTGAGAGATTTTCTATTGAATGGCACATGGTTCTACATTGATAAGCAACAAGAAAGGAAGAAAGAACTTTTCTAACACTTCATTTCGATACTGATTGAAATTGCGTTGCTGTGGCAGAAGAAGGATAGATATACTGATTCGGTATACTCTAAAGACACCCTCGGTACAATATTGACGATCTCACAAATATCCATTTTCAGTGAATTTCTATTTACTGATCTCATCTTTTACGAAATCGATCGTCCTTTGACTGTACAAGAATATGTGGAGCTGGGCATGTCTGGAAGCACAGGAGAACGTTCTTTTGCTGATATTATTACCTGTATTCGATACTGGGTCATTCATAGCAAACCTATACCTTCCCTATTTACTCGACGAATTAAGGGGGTTAGTTATTCGTCAGCACGAGTTTTGCTTCCTCTTCTGGTATAGGTTTGGAAGTCCTCGGCCAAACGAGTATTTTACAGAGAGCCGACAAGGAATGGAATTAATAACCGGCCGTTTTGATCCTTTTGTTCCGGGAGGAAGAGCCTCTCATCATATTGCAGCAAGGACATTGGGCATATTAGCAGGGCTATTCCATCTTAGTGTCCGTCCGCCCCAACGTCTATACAAAGGATTACGTATGGGCAATATTGAAACCGTCCTTTCCAGTAGTATCGCTGCTGTCTTTTTTGCAGCTTTTGTTGTTGTTGGAACCATGTGGTATGGTTCAGCAACTACCCCGATCGAATTATTTGGTCCCACTCGTTATCAATGGGATCAGGGATACTTCCAGCAAGAAAGATATCTAAGAGTTGGTGCTGGGCTAGCCGAAAATCAAAGTTTTTCAGAAGCTGGGTCTAAAATTCCTGAAAAATGAGCTTTTTATGATTACTTCGGCAATAATCCGGCAAAAGGGGGATTATTCAGAGCGGGCTCAATGGACAACGGGGATGGAATAGCTGTTGGATGGTTAGGACACCCTATCTTTAGAGATAAATAAGGGCGTGCACTTTTTGTACGTCGTATGCCTACTTTTTTTGAAACATTTCCAGTCGTTTTGGTAGACGGAGACGGAATTGTTAGAGCCGATGTTCCTTTAAGAAGGGCAGAATCGAAGTATAGTGTCGAACAAGTAGTGTAACTGTTGAGTTCTATGGCGGCGAACTCAATGGAGTCAATTATAGCGACCCTGCTACTGTGAAAAAT</td>
-</tr>
-</tbody>
-</table>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">#knitr::kable(get_biofeature_by_name(name_In = unique(unique( get_annotation_triples(ids = sparql_results[,1])[,1]))))</span></code></pre></div>
 </div>
 </div>
 <div id="create-a-module" class="section level1">
 <h1 class="hasAnchor">
 <a href="#create-a-module" class="anchor"></a>Create a Module</h1>
 <p>We are now ready to create our first module. If we pass a list of genes (BiologicalFeature objects) it will automatically retrieve the “best” conditions (SampleSet objects).</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">module_1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_module.html">create_module</a></span>(<span class="kw">biofeaturesNames</span><span class="kw">=</span><span class="no">gene_names</span>, <span class="kw">normalization</span> <span class="kw">=</span> <span class="st">"legacy"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">module_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_module.html">create_module</a></span><span class="op">(</span>biofeaturesNames <span class="op">=</span> <span class="va">gene_names</span>, normalization <span class="op">=</span> <span class="st">"legacy"</span><span class="op">)</span></code></pre></div>
 <p>A module can be thought as a matrix composed by BiologicalFeature objects (genes in our case) as rows and SampleSet objects (conditions contrasts in our case) as columns. Each SampleSet, as the name suggests, is composed by 1 or more Sample objects. Since we are using the legacy normalization each SampleSet is composed by 2 samples, one Test sample and one Reference sample and the value associated is the logratio between the Test and Reference for a specific gene (BiologicalFeature).</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="no">module_1</span>, <span class="kw">class</span> <span class="kw">=</span> <span class="st">'cell-border stripe'</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">module_1</span>, class <span class="op">=</span> <span class="st">'cell-border stripe'</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="0%">
@@ -1374,23 +1324,27 @@
 <h1 class="hasAnchor">
 <a href="#plot-a-module" class="anchor"></a>Plot a module</h1>
 <p>The easiest way to visualize a module is using a heatmap. The Plot object wraps a module and can return different plot type with different format (the Plotly JSON format or HTML). To see an heatmap embedded in rstudio we can retrieve the HTML code of the Plot (that uses Plotly) and display it directly into the viewer.</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="../reference/view_plot.html">view_plot</a></span>(<span class="kw">module</span> <span class="kw">=</span> <span class="no">module_1</span>, <span class="kw">plotType</span> <span class="kw">=</span> <span class="st">"module_heatmap_expression"</span>, <span class="kw">min</span> <span class="kw">=</span> -<span class="fl">7</span>, <span class="kw">max</span> <span class="kw">=</span> <span class="fl">7</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/view_plot.html">view_plot</a></span><span class="op">(</span>module <span class="op">=</span> <span class="va">module_1</span>, plotType <span class="op">=</span> <span class="st">"module_heatmap_expression"</span>, min <span class="op">=</span> <span class="op">-</span><span class="fl">7</span>, max <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></code></pre></div>
 <p>Alternatively you can use directly any R function to cluster data and produce an heatmap, e.g.:</p>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="kw pkg">heatmaply</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/heatmaply/man/heatmaply.html">heatmaply</a></span>(<span class="no">module_1</span>,
-                     <span class="kw">showticklabels</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">TRUE</span>, <span class="fl">TRUE</span>),
-                     <span class="kw">fontsize_col</span> <span class="kw">=</span> <span class="fl">7.5</span>,
-                     <span class="kw">col</span> <span class="kw">=</span> <span class="kw pkg">gplots</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/gplots/man/colorpanel.html">greenred</a></span>(<span class="fl">50</span>),
-                     <span class="kw">plot_method</span> <span class="kw">=</span> <span class="st">'plotly'</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">heatmaply</span><span class="fu">::</span><span class="fu"><a href="https://talgalili.github.io/heatmaply/reference/heatmaply.html">heatmaply</a></span><span class="op">(</span><span class="va">module_1</span>,
+                     showticklabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">TRUE</span><span class="op">)</span>,
+                     fontsize_col <span class="op">=</span> <span class="fl">7.5</span>,
+                     col <span class="op">=</span> <span class="fu">gplots</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gplots/man/colorpanel.html">greenred</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span>,
+                     plot_method <span class="op">=</span> <span class="st">'plotly'</span><span class="op">)</span></code></pre></div>
 <p>or</p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">pheat_cl</span> <span class="kw">&lt;-</span> <span class="kw pkg">pheatmap</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html">pheatmap</a></span>(<span class="kw">mat</span> <span class="kw">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span>(<span class="no">module_1</span>))
-<span class="no">pheat_cl</span></pre></body></html></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">pheat_cl</span> <span class="op">&lt;-</span> <span class="fu">pheatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html">pheatmap</a></span><span class="op">(</span>mat <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">module_1</span><span class="op">)</span><span class="op">)</span>
+<span class="va">pheat_cl</span></code></pre></div>
 <p>Biological Features (genes) and Sample Sets (contrasts) have no particular order in a module. But since the heatmap is clustered we can retrieve the sorted list of Biological Features and Sample Sets respectively using the <code>sorted = TRUE</code> parameter.</p>
-<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">my_sorted_indexes</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/plot_module_heatmap.html">plot_module_heatmap</a></span>(<span class="kw">module</span> <span class="kw">=</span> <span class="no">module_1</span>, <span class="kw">plot</span> <span class="kw">=</span> <span class="fl">FALSE</span>, <span class="kw">sorted</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-<span class="no">unsorted_ss</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/get_sampleset_id.html">get_sampleset_id</a></span>(<span class="kw">name_In</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">module_1</span>), <span class="kw">version</span><span class="kw">=</span><span class="st">"legacy"</span>)
-<span class="no">unsorted_bf</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/get_biofeature_id.html">get_biofeature_id</a></span>(<span class="kw">name_In</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/row.names.html">row.names</a></span>(<span class="no">module_1</span>))
-<span class="no">sorted_ss</span> <span class="kw">&lt;-</span> <span class="no">unsorted_ss</span>[<span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span>(<span class="no">my_sorted_indexes</span>$<span class="no">sortedSamplesets</span>,<span class="no">unsorted_ss</span>$<span class="no">id</span>),]
-<span class="no">sorted_bf</span> <span class="kw">&lt;-</span> <span class="no">unsorted_bf</span>[<span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span>(<span class="no">my_sorted_indexes</span>$<span class="no">sortedBiofeatures</span>,<span class="no">unsorted_bf</span>$<span class="no">id</span>),]
-<span class="no">module_1</span>[<span class="no">sorted_bf</span>$<span class="no">name</span>,<span class="no">sorted_ss</span>$<span class="no">name</span>][<span class="fl">1</span>:<span class="fl">5</span>,<span class="fl">1</span>:<span class="fl">5</span>]
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">my_sorted_indexes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_module_heatmap.html">plot_module_heatmap</a></span><span class="op">(</span>module <span class="op">=</span> <span class="va">module_1</span>, plot <span class="op">=</span> <span class="cn">FALSE</span>, sorted <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="va">unsorted_ss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_sampleset_id.html">get_sampleset_id</a></span><span class="op">(</span>name_In <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">module_1</span><span class="op">)</span>, normalization <span class="op">=</span> <span class="st">"legacy"</span><span class="op">)</span>
+<span class="va">unsorted_bf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_biofeature_id.html">get_biofeature_id</a></span><span class="op">(</span>name_In <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/row.names.html">row.names</a></span><span class="op">(</span><span class="va">module_1</span><span class="op">)</span><span class="op">)</span>
+<span class="va">sorted_ss</span> <span class="op">&lt;-</span> <span class="va">unsorted_ss</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span><span class="op">(</span><span class="va">my_sorted_indexes</span><span class="op">$</span><span class="va">sortedSamplesets</span>,<span class="va">unsorted_ss</span><span class="op">$</span><span class="va">id</span><span class="op">)</span>,<span class="op">]</span>
+<span class="va">sorted_bf</span> <span class="op">&lt;-</span> <span class="va">unsorted_bf</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span><span class="op">(</span><span class="va">my_sorted_indexes</span><span class="op">$</span><span class="va">sortedBiofeatures</span>,<span class="va">unsorted_bf</span><span class="op">$</span><span class="va">id</span><span class="op">)</span>,<span class="op">]</span>
+<span class="va">module_1</span><span class="op">[</span><span class="va">sorted_bf</span><span class="op">$</span><span class="va">name</span>,<span class="va">sorted_ss</span><span class="op">$</span><span class="va">name</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>
 <span class="co">#&gt;                   GSM881525.ch1-vs-GSM881520.ch1</span>
 <span class="co">#&gt; VIT_00s0873g00020                         3.2561</span>
 <span class="co">#&gt; VIT_00s0505g00060                         1.0837</span>
@@ -1420,46 +1374,54 @@
 <span class="co">#&gt; VIT_00s0505g00060                           3.5454</span>
 <span class="co">#&gt; VIT_00s0505g00030                           2.8332</span>
 <span class="co">#&gt; VIT_00s0396g00010                           2.4906</span>
-<span class="co">#&gt; VIT_00s0332g00160                           3.2895</span></pre></body></html></div>
+<span class="co">#&gt; VIT_00s0332g00160                           3.2895</span></code></pre></div>
 <p>or, alternatively, you can create a new module with the sorted features (bf and ss) already in place:</p>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">module_1_sorted</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_module.html">create_module</a></span>(<span class="kw">biofeaturesNames</span> <span class="kw">=</span> <span class="no">my_sorted_indexes</span>$<span class="no">sortedBiofeatures</span>,
-                                 <span class="kw">samplesetNames</span> <span class="kw">=</span> <span class="no">my_sorted_indexes</span>$<span class="no">sortedSamplesets</span>,
-                                 <span class="kw">normalization</span> <span class="kw">=</span> <span class="st">"legacy"</span>,
-                                 <span class="kw">useIds</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">module_1_sorted</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_module.html">create_module</a></span><span class="op">(</span>biofeaturesNames <span class="op">=</span> <span class="va">my_sorted_indexes</span><span class="op">$</span><span class="va">sortedBiofeatures</span>, 
+                                 samplesetNames <span class="op">=</span> <span class="va">my_sorted_indexes</span><span class="op">$</span><span class="va">sortedSamplesets</span>, 
+                                 normalization <span class="op">=</span> <span class="st">"legacy"</span>, 
+                                 useIds <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>Alternatively we can use variables containing the order for both rows and columns produced by other heatmap functions.</p>
-<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="no">module_1</span>[<span class="no">pheat_cl</span>$<span class="no">tree_row</span>$<span class="no">order</span>,<span class="no">pheat_cl</span>$<span class="no">tree_col</span>$<span class="no">order</span>])</pre></body></html></div>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">module_1</span><span class="op">[</span><span class="va">pheat_cl</span><span class="op">$</span><span class="va">tree_row</span><span class="op">$</span><span class="va">order</span>,<span class="va">pheat_cl</span><span class="op">$</span><span class="va">tree_col</span><span class="op">$</span><span class="va">order</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="plot-correlation-network" class="section level1">
 <h1 class="hasAnchor">
 <a href="#plot-correlation-network" class="anchor"></a>Plot correlation network</h1>
 <p>Given a module we can plot the correlation network between Biological Features (genes) by looking at the Pearson correlation coefficient of the module’s Sample Sets (contrast). The default threshold is 0.7, but it can be changed. Edges in orange represent anti-correlation.</p>
-<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="fu"><a href="../reference/view_plot.html">view_plot</a></span>(<span class="kw">module</span> <span class="kw">=</span> <span class="no">module_1</span>, <span class="kw">plotType</span> <span class="kw">=</span> <span class="st">"module_coexpression_network"</span>, <span class="kw">threshold</span> <span class="kw">=</span> <span class="fl">0.2</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/view_plot.html">view_plot</a></span><span class="op">(</span>module <span class="op">=</span> <span class="va">module_1</span>, plotType <span class="op">=</span> <span class="st">"module_coexpression_network"</span>, threshold <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="automatically-expand-a-module" class="section level1">
 <h1 class="hasAnchor">
 <a href="#automatically-expand-a-module" class="anchor"></a>Automatically expand a module</h1>
 <p>One of the classic way to use VESPUCCI is to start with a set of genes selected from previous analysis, have a look at the top conditions in which they show a consistent (and strong) behavior and then look for other genes that behave the same across those same conditions. The way to do it is to plot the distribution of genes that show a similar behavior of the module’s genes across the same condition in order pick up a suitable threshold.</p>
-<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="fu"><a href="../reference/view_plot.html">view_plot</a></span>(<span class="kw">module</span> <span class="kw">=</span> <span class="no">module_1</span>, <span class="kw">plotType</span> <span class="kw">=</span> <span class="st">"biological_features_uncentered_correlation_distribution"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/view_plot.html">view_plot</a></span><span class="op">(</span>module <span class="op">=</span> <span class="va">module_1</span>, plotType <span class="op">=</span> <span class="st">"biological_features_uncentered_correlation_distribution"</span><span class="op">)</span></code></pre></div>
 <p>For example, if we pick a threshold around 0.8 (looking at the top plot) we might expect to have around 40 Biological Features (genes) with a score equal or greater than that, to be added in our module. In this case let’s just pick the top 30 genes and create e new module.</p>
-<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">top_bf</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/plot_module_distribution.html">plot_module_distribution</a></span>(<span class="kw">module</span> <span class="kw">=</span> <span class="no">module_1</span>,
-                                   <span class="kw">plotType</span> <span class="kw">=</span> <span class="st">"biological_features_uncentered_correlation_distribution"</span>,
-                                   <span class="kw">getRank</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">top_bf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_module_distribution.html">plot_module_distribution</a></span><span class="op">(</span>module <span class="op">=</span> <span class="va">module_1</span>, 
+                                   plotType <span class="op">=</span> <span class="st">"biological_features_uncentered_correlation_distribution"</span>,
+                                   getRank <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>The new module is created by adding Biological Feature objects to the old module.</p>
-<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="no">module_2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_module.html">create_module</a></span>(<span class="kw">biofeaturesNames</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">module_1</span>), <span class="no">top_bf</span>$<span class="no">name</span>[<span class="fl">1</span>:<span class="fl">30</span>]),
-                          <span class="kw">normalization</span> <span class="kw">=</span> <span class="st">"legacy"</span>,
-                          <span class="kw">useIds</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">module_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_module.html">create_module</a></span><span class="op">(</span>biofeaturesNames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">module_1</span><span class="op">)</span>, <span class="va">top_bf</span><span class="op">$</span><span class="va">name</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">30</span><span class="op">]</span><span class="op">)</span>, 
+                          normalization <span class="op">=</span> <span class="st">"legacy"</span>, 
+                          useIds <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <p>We can have a look at the heatmap of the new module</p>
-<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="fu"><a href="../reference/view_plot.html">view_plot</a></span>(<span class="no">module_2</span>, <span class="kw">plotType</span> <span class="kw">=</span> <span class="st">"module_heatmap_expression"</span> )</pre></body></html></div>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/view_plot.html">view_plot</a></span><span class="op">(</span><span class="va">module_2</span>, plotType <span class="op">=</span> <span class="st">"module_heatmap_expression"</span> <span class="op">)</span></code></pre></div>
 </div>
 <div id="annotations" class="section level1">
 <h1 class="hasAnchor">
 <a href="#annotations" class="anchor"></a>Annotations</h1>
 <p>In VESPUCCI, both Biological Feature (gene) and Sample annotations are represented using <a href="https://en.wikipedia.org/wiki/Resource_Description_Framework">RDF</a>. We can visualize annotation as a set of RDF triples.</p>
-<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="no">samples</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span>(<span class="no">sorted_ss</span>$<span class="no">name</span><span class="kw">[[</span><span class="fl">1</span>]],<span class="kw">split</span> <span class="kw">=</span> <span class="st">"-vs-"</span>)<span class="kw">[[</span><span class="fl">1</span>]]
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">samples</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span><span class="op">(</span><span class="va">sorted_ss</span><span class="op">$</span><span class="va">name</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>,split <span class="op">=</span> <span class="st">"-vs-"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
 <span class="co"># knitr::kable(get_sample_by_gsm(sampleName_In =  samples))</span>
-<span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="fu"><a href="../reference/get_annotation_triples.html">get_annotation_triples</a></span>(<span class="kw">ids</span> <span class="kw">=</span>  <span class="fu"><a href="../reference/get_sample_by_gsm.html">get_sample_by_gsm</a></span>(<span class="kw">sampleName_In</span> <span class="kw">=</span>  <span class="no">samples</span>)$<span class="no">sampleId</span>))
+<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_annotation_triples.html">get_annotation_triples</a></span><span class="op">(</span>ids <span class="op">=</span>  <span class="fu"><a href="../reference/get_sample_by_gsm.html">get_sample_by_gsm</a></span><span class="op">(</span>sampleName_In <span class="op">=</span>  <span class="va">samples</span><span class="op">)</span><span class="op">$</span><span class="va">sampleId</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; Warning in kable_pipe(x = structure(c("GSM881520.ch1", "PO_0009084",</span>
-<span class="co">#&gt; "GSM881520.ch1", : The table should have a header (column names)</span></pre></body></html></div>
+<span class="co">#&gt; "GSM881520.ch1", : The table should have a header (column names)</span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="34%">
@@ -1488,19 +1450,19 @@
 <td align="left">N24b1159352a140d29be6add083b86a9b</td>
 </tr>
 <tr class="odd">
+<td align="left">N24b1159352a140d29be6add083b86a9b</td>
+<td align="left">value</td>
+<td align="left">2008</td>
+</tr>
+<tr class="even">
 <td align="left">UO_0000036</td>
 <td align="left">name</td>
 <td align="left">year</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">N24b1159352a140d29be6add083b86a9b</td>
 <td align="left">unit</td>
 <td align="left">UO_0000036</td>
-</tr>
-<tr class="odd">
-<td align="left">N24b1159352a140d29be6add083b86a9b</td>
-<td align="left">value</td>
-<td align="left">2008</td>
 </tr>
 <tr class="even">
 <td align="left">GSM881520.ch1</td>
@@ -1508,29 +1470,29 @@
 <td align="left">N9164f9da3fbb45609ca4428c366fc6ab</td>
 </tr>
 <tr class="odd">
+<td align="left">ENVO_00000116</td>
+<td align="left">name</td>
+<td align="left">vineyard</td>
+</tr>
+<tr class="even">
+<td align="left">N9164f9da3fbb45609ca4428c366fc6ab</td>
+<td align="left">type</td>
+<td align="left">ENVO_00000116</td>
+</tr>
+<tr class="odd">
 <td align="left">N9164f9da3fbb45609ca4428c366fc6ab</td>
 <td align="left">Geographical Location</td>
 <td align="left">N58dc052d55194b94966d7838bc94337d</td>
 </tr>
 <tr class="even">
-<td align="left">ENVO_00000116</td>
-<td align="left">name</td>
-<td align="left">vineyard</td>
-</tr>
-<tr class="odd">
-<td align="left">N9164f9da3fbb45609ca4428c366fc6ab</td>
-<td align="left">type</td>
-<td align="left">ENVO_00000116</td>
-</tr>
-<tr class="even">
-<td align="left">N58dc052d55194b94966d7838bc94337d</td>
-<td align="left">Description</td>
-<td align="left">PM Soave Italy</td>
-</tr>
-<tr class="odd">
 <td align="left">N58dc052d55194b94966d7838bc94337d</td>
 <td align="left">Longitude</td>
 <td align="left">N819972170b3a427b8c6441ec884ef041</td>
+</tr>
+<tr class="odd">
+<td align="left">N58dc052d55194b94966d7838bc94337d</td>
+<td align="left">Description</td>
+<td align="left">PM Soave Italy</td>
 </tr>
 <tr class="even">
 <td align="left">N58dc052d55194b94966d7838bc94337d</td>
@@ -1573,19 +1535,19 @@
 <td align="left">N030126a04dfe40b0ae9abc4fc31c92b2</td>
 </tr>
 <tr class="even">
+<td align="left">N030126a04dfe40b0ae9abc4fc31c92b2</td>
+<td align="left">value</td>
+<td align="left">2009</td>
+</tr>
+<tr class="odd">
 <td align="left">UO_0000036</td>
 <td align="left">name</td>
 <td align="left">year</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">N030126a04dfe40b0ae9abc4fc31c92b2</td>
 <td align="left">unit</td>
 <td align="left">UO_0000036</td>
-</tr>
-<tr class="even">
-<td align="left">N030126a04dfe40b0ae9abc4fc31c92b2</td>
-<td align="left">value</td>
-<td align="left">2009</td>
 </tr>
 <tr class="odd">
 <td align="left">GSM881520.ch1</td>
@@ -1638,29 +1600,29 @@
 <td align="left">N554f48a4c1c4466f8a2c389c3b21b4cb</td>
 </tr>
 <tr class="odd">
+<td align="left">ENVO_00000116</td>
+<td align="left">name</td>
+<td align="left">vineyard</td>
+</tr>
+<tr class="even">
+<td align="left">N554f48a4c1c4466f8a2c389c3b21b4cb</td>
+<td align="left">type</td>
+<td align="left">ENVO_00000116</td>
+</tr>
+<tr class="odd">
 <td align="left">N554f48a4c1c4466f8a2c389c3b21b4cb</td>
 <td align="left">Geographical Location</td>
 <td align="left">N38d451cbf6e1417eb4df6b7c4322579e</td>
 </tr>
 <tr class="even">
-<td align="left">ENVO_00000116</td>
-<td align="left">name</td>
-<td align="left">vineyard</td>
-</tr>
-<tr class="odd">
-<td align="left">N554f48a4c1c4466f8a2c389c3b21b4cb</td>
-<td align="left">type</td>
-<td align="left">ENVO_00000116</td>
-</tr>
-<tr class="even">
-<td align="left">N38d451cbf6e1417eb4df6b7c4322579e</td>
-<td align="left">Description</td>
-<td align="left">PM Soave Italy</td>
-</tr>
-<tr class="odd">
 <td align="left">N38d451cbf6e1417eb4df6b7c4322579e</td>
 <td align="left">Latitude</td>
 <td align="left">N8340be385b7648579fb4044541f88aa8</td>
+</tr>
+<tr class="odd">
+<td align="left">N38d451cbf6e1417eb4df6b7c4322579e</td>
+<td align="left">Description</td>
+<td align="left">PM Soave Italy</td>
 </tr>
 <tr class="even">
 <td align="left">N38d451cbf6e1417eb4df6b7c4322579e</td>
@@ -1703,19 +1665,19 @@
 <td align="left">N6eba5a16dc934566a90f255ecb534bf7</td>
 </tr>
 <tr class="even">
-<td align="left">N6eba5a16dc934566a90f255ecb534bf7</td>
-<td align="left">value</td>
-<td align="left">2009</td>
-</tr>
-<tr class="odd">
 <td align="left">UO_0000036</td>
 <td align="left">name</td>
 <td align="left">year</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">N6eba5a16dc934566a90f255ecb534bf7</td>
 <td align="left">unit</td>
 <td align="left">UO_0000036</td>
+</tr>
+<tr class="even">
+<td align="left">N6eba5a16dc934566a90f255ecb534bf7</td>
+<td align="left">value</td>
+<td align="left">2009</td>
 </tr>
 <tr class="odd">
 <td align="left">NCBITaxon_29760</td>
@@ -1740,44 +1702,52 @@
 </tbody>
 </table>
 <p>Another way is to visualize the annotation is with RDF graph.</p>
-<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="fu"><a href="../reference/plot_annotation_network.html">plot_annotation_network</a></span>(<span class="kw">ids</span> <span class="kw">=</span> <span class="no">sorted_ss</span>$<span class="no">id</span>, <span class="kw">viewer</span> <span class="kw">=</span> <span class="no">T</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/plot_annotation_network.html">plot_annotation_network</a></span><span class="op">(</span>ids <span class="op">=</span> <span class="va">sorted_ss</span><span class="op">$</span><span class="va">id</span>, viewer <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></code></pre></div>
 <p>Annotations can also be used to retrieve Sample or Biological Features (gene) starting from a SPARQL query. For example we might want to select all seed Sample.</p>
-<div class="sourceCode" id="cb25"><html><body><pre class="r"><span class="no">sparql</span> <span class="kw">=</span> <span class="st">"SELECT ?s ?p ?o WHERE { ?s &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://purl.obolibrary.org/obo/NCIT_C19157&gt; . ?s &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://purl.obolibrary.org/obo/PO_0009010&gt;}"</span></pre></body></html></div>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">sparql</span> <span class="op">=</span> <span class="st">"SELECT ?s ?p ?o WHERE { ?s &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://purl.obolibrary.org/obo/NCIT_C19157&gt; . ?s &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://purl.obolibrary.org/obo/PO_0009010&gt;}"</span></code></pre></div>
 <p>The term <a href="http://purl.obolibrary.org/obo/NCIT_C19157">NCIT_C19157</a> indicates <strong><em>specimen</em></strong> while <a href="http://purl.obolibrary.org/obo/PO_0009010">PO_0009010</a> is the Plant Ontology term for <strong><em>seed</em></strong>. To indicate a gene, instead the term <a href="http://purl.obolibrary.org/obo/NCIT_C16612">NCIT_C16612</a> is used.</p>
 <p>Here we retrieve all the samples used based on the sparql query:</p>
-<div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="no">seed_samples</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/get_sparql_annotation_triples.html">get_sparql_annotation_triples</a></span>(<span class="kw">target</span> <span class="kw">=</span> <span class="st">"sample"</span>, <span class="kw">query</span> <span class="kw">=</span> <span class="no">sparql</span>)[,<span class="fl">1</span>]</pre></body></html></div>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">seed_samples</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_sparql_annotation_triples.html">get_sparql_annotation_triples</a></span><span class="op">(</span>target <span class="op">=</span> <span class="st">"sample"</span>, 
+                                              query <span class="op">=</span> <span class="va">sparql</span>,
+                                              normalization <span class="op">=</span> <span class="st">"legacy"</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span></code></pre></div>
 <p>Now we can collect all the Sample Sets in which these samples are used and then create a new module based on Sample Sets only leaving VESPUCCI to figure out which are the genes (Biological Feature objects) that show a consistent up or down-regulated profile.</p>
-<div class="sourceCode" id="cb27"><html><body><pre class="r"><span class="no">seed_ss</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/get_sampleset_id.html">get_sampleset_id</a></span>(<span class="kw">name_In</span> <span class="kw">=</span> <span class="no">seed_samples</span>, <span class="kw">useIds</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-<span class="no">module_3</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_module.html">create_module</a></span>(<span class="kw">samplesetNames</span> <span class="kw">=</span> <span class="no">seed_ss</span>$<span class="no">name</span>, <span class="kw">useIds</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">seed_ss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_sampleset_id.html">get_sampleset_id</a></span><span class="op">(</span>name_In <span class="op">=</span> <span class="va">seed_samples</span>, useIds <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="va">module_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_module.html">create_module</a></span><span class="op">(</span>samplesetNames <span class="op">=</span> <span class="va">seed_ss</span><span class="op">$</span><span class="va">name</span>, useIds <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <p>And now we can plot the heatmap</p>
-<div class="sourceCode" id="cb28"><html><body><pre class="r"><span class="fu"><a href="../reference/view_plot.html">view_plot</a></span>(<span class="no">module_3</span>, <span class="kw">plotType</span> <span class="kw">=</span> <span class="st">"module_heatmap_expression"</span> )</pre></body></html></div>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/view_plot.html">view_plot</a></span><span class="op">(</span><span class="va">module_3</span>, plotType <span class="op">=</span> <span class="st">"module_heatmap_expression"</span> <span class="op">)</span></code></pre></div>
 </div>
 <div id="session-information" class="section level1">
 <h1 class="hasAnchor">
 <a href="#session-information" class="anchor"></a>Session information</h1>
-<pre><code>#&gt; R version 4.0.2 (2020-06-22)
+<pre><code>#&gt; R version 4.0.4 (2021-02-15)
 #&gt; Platform: x86_64-redhat-linux-gnu (64-bit)
-#&gt; Running under: Fedora 32 (Workstation Edition)
+#&gt; Running under: Fedora 33 (Workstation Edition)
 #&gt; 
 #&gt; Matrix products: default
-#&gt; BLAS/LAPACK: /usr/lib64/libopenblas-r0.3.10.so
+#&gt; BLAS/LAPACK: /usr/lib64/libflexiblas.so.3.0
 #&gt; 
 #&gt; attached base packages:
 #&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
 #&gt; 
 #&gt; other attached packages:
-#&gt; [1] rcompass_0.0.3
+#&gt; [1] rcompass_0.0.4
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
-#&gt;  [1] Rcpp_1.0.5       rstudioapi_0.11  knitr_1.29       magrittr_1.5    
-#&gt;  [5] MASS_7.3-51.6    graphql_1.5      R6_2.4.1         rlang_0.4.7     
-#&gt;  [9] highr_0.8        stringr_1.4.0    tools_4.0.2      xfun_0.16       
-#&gt; [13] htmltools_0.5.0  yaml_2.2.1       assertthat_0.2.1 digest_0.6.25   
-#&gt; [17] rprojroot_1.3-2  httpcode_0.3.0   pkgdown_1.5.1    crayon_1.3.4    
-#&gt; [21] RJSONIO_1.3-1.4  fs_1.5.0         triebeard_0.3.0  ghql_0.1.0      
-#&gt; [25] curl_4.3         crul_1.0.0       memoise_1.1.0    evaluate_0.14   
-#&gt; [29] rmarkdown_2.3    stringi_1.4.6    compiler_4.0.2   urltools_1.7.3  
-#&gt; [33] desc_1.2.0       backports_1.1.9  jsonlite_1.7.0</code></pre>
+#&gt;  [1] Rcpp_1.0.6        knitr_1.31        magrittr_2.0.1    graphql_1.5      
+#&gt;  [5] R6_2.5.0          ragg_1.1.2        rlang_0.4.10      fastmap_1.1.0    
+#&gt;  [9] highr_0.8         stringr_1.4.0     tools_4.0.4       xfun_0.22        
+#&gt; [13] jquerylib_0.1.3   htmltools_0.5.1.1 systemfonts_1.0.1 yaml_2.2.1       
+#&gt; [17] digest_0.6.27     rprojroot_2.0.2   httpcode_0.3.0    pkgdown_1.6.1    
+#&gt; [21] crayon_1.4.1      RJSONIO_1.3-1.4   textshaping_0.3.3 sass_0.3.1       
+#&gt; [25] fs_1.5.0          triebeard_0.3.0   curl_4.3          crul_1.1.0       
+#&gt; [29] ghql_0.1.0        memoise_2.0.0     cachem_1.0.4      evaluate_0.14    
+#&gt; [33] rmarkdown_2.7     stringi_1.5.3     compiler_4.0.4    bslib_0.2.4      
+#&gt; [37] urltools_1.7.3    desc_1.3.0        jsonlite_1.7.2</code></pre>
 </div>
   </div>
 
@@ -1796,7 +1766,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

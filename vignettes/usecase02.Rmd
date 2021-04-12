@@ -88,13 +88,13 @@ In order to better handle the module values and get rid of NaNs, we will create 
 # df = df.replace([np.inf, -np.inf], np.nan)
 # df = df.T.fillna(df.mean(axis=1)).T
 # data = df.replace([np.inf, -np.inf], np.nan).dropna().values
-
 #module_df <- sapply(as.data.frame(module), function(x) replace(x, is.na(x), mean(x, na.rm = TRUE)))
-
+#
 # alternatively (much, much faster!)
-
+library(zoo)
 module_df <- zoo::na.aggregate(module)
-
+# or
+# module_df <- imputeTS::na_mean(module)
 colnames(module_df) <- berry_ss$name; row.names(module_df) <- genes$name
 ```
 

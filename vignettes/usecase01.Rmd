@@ -77,14 +77,14 @@ identical(sparql_results[,1],sparql_results_check)
 ```
 As before we can retrieve the sequence associate to our aliases using the ids from the database.
 ```{r}
-# knitr::kable(get_biofeature_by_name(name_In = unique(unique( get_annotation_triples(ids = sparql_results[,1])[,1]))))
+#knitr::kable(get_biofeature_by_name(name_In = unique(unique( get_annotation_triples(ids = sparql_results[,1])[,1]))))
 ```
 
 # Create a Module
 We are now ready to create our first module. If we pass a list of genes (BiologicalFeature objects) it will automatically retrieve the "best" conditions (SampleSet objects).
 
 ```{r module_1_creation}
-module_1 <- create_module(biofeaturesNames=gene_names, normalization = "legacy")
+module_1 <- create_module(biofeaturesNames = gene_names, normalization = "legacy")
 ```
 
 A module can be thought as a matrix composed by BiologicalFeature objects (genes in our case) as rows and SampleSet objects (conditions contrasts in our case) as columns. Each SampleSet, as the name suggests, is composed by 1 or more Sample objects. Since we are using the legacy normalization each SampleSet is composed by 2 samples, one Test sample and one Reference sample and the value associated is the logratio between the Test and Reference for a specific gene (BiologicalFeature).
@@ -100,7 +100,7 @@ knitr::kable(get_sampleset_id(name_In = colnames(module_1), normalization = "leg
 The easiest way to visualize a module is using a heatmap. The Plot object wraps a module and can return different plot type with different format (the Plotly JSON format or HTML). To see an heatmap embedded in rstudio we can retrieve the HTML code of the Plot (that uses Plotly) and display it directly into the viewer.
 
 ```{r plot_module_heatmap_html, echo = TRUE, eval = FALSE}
-# view_plot(module = module_1, plotType = "module_heatmap_expression", min = -7, max = 7)
+view_plot(module = module_1, plotType = "module_heatmap_expression", min = -7, max = 7)
 ```
 
 Alternatively you can use directly any R function to cluster data and produce an heatmap, e.g.:
@@ -124,7 +124,7 @@ Biological Features (genes) and Sample Sets (contrasts) have no particular order
 
 ```{r}
 my_sorted_indexes <- plot_module_heatmap(module = module_1, plot = FALSE, sorted = TRUE)
-unsorted_ss <- get_sampleset_id(name_In = colnames(module_1), version="legacy")
+unsorted_ss <- get_sampleset_id(name_In = colnames(module_1), normalization = "legacy")
 unsorted_bf <- get_biofeature_id(name_In = row.names(module_1))
 sorted_ss <- unsorted_ss[match(my_sorted_indexes$sortedSamplesets,unsorted_ss$id),]
 sorted_bf <- unsorted_bf[match(my_sorted_indexes$sortedBiofeatures,unsorted_bf$id),]
