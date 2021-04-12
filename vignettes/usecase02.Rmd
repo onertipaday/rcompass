@@ -25,21 +25,18 @@ knitr::opts_chunk$set(
 In this second exercise we will use [VESPUCCI](https://vespucci.readthedocs.io/) together with some dedicate R packages to create an integrated workflow that goes beyond the functionality that [VESPUCCI](https://vespucci.readthedocs.io/) alone provides.
 
 The goal here is to answer the following question: *which are the "biological processes" that get shut down in fruit?*
-To answer this question we will need to perform a GO enrichment analysis (using [topGO](http://www.bioconductor.org/packages/release/bioc/html/topGO.html) package) on a subset of genes that are not expressed in fruit tissue.
+To answer this question we will need to perform a GO enrichment analysis (using, e.g., [topGO](http://www.bioconductor.org/packages/release/bioc/html/topGO.html) package) on a subset of genes that are not expressed in fruit tissue.
 
+For this case study we decide to use the TPM normalized values (databases.normalizations1="tpm") from VESPUCCI version 2.0 (versionNumber "2.0"). See `get_available_compendia()` function to check the 
+different normalization available.
+
+Let's start loading `rcompass`.
 ```{r}
 # devtools::install_github("onertipaday/rcompass")
 library(rcompass)
 ```
 
-The COMPASS GraphQL endpoint might hosts different compendia. At the moment there is only the VESPUCCI compendium, but there are different version of VESPUCCI, and each version might have data normalized in different ways. In this case there are 2 versions of VESPUCCI, version 1.0 (legacy) and version 2.0 (latest). The latter has data normalized in 2 different ways, TPM normalization and LIMMA (the default one) while the legacy version has the legacy normalization only (i.e. per-sample logratios). For every query we will need to indicate the compendium we want to use, if no version, no normalization and no database is specified the default values will be used.
-
-```{r}
-get_available_compendia()
-```
-
-For this case study we decide to use the TPM normalized values: versionNumber="2.0" and databases.normalizations1="tpm_sample".
-
+# Select the samples of interest
 
 ### Select berry samples
 Using a SPARQL query we can select only the samples annotated as berry using the following triple template where [PO_0030108](http://www.ontobee.org/ontology/PO?iri=http://purl.obolibrary.org/obo/PO_0030108) is the [Plant Ontology](https://www.ebi.ac.uk/ols/ontologies/po) term for ***berry fruit***.
@@ -52,8 +49,9 @@ berry_samples <- get_sparql_annotation_triples(target = "sample",
                                                query = sparql)[,1]
 ```
 
-### Get the SampleSets
-Now that we have the samples we need to retrieve the **SampleSets** objects for this specific normalization (the TPM normalization).
+
+## Get the SampleSets
+Now that we have the samples we need to retrieve the **SampleSets** objects for this specific normalization ('tpm' normalization).
 
 ```{r}
 berry_ss <- get_sampleset_id(name_In = berry_samples, 
@@ -61,14 +59,14 @@ berry_ss <- get_sampleset_id(name_In = berry_samples,
                              useIds = TRUE)
 ```
 
-### Get the genes
-We will need to use all genes
+## Get the genes
+We will need all genes
 
 ```{r}
 genes <- get_biofeature_id(name_In = NULL)
 ```
 
-### Create the module
+## Create the module
 Now that we have both the genes (**BiologicalFeatures**) and the **SampleSets**, we can create our **Module** and retrieve the TPM-normalized values.
 
 ```{r}
@@ -80,22 +78,34 @@ module <- create_module(compendium = "vespucci",
 ```
 
 
-### Format the values
+## Format the values
 In order to better handle the module values and get rid of NaNs, we will create a data.frame starting from our Module values (we are using log2), with genes as rows and SampleSets as columns.
 
-```{r}
-# df = pd.DataFrame(np.log2(module.values), columns=[ss.name for ss in module.sample_sets], index=[bf.name for bf in module.biological_features])
-# df = df.replace([np.inf, -np.inf], np.nan)
-# df = df.T.fillna(df.mean(axis=1)).T
-# data = df.replace([np.inf, -np.inf], np.nan).dropna().values
-#module_df <- sapply(as.data.frame(module), function(x) replace(x, is.na(x), mean(x, na.rm = TRUE)))
+```{r format_module}
+# Marco sceglie di sostituire gli Na con la media per riga e non per colonna come fa zoo!!
+df = log2(module)
+i <- which(is.na(df), arr.ind = TRUE)
+df[i] <- rowMeans(df[,-1], na.rm = TRUE)[i[,1]]
+# df[is.nan.data.frame(df)] <- NA
+module_df <- na.omit(df)
+# is.nan.data.frame <- function(x)
+# do.call(cbind, lapply(x, is.nan))
+# df[is.nan.data.frame(df)] <- 0
+#module_df <- df[!is.nan(df),]
+# x_replace <- df
+# x_replace[is.nan(x_replace)] <- 0  
+# junk <- apply(as.data.frame(log2(module)), MARGIN = 2,function(x) replace(x, is.na(x), mean(x, na.rm = TRUE)))
+#junk <- sapply(as.data.frame(module), function(x) replace(x, is.na(x), mean(x, na.rm = TRUE)))
 #
 # alternatively (much, much faster!)
-library(zoo)
-module_df <- zoo::na.aggregate(module)
+# library(zoo)
+# module_df <- zoo::na.aggregate(log2(module))
+# module_df <- zoo::na.aggregate(log2(module),na.rm = TRUE)
+# module_df2 <- log2(zoo::na.aggregate(module))
 # or
-# module_df <- imputeTS::na_mean(module)
+# module_df2 <- imputeTS::na_mean(module)
 colnames(module_df) <- berry_ss$name; row.names(module_df) <- genes$name
+hist(module_df, breaks = 100)
 ```
 
 # Gaussian Mixture Model Analysis
@@ -103,14 +113,158 @@ colnames(module_df) <- berry_ss$name; row.names(module_df) <- genes$name
 ## Fit a 2-component Gaussian Mixture Model
 The idea to fit a 2-component Gaussian Mixture Model comes from the [following paper](https://www.embopress.org/doi/full/10.1038/msb.2011.28): Hebenstreit, D., Fang, M., Gu, M., Charoensawan, V., van Oudenaarden, A., & Teichmann, S. A. (2011). *RNA sequencing reveals two major classes of gene expression levels in metazoan cells*. Molecular systems biology, 7(1).
 
-```{r}
+### using mclust package
+
+```{r mclust_fit_model}
+# gmm = GaussianMixture(n_components=2)
+# gmm.fit(data.reshape(-1, 1))
+# 
+# x = np.linspace(-15, 15, 1000)
+# 
+# y1 = norm.pdf(x, gmm.means_[0][0], np.sqrt(gmm.covariances_[0][0])) * gmm.weights_[0]
+# y2 = norm.pdf(x, gmm.means_[1][0], np.sqrt(gmm.covariances_[1][0])) * gmm.weights_[1]
+library(mclust)
+junk=imputeData(log2(module))
+# moduleMClust <- mclust::Mclust(module_df)
+moduleMClust <- mclust::Mclust(as.vector(junk)) # as.vector similar to python reshape
+moduleMClust <- mclust::Mclust(as.vector(module_df)) # as.vector similar to python reshape
+# moduleMClust=Mclust(tmp,G=2,modelNames = "emModelNames")
+summary(moduleMClust, parameters = TRUE)
+plot(moduleMClust)
+# With univariate data, the covariance can either be equal or unique (variable). With Mclust these options are modelNames = "E" or "V", respectively.
+# 
+# With sklearn, they appear to be covariance_type = "tied" or "full". Possibly, something like this for variable Gaussian mixture model
+
 
 ```
+
+### using mixtools package
+
+```{r mixtools_fit_model}
+library(mixtools)
+set.seed(42) 
+#gmm_fit <- normalmixEM(module_df, lambda = .5, mu = c(55, 80), sigma = 5)
+gmm_fit <-  mixtools::normalmixEM(as.vector(module_df), k = 2)
+
+```
+
+
+
+```{r plot_mixtools}
+library(plotmm)
+plot_mm(gmm_fit, 2) +
+  ggplot2::labs(title = "Berry samples Log2-TPM distribution",
+                subtitle = "Mixtools Object", 
+                x = "log2(TPM)",
+                y = "Density(normalized)")
+# mixmdl <- mixtools::normalmixEM(faithful$waiting, k = 2)
+# plot_cut_point(mixmdl, plot = TRUE, color = "amerika") # produces plot
+# plot_cut_point(mixmdl, plot = TRUE, color = "wesanderson") # produces plot
+# plot_cut_point(mixmdl, plot = TRUE, color = "grayscale") # produces plot
+plot_cut_point(gmm_fit, plot = TRUE, color = "amerika") # produces plot
+```
+
+Or calculate and return only the cut point value by setting plot = FALSE
+
+```{r}
+plot_cut_point(gmm_fit, plot = FALSE)
+```
+
+
+```{r}
+library(EMCluster)
+
+set.seed(123)
+out <- init.EM(module_df, nclass = 2, method = "em.EM")
+
+# visualize and annotate
+plot <- plot_mm(out, data=module_df)
+
+plot + patchwork::plot_annotation(title = "Bivariate Gaussian Mixture Model",
+                                  subtitle = "EMCluster Object")
+```
+
+
+```{r}
+# set up the data (replication of mixtools example for comparability)
+set.seed(123)
+x.1 <- rmvnorm(40, c(0, 0))
+x.2 <- rmvnorm(60, c(3, 4))
+X.1 <- rbind(x.1, x.2)
+mu <- list(c(0, 0), c(3, 4))
+out <- mixtools::mvnormalmixEM(X.1, arbvar = FALSE, mu = mu,epsilon = 1e-02)
+
+# visualize and annotate
+plot <- plot_mm(out)
+
+plot + patchwork::plot_annotation(title = "Bivariate Gaussian Mixture Model",
+                                  subtitle = "Mixtools Object")
+```
+
+
+
 
 ### Plot the data distribution and the fitted model
 
 ```{r}
+# fig = px.histogram(data, x=0, histnorm='probability density')
+# fig.add_trace(go.Scatter(
+#     x=x, y=y1, line=dict(color='red'), name='Highly expressed'
+# ))
+# fig.add_trace(go.Scatter(
+#     x=x, y=y2, line=dict(color='green'), name='Lowly expressed'
+# ))
+# fig.add_trace(go.Scatter(
+#     x=x, y=y1 + y2, line=dict(color='blue'), name='Gaussian mixture'
+# ))
+# fig.update_layout(title='Berry samples Log2-TPM distribution',
+#                    xaxis_title='Log2-TPM',
+#                    yaxis_title='Density (normalized)')
 
+#RColorBrewer::brewer.pal(n=3,name = "Pastel2")[1]
+hist(module_df,
+     breaks = "Sturges",
+     xlim = c(-10,15), 
+     freq = F,
+     col="#B3E2CD")
+
+
+```
+
+### Choose a cutoff for non-expressed genes
+With the following plot we can (arbitrarily) choose a log2-TPM cutoff value to distinguish the portion of expressed genes from the non-expressed genes. We chose to set this cutoff at 0.5, that is roughly the median value of the lowly expressed component.
+
+```{r}
+# [13]
+# 1
+# never_expressed_in_fruit = set(df.index[(df < 0.5).all(axis=1)])
+# This is the percentage of genes not expressed in fruit
+# 
+# [14]
+# 1
+# print(len(never_expressed_in_fruit) / len(genes) * 100.0, '%')
+# 16.20831900996906 %
+```
+
+---
+
+# GO Analysis
+
+Retrieve the GO annotation
+Now it's time to retrieve all the GO terms for our genes and see if in the subset of genes never expressed in fruit there are GO terms that are over-represented compared to the full annotation.
+
+We might want to use the Annotation class to retrieve the annotation for all our genes filtering out the GO terms, but to avoid the overhead given by the large number of genes to use, it is better to perform a lower level operation and go directly with a SPARQL query for the annotation terms we are interested in.
+
+```{r}
+# Annotation(genes[:5]).get_triples()
+```
+
+So let's avoid the previous code that we ran for only 5 genes and go with the following instead, that is a SPARQL query that will return all the triples where a biofeature is annotated (Annotation is the term NCIT_C44272) with a term starting with 'GO_'
+
+
+```{r}
+# sparql = "SELECT ?s ?o WHERE {?s <http://purl.obolibrary.org/obo/NCIT_C44272> ?o FILTER (strstarts(str(?o), 'GO_'))}"
+# triples = Sparql.using(compendium).execute_query(sparql, 'biofeature')
 ```
 
 

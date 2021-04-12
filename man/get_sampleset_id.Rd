@@ -31,5 +31,5 @@ my_ss <- c("GSM671720.ch1-vs-GSM671719.ch1","GSM671721.ch1-vs-GSM671719.ch1"
 ,"GSM671722.ch1-vs-GSM671719.ch1","GSM147672.ch1-vs-GSM147690.ch1")
 get_sampleset_id(name_In = my_ss, normalization = "legacy")
 my_ids <- c("U2FtcGxlVHlwZToxMDI4","U2FtcGxlVHlwZTozMDQ5","U2FtcGxlVHlwZTo3MTY=")
-get_sampleset_id(name_In = my_ids, normalization = "legacy", useIds = TRUE)
+get_sampleset_id(name_In = my_ids, normalization = "limma", useIds = TRUE)
 }
