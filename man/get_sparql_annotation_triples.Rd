@@ -16,7 +16,7 @@ get_sparql_annotation_triples(
 
 \item{normalization}{A string - 'tpm' (as default), 'limma' or 'legacy'}
 
-\item{target}{A string - either sample or biofeature}
+\item{target}{A string - either 'sample' or 'biofeature'}
 
 \item{query}{A string - sparql query}
 }
@@ -31,5 +31,5 @@ my_query=paste0('SELECT ?s ?p ?o WHERE { ?s <http://www.w3.org/1999/02/22-rdf-sy
 '<http://purl.obolibrary.org/obo/NCIT_C19157>',
 '. ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>',
 '<http://purl.obolibrary.org/obo/PO_0009010>}')
-get_sparql_annotation_triples(target = "sample", query = my_query)
+get_sparql_annotation_triples(normalization = "legacy", target = "sample", query = my_query)
 }

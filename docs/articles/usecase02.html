@@ -82,7 +82,9 @@
 
       
 
-      </header><script src="usecase02_files/header-attrs-2.7/header-attrs.js"></script><script src="usecase02_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="usecase02_files/header-attrs-2.7/header-attrs.js"></script><script src="usecase02_files/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="usecase02_files/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="usecase02_files/plotly-binding-4.9.3/plotly.js"></script><script src="usecase02_files/typedarray-0.1/typedarray.min.js"></script><script src="usecase02_files/jquery-3.5.1/jquery.min.js"></script><link href="usecase02_files/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet">
+<script src="usecase02_files/crosstalk-1.1.1/js/crosstalk.min.js"></script><link href="usecase02_files/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="usecase02_files/plotly-main-1.57.1/plotly-latest.min.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Use Case 02</h1>
@@ -102,92 +104,92 @@
     
 <p><a href="https://vespucci.readthedocs.io/">VESPUCCI</a> is the gene expression database for grapevine and we can access it via its GraphQL interface, called <a href="https://compass-.readthedocs.io/">COMPASS</a>. The <a href="https://onertipaday.github.io/rcompass/">rCOMPASS</a> package is a R package that wraps some functionalities to simplify communication with the COMPASS interface.</p>
 <p>In this second exercise we will use <a href="https://vespucci.readthedocs.io/">VESPUCCI</a> together with some dedicate R packages to create an integrated workflow that goes beyond the functionality that <a href="https://vespucci.readthedocs.io/">VESPUCCI</a> alone provides.</p>
-<p>The goal here is to answer the following question: <em>which are the “biological processes” that get shut down in fruit?</em> To answer this question we will need to perform a GO enrichment analysis (using <a href="http://www.bioconductor.org/packages/release/bioc/html/topGO.html">topGO</a> package) on a subset of genes that are not expressed in fruit tissue.</p>
+<p>The goal here is to answer the following question: <em>which are the “biological processes” that get shut down in fruit?</em> To answer this question we will need to perform a GO enrichment analysis (using, e.g., <a href="http://www.bioconductor.org/packages/release/bioc/html/topGO.html">topGO</a> package) on a subset of genes that are not expressed in fruit tissue.</p>
+<p>For this case study we decide to use the TPM normalized values (databases.normalizations1=“tpm”) from VESPUCCI version 2.0 (versionNumber “2.0”). See <code><a href="../reference/get_available_compendia.html">get_available_compendia()</a></code> function to check the different normalization available.</p>
+<p>Let’s start loading <code>rcompass</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># devtools::install_github("onertipaday/rcompass")</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">rcompass</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; This is 'rCOMPASS' version 0.0.4 based on COMPASS version 0.8.7.</span></code></pre></div>
-<p>The COMPASS GraphQL endpoint might hosts different compendia. At the moment there is only the VESPUCCI compendium, but there are different version of VESPUCCI, and each version might have data normalized in different ways. In this case there are 2 versions of VESPUCCI, version 1.0 (legacy) and version 2.0 (latest). The latter has data normalized in 2 different ways, TPM normalization and LIMMA (the default one) while the legacy version has the legacy normalization only (i.e. per-sample logratios). For every query we will need to indicate the compendium we want to use, if no version, no normalization and no database is specified the default values will be used.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/get_available_compendia.html">get_available_compendia</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; $info</span>
-<span class="co">#&gt;                                   name                               fullName </span>
-<span class="co">#&gt;                             "vespucci"                             "VESPUCCI" </span>
-<span class="co">#&gt;                            description </span>
-<span class="co">#&gt; "The Vitis gene expression compendium" </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $versions</span>
-<span class="co">#&gt; $versions[[1]]</span>
-<span class="co">#&gt;            versionNumber           databases.name databases.normalizations </span>
-<span class="co">#&gt;                    "1.0"         "vitis_vinifera"       "legacy (default)" </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $versions[[2]]</span>
-<span class="co">#&gt;             versionNumber            databases.name databases.normalizations1 </span>
-<span class="co">#&gt;                     "2.0"          "vitis_vinifera"                     "tpm" </span>
-<span class="co">#&gt; databases.normalizations2 </span>
-<span class="co">#&gt;         "limma (default)"</span></code></pre></div>
-<p>For this case study we decide to use the TPM normalized values: versionNumber=“2.0” and databases.normalizations1=“tpm_sample”.</p>
+<div id="select-the-samples-of-interest" class="section level1">
+<h1 class="hasAnchor">
+<a href="#select-the-samples-of-interest" class="anchor"></a>Select the samples of interest</h1>
 <div id="select-berry-samples" class="section level3">
 <h3 class="hasAnchor">
 <a href="#select-berry-samples" class="anchor"></a>Select berry samples</h3>
 <p>Using a SPARQL query we can select only the samples annotated as berry using the following triple template where <a href="http://www.ontobee.org/ontology/PO?iri=http://purl.obolibrary.org/obo/PO_0030108">PO_0030108</a> is the <a href="https://www.ebi.ac.uk/ols/ontologies/po">Plant Ontology</a> term for <strong><em>berry fruit</em></strong>.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sparql</span> <span class="op">=</span> <span class="st">"SELECT ?s ?p ?o WHERE { ?s &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://purl.obolibrary.org/obo/PO_0030108&gt;}"</span>
 
 <span class="va">berry_samples</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_sparql_annotation_triples.html">get_sparql_annotation_triples</a></span><span class="op">(</span>target <span class="op">=</span> <span class="st">"sample"</span>, 
                                                normalization <span class="op">=</span> <span class="st">"tpm"</span>, 
                                                query <span class="op">=</span> <span class="va">sparql</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span></code></pre></div>
 </div>
-<div id="get-the-samplesets" class="section level3">
-<h3 class="hasAnchor">
-<a href="#get-the-samplesets" class="anchor"></a>Get the SampleSets</h3>
-<p>Now that we have the samples we need to retrieve the <strong>SampleSets</strong> objects for this specific normalization (the TPM normalization).</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div id="get-the-samplesets" class="section level2">
+<h2 class="hasAnchor">
+<a href="#get-the-samplesets" class="anchor"></a>Get the SampleSets</h2>
+<p>Now that we have the samples we need to retrieve the <strong>SampleSets</strong> objects for this specific normalization (‘tpm’ normalization).</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">berry_ss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_sampleset_id.html">get_sampleset_id</a></span><span class="op">(</span>name_In <span class="op">=</span> <span class="va">berry_samples</span>, 
                              normalization <span class="op">=</span> <span class="st">"tpm"</span>,
                              useIds <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="get-the-genes" class="section level3">
-<h3 class="hasAnchor">
-<a href="#get-the-genes" class="anchor"></a>Get the genes</h3>
-<p>We will need to use all genes</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div id="get-the-genes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#get-the-genes" class="anchor"></a>Get the genes</h2>
+<p>We will need all genes</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_biofeature_id.html">get_biofeature_id</a></span><span class="op">(</span>name_In <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="create-the-module" class="section level3">
-<h3 class="hasAnchor">
-<a href="#create-the-module" class="anchor"></a>Create the module</h3>
+<div id="create-the-module" class="section level2">
+<h2 class="hasAnchor">
+<a href="#create-the-module" class="anchor"></a>Create the module</h2>
 <p>Now that we have both the genes (<strong>BiologicalFeatures</strong>) and the <strong>SampleSets</strong>, we can create our <strong>Module</strong> and retrieve the TPM-normalized values.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">module</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_module.html">create_module</a></span><span class="op">(</span>compendium <span class="op">=</span> <span class="st">"vespucci"</span>,
                         normalization <span class="op">=</span> <span class="st">"tpm"</span>,
                         biofeaturesNames <span class="op">=</span> <span class="va">genes</span><span class="op">$</span><span class="va">id</span>, 
                         samplesetNames <span class="op">=</span> <span class="va">berry_ss</span><span class="op">$</span><span class="va">id</span>, 
-                        useIds <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+                        useIds <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">module</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">berry_ss</span><span class="op">$</span><span class="va">name</span>; <span class="fu"><a href="https://rdrr.io/r/base/row.names.html">row.names</a></span><span class="op">(</span><span class="va">module</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">genes</span><span class="op">$</span><span class="va">name</span></code></pre></div>
 </div>
-<div id="format-the-values" class="section level3">
-<h3 class="hasAnchor">
-<a href="#format-the-values" class="anchor"></a>Format the values</h3>
+<div id="format-the-values" class="section level2">
+<h2 class="hasAnchor">
+<a href="#format-the-values" class="anchor"></a>Format the values</h2>
 <p>In order to better handle the module values and get rid of NaNs, we will create a data.frame starting from our Module values (we are using log2), with genes as rows and SampleSets as columns.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># df = pd.DataFrame(np.log2(module.values), columns=[ss.name for ss in module.sample_sets], index=[bf.name for bf in module.biological_features])</span>
-<span class="co"># df = df.replace([np.inf, -np.inf], np.nan)</span>
-<span class="co"># df = df.T.fillna(df.mean(axis=1)).T</span>
-<span class="co"># data = df.replace([np.inf, -np.inf], np.nan).dropna().values</span>
-<span class="co">#module_df &lt;- sapply(as.data.frame(module), function(x) replace(x, is.na(x), mean(x, na.rm = TRUE)))</span>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">df_base</span> <span class="op">&lt;-</span> <span class="va">module</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">module</span><span class="op">)</span><span class="op">)</span> <span class="op">!=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">module</span><span class="op">)</span>, <span class="op">]</span> <span class="co"># remove rows with only NAs from the matrix</span>
+<span class="co"># substitute NA with row mean (not column mean as in zoo)</span>
+<span class="co"># df = log2(module + 0.01)</span>
+<span class="va">df</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log2</a></span><span class="op">(</span><span class="va">df_base</span> <span class="op">+</span> <span class="fl">0.01</span><span class="op">)</span>
+<span class="va">i</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span>, arr.ind <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="va">df</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowMeans</a></span><span class="op">(</span><span class="va">df</span><span class="op">[</span>,<span class="op">-</span><span class="fl">1</span><span class="op">]</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">]</span>
+<span class="co"># colnames(df) &lt;- berry_ss$name; row.names(df) &lt;- genes$name</span>
+<span class="co"># df[is.nan.data.frame(df)] &lt;- NA</span>
+
+<span class="va">module_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span>
+
+<span class="co"># is.nan.data.frame &lt;- function(x)</span>
+<span class="co"># do.call(cbind, lapply(x, is.nan))</span>
+<span class="co"># df[is.nan.data.frame(df)] &lt;- 0</span>
+<span class="co">#module_df &lt;- df[!is.nan(df),]</span>
+<span class="co"># x_replace &lt;- df</span>
+<span class="co"># x_replace[is.nan(x_replace)] &lt;- 0  </span>
+<span class="co"># junk &lt;- apply(as.data.frame(log2(module)), MARGIN = 2,function(x) replace(x, is.na(x), mean(x, na.rm = TRUE)))</span>
+<span class="co">#junk &lt;- sapply(as.data.frame(module), function(x) replace(x, is.na(x), mean(x, na.rm = TRUE)))</span>
 <span class="co">#</span>
 <span class="co"># alternatively (much, much faster!)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://zoo.R-Forge.R-project.org/">zoo</a></span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'zoo'</span>
-<span class="co">#&gt; The following objects are masked from 'package:base':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     as.Date, as.Date.numeric</span>
-<span class="va">module_df</span> <span class="op">&lt;-</span> <span class="fu">zoo</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/zoo/man/na.aggregate.html">na.aggregate</a></span><span class="op">(</span><span class="va">module</span><span class="op">)</span>
+<span class="co"># library(zoo)</span>
+<span class="co"># module_df &lt;- zoo::na.aggregate(log2(module))</span>
+<span class="co"># module_df &lt;- zoo::na.aggregate(log2(module),na.rm = TRUE)</span>
+<span class="co"># module_df2 &lt;- log2(zoo::na.aggregate(module))</span>
 <span class="co"># or</span>
-<span class="co"># module_df &lt;- imputeTS::na_mean(module)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">module_df</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">berry_ss</span><span class="op">$</span><span class="va">name</span>; <span class="fu"><a href="https://rdrr.io/r/base/row.names.html">row.names</a></span><span class="op">(</span><span class="va">module_df</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">genes</span><span class="op">$</span><span class="va">name</span></code></pre></div>
+<span class="co"># module_df2 &lt;- imputeTS::na_mean(module)</span>
+<span class="co"># colnames(module_df) &lt;- berry_ss$name; row.names(module_df) &lt;- genes$name</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">module_df</span>, breaks <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></code></pre></div>
+<p><img src="usecase02_files/figure-html/format_module-1.png" width="700"></p>
+</div>
 </div>
 <div id="gaussian-mixture-model-analysis" class="section level1">
 <h1 class="hasAnchor">
@@ -196,10 +198,283 @@
 <h2 class="hasAnchor">
 <a href="#fit-a-2-component-gaussian-mixture-model" class="anchor"></a>Fit a 2-component Gaussian Mixture Model</h2>
 <p>The idea to fit a 2-component Gaussian Mixture Model comes from the <a href="https://www.embopress.org/doi/full/10.1038/msb.2011.28">following paper</a>: Hebenstreit, D., Fang, M., Gu, M., Charoensawan, V., van Oudenaarden, A., &amp; Teichmann, S. A. (2011). <em>RNA sequencing reveals two major classes of gene expression levels in metazoan cells</em>. Molecular systems biology, 7(1).</p>
+</div>
+<div id="normal-mixture-models-using-mixtools-package" class="section level2">
+<h2 class="hasAnchor">
+<a href="#normal-mixture-models-using-mixtools-package" class="anchor"></a>Normal Mixture Models using mixtools package</h2>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">mixtools</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span> 
+<span class="va">gmm_fit</span> <span class="op">&lt;-</span>  <span class="fu">mixtools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/mixtools/man/normalmixEM.html">normalmixEM</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/vector.html">as.vector</a></span><span class="op">(</span><span class="va">module_df</span><span class="op">)</span>, k <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
+<span class="co">#&gt; number of iterations= 223</span></code></pre></div>
 <div id="plot-the-data-distribution-and-the-fitted-model" class="section level3">
 <h3 class="hasAnchor">
 <a href="#plot-the-data-distribution-and-the-fitted-model" class="anchor"></a>Plot the data distribution and the fitted model</h3>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://plotly-r.com">plotly</a></span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">plotmm</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/plotmm/man/plot_mm.html">plot_mm</a></span><span class="op">(</span><span class="va">gmm_fit</span>, <span class="fl">2</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Berry samples Log2-TPM distribution"</span>,
+                subtitle <span class="op">=</span> <span class="st">"Mixtools Object"</span>, 
+                x <span class="op">=</span> <span class="st">"log2(TPM)"</span>,
+                y <span class="op">=</span> <span class="st">"Density(normalized)"</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p><img src="usecase02_files/figure-html/plot_mixtools-1.png" width="700"></p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/plotmm/man/plot_cut_point.html">plot_cut_point</a></span><span class="op">(</span><span class="va">gmm_fit</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, color <span class="op">=</span> <span class="st">"amerika"</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Berry samples Log2-TPM distribution"</span>,
+                subtitle <span class="op">=</span> <span class="st">"Mixtools Object"</span>, 
+                x <span class="op">=</span> <span class="st">"log2(TPM)"</span>,
+                y <span class="op">=</span> <span class="st">"Density"</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; Registered S3 method overwritten by 'wesanderson':</span>
+<span class="co">#&gt;   method        from   </span>
+<span class="co">#&gt;   print.palette amerika</span>
+<span class="fu"><a href="https://docs.ropensci.org/plotly/reference/ggplotly.html">ggplotly</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span>
+<span class="co">#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span></code></pre></div>
+<div id="htmlwidget-2e17466358a46d139971" style="width:700px;height:432.632880098888px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2e17466358a46d139971">{"x":{"data":[{"orientation":"v","width":0.80100065675307,"base":0,"x":[-4.80600394051842],"y":[260],"text":"count:   260<br />m$x: -4.8060039","type":"bar","marker":{"autocolorscale":false,"color":"rgba(0,51,121,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.80100065675307,"base":0,"x":[-4.00500328376535],"y":[1786],"text":"count:  1786<br />m$x: -4.0050033","type":"bar","marker":{"autocolorscale":false,"color":"rgba(0,51,143,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.80100065675307,"base":0,"x":[-3.20400262701228],"y":[4991],"text":"count:  4991<br />m$x: -3.2040026","type":"bar","marker":{"autocolorscale":false,"color":"rgba(0,51,164,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.80100065675307,"base":0,"x":[-2.40300197025921],"y":[7544],"text":"count:  7544<br />m$x: -2.4030020","type":"bar","marker":{"autocolorscale":false,"color":"rgba(0,51,186,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753072,"base":0,"x":[-5.60700459727149],"y":[66],"text":"count:    66<br />m$x: -5.6070046","type":"bar","marker":{"autocolorscale":false,"color":"rgba(1,51,100,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753071,"base":0,"x":[-1.60200131350614],"y":[9533],"text":"count:  9533<br />m$x: -1.6020013","type":"bar","marker":{"autocolorscale":false,"color":"rgba(2,54,203,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753071,"base":0,"x":[-0.80100065675307],"y":[10456],"text":"count: 10456<br />m$x: -0.8010007","type":"bar","marker":{"autocolorscale":false,"color":"rgba(15,72,203,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.80100065675307,"base":0,"x":[0],"y":[11009],"text":"count: 11009<br />m$x:  0.0000000","type":"bar","marker":{"autocolorscale":false,"color":"rgba(29,90,203,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.80100065675307,"base":0,"x":[0.80100065675307],"y":[11014],"text":"count: 11014<br />m$x:  0.8010007","type":"bar","marker":{"autocolorscale":false,"color":"rgba(43,108,202,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.80100065675307,"base":0,"x":[1.60200131350614],"y":[11587],"text":"count: 11587<br />m$x:  1.6020013","type":"bar","marker":{"autocolorscale":false,"color":"rgba(56,126,202,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753072,"base":0,"x":[2.40300197025921],"y":[13255],"text":"count: 13255<br />m$x:  2.4030020","type":"bar","marker":{"autocolorscale":false,"color":"rgba(75,143,202,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.80100065675307,"base":0,"x":[3.20400262701228],"y":[15371],"text":"count: 15371<br />m$x:  3.2040026","type":"bar","marker":{"autocolorscale":false,"color":"rgba(103,156,202,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.80100065675307,"base":0,"x":[4.00500328376535],"y":[16517],"text":"count: 16517<br />m$x:  4.0050033","type":"bar","marker":{"autocolorscale":false,"color":"rgba(132,169,202,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753075,"base":0,"x":[17.6220144485675],"y":[1],"text":"count:     1<br />m$x: 17.6220144","type":"bar","marker":{"autocolorscale":false,"color":"rgba(139,0,0,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753068,"base":0,"x":[16.8210137918145],"y":[2],"text":"count:     2<br />m$x: 16.8210138","type":"bar","marker":{"autocolorscale":false,"color":"rgba(153,2,2,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753072,"base":0,"x":[4.80600394051842],"y":[15503],"text":"count: 15503<br />m$x:  4.8060039","type":"bar","marker":{"autocolorscale":false,"color":"rgba(160,182,202,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753073,"base":0,"x":[16.0200131350614],"y":[1],"text":"count:     1<br />m$x: 16.0200131","type":"bar","marker":{"autocolorscale":false,"color":"rgba(168,4,5,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753072,"base":0,"x":[15.2190124783083],"y":[7],"text":"count:     7<br />m$x: 15.2190125","type":"bar","marker":{"autocolorscale":false,"color":"rgba(183,6,8,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.80100065675307,"base":0,"x":[5.60700459727149],"y":[11774],"text":"count: 11774<br />m$x:  5.6070046","type":"bar","marker":{"autocolorscale":false,"color":"rgba(188,195,202,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753068,"base":0,"x":[14.4180118215553],"y":[7],"text":"count:     7<br />m$x: 14.4180118","type":"bar","marker":{"autocolorscale":false,"color":"rgba(198,9,10,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.80100065675307,"base":0,"x":[6.40800525402456],"y":[7570],"text":"count:  7570<br />m$x:  6.4080053","type":"bar","marker":{"autocolorscale":false,"color":"rgba(203,193,193,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.80100065675307,"base":0,"x":[7.20900591077763],"y":[4089],"text":"count:  4089<br />m$x:  7.2090059","type":"bar","marker":{"autocolorscale":false,"color":"rgba(205,176,176,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753068,"base":0,"x":[8.0100065675307],"y":[2032],"text":"count:  2032<br />m$x:  8.0100066","type":"bar","marker":{"autocolorscale":false,"color":"rgba(206,160,160,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753072,"base":0,"x":[8.81100722428377],"y":[1103],"text":"count:  1103<br />m$x:  8.8110072","type":"bar","marker":{"autocolorscale":false,"color":"rgba(208,143,143,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753068,"base":0,"x":[9.61200788103684],"y":[508],"text":"count:   508<br />m$x:  9.6120079","type":"bar","marker":{"autocolorscale":false,"color":"rgba(209,126,126,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753072,"base":0,"x":[13.6170111648022],"y":[13],"text":"count:    13<br />m$x: 13.6170112","type":"bar","marker":{"autocolorscale":false,"color":"rgba(210,14,16,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753072,"base":0,"x":[12.8160105080491],"y":[23],"text":"count:    23<br />m$x: 12.8160105","type":"bar","marker":{"autocolorscale":false,"color":"rgba(210,37,39,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753068,"base":0,"x":[12.0150098512961],"y":[37],"text":"count:    37<br />m$x: 12.0150099","type":"bar","marker":{"autocolorscale":false,"color":"rgba(210,60,61,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753072,"base":0,"x":[11.214009194543],"y":[91],"text":"count:    91<br />m$x: 11.2140092","type":"bar","marker":{"autocolorscale":false,"color":"rgba(210,83,83,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753072,"base":0,"x":[10.4130085377899],"y":[186],"text":"count:   186<br />m$x: 10.4130085","type":"bar","marker":{"autocolorscale":false,"color":"rgba(210,105,106,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1.20151967435825,1.20151967435825],"y":[-825.85,17342.85],"text":"xintercept: 1.20152","type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(0,0,0,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":45.3588829941669,"r":7.30593607305936,"b":41.7789743183678,"l":54.7945205479452},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Berry samples Log2-TPM distribution","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-7.20900591077763,19.2240157620737],"tickmode":"array","ticktext":["0","10"],"tickvals":[-8.88178419700125e-16,10],"categoryorder":"array","categoryarray":["0","10"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"log2(TPM)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-825.85,17342.85],"tickmode":"array","ticktext":["0","5000","10000","15000"],"tickvals":[0,5000,10000,15000],"categoryorder":"array","categoryarray":["0","5000","10000","15000"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"Density","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","showSendToCloud":false},"source":"A","attrs":{"7c374947176":{"x":{},"type":"bar"},"7c3728749444":{"xintercept":{}}},"cur_data":"7c374947176","visdat":{"7c374947176":["function (y) ","x"],"7c3728749444":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
+<div id="choose-a-cutoff-for-non-expressed-genes" class="section level3">
+<h3 class="hasAnchor">
+<a href="#choose-a-cutoff-for-non-expressed-genes" class="anchor"></a>Choose a cutoff for non-expressed genes</h3>
+<p>From the plot we can (arbitrarily) choose a log2-TPM cutoff value to distinguish the portion of expressed genes from the non-expressed genes. We chose to set this cutoff at 0.5, that is roughly the median value of the lowly expressed component.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># return the cut point value by setting plot = FALSE</span>
+<span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/plotmm/man/plot_cut_point.html">plot_cut_point</a></span><span class="op">(</span><span class="va">gmm_fit</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; [1] 1.20152</span>
+<span class="co"># genes with log2(tpm) &lt; 0.5 in all samples</span>
+<span class="va">never_expressed_in_fruit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">module_df</span>, <span class="fl">1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="va">x</span> <span class="op">&lt;</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">module_df</span>, <span class="fl">1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="va">x</span> <span class="op">&lt;</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; FALSE  TRUE </span>
+<span class="co">#&gt; 21450  4606</span>
+<span class="co"># percentage of genes not expressed in fruit</span>
+<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">never_expressed_in_fruit</span><span class="op">)</span><span class="op">[</span><span class="va">never_expressed_in_fruit</span><span class="op">]</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">module_df</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span>, <span class="st">"%"</span><span class="op">)</span>
+<span class="co">#&gt; 17.67731 %</span></code></pre></div>
+</div>
+</div>
+</div>
+<div id="go-analysis" class="section level1">
+<h1 class="hasAnchor">
+<a href="#go-analysis" class="anchor"></a>GO Analysis</h1>
+<div id="retrieve-the-go-annotation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#retrieve-the-go-annotation" class="anchor"></a>Retrieve the GO annotation</h2>
+<p>Now it’s time to retrieve all the GO terms for our genes and see if in the subset of genes never expressed in fruit there are GO terms that are over-represented compared to the full annotation.</p>
+<p>We might want to use the Annotation class to retrieve the annotation for all our genes filtering out the GO terms, but to avoid the overhead given by the large number of genes to use, it is better to perform a lower level operation and go directly with a SPARQL query for the annotation terms we are interested in.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"> <span class="fu"><a href="../reference/get_annotation_triples.html">get_annotation_triples</a></span><span class="op">(</span>ids <span class="op">=</span> <span class="va">genes</span><span class="op">$</span><span class="va">id</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span>
+<span class="co">#&gt;       [,1]                [,2]         [,3]                            </span>
+<span class="co">#&gt;  [1,] "VIT_10s0116g00040" "Gene Alias" "Vv10s0116g00040"               </span>
+<span class="co">#&gt;  [2,] "GO_0006810"        "name"       "transport"                     </span>
+<span class="co">#&gt;  [3,] "VIT_10s0116g00060" "Annotation" "GO_0006810"                    </span>
+<span class="co">#&gt;  [4,] "GO_0019684"        "name"       "photosynthesis, light reaction"</span>
+<span class="co">#&gt;  [5,] "VIT_10s0116g00060" "Annotation" "GO_0019684"                    </span>
+<span class="co">#&gt;  [6,] "GO_0055114"        "name"       "oxidation-reduction process"   </span>
+<span class="co">#&gt;  [7,] "VIT_10s0116g00060" "Annotation" "GO_0055114"                    </span>
+<span class="co">#&gt;  [8,] "VIT_10s0116g00060" "Gene Alias" "1.6.5.3"                       </span>
+<span class="co">#&gt;  [9,] "VIT_10s0116g00060" "Gene Alias" "EC:1.6.5.3"                    </span>
+<span class="co">#&gt; [10,] "VIT_10s0116g00060" "Gene Alias" "VIT_10s0116g00060"             </span>
+<span class="co">#&gt; [11,] "VIT_10s0116g00060" "Gene Alias" "Vv10s0116g00060"               </span>
+<span class="co">#&gt; [12,] "VIT_10s0116g00070" "Gene Alias" "E0CVJ7"                        </span>
+<span class="co">#&gt; [13,] "VIT_10s0116g00070" "Gene Alias" "Vv10s0116g00070"               </span>
+<span class="co">#&gt; [14,] "VIT_10s0116g00080" "Gene Alias" "B9HI95"                        </span>
+<span class="co">#&gt; [15,] "VIT_10s0116g00080" "Gene Alias" "POPTR_0008s08900g"             </span>
+<span class="co">#&gt; [16,] "VIT_10s0116g00080" "Gene Alias" "Vv10s0116g00080"               </span>
+<span class="co">#&gt; [17,] "GO_0048544"        "name"       "recognition of pollen"         </span>
+<span class="co">#&gt; [18,] "VIT_10s0116g00150" "Annotation" "GO_0048544"                    </span>
+<span class="co">#&gt; [19,] "GO_0006468"        "name"       "protein phosphorylation"       </span>
+<span class="co">#&gt; [20,] "VIT_10s0116g00150" "Annotation" "GO_0006468"                    </span>
+<span class="co">#&gt; [21,] "VIT_10s0116g00150" "Gene Alias" "B9RXT0"                        </span>
+<span class="co">#&gt; [22,] "VIT_10s0116g00150" "Gene Alias" "Vv10s0116g00150"</span></code></pre></div>
+<p>So let’s avoid the previous code that we ran for only 5 genes and go with the following instead, that is a SPARQL query that will return all the triples where a biofeature is annotated (Annotation is the term NCIT_C44272) with a term starting with ‘GO_’</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">sparql</span> <span class="op">=</span> <span class="st">"SELECT ?s ?o WHERE {?s &lt;http://purl.obolibrary.org/obo/NCIT_C44272&gt; ?o FILTER (strstarts(str(?o), 'GO_'))}"</span>
+
+<span class="va">triples</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_sparql_annotation_triples.html">get_sparql_annotation_triples</a></span><span class="op">(</span>compendium <span class="op">=</span> <span class="st">"vespucci"</span>,
+                                         target <span class="op">=</span> <span class="st">"biofeature"</span>, 
+                                         normalization <span class="op">=</span> <span class="st">"tpm"</span>,
+                                         query <span class="op">=</span> <span class="va">sparql</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">triples</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"id"</span>,<span class="st">"GOTERM"</span><span class="op">)</span>
+<span class="va">triples</span><span class="op">$</span><span class="va">GOTERM</span> <span class="op">&lt;-</span> <span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace</a></span><span class="op">(</span><span class="va">triples</span><span class="op">$</span><span class="va">GOTERM</span>,<span class="st">"_"</span>,<span class="st">":"</span><span class="op">)</span></code></pre></div>
+<p>Now let’s create the association object required by goatools and get rid of the underscore ’_’ in the annotation terms and replace it with the ‘:’ symbol.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">go_assoc</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">full_join</a></span><span class="op">(</span><span class="va">triples</span>, <span class="va">genes</span><span class="op">)</span>
+<span class="co">#&gt; Joining, by = "id"</span></code></pre></div>
+</div>
+<div id="setup-the-go-analysis" class="section level2">
+<h2 class="hasAnchor">
+<a href="#setup-the-go-analysis" class="anchor"></a>Setup the GO analysis</h2>
+<p>To start the GO analysis we will download the basic GO and the Plant Slim GO and create both DAGs objects.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># goslim_url = 'http://current.geneontology.org/ontology/subsets/goslim_plant.obo'</span>
+<span class="co"># r = requests.get(goslim_url, allow_redirects=True)</span>
+<span class="co"># open('goslim_plant.obo', 'wb').write(r.content)</span>
+<span class="co"># oboslimdag = GODag("goslim_plant.obo")</span>
+<span class="co"># </span>
+<span class="co"># obo_fname = download_go_basic_obo()</span>
+<span class="co"># obodag = GODag("go-basic.obo")</span>
+<span class="co"># Functional Enrichment Analysis (Gene Ontology)</span>
+<span class="co"># goslim_url = 'http://current.geneontology.org/ontology/subsets/goslim_plant.obo'</span>
+<span class="co"># GO_plant_slim &lt;- read.table("/home/paolo/Dropbox/Lavoro/FEM/ClaudioMoser/ZerayeHaile/ANALYSIS/references/GO_plant_slim_fixed.tab", sep="\t", header=FALSE, stringsAsFactors=FALSE)</span>
+<span class="co"># colnames(GO_plant_slim)&lt;-c("ID","GOTERM","GOdescription","Category")</span>
+<span class="co"># library("plyr")</span>
+<span class="co"># tmp &lt;- dlply(GO_plant_slim,.(GOTERM))</span>
+<span class="co"># my_GO_ann_lib &lt;- lapply(tmp, function(x){ subset(x, select=1, drop=TRUE) }) # drop=T ==&gt; genes in a vector of characters</span>
+<span class="co"># or using</span>
+<span class="co"># library(magrittr)</span>
+<span class="co"># tmp &lt;- GO_plant_slim %&gt;% dlply(.(GOTERM))</span>
+<span class="co"># my_GO_ann_lib &lt;- lapply(tmp, function(x){ subset(x, select=1, drop=TRUE) }) # drop=T ==&gt; genes in a vector of characters</span>
+<span class="co"># library("topGO")</span>
+<span class="co"># geneID2GO &lt;- inverseList(my_GO_ann_lib) # we need this object fot the annotation since there is no vitis.db</span>
+<span class="co"># geneNames &lt;- names(geneID2GO) # As Universe I select all the genes in the genome</span>
+<span class="co"># head(geneNames)</span>
+<span class="co"># # ------------------------------------------------------------------------------</span>
+<span class="co"># myInterestingGenes &lt;- as.character(scan("comuniInd_ripening.csv",w="ch"))</span>
+<span class="co"># geneList &lt;- factor(as.integer(geneNames %in% myInterestingGenes))</span>
+<span class="co"># names(geneList) &lt;- geneNames</span>
+<span class="co"># str(geneList)</span></code></pre></div>
+</div>
+<div id="prepare-goenrichment-study-with-the-plant-slim" class="section level2">
+<h2 class="hasAnchor">
+<a href="#prepare-goenrichment-study-with-the-plant-slim" class="anchor"></a>Prepare GOEnrichment study with the Plant Slim</h2>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># study = GOEnrichmentStudyNS(</span>
+<span class="co">#         go_assoc['ALL'].keys(),</span>
+<span class="co">#         go_assoc,</span>
+<span class="co">#         oboslimdag,</span>
+<span class="co">#         propagate_counts = False,</span>
+<span class="co">#         alpha = 0.05,</span>
+<span class="co">#         methods = ['fdr_bh'])</span></code></pre></div>
+<p>Perform the enrichment analysis using our subset of genes and display the GO graph result</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># results_all = study.run_study(never_expressed_in_fruit, prt=None)</span>
+<span class="co"># goea_results_sig = [r for r in goea_results_all if r.p_fdr_bh &lt; 0.05]</span>
+<span class="co"># plot_results("never_expressed_in_fruit_slim_{NS}.png", goea_results_sig)</span>
+<span class="co"># Image(filename='never_expressed_in_fruit_slim_BP.png')</span></code></pre></div>
+<p>Let’s perform the same analysis but with the full GO DAG this time.</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># study = GOEnrichmentStudyNS(</span>
+<span class="co">#         go_assoc['ALL'].keys(),</span>
+<span class="co">#         go_assoc,</span>
+<span class="co">#         obodag,</span>
+<span class="co">#         propagate_counts = False,</span>
+<span class="co">#         alpha = 0.05,</span>
+<span class="co">#         methods = ['fdr_bh'])</span>
+<span class="co"># goea_results_all = study.run_study(never_expressed_in_fruit, prt=None)</span>
+<span class="co"># goea_results_sig = [r for r in goea_results_all if r.p_fdr_bh &lt; 0.05]</span>
+<span class="co"># plot_results("never_expressed_in_fruit_complete_{NS}.png", goea_results_sig)</span>
+<span class="co"># Image(filename='never_expressed_in_fruit_complete_BP.png')</span></code></pre></div>
+<hr>
+</div>
+</div>
+<div id="gofuncr" class="section level1">
+<h1 class="hasAnchor">
+<a href="#gofuncr" class="anchor"></a>GOFuncR</h1>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">GOfuncR</span><span class="op">)</span>
+<span class="co">#&gt; Loading required package: vioplot</span>
+<span class="co">#&gt; Loading required package: sm</span>
+<span class="co">#&gt; Package 'sm', version 2.2-5.6: type help(sm) for summary information</span>
+<span class="co">#&gt; Loading required package: zoo</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'zoo'</span>
+<span class="co">#&gt; The following objects are masked from 'package:base':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     as.Date, as.Date.numeric</span></code></pre></div>
+<div id="custom-annotations" class="section level3">
+<h3 class="hasAnchor">
+<a href="#custom-annotations" class="anchor"></a>Custom annotations</h3>
+<p>Besides using bioconductor’s annotation packages for the mapping of genes to GO-categories, it is also possible to provide the annotations directly as a dataframe with two columns: (1) genes and (2) GO-IDs (parameter annotations).</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">custom_anno</span> <span class="op">&lt;-</span> <span class="va">go_assoc</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">transmute</a></span><span class="op">(</span>gene <span class="op">=</span> <span class="va">name</span>, go_id<span class="op">=</span><span class="va">GOTERM</span><span class="op">)</span>
+<span class="co">## create input dataframe with candidate genes</span>
+<span class="va">gene_ids</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">custom_anno</span><span class="op">$</span><span class="va">gene</span>, size <span class="op">=</span> <span class="fl">30</span>, replace <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="va">input_hyper</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">gene_ids</span>, is_candidate<span class="op">=</span><span class="fl">1</span><span class="op">)</span>
+<span class="va">input_hyper</span>
+<span class="co">## run enrichment analysis with custom annotations</span>
+<span class="va">res_hyper_anno</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/GOfuncR/man/go_enrich.html">go_enrich</a></span><span class="op">(</span><span class="va">input_hyper</span>, annotations<span class="op">=</span><span class="va">custom_anno</span><span class="op">)</span>
+<span class="co">#&gt; Checking arguments...</span>
+<span class="co">#&gt; Write temporary files...</span>
+<span class="co">#&gt; Find associated categories using custom annotations...</span>
+<span class="co">#&gt; Remove annotated categories not present in GO-graph...</span>
+<span class="co">#&gt; Found root_nodes: biological_process</span>
+<span class="co">#&gt; Remove invalid genes...</span>
+<span class="co">#&gt; Warning in go_enrich(input_hyper, annotations = custom_anno): No GO-annotation for genes: VIT_08s0058g00020, VIT_19s0027g01860, VIT_11s0118g00330, VIT_08s0007g09030, VIT_05s0165g00020, VIT_13s0019g00700, VIT_08s0007g08080, VIT_14s0083g00420, VIT_02s0012g00080, VIT_00s0208g00120, VIT_12s0028g03480, VIT_17s0000g02180, VIT_15s0046g00930.</span>
+<span class="co">#&gt;   These genes were not included in the analysis.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Processing root node: biological_process...</span>
+<span class="co">#&gt; Run Func...</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Done.</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">## first element of go_enrich result has the stats</span>
+<span class="va">stats</span> <span class="op">=</span> <span class="va">res_hyper_anno</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
+<span class="co">## top-GO categories</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">stats</span><span class="op">)</span>
+<span class="co">#&gt;             ontology    node_id                                 node_name</span>
+<span class="co">#&gt; 1 biological_process GO:0006879             cellular iron ion homeostasis</span>
+<span class="co">#&gt; 2 biological_process GO:0055072                      iron ion homeostasis</span>
+<span class="co">#&gt; 3 biological_process GO:0046916 cellular transition metal ion homeostasis</span>
+<span class="co">#&gt; 4 biological_process GO:0055076          transition metal ion homeostasis</span>
+<span class="co">#&gt; 5 biological_process GO:0006875            cellular metal ion homeostasis</span>
+<span class="co">#&gt; 6 biological_process GO:0030003               cellular cation homeostasis</span>
+<span class="co">#&gt;   raw_p_underrep raw_p_overrep FWER_underrep FWER_overrep</span>
+<span class="co">#&gt; 1      0.9999569    0.01012767             1        0.873</span>
+<span class="co">#&gt; 2      0.9999569    0.01012767             1        0.873</span>
+<span class="co">#&gt; 3      0.9999343    0.01236511             1        0.916</span>
+<span class="co">#&gt; 4      0.9999343    0.01236511             1        0.916</span>
+<span class="co">#&gt; 5      0.9998749    0.01682573             1        0.951</span>
+<span class="co">#&gt; 6      0.9998749    0.01682573             1        0.951</span>
+<span class="co">## top GO-categories per domain</span>
+<span class="fu"><a href="https://rdrr.io/r/base/by.html">by</a></span><span class="op">(</span><span class="va">stats</span>, <span class="va">stats</span><span class="op">$</span><span class="va">ontology</span>, <span class="va">head</span>, n<span class="op">=</span><span class="fl">3</span><span class="op">)</span>
+<span class="co">#&gt; stats$ontology: biological_process</span>
+<span class="co">#&gt;             ontology    node_id                                 node_name</span>
+<span class="co">#&gt; 1 biological_process GO:0006879             cellular iron ion homeostasis</span>
+<span class="co">#&gt; 2 biological_process GO:0055072                      iron ion homeostasis</span>
+<span class="co">#&gt; 3 biological_process GO:0046916 cellular transition metal ion homeostasis</span>
+<span class="co">#&gt;   raw_p_underrep raw_p_overrep FWER_underrep FWER_overrep</span>
+<span class="co">#&gt; 1      0.9999569    0.01012767             1        0.873</span>
+<span class="co">#&gt; 2      0.9999569    0.01012767             1        0.873</span>
+<span class="co">#&gt; 3      0.9999343    0.01236511             1        0.916</span>
+<span class="co">#all valid input genes</span>
+<span class="va">res_hyper_anno</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>
+<span class="co">#&gt;             gene_ids is_candidate</span>
+<span class="co">#&gt; 1  VIT_00s0397g00020            1</span>
+<span class="co">#&gt; 2  VIT_00s0625g00020            1</span>
+<span class="co">#&gt; 3  VIT_04s0210g00110            1</span>
+<span class="co">#&gt; 4  VIT_06s0004g07830            1</span>
+<span class="co">#&gt; 5  VIT_06s0080g00040            1</span>
+<span class="co">#&gt; 6  VIT_08s0056g01320            1</span>
+<span class="co">#&gt; 7  VIT_08s0058g00410            1</span>
+<span class="co">#&gt; 8  VIT_08s0105g00460            1</span>
+<span class="co">#&gt; 9  VIT_09s0070g00300            1</span>
+<span class="co">#&gt; 10 VIT_10s0042g00950            1</span>
+<span class="co">#&gt; 11 VIT_13s0067g00580            1</span>
+<span class="co">#&gt; 12 VIT_13s0156g00370            1</span>
+<span class="co">#&gt; 13 VIT_15s0021g02700            1</span>
+<span class="co">#&gt; 14 VIT_16s0100g00530            1</span>
+<span class="co">#&gt; 15 VIT_18s0001g00580            1</span>
+<span class="co">#&gt; 16 VIT_18s0122g00250            1</span>
+<span class="co">#&gt; 17 VIT_19s0090g01750            1</span>
+
+<span class="co">#The fourth element is a dataframe with the minimum p-values from the permutations, which are used to compute the FWER:</span>
+
+<span class="co">## minimum p-values from randomsets</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">res_hyper_anno</span><span class="op">[[</span><span class="fl">4</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
+<span class="co">#&gt;             ontology   lower_tail   upper_tail</span>
+<span class="co">#&gt; 1 biological_process 0.0007645806 3.603805e-06</span>
+<span class="co">#&gt; 2 biological_process 0.0015801256 3.859261e-06</span>
+<span class="co">#&gt; 3 biological_process 0.0015801256 4.776168e-06</span>
+<span class="co">#&gt; 4 biological_process 0.0016574998 7.019912e-06</span>
+<span class="co">#&gt; 5 biological_process 0.0022919005 7.393562e-06</span>
+<span class="co">#&gt; 6 biological_process 0.0036982438 9.868774e-06</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">## hypergeometric test</span>
+<span class="co"># top_gos_hyper = res_hyper_anno[[1]][1:5, 'node_id']</span>
+<span class="co"># # GO-categories with a high proportion of candidate genes</span>
+<span class="co"># top_gos_hyper</span>
+<span class="co"># plot_anno_scores(res_hyper_anno, top_gos_hyper,annotations = go_assoc)</span></code></pre></div>
 </div>
 </div>
 <div id="session-information" class="section level1">
@@ -216,19 +491,45 @@
 #&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
 #&gt; 
 #&gt; other attached packages:
-#&gt; [1] zoo_1.8-9      rcompass_0.0.4
+#&gt; [1] GOfuncR_1.10.0 vioplot_0.3.6  zoo_1.8-9      sm_2.2-5.6     plotmm_0.1.0  
+#&gt; [6] plotly_4.9.3   ggplot2_3.3.3  mixtools_1.2.0 rcompass_0.0.4
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
-#&gt;  [1] Rcpp_1.0.6        knitr_1.31        magrittr_2.0.1    graphql_1.5      
-#&gt;  [5] lattice_0.20-41   R6_2.5.0          ragg_1.1.2        rlang_0.4.10     
-#&gt;  [9] fastmap_1.1.0     stringr_1.4.0     tools_4.0.4       grid_4.0.4       
-#&gt; [13] xfun_0.22         jquerylib_0.1.3   htmltools_0.5.1.1 systemfonts_1.0.1
-#&gt; [17] yaml_2.2.1        digest_0.6.27     rprojroot_2.0.2   httpcode_0.3.0   
-#&gt; [21] pkgdown_1.6.1     crayon_1.4.1      RJSONIO_1.3-1.4   textshaping_0.3.3
-#&gt; [25] sass_0.3.1        fs_1.5.0          triebeard_0.3.0   curl_4.3         
-#&gt; [29] crul_1.1.0        ghql_0.1.0        memoise_2.0.0     cachem_1.0.4     
-#&gt; [33] evaluate_0.14     rmarkdown_2.7     stringi_1.5.3     compiler_4.0.4   
-#&gt; [37] bslib_0.2.4       urltools_1.7.3    desc_1.3.0        jsonlite_1.7.2</code></pre>
+#&gt;   [1] segmented_1.3-3        bitops_1.0-6           fs_1.5.0              
+#&gt;   [4] bit64_4.0.5            httr_1.4.2             GenomeInfoDb_1.26.7   
+#&gt;   [7] rprojroot_2.0.2        tools_4.0.4            bslib_0.2.4           
+#&gt;  [10] utf8_1.2.1             R6_2.5.0               BiocGenerics_0.36.0   
+#&gt;  [13] DBI_1.1.1              lazyeval_0.2.2         colorspace_2.0-0      
+#&gt;  [16] nnet_7.3-15            withr_2.4.1            tidyselect_1.1.0      
+#&gt;  [19] bit_4.0.4              curl_4.3               compiler_4.0.4        
+#&gt;  [22] Biobase_2.50.0         textshaping_0.3.3      desc_1.3.0            
+#&gt;  [25] labeling_0.4.2         triebeard_0.3.0        sass_0.3.1            
+#&gt;  [28] scales_1.1.1           pkgdown_1.6.1          systemfonts_1.0.1     
+#&gt;  [31] stringr_1.4.0          digest_0.6.27          rmarkdown_2.7         
+#&gt;  [34] XVector_0.30.0         pkgconfig_2.0.3        htmltools_0.5.1.1     
+#&gt;  [37] fastmap_1.1.0          highr_0.8              htmlwidgets_1.5.3     
+#&gt;  [40] rlang_0.4.10           httpcode_0.3.0         RSQLite_2.2.6         
+#&gt;  [43] mapplots_1.5.1         jquerylib_0.1.3        generics_0.1.0        
+#&gt;  [46] farver_2.1.0           jsonlite_1.7.2         gtools_3.8.2          
+#&gt;  [49] crosstalk_1.1.1        dplyr_1.0.5            wesanderson_0.3.6     
+#&gt;  [52] RCurl_1.98-1.3         magrittr_2.0.1         GenomeInfoDbData_1.2.4
+#&gt;  [55] modeltools_0.2-23      patchwork_1.1.1        Matrix_1.3-2          
+#&gt;  [58] S4Vectors_0.28.1       Rcpp_1.0.6             munsell_0.5.0         
+#&gt;  [61] fansi_0.4.2            lifecycle_1.0.0        stringi_1.5.3         
+#&gt;  [64] yaml_2.2.1             zlibbioc_1.36.0        MASS_7.3-53           
+#&gt;  [67] RJSONIO_1.3-1.4        flexmix_2.3-17         blob_1.2.1            
+#&gt;  [70] grid_4.0.4             parallel_4.0.4         ghql_0.1.0            
+#&gt;  [73] crayon_1.4.1           lattice_0.20-41        graphql_1.5           
+#&gt;  [76] splines_4.0.4          knitr_1.31             pillar_1.6.0          
+#&gt;  [79] GenomicRanges_1.42.0   tcltk_4.0.4            stats4_4.0.4          
+#&gt;  [82] crul_1.1.0             glue_1.4.2             evaluate_0.14         
+#&gt;  [85] data.table_1.14.0      vctrs_0.3.7            urltools_1.7.3        
+#&gt;  [88] gtable_0.3.0           purrr_0.3.4            tidyr_1.1.3           
+#&gt;  [91] kernlab_0.9-29         assertthat_0.2.1       cachem_1.0.4          
+#&gt;  [94] xfun_0.22              amerika_0.1.0          ragg_1.1.2            
+#&gt;  [97] survival_3.2-7         viridisLite_0.4.0      tibble_3.1.0          
+#&gt; [100] IRanges_2.24.1         AnnotationDbi_1.52.0   memoise_2.0.0         
+#&gt; [103] EMCluster_0.2-13       ellipsis_0.3.1</code></pre>
 </div>
   </div>
 

@@ -155,7 +155,7 @@
     </tr>
     <tr>
       <th>target</th>
-      <td><p>A string - either sample or biofeature</p></td>
+      <td><p>A string - either 'sample' or 'biofeature'</p></td>
     </tr>
     <tr>
       <th>query</th>
@@ -172,8 +172,8 @@
 <span class='st'>'&lt;http://purl.obolibrary.org/obo/NCIT_C19157&gt;'</span>,
 <span class='st'>'. ?s &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt;'</span>,
 <span class='st'>'&lt;http://purl.obolibrary.org/obo/PO_0009010&gt;}'</span><span class='op'>)</span>
-<span class='fu'>get_sparql_annotation_triples</span><span class='op'>(</span>target <span class='op'>=</span> <span class='st'>"sample"</span>, query <span class='op'>=</span> <span class='va'>my_query</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; data frame with 0 columns and 1 row</div></pre>
+<span class='fu'>get_sparql_annotation_triples</span><span class='op'>(</span>normalization <span class='op'>=</span> <span class='st'>"legacy"</span>, target <span class='op'>=</span> <span class='st'>"sample"</span>, query <span class='op'>=</span> <span class='va'>my_query</span><span class='op'>)</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

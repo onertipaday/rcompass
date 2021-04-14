@@ -467,7 +467,7 @@ plot_annotation_network <- function(compendium = "vespucci",
 #' get_sparql_annotation_triples
 #'
 #' @param compendium A string - the selected compendium
-#' @param target A string - either sample or biofeature
+#' @param target A string - either 'sample' or 'biofeature'
 #' @param query A string - sparql query
 #' @param normalization A string - 'tpm' (as default), 'limma' or 'legacy'
 #'
@@ -479,7 +479,7 @@ plot_annotation_network <- function(compendium = "vespucci",
 #' '<http://purl.obolibrary.org/obo/NCIT_C19157>',
 #' '. ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>',
 #' '<http://purl.obolibrary.org/obo/PO_0009010>}')
-#' get_sparql_annotation_triples(target = "sample", query = my_query)
+#' get_sparql_annotation_triples(normalization = "legacy", target = "sample", query = my_query)
 get_sparql_annotation_triples <- function(compendium = "vespucci",
                                           normalization = "tpm",
                                            target = NULL,
@@ -491,11 +491,14 @@ get_sparql_annotation_triples <- function(compendium = "vespucci",
   if(is.null(query) | is.null(target)) stop("Provide both a target ('sample' or 'biofeature') AND a proper sparql query!")
 
   my_query <- paste0('{
-  sparql(compendium:\"', compendium, '\", target:\"',target, '\", query:\"', query, '\", normalization:\"', normalization, '\") {
+  sparql(compendium:\"', compendium, '\", version:\"', version, '\", target:\"',target, '\", query:\"', query, '\", normalization:\"', normalization, '\") {
         rdfTriples
         }
   }')
-  as.data.frame(t(sapply(build_query(my_query)$sparql$rdfTriples, unlist)))
+  # as.data.frame(t(sapply(build_query(my_query)$sparql$rdfTriples, unlist)))
+  triples <- build_query(my_query)
+  out <- as.data.frame(t(sapply(triples$sparql$rdfTriples,unlist)))
+  # colnames(out) <- c("id", "name")
 }
 
 #' get_ids_from_alias
@@ -527,7 +530,7 @@ get_ids_from_alias <- function(compendium = "vespucci",
 #' get_available_normalization
 #'
 #' @param compendium A string - the selected compendium
-#' @param version A string - either (default) '2.0' or 'legacy'
+#' @param version A string - either (default) '2.0' , '1.0' or 'legacy'
 #'
 #' @return A vector of character strings with the available normalization methods
 #' @export
@@ -726,6 +729,53 @@ get_biofeature_id <- function(compendium = "vespucci",
     tmp <- t(sapply(build_query(my_query)$biofeatures$edges, unlist))
     colnames(tmp) <- c("id", "name", "description"); rownames(tmp) <- NULL
     as.data.frame(tmp)
+}
+
+#' get_biofeature_name
+#'
+#' @param compendium A string - the selected compendium
+#' @param id_In A vector of character strings - the biofeature id;
+#' if NULL it returns all biofeature ids
+#'
+#' @return A data.frame with three columns: id, name, description
+#' @export
+#'
+#' @examples
+#' my_ids <- c("QmlvRmVhdHVyZVZhbHVlVHlwZToyNzQzOQ==","QmlvRmVhdHVyZVZhbHVlVHlwZToyNzg5Mg==")
+#' get_biofeature_name(id_In = my_ids)
+get_biofeature_name <- function(compendium = "vespucci",
+                              id_In = NULL){
+  if(is.null(id_In)){
+    my_query <- paste0('{
+  biofeatures(compendium:\"', compendium, '\") {
+    edges {
+      node {
+        id
+        name
+        description
+            }
+          }
+        }
+      }')
+    tmp <- t(sapply(build_query(my_query)$biofeatures$edges, unlist))
+    colnames(tmp) <- c("id", "name", "description"); rownames(tmp) <- NULL
+    as.data.frame(tmp)
+
+  }
+  my_query <- paste0('{
+  biofeatures(compendium:\"', compendium, '\", id_In:\"', paste0(id_In, collapse =","), '\") {
+    edges {
+      node {
+        id
+        name
+        description
+            }
+          }
+        }
+      }')
+  tmp <- t(sapply(build_query(my_query)$biofeatures$edges, unlist))
+  colnames(tmp) <- c("id", "name", "description"); rownames(tmp) <- NULL
+  as.data.frame(tmp)
 }
 
 #' get_sampleset_id

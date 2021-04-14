@@ -31,6 +31,7 @@ For this case study we decide to use the TPM normalized values (databases.normal
 different normalization available.
 
 Let's start loading `rcompass`.
+
 ```{r}
 # devtools::install_github("onertipaday/rcompass")
 library(rcompass)
@@ -48,7 +49,6 @@ berry_samples <- get_sparql_annotation_triples(target = "sample",
                                                normalization = "tpm", 
                                                query = sparql)[,1]
 ```
-
 
 ## Get the SampleSets
 Now that we have the samples we need to retrieve the **SampleSets** objects for this specific normalization ('tpm' normalization).
@@ -75,19 +75,24 @@ module <- create_module(compendium = "vespucci",
                         biofeaturesNames = genes$id, 
                         samplesetNames = berry_ss$id, 
                         useIds = TRUE)
+colnames(module) <- berry_ss$name; row.names(module) <- genes$name
 ```
-
 
 ## Format the values
 In order to better handle the module values and get rid of NaNs, we will create a data.frame starting from our Module values (we are using log2), with genes as rows and SampleSets as columns.
 
 ```{r format_module}
-# Marco sceglie di sostituire gli Na con la media per riga e non per colonna come fa zoo!!
-df = log2(module)
+df_base <- module[rowSums(is.na(module)) != ncol(module), ] # remove rows with only NAs from the matrix
+# substitute NA with row mean (not column mean as in zoo)
+# df = log2(module + 0.01)
+df = log2(df_base + 0.01)
 i <- which(is.na(df), arr.ind = TRUE)
 df[i] <- rowMeans(df[,-1], na.rm = TRUE)[i[,1]]
+# colnames(df) <- berry_ss$name; row.names(df) <- genes$name
 # df[is.nan.data.frame(df)] <- NA
+
 module_df <- na.omit(df)
+
 # is.nan.data.frame <- function(x)
 # do.call(cbind, lapply(x, is.nan))
 # df[is.nan.data.frame(df)] <- 0
@@ -104,7 +109,7 @@ module_df <- na.omit(df)
 # module_df2 <- log2(zoo::na.aggregate(module))
 # or
 # module_df2 <- imputeTS::na_mean(module)
-colnames(module_df) <- berry_ss$name; row.names(module_df) <- genes$name
+# colnames(module_df) <- berry_ss$name; row.names(module_df) <- genes$name
 hist(module_df, breaks = 100)
 ```
 
@@ -113,160 +118,196 @@ hist(module_df, breaks = 100)
 ## Fit a 2-component Gaussian Mixture Model
 The idea to fit a 2-component Gaussian Mixture Model comes from the [following paper](https://www.embopress.org/doi/full/10.1038/msb.2011.28): Hebenstreit, D., Fang, M., Gu, M., Charoensawan, V., van Oudenaarden, A., & Teichmann, S. A. (2011). *RNA sequencing reveals two major classes of gene expression levels in metazoan cells*. Molecular systems biology, 7(1).
 
-### using mclust package
 
-```{r mclust_fit_model}
-# gmm = GaussianMixture(n_components=2)
-# gmm.fit(data.reshape(-1, 1))
-# 
-# x = np.linspace(-15, 15, 1000)
-# 
-# y1 = norm.pdf(x, gmm.means_[0][0], np.sqrt(gmm.covariances_[0][0])) * gmm.weights_[0]
-# y2 = norm.pdf(x, gmm.means_[1][0], np.sqrt(gmm.covariances_[1][0])) * gmm.weights_[1]
-library(mclust)
-junk=imputeData(log2(module))
-# moduleMClust <- mclust::Mclust(module_df)
-moduleMClust <- mclust::Mclust(as.vector(junk)) # as.vector similar to python reshape
-moduleMClust <- mclust::Mclust(as.vector(module_df)) # as.vector similar to python reshape
-# moduleMClust=Mclust(tmp,G=2,modelNames = "emModelNames")
-summary(moduleMClust, parameters = TRUE)
-plot(moduleMClust)
-# With univariate data, the covariance can either be equal or unique (variable). With Mclust these options are modelNames = "E" or "V", respectively.
-# 
-# With sklearn, they appear to be covariance_type = "tied" or "full". Possibly, something like this for variable Gaussian mixture model
-
-
-```
-
-### using mixtools package
+## Normal Mixture Models using mixtools package
 
 ```{r mixtools_fit_model}
-library(mixtools)
+suppressPackageStartupMessages(library(mixtools))
 set.seed(42) 
-#gmm_fit <- normalmixEM(module_df, lambda = .5, mu = c(55, 80), sigma = 5)
 gmm_fit <-  mixtools::normalmixEM(as.vector(module_df), k = 2)
-
 ```
 
-
+### Plot the data distribution and the fitted model
 
 ```{r plot_mixtools}
-library(plotmm)
+suppressPackageStartupMessages(library(plotly))
+suppressPackageStartupMessages(library(plotmm))
 plot_mm(gmm_fit, 2) +
   ggplot2::labs(title = "Berry samples Log2-TPM distribution",
                 subtitle = "Mixtools Object", 
                 x = "log2(TPM)",
-                y = "Density(normalized)")
-# mixmdl <- mixtools::normalmixEM(faithful$waiting, k = 2)
-# plot_cut_point(mixmdl, plot = TRUE, color = "amerika") # produces plot
-# plot_cut_point(mixmdl, plot = TRUE, color = "wesanderson") # produces plot
-# plot_cut_point(mixmdl, plot = TRUE, color = "grayscale") # produces plot
-plot_cut_point(gmm_fit, plot = TRUE, color = "amerika") # produces plot
-```
-
-Or calculate and return only the cut point value by setting plot = FALSE
-
-```{r}
-plot_cut_point(gmm_fit, plot = FALSE)
-```
-
-
-```{r}
-library(EMCluster)
-
-set.seed(123)
-out <- init.EM(module_df, nclass = 2, method = "em.EM")
-
-# visualize and annotate
-plot <- plot_mm(out, data=module_df)
-
-plot + patchwork::plot_annotation(title = "Bivariate Gaussian Mixture Model",
-                                  subtitle = "EMCluster Object")
-```
-
-
-```{r}
-# set up the data (replication of mixtools example for comparability)
-set.seed(123)
-x.1 <- rmvnorm(40, c(0, 0))
-x.2 <- rmvnorm(60, c(3, 4))
-X.1 <- rbind(x.1, x.2)
-mu <- list(c(0, 0), c(3, 4))
-out <- mixtools::mvnormalmixEM(X.1, arbvar = FALSE, mu = mu,epsilon = 1e-02)
-
-# visualize and annotate
-plot <- plot_mm(out)
-
-plot + patchwork::plot_annotation(title = "Bivariate Gaussian Mixture Model",
-                                  subtitle = "Mixtools Object")
-```
-
-
-
-
-### Plot the data distribution and the fitted model
-
-```{r}
-# fig = px.histogram(data, x=0, histnorm='probability density')
-# fig.add_trace(go.Scatter(
-#     x=x, y=y1, line=dict(color='red'), name='Highly expressed'
-# ))
-# fig.add_trace(go.Scatter(
-#     x=x, y=y2, line=dict(color='green'), name='Lowly expressed'
-# ))
-# fig.add_trace(go.Scatter(
-#     x=x, y=y1 + y2, line=dict(color='blue'), name='Gaussian mixture'
-# ))
-# fig.update_layout(title='Berry samples Log2-TPM distribution',
-#                    xaxis_title='Log2-TPM',
-#                    yaxis_title='Density (normalized)')
-
-#RColorBrewer::brewer.pal(n=3,name = "Pastel2")[1]
-hist(module_df,
-     breaks = "Sturges",
-     xlim = c(-10,15), 
-     freq = F,
-     col="#B3E2CD")
-
-
+                y = "Density(normalized)") + theme_minimal()
+p <- plot_cut_point(gmm_fit, plot = TRUE, color = "amerika") + 
+  ggplot2::labs(title = "Berry samples Log2-TPM distribution",
+                subtitle = "Mixtools Object", 
+                x = "log2(TPM)",
+                y = "Density") + theme_minimal()
+ggplotly(p)
 ```
 
 ### Choose a cutoff for non-expressed genes
-With the following plot we can (arbitrarily) choose a log2-TPM cutoff value to distinguish the portion of expressed genes from the non-expressed genes. We chose to set this cutoff at 0.5, that is roughly the median value of the lowly expressed component.
+From the plot we can (arbitrarily) choose a log2-TPM cutoff value to distinguish the portion of expressed genes from the non-expressed genes. We chose to set this cutoff at 0.5, that is roughly the median value of the lowly expressed component.
 
 ```{r}
-# [13]
-# 1
-# never_expressed_in_fruit = set(df.index[(df < 0.5).all(axis=1)])
-# This is the percentage of genes not expressed in fruit
-# 
-# [14]
-# 1
-# print(len(never_expressed_in_fruit) / len(genes) * 100.0, '%')
-# 16.20831900996906 %
+# return the cut point value by setting plot = FALSE
+(plot_cut_point(gmm_fit, plot = FALSE))
+# genes with log2(tpm) < 0.5 in all samples
+never_expressed_in_fruit <- apply(module_df, 1, function(x) all(x < 0.5))
+table(apply(module_df, 1, function(x) all(x < 0.5)))
+# percentage of genes not expressed in fruit
+cat(length(names(never_expressed_in_fruit)[never_expressed_in_fruit])/(dim(module_df)[[1]]) * 100, "%")
 ```
-
----
 
 # GO Analysis
 
-Retrieve the GO annotation
+## Retrieve the GO annotation
 Now it's time to retrieve all the GO terms for our genes and see if in the subset of genes never expressed in fruit there are GO terms that are over-represented compared to the full annotation.
 
 We might want to use the Annotation class to retrieve the annotation for all our genes filtering out the GO terms, but to avoid the overhead given by the large number of genes to use, it is better to perform a lower level operation and go directly with a SPARQL query for the annotation terms we are interested in.
 
 ```{r}
-# Annotation(genes[:5]).get_triples()
+ get_annotation_triples(ids = genes$id[1:5])
 ```
 
 So let's avoid the previous code that we ran for only 5 genes and go with the following instead, that is a SPARQL query that will return all the triples where a biofeature is annotated (Annotation is the term NCIT_C44272) with a term starting with 'GO_'
 
 
 ```{r}
-# sparql = "SELECT ?s ?o WHERE {?s <http://purl.obolibrary.org/obo/NCIT_C44272> ?o FILTER (strstarts(str(?o), 'GO_'))}"
-# triples = Sparql.using(compendium).execute_query(sparql, 'biofeature')
+sparql = "SELECT ?s ?o WHERE {?s <http://purl.obolibrary.org/obo/NCIT_C44272> ?o FILTER (strstarts(str(?o), 'GO_'))}"
+
+triples <- get_sparql_annotation_triples(compendium = "vespucci",
+                                         target = "biofeature", 
+                                         normalization = "tpm",
+                                         query = sparql)
+colnames(triples) <- c("id","GOTERM")
+triples$GOTERM <- stringr::str_replace(triples$GOTERM,"_",":")
 ```
 
+Now let's create the association object required by goatools and get rid of the underscore '_' in the annotation terms and replace it with the ':' symbol.
+
+
+```{r}
+go_assoc <- dplyr::full_join(triples, genes)
+```
+
+
+## Setup the GO analysis
+To start the GO analysis we will download the basic GO and the Plant Slim GO and create both DAGs objects.
+
+```{r}
+# goslim_url = 'http://current.geneontology.org/ontology/subsets/goslim_plant.obo'
+# r = requests.get(goslim_url, allow_redirects=True)
+# open('goslim_plant.obo', 'wb').write(r.content)
+# oboslimdag = GODag("goslim_plant.obo")
+# 
+# obo_fname = download_go_basic_obo()
+# obodag = GODag("go-basic.obo")
+# Functional Enrichment Analysis (Gene Ontology)
+# goslim_url = 'http://current.geneontology.org/ontology/subsets/goslim_plant.obo'
+# GO_plant_slim <- read.table("/home/paolo/Dropbox/Lavoro/FEM/ClaudioMoser/ZerayeHaile/ANALYSIS/references/GO_plant_slim_fixed.tab", sep="\t", header=FALSE, stringsAsFactors=FALSE)
+# colnames(GO_plant_slim)<-c("ID","GOTERM","GOdescription","Category")
+# library("plyr")
+# tmp <- dlply(GO_plant_slim,.(GOTERM))
+# my_GO_ann_lib <- lapply(tmp, function(x){ subset(x, select=1, drop=TRUE) }) # drop=T ==> genes in a vector of characters
+# or using
+# library(magrittr)
+# tmp <- GO_plant_slim %>% dlply(.(GOTERM))
+# my_GO_ann_lib <- lapply(tmp, function(x){ subset(x, select=1, drop=TRUE) }) # drop=T ==> genes in a vector of characters
+# library("topGO")
+# geneID2GO <- inverseList(my_GO_ann_lib) # we need this object fot the annotation since there is no vitis.db
+# geneNames <- names(geneID2GO) # As Universe I select all the genes in the genome
+# head(geneNames)
+# # ------------------------------------------------------------------------------
+# myInterestingGenes <- as.character(scan("comuniInd_ripening.csv",w="ch"))
+# geneList <- factor(as.integer(geneNames %in% myInterestingGenes))
+# names(geneList) <- geneNames
+# str(geneList)
+```
+
+## Prepare GOEnrichment study with the Plant Slim
+
+```{r}
+# study = GOEnrichmentStudyNS(
+#         go_assoc['ALL'].keys(),
+#         go_assoc,
+#         oboslimdag,
+#         propagate_counts = False,
+#         alpha = 0.05,
+#         methods = ['fdr_bh'])
+```
+
+Perform the enrichment analysis using our subset of genes and display the GO graph result
+
+```{r}
+# results_all = study.run_study(never_expressed_in_fruit, prt=None)
+# goea_results_sig = [r for r in goea_results_all if r.p_fdr_bh < 0.05]
+# plot_results("never_expressed_in_fruit_slim_{NS}.png", goea_results_sig)
+# Image(filename='never_expressed_in_fruit_slim_BP.png')
+```
+
+
+Let's perform the same analysis but with the full GO DAG this time.
+
+```{r}
+# study = GOEnrichmentStudyNS(
+#         go_assoc['ALL'].keys(),
+#         go_assoc,
+#         obodag,
+#         propagate_counts = False,
+#         alpha = 0.05,
+#         methods = ['fdr_bh'])
+# goea_results_all = study.run_study(never_expressed_in_fruit, prt=None)
+# goea_results_sig = [r for r in goea_results_all if r.p_fdr_bh < 0.05]
+# plot_results("never_expressed_in_fruit_complete_{NS}.png", goea_results_sig)
+# Image(filename='never_expressed_in_fruit_complete_BP.png')
+```
+
+
+---
+
+# GOFuncR
+
+```{r}
+library(GOfuncR)
+```
+
+### Custom annotations
+Besides using bioconductor’s annotation packages for the mapping of genes to GO-categories, it is also possible to provide the annotations directly as a dataframe with two columns: (1) genes and (2) GO-IDs (parameter annotations).
+```{r custom_annotation, results='hide'}
+custom_anno <- go_assoc %>% transmute(gene = name, go_id=GOTERM)
+## create input dataframe with candidate genes
+gene_ids = sample(custom_anno$gene, size = 30, replace = FALSE)
+input_hyper = data.frame(gene_ids, is_candidate=1)
+input_hyper
+## run enrichment analysis with custom annotations
+res_hyper_anno = go_enrich(input_hyper, annotations=custom_anno)
+```
+
+
+```{r}
+## first element of go_enrich result has the stats
+stats = res_hyper_anno[[1]]
+## top-GO categories
+head(stats)
+## top GO-categories per domain
+by(stats, stats$ontology, head, n=3)
+#all valid input genes
+res_hyper_anno[[2]]
+
+#The fourth element is a dataframe with the minimum p-values from the permutations, which are used to compute the FWER:
+
+## minimum p-values from randomsets
+head(res_hyper_anno[[4]])
+```
+
+
+```{r}
+## hypergeometric test
+# top_gos_hyper = res_hyper_anno[[1]][1:5, 'node_id']
+# # GO-categories with a high proportion of candidate genes
+# top_gos_hyper
+# plot_anno_scores(res_hyper_anno, top_gos_hyper,annotations = go_assoc)
+```
 
 
 # Session information
