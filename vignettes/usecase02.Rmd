@@ -83,33 +83,10 @@ In order to better handle the module values and get rid of NaNs, we will create 
 
 ```{r format_module}
 df_base <- module[rowSums(is.na(module)) != ncol(module), ] # remove rows with only NAs from the matrix
-# substitute NA with row mean (not column mean as in zoo)
-# df = log2(module + 0.01)
 df = log2(df_base + 0.01)
 i <- which(is.na(df), arr.ind = TRUE)
-df[i] <- rowMeans(df[,-1], na.rm = TRUE)[i[,1]]
-# colnames(df) <- berry_ss$name; row.names(df) <- genes$name
-# df[is.nan.data.frame(df)] <- NA
-
+df[i] <- rowMeans(df, na.rm = TRUE)[i[,1]]
 module_df <- na.omit(df)
-
-# is.nan.data.frame <- function(x)
-# do.call(cbind, lapply(x, is.nan))
-# df[is.nan.data.frame(df)] <- 0
-#module_df <- df[!is.nan(df),]
-# x_replace <- df
-# x_replace[is.nan(x_replace)] <- 0  
-# junk <- apply(as.data.frame(log2(module)), MARGIN = 2,function(x) replace(x, is.na(x), mean(x, na.rm = TRUE)))
-#junk <- sapply(as.data.frame(module), function(x) replace(x, is.na(x), mean(x, na.rm = TRUE)))
-#
-# alternatively (much, much faster!)
-# library(zoo)
-# module_df <- zoo::na.aggregate(log2(module))
-# module_df <- zoo::na.aggregate(log2(module),na.rm = TRUE)
-# module_df2 <- log2(zoo::na.aggregate(module))
-# or
-# module_df2 <- imputeTS::na_mean(module)
-# colnames(module_df) <- berry_ss$name; row.names(module_df) <- genes$name
 hist(module_df, breaks = 100)
 ```
 
@@ -117,7 +94,6 @@ hist(module_df, breaks = 100)
 
 ## Fit a 2-component Gaussian Mixture Model
 The idea to fit a 2-component Gaussian Mixture Model comes from the [following paper](https://www.embopress.org/doi/full/10.1038/msb.2011.28): Hebenstreit, D., Fang, M., Gu, M., Charoensawan, V., van Oudenaarden, A., & Teichmann, S. A. (2011). *RNA sequencing reveals two major classes of gene expression levels in metazoan cells*. Molecular systems biology, 7(1).
-
 
 ## Normal Mixture Models using mixtools package
 
@@ -144,25 +120,12 @@ p <- plot_cut_point(gmm_fit, plot = TRUE, color = "amerika") +
                 y = "Density") + theme_minimal()
 ggplotly(p)
 ```
-```{r}
-# library(plotly)
-# 
-# trace_0 <- rnorm(100, mean = 5)
-# trace_1 <- rnorm(1000, mean = 0)
-# trace_2 <- rnorm(100, mean = -5)
-# fig <- plot_ly(x =as.vector(module_df)[1:1000],
-#              type = "histogram",
-#              histnorm = "probability density")
-# fig %>% add_trace(x = ~ trace_1, name = "lowly expressed",  mode = "lines", col = "red") %>% layout(xaxis = list(title = 'Week'), yaxis = list(title = 'Source'))
-  
-```
 
 ### Choose a cutoff for non-expressed genes
 From the plot we can (arbitrarily) choose a log2-TPM cutoff value to distinguish the portion of expressed genes from the non-expressed genes. We chose to set this cutoff at 0.5, that is roughly the median value of the lowly expressed component.
 
 ```{r}
-# return the cut point value by setting plot = FALSE
-(plot_cut_point(gmm_fit, plot = FALSE))
+plot_cut_point(gmm_fit, plot = FALSE)
 # genes with log2(tpm) < 0.5 in all samples
 never_expressed_in_fruit <- apply(module_df, 1, function(x) all(x < 0.5))
 never_expressed_in_fruit_names <- names(never_expressed_in_fruit)[never_expressed_in_fruit]
@@ -192,12 +155,8 @@ triples <- get_sparql_annotation_triples(compendium = "vespucci",
                                          normalization = "tpm",
                                          query = sparql)
 colnames(triples) <- c("id","GOTERM")
-triples$GOTERM <- stringr::str_replace(triples$GOTERM,"_",":")
-```
+triples$GOTERM <- stringr::str_replace(triples$GOTERM,"_",":") # get rid of the underscore '_' in the annotation terms and replace it with the ':' symbol.
 
-Now let's create the association object required by goatools and get rid of the underscore '_' in the annotation terms and replace it with the ':' symbol.
-
-```{r}
 go_assoc <- dplyr::full_join(triples, genes)
 ```
 
@@ -205,48 +164,34 @@ go_assoc <- dplyr::full_join(triples, genes)
 To start the GO analysis we will download the basic GO and the Plant Slim GO and create both DAGs objects.
 
 ```{r}
-library("topGO")
-# goslim_url = 'http://current.geneontology.org/ontology/subsets/goslim_plant.obo'
-GO_plant_slim <- read.table("/home/paolo/Sandbox/GO_plant_slim_fixed.tab", sep="\t", header=FALSE, stringsAsFactors=FALSE)
+suppressPackageStartupMessages(library("topGO"))
+GO_plant_slim <- read.table(system.file("extdata", "GO_plant_slim.tsv", package = "rcompass"), sep="\t", header=FALSE, stringsAsFactors=FALSE)
 colnames(GO_plant_slim)<-c("ID","GOTERM","GOdescription","Category")
 library("plyr")
 tmp <- dlply(GO_plant_slim,.(GOTERM))
-# tmp <- GO_plant_slim %>% dlply(.(GOTERM))
 my_GO_ann_lib <- lapply(tmp, function(x){ subset(x, select=1, drop=TRUE) }) # drop=T ==> genes in a vector of characters
-geneID2GO <- inverseList(my_GO_ann_lib) # we need this object fot the annotation since there is no vitis.db
+geneID2GO <- inverseList(my_GO_ann_lib) # we need this object for the annotation since there is no vitis.db
 geneNames <- names(geneID2GO) # As Universe I select all the genes in the genome
-head(geneNames)
-# ------------------------------------------------------------------------------
+```
+
+We perform a classical enrichment analysis by testing the over-representation of GO terms within the
+group of expressed genes. For the method classic each GO category is tested independently.
+We will look for enriched GOTERMS of the Biological Process (BP) Gene Ontology.
+
+```{r}
 myInterestingGenes <- never_expressed_in_fruit_names
 geneList <- factor(as.integer(geneNames %in% myInterestingGenes))
 names(geneList) <- geneNames
-table(geneList)
-GOdata.MF <- new("topGOdata", ontology = "MF", allGenes = geneList, annot = annFUN.gene2GO, gene2GO = geneID2GO)
-GOdata.CC <- new("topGOdata", ontology = "CC", allGenes = geneList, annot = annFUN.gene2GO, gene2GO = geneID2GO)
+#table(geneList)
 GOdata.BP <- new("topGOdata", ontology = "BP", allGenes = geneList, annot = annFUN.gene2GO, gene2GO = geneID2GO)
 test.stat <- new("classicCount", testStatistic = GOFisherTest, name = "Fisher test")
-( resultFisher.MF <- getSigGroups(GOdata.MF, test.stat) )
-( resultFisher.CC <- getSigGroups(GOdata.CC, test.stat) )
 ( resultFisher.BP <- getSigGroups(GOdata.BP, test.stat) )
-
 topNodes = 20
-resultFis.MF <- runTest(GOdata.MF, statistic = "fisher") # weight01 is the default algorithm 
-allRes.MF <- data.frame( GenTable(GOdata.MF, classic = resultFis.MF, orderBy = "weight", 
-	ranksOf = "classic", topNodes = topNodes), Ontology=rep("MF", topNodes) )
-resultFis.CC <- runTest(GOdata.CC, statistic = "fisher") # weight01 is the default algorithm 
-allRes.CC <- data.frame( GenTable(GOdata.CC, classic = resultFis.CC, orderBy = "weight", 
-	ranksOf = "classic", topNodes = topNodes), Ontology=rep("CC", topNodes) )
 resultFis.BP <- runTest(GOdata.BP, statistic = "fisher") # weight01 is the default algorithm 
 allRes.BP <- data.frame( GenTable(GOdata.BP, classic = resultFis.BP, orderBy = "weight", 
 	ranksOf = "classic", topNodes = topNodes), Ontology=rep("BP", topNodes) )
-# write.table(rbind(allRes.MF, allRes.CC, allRes.BP), file=paste("topGO_comuniInd_ripening.txt"), quote=F, row.names=FALSE, sep="\t")
-# pdf("GO_comuniInd_ripening.pdf")
-showSigOfNodes(GOdata.MF, score(resultFis.MF), firstSigNodes = 10, useInfo = "all")
-showSigOfNodes(GOdata.CC, score(resultFis.CC), firstSigNodes = 10, useInfo = "all")
 showSigOfNodes(GOdata.BP, score(resultFis.BP), firstSigNodes = 10, useInfo = "all")
-# dev.off()
 ```
-
 
 # GOFuncR
 
@@ -254,8 +199,7 @@ showSigOfNodes(GOdata.BP, score(resultFis.BP), firstSigNodes = 10, useInfo = "al
 Besides using bioconductor’s annotation packages for the mapping of genes to GO-categories, it is also possible to provide the annotations directly as a dataframe with two columns: (1) genes and (2) GO-IDs (parameter annotations).
 
 ```{r custom_annotation_enrichment, results='hide'}
-library(GOfuncR)
-## create input dataframe with candidate genes
+suppressPackageStartupMessages(library(GOfuncR))
 gene_ids <- never_expressed_in_fruit_names
 custom_anno <- go_assoc %>% transmute(gene = name, go_id=GOTERM)
 input_hyper = data.frame(gene_ids, is_candidate=1)
@@ -274,7 +218,7 @@ head(stats)
 ## top GO-categories per domain
 by(stats, stats$ontology, head, n=3)
 #all valid input genes
-res_hyper_anno[[2]]
+# res_hyper_anno[[2]]
 #The fourth element is a dataframe with the minimum p-values from the permutations, which are used to compute the FWER:
 ## minimum p-values from randomsets
 head(res_hyper_anno[[4]])

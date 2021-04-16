@@ -106,7 +106,7 @@
 <code class="sourceCode R"><span class="co"># devtools::install_github("onertipaday/rcompass")</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">rcompass</span><span class="op">)</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; This is 'rCOMPASS' version 0.0.4 based on COMPASS version 0.8.7.</span></code></pre></div>
+<span class="co">#&gt; This is 'rCOMPASS' version 0.0.4 based on COMPASS version 0.8.8.</span></code></pre></div>
 <p>The COMPASS GraphQL endpoint might hosts different compendia. At the moment there is only the VESPUCCI compendium, but there are different version of VESPUCCI, and each version might have data normalized in different ways. In this case there are 2 versions of VESPUCCI, version 1.0 (legacy) and version 2.0 (latest). The latter has data normalized in 2 different ways, TPM normalization and LIMMA (the default one) while the legacy version has the legacy normalization only (i.e. per-sample logratios). For every query we will need to indicate the compendium we want to use, if no version, no normalization and no database is specified the default values will be used.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/get_available_compendia.html">get_available_compendia</a></span><span class="op">(</span><span class="op">)</span>
@@ -307,9 +307,6 @@
 <col width="1%">
 <col width="1%">
 <col width="1%">
-<col width="1%">
-<col width="1%">
-<col width="1%">
 <col width="0%">
 <col width="1%">
 <col width="1%">
@@ -359,6 +356,9 @@
 <col width="1%">
 <col width="0%">
 <col width="0%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
 <col width="1%">
 <col width="1%">
 <col width="1%">
@@ -397,11 +397,8 @@
 <th align="right">GSM881594.ch1-vs-GSM881586.ch1</th>
 <th align="right">ERR3025266-vs-ERR3025256</th>
 <th align="right">GSM1957885.ch1-vs-GSM1957878.ch1</th>
-<th align="right">GSM1565329.ch1-vs-GSM1565328.ch1</th>
 <th align="right">GSM2572390.ch1-vs-GSM2572412.ch1</th>
-<th align="right">GSM1565337.ch1-vs-GSM1565328.ch1</th>
 <th align="right">GSM881593.ch1-vs-GSM881586.ch1</th>
-<th align="right">GSM1565333.ch1-vs-GSM1565328.ch1</th>
 <th align="right">GSM1957882.ch1-vs-GSM1957878.ch1</th>
 <th align="right">SRR866576-vs-SRR866568</th>
 <th align="right">GSM1532878.ch1-vs-GSM1532868.ch1</th>
@@ -458,7 +455,6 @@
 <th align="right">GSM2627728.ch1-vs-GSM2627691.ch1</th>
 <th align="right">GSM2627709.ch1-vs-GSM2627691.ch1</th>
 <th align="right">GSM2650962.ch1-vs-GSM2650955.ch1</th>
-<th align="right">GSM712566.ch1-vs-GSM712552.ch1</th>
 <th align="right">GSM1020503.ch1-vs-GSM1020496.ch1</th>
 <th align="right">SRR5332106.ch1-vs-SRR5332108.ch1</th>
 <th align="right">GSM2627736.ch1-vs-GSM2627691.ch1</th>
@@ -478,6 +474,10 @@
 <th align="right">GSM2627741.ch1-vs-GSM2627691.ch1</th>
 <th align="right">GSM1654685.ch1-vs-GSM1654682.ch1</th>
 <th align="right">GSM2627812.ch1-vs-GSM2627784.ch1</th>
+<th align="right">SRR5332102.ch1-vs-SRR5332104.ch1</th>
+<th align="right">SRR5332101.ch1-vs-SRR5332104.ch1</th>
+<th align="right">GSM1532891.ch1-vs-GSM1532880.ch1</th>
+<th align="right">GSM2572451.ch1-vs-GSM2572415.ch1</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -491,11 +491,8 @@
 <td align="right">3.3710</td>
 <td align="right">2.7779</td>
 <td align="right">-1.1606</td>
-<td align="right">2.1521</td>
 <td align="right">-1.968900</td>
-<td align="right">2.1642</td>
 <td align="right">2.16560</td>
-<td align="right">1.9676</td>
 <td align="right">-0.42252</td>
 <td align="right">2.3707</td>
 <td align="right">2.58780</td>
@@ -552,7 +549,6 @@
 <td align="right">-1.09680</td>
 <td align="right">-1.83520</td>
 <td align="right">0.81107</td>
-<td align="right">3.47650</td>
 <td align="right">-1.42750</td>
 <td align="right">-1.30060</td>
 <td align="right">-0.58471</td>
@@ -572,6 +568,10 @@
 <td align="right">-0.76832</td>
 <td align="right">2.63270</td>
 <td align="right">1.62780</td>
+<td align="right">-1.24940</td>
+<td align="right">-1.24390</td>
+<td align="right">1.90620</td>
+<td align="right">1.83580</td>
 </tr>
 <tr class="even">
 <td align="left">VIT_00s0332g00060</td>
@@ -584,11 +584,8 @@
 <td align="right">3.4117</td>
 <td align="right">2.2222</td>
 <td align="right">-3.0668</td>
-<td align="right">NA</td>
 <td align="right">-2.783700</td>
-<td align="right">NA</td>
 <td align="right">2.12430</td>
-<td align="right">NA</td>
 <td align="right">-3.27770</td>
 <td align="right">2.0919</td>
 <td align="right">2.65020</td>
@@ -645,7 +642,6 @@
 <td align="right">-0.60392</td>
 <td align="right">-1.19010</td>
 <td align="right">-0.77960</td>
-<td align="right">NA</td>
 <td align="right">-0.96130</td>
 <td align="right">-2.10850</td>
 <td align="right">-0.54412</td>
@@ -665,6 +661,10 @@
 <td align="right">-0.64341</td>
 <td align="right">1.40320</td>
 <td align="right">1.35670</td>
+<td align="right">-2.09800</td>
+<td align="right">-2.15640</td>
+<td align="right">1.42660</td>
+<td align="right">1.66320</td>
 </tr>
 <tr class="odd">
 <td align="left">VIT_00s0332g00110</td>
@@ -677,11 +677,8 @@
 <td align="right">3.9399</td>
 <td align="right">1.6098</td>
 <td align="right">-3.1108</td>
-<td align="right">-1.1372</td>
 <td align="right">-3.485800</td>
-<td align="right">-1.1078</td>
 <td align="right">2.80300</td>
-<td align="right">-1.2764</td>
 <td align="right">-3.23040</td>
 <td align="right">2.5257</td>
 <td align="right">1.96120</td>
@@ -738,7 +735,6 @@
 <td align="right">-1.95210</td>
 <td align="right">-2.06590</td>
 <td align="right">-0.34705</td>
-<td align="right">NA</td>
 <td align="right">-0.89742</td>
 <td align="right">-1.63440</td>
 <td align="right">-2.06070</td>
@@ -758,6 +754,10 @@
 <td align="right">-1.62490</td>
 <td align="right">0.66103</td>
 <td align="right">0.55152</td>
+<td align="right">-2.05900</td>
+<td align="right">-1.90370</td>
+<td align="right">0.92376</td>
+<td align="right">1.99810</td>
 </tr>
 <tr class="even">
 <td align="left">VIT_00s0332g00160</td>
@@ -770,11 +770,8 @@
 <td align="right">3.6967</td>
 <td align="right">2.4803</td>
 <td align="right">-1.6813</td>
-<td align="right">2.6450</td>
 <td align="right">-2.312100</td>
-<td align="right">2.3961</td>
 <td align="right">2.78960</td>
-<td align="right">2.4798</td>
 <td align="right">-1.23240</td>
 <td align="right">2.0372</td>
 <td align="right">2.92130</td>
@@ -831,7 +828,6 @@
 <td align="right">-0.87440</td>
 <td align="right">-1.01640</td>
 <td align="right">0.39311</td>
-<td align="right">NA</td>
 <td align="right">-1.83030</td>
 <td align="right">-1.51930</td>
 <td align="right">-0.37059</td>
@@ -851,6 +847,10 @@
 <td align="right">-0.49588</td>
 <td align="right">3.77640</td>
 <td align="right">0.53108</td>
+<td align="right">-1.71550</td>
+<td align="right">-1.59670</td>
+<td align="right">1.99830</td>
+<td align="right">1.81750</td>
 </tr>
 <tr class="odd">
 <td align="left">VIT_00s0396g00010</td>
@@ -863,11 +863,8 @@
 <td align="right">3.5030</td>
 <td align="right">2.8764</td>
 <td align="right">-3.1878</td>
-<td align="right">-2.9072</td>
 <td align="right">-3.638900</td>
-<td align="right">-3.0570</td>
 <td align="right">2.89930</td>
-<td align="right">-2.9441</td>
 <td align="right">-2.72480</td>
 <td align="right">1.9293</td>
 <td align="right">2.12520</td>
@@ -924,7 +921,6 @@
 <td align="right">-1.18580</td>
 <td align="right">-1.26350</td>
 <td align="right">-0.68199</td>
-<td align="right">2.49490</td>
 <td align="right">-2.16520</td>
 <td align="right">-2.03970</td>
 <td align="right">-0.76998</td>
@@ -944,6 +940,10 @@
 <td align="right">-0.79860</td>
 <td align="right">1.95530</td>
 <td align="right">1.21540</td>
+<td align="right">-1.92860</td>
+<td align="right">-2.00360</td>
+<td align="right">1.28930</td>
+<td align="right">2.05030</td>
 </tr>
 <tr class="even">
 <td align="left">VIT_00s0505g00030</td>
@@ -956,11 +956,8 @@
 <td align="right">1.4118</td>
 <td align="right">4.0222</td>
 <td align="right">-1.0786</td>
-<td align="right">1.6503</td>
 <td align="right">0.186190</td>
-<td align="right">1.8403</td>
 <td align="right">0.72269</td>
-<td align="right">1.8435</td>
 <td align="right">-0.79985</td>
 <td align="right">2.9440</td>
 <td align="right">1.57690</td>
@@ -1017,7 +1014,6 @@
 <td align="right">-0.72246</td>
 <td align="right">-1.19900</td>
 <td align="right">2.35640</td>
-<td align="right">1.80330</td>
 <td align="right">-0.16970</td>
 <td align="right">-0.93284</td>
 <td align="right">-0.64064</td>
@@ -1037,6 +1033,10 @@
 <td align="right">-0.68502</td>
 <td align="right">0.60967</td>
 <td align="right">0.56684</td>
+<td align="right">-0.75854</td>
+<td align="right">-0.81527</td>
+<td align="right">2.12100</td>
+<td align="right">0.31400</td>
 </tr>
 <tr class="odd">
 <td align="left">VIT_00s0505g00060</td>
@@ -1049,11 +1049,8 @@
 <td align="right">1.1541</td>
 <td align="right">2.0220</td>
 <td align="right">-2.5693</td>
-<td align="right">-4.2649</td>
 <td align="right">-3.789000</td>
-<td align="right">-4.2613</td>
 <td align="right">2.02010</td>
-<td align="right">-4.1110</td>
 <td align="right">-2.36420</td>
 <td align="right">1.0127</td>
 <td align="right">1.66700</td>
@@ -1110,7 +1107,6 @@
 <td align="right">-0.64838</td>
 <td align="right">-0.82078</td>
 <td align="right">1.47980</td>
-<td align="right">0.91119</td>
 <td align="right">-2.14090</td>
 <td align="right">-2.22360</td>
 <td align="right">-0.70757</td>
@@ -1130,6 +1126,10 @@
 <td align="right">-0.76732</td>
 <td align="right">1.72200</td>
 <td align="right">0.53279</td>
+<td align="right">-1.53250</td>
+<td align="right">-1.68040</td>
+<td align="right">1.01520</td>
+<td align="right">1.75220</td>
 </tr>
 <tr class="even">
 <td align="left">VIT_00s0873g00020</td>
@@ -1142,11 +1142,8 @@
 <td align="right">4.2501</td>
 <td align="right">6.2818</td>
 <td align="right">-2.8122</td>
-<td align="right">1.6798</td>
 <td align="right">-3.175400</td>
-<td align="right">1.5844</td>
 <td align="right">4.23320</td>
-<td align="right">1.3430</td>
 <td align="right">-2.94500</td>
 <td align="right">2.3445</td>
 <td align="right">0.94898</td>
@@ -1203,7 +1200,6 @@
 <td align="right">-2.04990</td>
 <td align="right">-2.75170</td>
 <td align="right">3.00450</td>
-<td align="right">0.62136</td>
 <td align="right">-2.15390</td>
 <td align="right">-1.27810</td>
 <td align="right">-1.59330</td>
@@ -1223,6 +1219,10 @@
 <td align="right">-1.57320</td>
 <td align="right">1.38720</td>
 <td align="right">2.38480</td>
+<td align="right">-0.44414</td>
+<td align="right">-0.58517</td>
+<td align="right">0.51893</td>
+<td align="right">2.48310</td>
 </tr>
 <tr class="odd">
 <td align="left">VIT_00s0904g00010</td>
@@ -1235,11 +1235,8 @@
 <td align="right">-1.3574</td>
 <td align="right">1.4015</td>
 <td align="right">-4.0042</td>
-<td align="right">-2.6753</td>
 <td align="right">0.059764</td>
-<td align="right">-2.5555</td>
 <td align="right">-1.45260</td>
-<td align="right">-2.6451</td>
 <td align="right">-3.79670</td>
 <td align="right">-3.5342</td>
 <td align="right">-3.23390</td>
@@ -1296,7 +1293,6 @@
 <td align="right">-6.04510</td>
 <td align="right">-3.01150</td>
 <td align="right">-5.23260</td>
-<td align="right">-0.71329</td>
 <td align="right">-3.23250</td>
 <td align="right">-1.87390</td>
 <td align="right">-7.60410</td>
@@ -1316,6 +1312,10 @@
 <td align="right">-7.06100</td>
 <td align="right">0.25534</td>
 <td align="right">-5.57910</td>
+<td align="right">-2.55760</td>
+<td align="right">-2.32460</td>
+<td align="right">-3.00490</td>
+<td align="right">-0.27968</td>
 </tr>
 </tbody>
 </table>
@@ -1345,36 +1345,36 @@
 <span class="va">sorted_ss</span> <span class="op">&lt;-</span> <span class="va">unsorted_ss</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span><span class="op">(</span><span class="va">my_sorted_indexes</span><span class="op">$</span><span class="va">sortedSamplesets</span>,<span class="va">unsorted_ss</span><span class="op">$</span><span class="va">id</span><span class="op">)</span>,<span class="op">]</span>
 <span class="va">sorted_bf</span> <span class="op">&lt;-</span> <span class="va">unsorted_bf</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span><span class="op">(</span><span class="va">my_sorted_indexes</span><span class="op">$</span><span class="va">sortedBiofeatures</span>,<span class="va">unsorted_bf</span><span class="op">$</span><span class="va">id</span><span class="op">)</span>,<span class="op">]</span>
 <span class="va">module_1</span><span class="op">[</span><span class="va">sorted_bf</span><span class="op">$</span><span class="va">name</span>,<span class="va">sorted_ss</span><span class="op">$</span><span class="va">name</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>
-<span class="co">#&gt;                   GSM881525.ch1-vs-GSM881520.ch1</span>
-<span class="co">#&gt; VIT_00s0873g00020                         3.2561</span>
-<span class="co">#&gt; VIT_00s0505g00060                         1.0837</span>
-<span class="co">#&gt; VIT_00s0505g00030                         1.2281</span>
-<span class="co">#&gt; VIT_00s0396g00010                         2.7481</span>
-<span class="co">#&gt; VIT_00s0332g00160                         1.0222</span>
-<span class="co">#&gt;                   GSM1532866.ch1-vs-GSM1532856.ch1</span>
-<span class="co">#&gt; VIT_00s0873g00020                          1.56660</span>
-<span class="co">#&gt; VIT_00s0505g00060                          1.95680</span>
-<span class="co">#&gt; VIT_00s0505g00030                          1.69140</span>
-<span class="co">#&gt; VIT_00s0396g00010                         -0.17791</span>
-<span class="co">#&gt; VIT_00s0332g00160                          1.63130</span>
-<span class="co">#&gt;                   GSM1532841.ch1-vs-GSM1532832.ch1</span>
-<span class="co">#&gt; VIT_00s0873g00020                           1.9944</span>
-<span class="co">#&gt; VIT_00s0505g00060                           5.2095</span>
-<span class="co">#&gt; VIT_00s0505g00030                           3.5150</span>
-<span class="co">#&gt; VIT_00s0396g00010                           3.7646</span>
-<span class="co">#&gt; VIT_00s0332g00160                           4.3616</span>
-<span class="co">#&gt;                   GSM1532842.ch1-vs-GSM1532832.ch1</span>
-<span class="co">#&gt; VIT_00s0873g00020                           1.6660</span>
-<span class="co">#&gt; VIT_00s0505g00060                           4.4270</span>
-<span class="co">#&gt; VIT_00s0505g00030                           3.0186</span>
-<span class="co">#&gt; VIT_00s0396g00010                           2.8414</span>
-<span class="co">#&gt; VIT_00s0332g00160                           3.4807</span>
-<span class="co">#&gt;                   GSM1532843.ch1-vs-GSM1532832.ch1</span>
-<span class="co">#&gt; VIT_00s0873g00020                           1.5892</span>
-<span class="co">#&gt; VIT_00s0505g00060                           3.5454</span>
-<span class="co">#&gt; VIT_00s0505g00030                           2.8332</span>
-<span class="co">#&gt; VIT_00s0396g00010                           2.4906</span>
-<span class="co">#&gt; VIT_00s0332g00160                           3.2895</span></code></pre></div>
+<span class="co">#&gt;                   GSM1957885.ch1-vs-GSM1957878.ch1</span>
+<span class="co">#&gt; VIT_00s0873g00020                          -2.8122</span>
+<span class="co">#&gt; VIT_00s0505g00060                          -2.5693</span>
+<span class="co">#&gt; VIT_00s0505g00030                          -1.0786</span>
+<span class="co">#&gt; VIT_00s0396g00010                          -3.1878</span>
+<span class="co">#&gt; VIT_00s0332g00160                          -1.6813</span>
+<span class="co">#&gt;                   GSM1957889.ch1-vs-GSM1957878.ch1</span>
+<span class="co">#&gt; VIT_00s0873g00020                         -1.69560</span>
+<span class="co">#&gt; VIT_00s0505g00060                         -1.79360</span>
+<span class="co">#&gt; VIT_00s0505g00030                         -0.68685</span>
+<span class="co">#&gt; VIT_00s0396g00010                         -2.06380</span>
+<span class="co">#&gt; VIT_00s0332g00160                         -1.06090</span>
+<span class="co">#&gt;                   GSM1957887.ch1-vs-GSM1957878.ch1</span>
+<span class="co">#&gt; VIT_00s0873g00020                         -1.43720</span>
+<span class="co">#&gt; VIT_00s0505g00060                         -1.64840</span>
+<span class="co">#&gt; VIT_00s0505g00030                         -0.86254</span>
+<span class="co">#&gt; VIT_00s0396g00010                         -1.84320</span>
+<span class="co">#&gt; VIT_00s0332g00160                         -1.05630</span>
+<span class="co">#&gt;                   GSM2627843.ch1-vs-GSM2627823.ch1</span>
+<span class="co">#&gt; VIT_00s0873g00020                         -2.40330</span>
+<span class="co">#&gt; VIT_00s0505g00060                         -1.61480</span>
+<span class="co">#&gt; VIT_00s0505g00030                         -0.77656</span>
+<span class="co">#&gt; VIT_00s0396g00010                         -1.71000</span>
+<span class="co">#&gt; VIT_00s0332g00160                         -1.17860</span>
+<span class="co">#&gt;                   GSM1957879.ch1-vs-GSM1957878.ch1</span>
+<span class="co">#&gt; VIT_00s0873g00020                         -2.05520</span>
+<span class="co">#&gt; VIT_00s0505g00060                         -1.71420</span>
+<span class="co">#&gt; VIT_00s0505g00030                         -0.98054</span>
+<span class="co">#&gt; VIT_00s0396g00010                         -2.24730</span>
+<span class="co">#&gt; VIT_00s0332g00160                         -1.71120</span></code></pre></div>
 <p>or, alternatively, you can create a new module with the sorted features (bf and ss) already in place:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">module_1_sorted</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_module.html">create_module</a></span><span class="op">(</span>biofeaturesNames <span class="op">=</span> <span class="va">my_sorted_indexes</span><span class="op">$</span><span class="va">sortedBiofeatures</span>, 
@@ -1420,8 +1420,9 @@
 <code class="sourceCode R"><span class="va">samples</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span><span class="op">(</span><span class="va">sorted_ss</span><span class="op">$</span><span class="va">name</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>,split <span class="op">=</span> <span class="st">"-vs-"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
 <span class="co"># knitr::kable(get_sample_by_gsm(sampleName_In =  samples))</span>
 <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_annotation_triples.html">get_annotation_triples</a></span><span class="op">(</span>ids <span class="op">=</span>  <span class="fu"><a href="../reference/get_sample_by_gsm.html">get_sample_by_gsm</a></span><span class="op">(</span>sampleName_In <span class="op">=</span>  <span class="va">samples</span><span class="op">)</span><span class="op">$</span><span class="va">sampleId</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Warning in kable_pipe(x = structure(c("GSM881520.ch1", "PO_0009084",</span>
-<span class="co">#&gt; "GSM881520.ch1", : The table should have a header (column names)</span></code></pre></div>
+<span class="co">#&gt; Warning in kable_pipe(x = structure(c("GSM1957878.ch1", "UO_0000036",</span>
+<span class="co">#&gt; "N23bbe628d39349a18765ba40e700d9db", : The table should have a header (column</span>
+<span class="co">#&gt; names)</span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="34%">
@@ -1430,44 +1431,44 @@
 </colgroup>
 <tbody>
 <tr class="odd">
-<td align="left">GSM881520.ch1</td>
-<td align="left">whole plant development stage</td>
-<td align="left">29</td>
-</tr>
-<tr class="even">
-<td align="left">PO_0009084</td>
-<td align="left">name</td>
-<td align="left">pericarp</td>
-</tr>
-<tr class="odd">
-<td align="left">GSM881520.ch1</td>
-<td align="left">type</td>
-<td align="left">PO_0009084</td>
-</tr>
-<tr class="even">
-<td align="left">GSM881520.ch1</td>
+<td align="left">GSM1957878.ch1</td>
 <td align="left">Year of Onset</td>
-<td align="left">N24b1159352a140d29be6add083b86a9b</td>
+<td align="left">N23bbe628d39349a18765ba40e700d9db</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">UO_0000036</td>
 <td align="left">name</td>
 <td align="left">year</td>
 </tr>
-<tr class="even">
-<td align="left">N24b1159352a140d29be6add083b86a9b</td>
+<tr class="odd">
+<td align="left">N23bbe628d39349a18765ba40e700d9db</td>
 <td align="left">unit</td>
 <td align="left">UO_0000036</td>
 </tr>
-<tr class="odd">
-<td align="left">N24b1159352a140d29be6add083b86a9b</td>
+<tr class="even">
+<td align="left">N23bbe628d39349a18765ba40e700d9db</td>
 <td align="left">value</td>
-<td align="left">2008</td>
+<td align="left">2010</td>
+</tr>
+<tr class="odd">
+<td align="left">PO_0009001</td>
+<td align="left">name</td>
+<td align="left">fruit</td>
 </tr>
 <tr class="even">
-<td align="left">GSM881520.ch1</td>
+<td align="left">GSM1957878.ch1</td>
+<td align="left">type</td>
+<td align="left">PO_0009001</td>
+</tr>
+<tr class="odd">
+<td align="left">GSM1957878.ch1</td>
 <td align="left">is grown in</td>
-<td align="left">N9164f9da3fbb45609ca4428c366fc6ab</td>
+<td align="left">N5151c89afc1543b9b4bb8a29260bc1e9</td>
+</tr>
+<tr class="even">
+<td align="left">N5151c89afc1543b9b4bb8a29260bc1e9</td>
+<td align="left">Geographical Location</td>
+<td align="left">N633889b9d6214e31ac05e25d64bc43cc</td>
 </tr>
 <tr class="odd">
 <td align="left">ENVO_00000116</td>
@@ -1475,34 +1476,24 @@
 <td align="left">vineyard</td>
 </tr>
 <tr class="even">
-<td align="left">N9164f9da3fbb45609ca4428c366fc6ab</td>
+<td align="left">N5151c89afc1543b9b4bb8a29260bc1e9</td>
 <td align="left">type</td>
 <td align="left">ENVO_00000116</td>
 </tr>
 <tr class="odd">
-<td align="left">N9164f9da3fbb45609ca4428c366fc6ab</td>
-<td align="left">Geographical Location</td>
-<td align="left">N58dc052d55194b94966d7838bc94337d</td>
-</tr>
-<tr class="even">
-<td align="left">N58dc052d55194b94966d7838bc94337d</td>
-<td align="left">Latitude</td>
-<td align="left">N8e1b73606e2846bebf209a7b821ca5fc</td>
-</tr>
-<tr class="odd">
-<td align="left">N58dc052d55194b94966d7838bc94337d</td>
+<td align="left">N633889b9d6214e31ac05e25d64bc43cc</td>
 <td align="left">Description</td>
-<td align="left">PM Soave Italy</td>
+<td align="left">MN Valpolicella Italy</td>
 </tr>
 <tr class="even">
-<td align="left">N58dc052d55194b94966d7838bc94337d</td>
+<td align="left">N633889b9d6214e31ac05e25d64bc43cc</td>
 <td align="left">Longitude</td>
-<td align="left">N819972170b3a427b8c6441ec884ef041</td>
+<td align="left">N6edc1bddab2a466994b8cd8bd558e64c</td>
 </tr>
 <tr class="odd">
-<td align="left">N819972170b3a427b8c6441ec884ef041</td>
-<td align="left">value</td>
-<td align="left">11.053889</td>
+<td align="left">N633889b9d6214e31ac05e25d64bc43cc</td>
+<td align="left">Latitude</td>
+<td align="left">Ne778bad3e24640819be51eca31a0ce83</td>
 </tr>
 <tr class="even">
 <td align="left">UO_0000185</td>
@@ -1510,74 +1501,54 @@
 <td align="left">degree</td>
 </tr>
 <tr class="odd">
-<td align="left">N819972170b3a427b8c6441ec884ef041</td>
+<td align="left">Ne778bad3e24640819be51eca31a0ce83</td>
 <td align="left">unit</td>
 <td align="left">UO_0000185</td>
 </tr>
 <tr class="even">
-<td align="left">N8e1b73606e2846bebf209a7b821ca5fc</td>
+<td align="left">Ne778bad3e24640819be51eca31a0ce83</td>
 <td align="left">value</td>
-<td align="left">45.454722</td>
+<td align="left">45.553056</td>
 </tr>
 <tr class="odd">
+<td align="left">N6edc1bddab2a466994b8cd8bd558e64c</td>
+<td align="left">value</td>
+<td align="left">10.954444</td>
+</tr>
+<tr class="even">
 <td align="left">UO_0000185</td>
 <td align="left">name</td>
 <td align="left">degree</td>
 </tr>
-<tr class="even">
-<td align="left">N8e1b73606e2846bebf209a7b821ca5fc</td>
+<tr class="odd">
+<td align="left">N6edc1bddab2a466994b8cd8bd558e64c</td>
 <td align="left">unit</td>
 <td align="left">UO_0000185</td>
 </tr>
+<tr class="even">
+<td align="left">GSM1957878.ch1</td>
+<td align="left">whole plant development stage</td>
+<td align="left">38</td>
+</tr>
 <tr class="odd">
-<td align="left">GSM881520.ch1</td>
-<td align="left">Year of Onset</td>
-<td align="left">N030126a04dfe40b0ae9abc4fc31c92b2</td>
+<td align="left">GSM1957878.ch1</td>
+<td align="left">cultivar</td>
+<td align="left">Oseleta</td>
 </tr>
 <tr class="even">
-<td align="left">UO_0000036</td>
-<td align="left">name</td>
-<td align="left">year</td>
-</tr>
-<tr class="odd">
-<td align="left">N030126a04dfe40b0ae9abc4fc31c92b2</td>
-<td align="left">unit</td>
-<td align="left">UO_0000036</td>
-</tr>
-<tr class="even">
-<td align="left">N030126a04dfe40b0ae9abc4fc31c92b2</td>
-<td align="left">value</td>
-<td align="left">2009</td>
-</tr>
-<tr class="odd">
 <td align="left">NCBITaxon_29760</td>
 <td align="left">name</td>
 <td align="left">Vitis vinifera</td>
 </tr>
-<tr class="even">
-<td align="left">GSM881520.ch1</td>
+<tr class="odd">
+<td align="left">GSM1957878.ch1</td>
 <td align="left">Genotype</td>
 <td align="left">NCBITaxon_29760</td>
 </tr>
-<tr class="odd">
-<td align="left">GSM881520.ch1</td>
-<td align="left">cultivar</td>
-<td align="left">Corvina</td>
-</tr>
 <tr class="even">
-<td align="left">PO_0009084</td>
-<td align="left">name</td>
-<td align="left">pericarp</td>
-</tr>
-<tr class="odd">
-<td align="left">GSM881525.ch1</td>
-<td align="left">type</td>
-<td align="left">PO_0009084</td>
-</tr>
-<tr class="even">
-<td align="left">GSM881525.ch1</td>
+<td align="left">GSM1957885.ch1</td>
 <td align="left">Year of Onset</td>
-<td align="left">N4554979868c741f8bfff74e2f01cd87d</td>
+<td align="left">Nde4efe8be55b4b70a8b7eb149df0d89c</td>
 </tr>
 <tr class="odd">
 <td align="left">UO_0000036</td>
@@ -1585,54 +1556,64 @@
 <td align="left">year</td>
 </tr>
 <tr class="even">
-<td align="left">N4554979868c741f8bfff74e2f01cd87d</td>
+<td align="left">Nde4efe8be55b4b70a8b7eb149df0d89c</td>
 <td align="left">unit</td>
 <td align="left">UO_0000036</td>
 </tr>
 <tr class="odd">
-<td align="left">N4554979868c741f8bfff74e2f01cd87d</td>
+<td align="left">Nde4efe8be55b4b70a8b7eb149df0d89c</td>
 <td align="left">value</td>
-<td align="left">2008</td>
+<td align="left">2010</td>
 </tr>
 <tr class="even">
-<td align="left">GSM881525.ch1</td>
-<td align="left">is grown in</td>
-<td align="left">N554f48a4c1c4466f8a2c389c3b21b4cb</td>
+<td align="left">PO_0009001</td>
+<td align="left">name</td>
+<td align="left">fruit</td>
 </tr>
 <tr class="odd">
+<td align="left">GSM1957885.ch1</td>
+<td align="left">type</td>
+<td align="left">PO_0009001</td>
+</tr>
+<tr class="even">
+<td align="left">GSM1957885.ch1</td>
+<td align="left">is grown in</td>
+<td align="left">Ne5500bc427d04aa5a38121279dd521ac</td>
+</tr>
+<tr class="odd">
+<td align="left">Ne5500bc427d04aa5a38121279dd521ac</td>
+<td align="left">Geographical Location</td>
+<td align="left">N721a6d6b562e4775980b315e6ea434ed</td>
+</tr>
+<tr class="even">
 <td align="left">ENVO_00000116</td>
 <td align="left">name</td>
 <td align="left">vineyard</td>
 </tr>
-<tr class="even">
-<td align="left">N554f48a4c1c4466f8a2c389c3b21b4cb</td>
+<tr class="odd">
+<td align="left">Ne5500bc427d04aa5a38121279dd521ac</td>
 <td align="left">type</td>
 <td align="left">ENVO_00000116</td>
 </tr>
-<tr class="odd">
-<td align="left">N554f48a4c1c4466f8a2c389c3b21b4cb</td>
-<td align="left">Geographical Location</td>
-<td align="left">N38d451cbf6e1417eb4df6b7c4322579e</td>
-</tr>
 <tr class="even">
-<td align="left">N38d451cbf6e1417eb4df6b7c4322579e</td>
+<td align="left">N721a6d6b562e4775980b315e6ea434ed</td>
 <td align="left">Longitude</td>
-<td align="left">N4c6c8d73bd974247af2927eefc94eb34</td>
+<td align="left">N0c2bf6a922484eaabf6e8ef97a6bcdf8</td>
 </tr>
 <tr class="odd">
-<td align="left">N38d451cbf6e1417eb4df6b7c4322579e</td>
-<td align="left">Description</td>
-<td align="left">PM Soave Italy</td>
-</tr>
-<tr class="even">
-<td align="left">N38d451cbf6e1417eb4df6b7c4322579e</td>
+<td align="left">N721a6d6b562e4775980b315e6ea434ed</td>
 <td align="left">Latitude</td>
-<td align="left">N8340be385b7648579fb4044541f88aa8</td>
+<td align="left">N74602a5cc26c43be9c99d6c87e730ef6</td>
+</tr>
+<tr class="even">
+<td align="left">N721a6d6b562e4775980b315e6ea434ed</td>
+<td align="left">Description</td>
+<td align="left">MN Valpolicella Italy</td>
 </tr>
 <tr class="odd">
-<td align="left">N8340be385b7648579fb4044541f88aa8</td>
+<td align="left">N74602a5cc26c43be9c99d6c87e730ef6</td>
 <td align="left">value</td>
-<td align="left">45.454722</td>
+<td align="left">45.553056</td>
 </tr>
 <tr class="even">
 <td align="left">UO_0000185</td>
@@ -1640,64 +1621,79 @@
 <td align="left">degree</td>
 </tr>
 <tr class="odd">
-<td align="left">N8340be385b7648579fb4044541f88aa8</td>
+<td align="left">N74602a5cc26c43be9c99d6c87e730ef6</td>
 <td align="left">unit</td>
 <td align="left">UO_0000185</td>
 </tr>
 <tr class="even">
-<td align="left">N4c6c8d73bd974247af2927eefc94eb34</td>
-<td align="left">value</td>
-<td align="left">11.053889</td>
-</tr>
-<tr class="odd">
 <td align="left">UO_0000185</td>
 <td align="left">name</td>
 <td align="left">degree</td>
 </tr>
-<tr class="even">
-<td align="left">N4c6c8d73bd974247af2927eefc94eb34</td>
+<tr class="odd">
+<td align="left">N0c2bf6a922484eaabf6e8ef97a6bcdf8</td>
 <td align="left">unit</td>
 <td align="left">UO_0000185</td>
 </tr>
-<tr class="odd">
-<td align="left">GSM881525.ch1</td>
-<td align="left">Year of Onset</td>
-<td align="left">N6eba5a16dc934566a90f255ecb534bf7</td>
-</tr>
 <tr class="even">
-<td align="left">N6eba5a16dc934566a90f255ecb534bf7</td>
+<td align="left">N0c2bf6a922484eaabf6e8ef97a6bcdf8</td>
 <td align="left">value</td>
-<td align="left">2009</td>
+<td align="left">10.954444</td>
 </tr>
 <tr class="odd">
-<td align="left">UO_0000036</td>
-<td align="left">name</td>
-<td align="left">year</td>
+<td align="left">GSM1957885.ch1</td>
+<td align="left">whole plant development stage</td>
+<td align="left">38</td>
 </tr>
 <tr class="even">
-<td align="left">N6eba5a16dc934566a90f255ecb534bf7</td>
-<td align="left">unit</td>
-<td align="left">UO_0000036</td>
-</tr>
-<tr class="odd">
-<td align="left">GSM881525.ch1</td>
+<td align="left">GSM1957885.ch1</td>
 <td align="left">cultivar</td>
-<td align="left">Corvina</td>
+<td align="left">Oseleta</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">NCBITaxon_29760</td>
 <td align="left">name</td>
 <td align="left">Vitis vinifera</td>
 </tr>
-<tr class="odd">
-<td align="left">GSM881525.ch1</td>
+<tr class="even">
+<td align="left">GSM1957885.ch1</td>
 <td align="left">Genotype</td>
 <td align="left">NCBITaxon_29760</td>
 </tr>
-<tr class="even">
-<td align="left">GSM881525.ch1</td>
+<tr class="odd">
+<td align="left">GSM1957885.ch1</td>
 <td align="left">whole plant development stage</td>
-<td align="left">32</td>
+<td align="left">N4b37e290e9704df58cd93ad7ea33c0b6</td>
+</tr>
+<tr class="even">
+<td align="left">PATO_0002460</td>
+<td align="left">name</td>
+<td align="left">shriveled</td>
+</tr>
+<tr class="odd">
+<td align="left">N4b37e290e9704df58cd93ad7ea33c0b6</td>
+<td align="left">type</td>
+<td align="left">PATO_0002460</td>
+</tr>
+<tr class="even">
+<td align="left">N4b37e290e9704df58cd93ad7ea33c0b6</td>
+<td align="left">Duration</td>
+<td align="left">Ne9d20b4d662e4782b969c3f7e01ab3e7</td>
+</tr>
+<tr class="odd">
+<td align="left">UO_0000032</td>
+<td align="left">name</td>
+<td align="left">hour</td>
+</tr>
+<tr class="even">
+<td align="left">Ne9d20b4d662e4782b969c3f7e01ab3e7</td>
+<td align="left">unit</td>
+<td align="left">UO_0000032</td>
+</tr>
+<tr class="odd">
+<td align="left">Ne9d20b4d662e4782b969c3f7e01ab3e7</td>
+<td align="left">value</td>
+<td align="left">24.0</td>
 </tr>
 </tbody>
 </table>
