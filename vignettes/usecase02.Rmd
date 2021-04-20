@@ -54,16 +54,14 @@ berry_samples <- get_sparql_annotation_triples(target = "sample",
 Now that we have the samples we need to retrieve the **SampleSets** objects for this specific normalization ('tpm' normalization).
 
 ```{r}
-berry_ss <- get_sampleset_id(name_In = berry_samples, 
-                             normalization = "tpm",
-                             useIds = TRUE)
+berry_ss <- get_sampleset_by_sampleid(samples = berry_samples, normalization = "tpm")
 ```
 
 ## Get the genes
 We will need all genes
 
 ```{r}
-genes <- get_biofeature_id(name_In = NULL)
+genes <- get_biofeature_id(id_In = NULL)
 ```
 
 ## Create the module

@@ -4,13 +4,15 @@
 \alias{get_biofeature_id}
 \title{get_biofeature_id}
 \usage{
-get_biofeature_id(compendium = "vespucci", name_In = NULL)
+get_biofeature_id(compendium = "vespucci", id_In = NULL, useIds = TRUE)
 }
 \arguments{
 \item{compendium}{A string - the selected compendium}
 
-\item{name_In}{A vector of character strings - the biofeature names;
+\item{id_In}{A vector of character strings - the biofeature id;
 if NULL it returns all biofeature ids}
+
+\item{useIds}{A logical (TRUE as default) - It allows using biofeature ids}
 }
 \value{
 A data.frame with three columns: id, name, description
@@ -20,5 +22,7 @@ get_biofeature_id
 }
 \examples{
 my_genes <- c("VIT_00s0332g00110","VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030")
-get_biofeature_id(name_In = my_genes)
+get_biofeature_id(id_In = my_genes, useIds = FALSE)
+my_ids <- c("QmlvRmVhdHVyZVZhbHVlVHlwZToyNzQzOQ==","QmlvRmVhdHVyZVZhbHVlVHlwZToyNzg5Mg==")
+get_biofeature_id(id_In = my_ids, useIds = TRUE)
 }

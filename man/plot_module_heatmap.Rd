@@ -10,6 +10,7 @@ plot_module_heatmap(
   normalization = "legacy",
   type = "json",
   plot = TRUE,
+  alternativeColoring = TRUE,
   min = -6,
   max = 6,
   sorted = FALSE
@@ -26,6 +27,8 @@ plot_module_heatmap(
 
 \item{plot}{A logical - it returns the graphics object}
 
+\item{alternativeColoring}{A logical - if TRUE (defautl) a color blind friendly palette is used}
+
 \item{min}{A numeric (-6 default)}
 
 \item{max}{A numeric (6 default)}
@@ -40,9 +43,10 @@ plot heatmap from a module
 }
 \examples{
 \dontrun{
-gene_names <- c('VIT_00s0246g00220','VIT_00s0332g00060','VIT_00s0332g00110')
-module_1 <- create_module(biofeaturesNames=gene_names, version = "legacy")
-plot_module_heatmap(module = module_1, plot = TRUE)
-plot_module_heatmap(module = module_1, sorted = TRUE, plot = FALSE)
+gene_names <- get_biofeature_id(id_In = c('VIT_00s0246g00220',
+'VIT_00s0332g00060','VIT_00s0332g00110'), useIds = F)
+mod <- create_module(biofeaturesNames=gene_names$id, normalization = "legacy", useIds = T)
+plot_module_heatmap(module = mod, plot = TRUE)
+sorted_idx <- plot_module_heatmap(mod = module_1, sorted = TRUE, plot = FALSE)
 }
 }

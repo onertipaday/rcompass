@@ -45,8 +45,8 @@ create_module <- function(compendium = "vespucci",
       samplesetIds <- samplesetNames
     }
     else {
-      biofeaturesIds <- get_biofeature_id(name_In = biofeaturesNames)$id
-      samplesetIds <- get_sampleset_id(name_In = samplesetNames)$id
+      biofeaturesIds <- get_biofeature_id(id_In = biofeaturesNames)$id
+      samplesetIds <- get_sampleset_id(id_In = samplesetNames)$id
     }
     if(normalization == "legacy") version <- "legacy"
     else if(normalization %in% c("limma","tpm")) version <- "2.0"
@@ -87,29 +87,34 @@ create_module <- function(compendium = "vespucci",
 #' }
 create_module_bf <- function(compendium = "vespucci",
                              biofeaturesNames=NULL,
-                             # version = "legacy",
                              normalization = "legacy",
                              rank = "magnitude",
                              useIds = FALSE) {
   if(is.null(biofeaturesNames)) stop("You need to provide biofeaturesNames")
   if(useIds) biofeaturesIds <- biofeaturesNames
-  else biofeaturesIds <- get_biofeature_id(name_In=biofeaturesNames)$id
-  # samplesetIds <- get_samplesets_ranking(compendium =  compendium,
-  #                                        biofeaturesNames = NULL,
-  #                                        biofeaturesIds = biofeaturesIds,
-  #                                        version = version,
-  #                                        rank = rank,
-  #                                        top_n = top_n)$id
+  else biofeaturesIds <- get_biofeature_id(id_In=biofeaturesNames)$id
   if(normalization == "legacy") version <- "legacy"
   else if(normalization %in% c("limma","tpm")) version <- "2.0"
   else stop("normalization HAS TO BE either legacy, limma or tpm.")
+
+  samplesetIds <- get_samplesets_ranking(biofeaturesNames = biofeaturesNames, normalization = normalization, rank = rank, rankTarget = "samplesets", useIds = useIds)$id
+  # print(samplesetIds)
   my_query <- paste0('{
-    modules(compendium:\"', compendium, '\", version:\"', version, '\", normalization:\"', normalization, '\", biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"]), {
-      normalizedValues
+    modules(compendium:\"', compendium, '\", version:\"', version, '\", normalization:\"', normalization, '\",
+    biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"],
+    samplesetIds:["', paste0(samplesetIds, collapse = '","'),'\"]), {
+      normalizedValues,
+      biofeatures {
+          edges {
+                node {
+                  id
+                 }
+          }
+      },
        sampleSets {
           edges {
                 node {
-                  name
+                  id
                 }
           }
         }
@@ -117,11 +122,12 @@ create_module_bf <- function(compendium = "vespucci",
   }')
   tmp <- build_query(my_query)$modules
   nv <- t(as.data.frame(sapply(tmp$normalizedValues, unlist)))
-  rownames(nv) <- biofeaturesNames
+  #rownames(nv) <- biofeaturesNames
+  #colnames(nv) <- samplesetIds
+  rownames(nv) <- as.character(sapply(tmp$biofeatures, unlist))
   colnames(nv) <- as.character(sapply(tmp$sampleSets, unlist))
   nv
 }
-
 
 #' create a module based on provided sample sets
 #'
@@ -151,13 +157,25 @@ create_module_ss <- function(compendium = "vespucci",
   if(normalization == "legacy") version <- "legacy"
   else if(normalization %in% c("limma","tpm")) version <- "2.0"
   else stop("normalization HAS TO BE either legacy, limma or tpm.")
+
+  biofeaturesIds <- get_biofeature_ranking(samplesetNames = samplesetNames, normalization = normalization, rank = rank, rankTarget = "biofeatures", useIds = useIds)$id
+  print(biofeaturesIds)
   my_query <- paste0('{
-    modules(compendium:\"', compendium, '\", version:\"', version, '\", samplesetIds:["', paste0(samplesetIds, collapse = '","'),'\"]), {
-      normalizedValues
-       biofeatures {
+    modules(compendium:\"', compendium, '\", version:\"', version, '\", normalization:\"', normalization, '\",
+    biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"],
+    samplesetIds:["', paste0(samplesetIds, collapse = '","'),'\"]), {
+      normalizedValues,
+      biofeatures {
           edges {
                 node {
-                  name
+                  id
+                 }
+          }
+      },
+       sampleSets {
+          edges {
+                node {
+                  id
                 }
           }
         }
@@ -166,7 +184,7 @@ create_module_ss <- function(compendium = "vespucci",
   tmp <- build_query(my_query)$modules
   nv <- t(as.data.frame(sapply(tmp$normalizedValues, unlist)))
   rownames(nv) <- as.character(sapply(tmp$biofeatures, unlist))
-  colnames(nv) <- samplesetNames
+  colnames(nv) <- as.character(sapply(tmp$sampleSets, unlist))
   nv
 }
 

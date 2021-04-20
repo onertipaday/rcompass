@@ -130,16 +130,24 @@ get_platform_types <- function(compendium = "vespucci"){
 #'
 #' @param compendium A string - the selected compendium
 #' @param sampleName A string - GEO Sample accession id (GSM)
+#' @param normalization A string ('legacy' as default)
 #'
 #' @return A data.frame
 #' @export
 #'
 #' @examples
 #' get_sample_info(sampleName = "GSM287866.ch1")
-get_sample_info <-function(compendium = "vespucci", sampleName=NULL){
+get_sample_info <-function(compendium = "vespucci", normalization = "limma", sampleName=NULL){
   if(missing(sampleName))stop("Provide a sampleName.")
+  if(normalization == "legacy") version <- "legacy"
+  else if(normalization %in% c("limma","tpm")) version <- "2.0"
+  else stop("normalization HAS TO BE either legacy, limma or tpm.")
+  # if(is.null(samplesetNames)) stop("Provide samplesetNames")
+  # if(useIds) samplesetIds <- samplesetNames
+  # else samplesetIds <- get_sampleset_id(name_In = samplesetNames)$id
     my_query <- paste0('{
-      samples(compendium:\"', compendium, '\", sampleName:\"', sampleName,'\") {
+      samples(compendium:\"', compendium, '\", version:\"', version, '\",
+    normalization:\"', normalization, '\", sampleName:\"', sampleName,'\") {
       edges{
         node{
           id
@@ -406,9 +414,6 @@ get_samples <- function(compendium = "vespucci",
 #'
 #' @examples
 #' get_annotation_triples(ids = "U2FtcGxlVHlwZTozMjAw")
-#' my_ids <- get_biofeature_id(name_In = c("VIT_00s0332g00160","VIT_00s0396g00010"
-#' ,"VIT_00s0505g00030"))$id
-#' get_annotation_triples(ids = my_ids)
 get_annotation_triples <- function(compendium = "vespucci", ids = NULL) {
   if(is.null(ids)) stop("You need to provide and id")
   my_query <- paste0('{
@@ -530,7 +535,7 @@ get_ids_from_alias <- function(compendium = "vespucci",
 #' get_available_normalization
 #'
 #' @param compendium A string - the selected compendium
-#' @param version A string - either (default) '2.0' , '1.0' or 'legacy'
+#' @param version A string - either '1.0' or 'legacy', '2.0' (default) or 'latest'
 #'
 #' @return A vector of character strings with the available normalization methods
 #' @export
@@ -686,65 +691,21 @@ get_biofeature_by_name <- function(compendium = "vespucci",
 #' get_biofeature_id
 #'
 #' @param compendium A string - the selected compendium
-#' @param name_In A vector of character strings - the biofeature names;
+#' @param id_In A vector of character strings - the biofeature id;
 #' if NULL it returns all biofeature ids
+#' @param useIds A logical (TRUE as default) - It allows using biofeature ids
 #'
 #' @return A data.frame with three columns: id, name, description
 #' @export
 #'
 #' @examples
 #' my_genes <- c("VIT_00s0332g00110","VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030")
-#' get_biofeature_id(name_In = my_genes)
-get_biofeature_id <- function(compendium = "vespucci",
-                              name_In = NULL){
-  # if(is.null(name_In)) stop("Provide name_In (e.g. name_In = c('VIT_00s0332g00060', 'VIT_00s0332g00160')")
-  if(is.null(name_In)){
-    my_query <- paste0('{
-  biofeatures(compendium:\"', compendium, '\") {
-    edges {
-      node {
-        id
-        name
-        description
-            }
-          }
-        }
-      }')
-    tmp <- t(sapply(build_query(my_query)$biofeatures$edges, unlist))
-    colnames(tmp) <- c("id", "name", "description"); rownames(tmp) <- NULL
-    as.data.frame(tmp)
-
-  }
-  my_query <- paste0('{
-  biofeatures(compendium:\"', compendium, '\", name_In:\"', paste0(name_In, collapse =","), '\") {
-    edges {
-      node {
-        id
-        name
-        description
-            }
-          }
-        }
-      }')
-    tmp <- t(sapply(build_query(my_query)$biofeatures$edges, unlist))
-    colnames(tmp) <- c("id", "name", "description"); rownames(tmp) <- NULL
-    as.data.frame(tmp)
-}
-
-#' get_biofeature_name
-#'
-#' @param compendium A string - the selected compendium
-#' @param id_In A vector of character strings - the biofeature id;
-#' if NULL it returns all biofeature ids
-#'
-#' @return A data.frame with three columns: id, name, description
-#' @export
-#'
-#' @examples
+#' get_biofeature_id(id_In = my_genes, useIds = FALSE)
 #' my_ids <- c("QmlvRmVhdHVyZVZhbHVlVHlwZToyNzQzOQ==","QmlvRmVhdHVyZVZhbHVlVHlwZToyNzg5Mg==")
-#' get_biofeature_name(id_In = my_ids)
-get_biofeature_name <- function(compendium = "vespucci",
-                              id_In = NULL){
+#' get_biofeature_id(id_In = my_ids, useIds = TRUE)
+get_biofeature_id <- function(compendium = "vespucci",
+                              id_In = NULL,
+                              useIds = TRUE){
   if(is.null(id_In)){
     my_query <- paste0('{
   biofeatures(compendium:\"', compendium, '\") {
@@ -762,6 +723,7 @@ get_biofeature_name <- function(compendium = "vespucci",
     as.data.frame(tmp)
 
   }
+  else if(useIds){
   my_query <- paste0('{
   biofeatures(compendium:\"', compendium, '\", id_In:\"', paste0(id_In, collapse =","), '\") {
     edges {
@@ -773,6 +735,19 @@ get_biofeature_name <- function(compendium = "vespucci",
           }
         }
       }')
+  } else {
+  my_query <- paste0('{
+  biofeatures(compendium:\"', compendium, '\", name_In:\"', paste0(id_In, collapse =","), '\") {
+    edges {
+      node {
+        id
+        name
+        description
+            }
+          }
+        }
+      }')
+  }
   tmp <- t(sapply(build_query(my_query)$biofeatures$edges, unlist))
   colnames(tmp) <- c("id", "name", "description"); rownames(tmp) <- NULL
   as.data.frame(tmp)
@@ -781,7 +756,7 @@ get_biofeature_name <- function(compendium = "vespucci",
 #' get_sampleset_id
 #'
 #' @param compendium A string - the selected compendium
-#' @param name_In A vector of character strings - either samplesetNames or sampleSetIds
+#' @param id_In A vector of character strings - either samplesetNames or sampleSetIds
 #' @param useIds A logical (FALSE as default) - It allows using sampleSetIds
 #' @param normalization A string ('legacy' as default)
 #'
@@ -789,22 +764,22 @@ get_biofeature_name <- function(compendium = "vespucci",
 #' @export
 #'
 #' @examples
-#' my_ss <- c("GSM671720.ch1-vs-GSM671719.ch1","GSM671721.ch1-vs-GSM671719.ch1"
+#' my_ss=c("GSM671720.ch1-vs-GSM671719.ch1","GSM671721.ch1-vs-GSM671719.ch1"
 #' ,"GSM671722.ch1-vs-GSM671719.ch1","GSM147672.ch1-vs-GSM147690.ch1")
-#' get_sampleset_id(name_In = my_ss, normalization = "legacy")
-#' my_ids <- c("U2FtcGxlVHlwZToxMDI4","U2FtcGxlVHlwZTozMDQ5","U2FtcGxlVHlwZTo3MTY=")
-#' get_sampleset_id(name_In = my_ids, normalization = "limma", useIds = TRUE)
+#' get_sampleset_id(id_In = my_ss, normalization = "legacy")
+#' my_ids=c("U2FtcGxlU2V0VHlwZTo2NDE5","U2FtcGxlU2V0VHlwZToyMTg2OA==","U2FtcGxlU2V0VHlwZToyMTg2Nw==")
+#' get_sampleset_id(id_In = my_ids, normalization = "limma", useIds = TRUE)
 get_sampleset_id <- function(compendium = "vespucci",
                              normalization = "legacy",
-                             name_In = NULL,
+                             id_In = NULL,
                              useIds = FALSE){
-  if(is.null(name_In)) stop("Provide name_In (e.g. name_In = 'GSM671720.ch1-vs-GSM671719.ch1','GSM671721.ch1-vs-GSM671719.ch1'")
+  if(is.null(id_In)) stop("Provide id_In (e.g. id_In = 'GSM671720.ch1-vs-GSM671719.ch1','GSM671721.ch1-vs-GSM671719.ch1'")
   if(normalization == "legacy") version <- "legacy"
   else if(normalization %in% c("limma","tpm")) version <- "2.0"
   else stop("normalization HAS TO BE either legacy, limma or tpm.")
   if(useIds) {
     my_query <- paste0('{
-    sampleSets(compendium:\"', compendium, '\", version:\"', version, '\", normalization:\"', normalization, '\", samples:["', paste0(name_In, collapse = '","'),'\"]) {
+    sampleSets(compendium:\"', compendium, '\", version:\"', version, '\", normalization:\"', normalization, '\", id_In:\"', paste0(id_In, collapse =","), '\") {
     edges {
       node {
         id,
@@ -816,7 +791,7 @@ get_sampleset_id <- function(compendium = "vespucci",
   }
   else {
     my_query <- paste0('{
-    sampleSets(compendium:\"', compendium, '\", version:\"', version, '\", normalization:\"', normalization, '\", name_In:\"', paste0(name_In, collapse =","), '\") {
+    sampleSets(compendium:\"', compendium, '\", version:\"', version, '\", normalization:\"', normalization, '\", name_In:\"', paste0(id_In, collapse =","), '\") {
     edges {
       node {
         id,
@@ -830,6 +805,42 @@ get_sampleset_id <- function(compendium = "vespucci",
   colnames(tmp) <-  c("id","name"); rownames(tmp) <-  NULL
   tmp
 }
+
+#' get_sampleset_by_sampleid
+#'
+#' @param compendium A string - the selected compendium
+#' @param normalization A string ('legacy' as default)
+#' @param samples A vector of character strings - samples id
+#'
+#' @return A data.frame with two columns: id and name
+#' @export
+#'
+#' @examples
+#' my_ids=c("U2FtcGxlVHlwZToxMzM4","U2FtcGxlU2V0VHlwZToxMzM3")
+#' get_sampleset_by_sampleid(samples = my_ids, normalization = "tpm")
+get_sampleset_by_sampleid <- function(compendium = "vespucci",
+                             normalization = "tpm",
+                             samples = NULL){
+  if(is.null(samples)) stop("Provide sample ids (e.g. id_In = 'U2FtcGxlVHlwZToxMzM4','U2FtcGxlVHlwZToxMzM0'")
+  if(normalization == "legacy") version <- "legacy"
+  else if(normalization %in% c("limma","tpm")) version <- "2.0"
+  else stop("normalization HAS TO BE either legacy, limma or tpm.")
+    my_query <- paste0('{
+    sampleSets(compendium:\"', compendium, '\", version:\"', version, '\", normalization:\"', normalization, '\", samples:["', paste0(samples, collapse = '","'),'\"]) {
+    edges {
+      node {
+        id,
+        name
+        }
+      }
+    }
+  }')
+  tmp <- as.data.frame(t(sapply(build_query(my_query)$sampleSets$edges, unlist)))
+  colnames(tmp) <-  c("id","name"); rownames(tmp) <-  NULL
+  tmp
+}
+
+
 
 #' get_ranking
 #'
@@ -866,10 +877,8 @@ get_ranking <- function(compendium = "vespucci"){
 #' @export
 #'
 #' @examples
-#' my_ids <- c("VIT_00s0332g00110","VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030")
-#' get_samplesets_ranking(biofeaturesNames = my_ids, top_n = 10)
-#' get_samplesets_ranking(biofeaturesNames=c("QmlvRmVhdHVyZVR5cGU6MQ==","QmlvRmVhdHVyZVR5cGU6Mg==",
-#'  "QmlvRmVhdHVyZVR5cGU6Mw==","QmlvRmVhdHVyZVR5cGU6NA==",
+#' get_samplesets_ranking(biofeaturesNames=c("QmlvRmVhdHVyZVR5cGU6MQ==",
+#' "QmlvRmVhdHVyZVR5cGU6Mg==","QmlvRmVhdHVyZVR5cGU6Mw==","QmlvRmVhdHVyZVR5cGU6NA==",
 #'  "QmlvRmVhdHVyZVR5cGU6NQ=="), useIds = TRUE, top_n = 10)
 get_samplesets_ranking <- function(compendium = "vespucci",
                                    normalization = "legacy",
@@ -926,7 +935,7 @@ get_biofeature_ranking <- function(compendium = "vespucci",
                                    rank = "uncentered_correlation",
                                    rankTarget = "biofeatures",
                                    top_n = 50,
-                                   useIds = FALSE){
+                                   useIds = TRUE){
   if(normalization == "legacy") version <- "legacy"
   else if(normalization %in% c("limma","tpm")) version <- "2.0"
   else stop("normalization HAS TO BE either legacy, limma or tpm.")

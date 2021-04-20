@@ -40,7 +40,7 @@ Plot a distribution from a model
 gene_names <- c('VIT_00s0246g00220','VIT_00s0332g00060','VIT_00s0332g00110',
 'VIT_00s0332g00160','VIT_00s0396g00010','VIT_00s0505g00030','VIT_00s0505g00060',
 'VIT_00s0873g00020','VIT_00s0904g00010')
-module_1 <- create_module(biofeaturesNames=gene_names, version = "legacy")
+module_1 <- create_module(biofeaturesNames=gene_names, normalization = "legacy")
 plot_module_distribution(module = module_1,
 plotType = "biological_features_uncentered_correlation_distribution", plot = TRUE)
 plot_module_distribution(module = module_1,

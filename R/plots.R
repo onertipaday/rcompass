@@ -39,7 +39,7 @@ get_available_plot_methods <- function(compendium = "vespucci"){
 #' gene_names <- c('VIT_00s0246g00220','VIT_00s0332g00060','VIT_00s0332g00110',
 #' 'VIT_00s0332g00160','VIT_00s0396g00010','VIT_00s0505g00030','VIT_00s0505g00060'
 #' ,'VIT_00s0873g00020','VIT_00s0904g00010')
-#' module_1 <- create_module(biofeaturesNames=gene_names, version = "legacy")
+#' module_1 <- create_module(biofeaturesNames=gene_names, normalization = "legacy")
 #' plot_module_network(module = module_1, plot = FALSE)
 #'}
 plot_module_network <- function(compendium = "vespucci",
@@ -53,8 +53,10 @@ plot_module_network <- function(compendium = "vespucci",
   else if (normalization == "limma" | normalization == "tpm") version <- "2.0"
   else version <- "legacy"
 
-  biofeaturesIds <- get_biofeature_id(name_In = rownames(module))$id
-  samplesetIds <- get_sampleset_id(name_In = colnames(module))$id
+  # biofeaturesIds <- get_biofeature_id(name_In = rownames(module))$id
+  # samplesetIds <- get_sampleset_id(name_In = colnames(module))$id
+  samplesetIds <- colnames(module)
+  biofeaturesIds <- rownames(module)
   my_query <- paste0('{
       plotNetwork(compendium:\"', compendium, '\", version:\"', version, '\",
       threshold:', threshold, ', plotType:"module_coexpression_network",
@@ -98,7 +100,7 @@ plot_module_network <- function(compendium = "vespucci",
 #'gene_names <- c('VIT_00s0246g00220','VIT_00s0332g00060','VIT_00s0332g00110',
 #''VIT_00s0332g00160','VIT_00s0396g00010','VIT_00s0505g00030','VIT_00s0505g00060',
 #''VIT_00s0873g00020','VIT_00s0904g00010')
-#' module_1 <- create_module(biofeaturesNames=gene_names, version = "legacy")
+#' module_1 <- create_module(biofeaturesNames=gene_names, normalization = "legacy")
 #' plot_module_distribution(module = module_1,
 #' plotType = "biological_features_uncentered_correlation_distribution", plot = TRUE)
 #' plot_module_distribution(module = module_1,
@@ -118,12 +120,14 @@ plot_module_distribution <- function(compendium = "vespucci",
   else if (normalization == "limma" | normalization == "tpm") version <- "2.0"
   else version <- "legacy"
 
-  biofeaturesIds <- get_biofeature_id(name_In = rownames(module))$id
-  samplesetIds <- get_sampleset_id(name_In = colnames(module))$id
+  # biofeaturesIds <- get_biofeature_id(name_In = rownames(module))$id
+  # samplesetIds <- get_sampleset_id(name_In = colnames(module))$id
+  samplesetIds <- colnames(module)
+  biofeaturesIds <- rownames(module)
   if(!getRank){
   my_query <- paste0('{
     plotDistribution(compendium:\"', compendium, '\", version:\"', version, '\",
-    plotType:\"', plotType, '\",
+    plotType:\"', plotType, '\", normalization:\"', normalization, '\",
         biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"],
         samplesetIds:["', paste0(samplesetIds, collapse = '","'),'\"]), {',
                        type,'
@@ -149,17 +153,19 @@ plot_module_distribution <- function(compendium = "vespucci",
     plot <- FALSE
     my_query <- paste0('{
     plotDistribution(compendium:\"', compendium, '\", version:\"', version, '\",
-    plotType:\"', plotType, '\",
+    plotType:\"', plotType, '\", normalization:\"', normalization, '\",
         biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"],
         samplesetIds:["', paste0(samplesetIds, collapse = '","'),'\"]), {
                        ranking{
+                         id
                          name
                          value
                        }
       }
     }')
-    # output <- build_query(my_query)$plotDistribution$ranking
-    as.data.frame(sapply(build_query(my_query)$plotDistribution$ranking,unlist))
+    build_query(my_query)$plotDistribution$ranking
+
+    # as.data.frame(sapply(build_query(my_query)$plotDistribution$ranking,unlist))
   }
 }
 
@@ -173,22 +179,25 @@ plot_module_distribution <- function(compendium = "vespucci",
 #' @param sorted A logical - it returns sorted index for both bf and ss
 #' @param min A numeric (-6 default)
 #' @param max A numeric (6 default)
+#' @param alternativeColoring A logical - if TRUE (defautl) a color blind friendly palette is used
 #'
 #' @return Either a json, an html, a plotly htmlwidget, or a list of sorted features
 #' @export
 #'
 #' @examples
 #'\dontrun{
-#'gene_names <- c('VIT_00s0246g00220','VIT_00s0332g00060','VIT_00s0332g00110')
-#' module_1 <- create_module(biofeaturesNames=gene_names, version = "legacy")
-#' plot_module_heatmap(module = module_1, plot = TRUE)
-#' plot_module_heatmap(module = module_1, sorted = TRUE, plot = FALSE)
+#'gene_names <- get_biofeature_id(id_In = c('VIT_00s0246g00220',
+#' 'VIT_00s0332g00060','VIT_00s0332g00110'), useIds = F)
+#' mod <- create_module(biofeaturesNames=gene_names$id, normalization = "legacy", useIds = T)
+#' plot_module_heatmap(module = mod, plot = TRUE)
+#' sorted_idx <- plot_module_heatmap(mod = module_1, sorted = TRUE, plot = FALSE)
 #'}
 plot_module_heatmap <- function(compendium = "vespucci",
                                 module = NULL,
                                 normalization = "legacy",
                                 type = "json",
                                 plot = TRUE,
+                                alternativeColoring = TRUE,
                                 min = -6,
                                 max= 6,
                                 sorted = FALSE){
@@ -196,13 +205,14 @@ plot_module_heatmap <- function(compendium = "vespucci",
   if (is.null(normalization)) stop ("Normalization has to be either 'limma','tpm' or 'legacy'.")
   else if (normalization == "limma" | normalization == "tpm") version <- "2.0"
   else version <- "legacy"
+  if(alternativeColoring) altCol <- "true"
+  else altCol <- "false"
+  samplesetIds <- colnames(module)
+  biofeaturesIds <- rownames(module)
 
-  biofeaturesIds <- get_biofeature_id(name_In = rownames(module))$id
-  samplesetIds <- get_sampleset_id(name_In = colnames(module))$id
   if(sorted){
     my_query <- paste0('{
-      plotHeatmap(compendium:\"', compendium, '\", version:\"', version, '\",
-      plotType:"module_heatmap_expression",
+      plotHeatmap(compendium:\"', compendium, '\", version:\"', version, '\", normalization:\"', normalization, '\", plotType:"module_heatmap_expression",
         biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"],
         samplesetIds:["', paste0(samplesetIds, collapse = '","'),'\"]), {
                        sortedBiofeatures {
@@ -217,15 +227,14 @@ plot_module_heatmap <- function(compendium = "vespucci",
     return(list(sortedSamplesets = sapply(output$sortedSamplesets, unlist),
                 sortedBiofeatures = sapply(output$sortedBiofeatures, unlist)))
   } else {
-    my_query <- paste0('{
-      plotHeatmap(compendium:\"', compendium, '\", version:\"', version, '\",
-      plotType:"module_heatmap_expression",min:',min,',max:',max,',
+  my_query <- paste0('{
+      plotHeatmap(compendium:\"', compendium, '\", version:\"', version, '\", normalization:\"', normalization, '\", alternativeColoring:', noquote(altCol), ', plotType:"module_heatmap_expression",min:',min,',max:',max,',
         biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"],
         samplesetIds:["', paste0(samplesetIds, collapse = '","'),'\"]), {',
-                       type,'
+                     type,'
       }
     }')
-  }
+}
   output <- build_query(my_query)$plotHeatmap
   if (plot) {
     my_data <- RJSONIO::fromJSON(output)$data
@@ -245,6 +254,7 @@ plot_module_heatmap <- function(compendium = "vespucci",
 #' @param plotType A string - see \code{\link{get_available_plot_methods}}
 #' @param normalization A string - either 'limma','tpm' or legacy as normalization
 #' @param threshold A numeric - A Pearson correalation value
+#' @param alternativeColoring A logical - if TRUE (defautl) a color blind friendly palette is used
 #' @param min A numeric (-6 default)
 #' @param max A numeric (6 default)
 #'
@@ -254,6 +264,7 @@ plot_module_heatmap <- function(compendium = "vespucci",
 view_plot <- function(module = NULL,
                       plotType = "biological_features_uncentered_correlation_distribution",
                       normalization = "legacy",
+                      alternativeColoring = TRUE,
                       threshold = 0.7,
                       min = -6,
                       max = 6){
@@ -268,6 +279,7 @@ view_plot <- function(module = NULL,
     my_html <- plot_module_heatmap(module = module,
                                    type = "html",
                                    normalization = normalization,
+                                   alternativeColoring = alternativeColoring,
                                    min = min,
                                    max = max,
                                    plot = FALSE)

@@ -11,7 +11,7 @@ get_biofeature_ranking(
   rank = "uncentered_correlation",
   rankTarget = "biofeatures",
   top_n = 50,
-  useIds = FALSE
+  useIds = TRUE
 )
 }
 \arguments{

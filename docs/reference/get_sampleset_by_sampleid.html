@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>plot heatmap from a module — plot_module_heatmap • rcompass</title>
+<title>get_sampleset_by_sampleid — get_sampleset_by_sampleid • rcompass</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="plot heatmap from a module — plot_module_heatmap" />
-<meta property="og:description" content="plot heatmap from a module" />
+<meta property="og:title" content="get_sampleset_by_sampleid — get_sampleset_by_sampleid" />
+<meta property="og:description" content="get_sampleset_by_sampleid" />
 
 
 
@@ -126,25 +126,19 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>plot heatmap from a module</h1>
-    <small class="dont-index">Source: <a href='https://github.com/onertipaday/rcompass/blob/master/R/plots.R'><code>R/plots.R</code></a></small>
-    <div class="hidden name"><code>plot_module_heatmap.Rd</code></div>
+    <h1>get_sampleset_by_sampleid</h1>
+    <small class="dont-index">Source: <a href='https://github.com/onertipaday/rcompass/blob/master/R/queries.R'><code>R/queries.R</code></a></small>
+    <div class="hidden name"><code>get_sampleset_by_sampleid.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>plot heatmap from a module</p>
+    <p>get_sampleset_by_sampleid</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_module_heatmap</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>get_sampleset_by_sampleid</span><span class='op'>(</span>
   compendium <span class='op'>=</span> <span class='st'>"vespucci"</span>,
-  module <span class='op'>=</span> <span class='cn'>NULL</span>,
-  normalization <span class='op'>=</span> <span class='st'>"legacy"</span>,
-  type <span class='op'>=</span> <span class='st'>"json"</span>,
-  plot <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  alternativeColoring <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  min <span class='op'>=</span> <span class='op'>-</span><span class='fl'>6</span>,
-  max <span class='op'>=</span> <span class='fl'>6</span>,
-  sorted <span class='op'>=</span> <span class='cn'>FALSE</span>
+  normalization <span class='op'>=</span> <span class='st'>"tpm"</span>,
+  samples <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -155,52 +149,25 @@
       <td><p>A string - the selected compendium</p></td>
     </tr>
     <tr>
-      <th>module</th>
-      <td><p>A matrix with valid rownames (biofeatureNames) and colnames (samplesetsNames)</p></td>
-    </tr>
-    <tr>
       <th>normalization</th>
-      <td><p>A string - either 'limma','tpm' or legacy as normalization</p></td>
+      <td><p>A string ('legacy' as default)</p></td>
     </tr>
     <tr>
-      <th>type</th>
-      <td><p>A string -  either 'html'  or 'json</p></td>
-    </tr>
-    <tr>
-      <th>plot</th>
-      <td><p>A logical - it returns the graphics object</p></td>
-    </tr>
-    <tr>
-      <th>alternativeColoring</th>
-      <td><p>A logical - if TRUE (defautl) a color blind friendly palette is used</p></td>
-    </tr>
-    <tr>
-      <th>min</th>
-      <td><p>A numeric (-6 default)</p></td>
-    </tr>
-    <tr>
-      <th>max</th>
-      <td><p>A numeric (6 default)</p></td>
-    </tr>
-    <tr>
-      <th>sorted</th>
-      <td><p>A logical - it returns sorted index for both bf and ss</p></td>
+      <th>samples</th>
+      <td><p>A vector of character strings - samples id</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Either a json, an html, a plotly htmlwidget, or a list of sorted features</p>
+    <p>A data.frame with two columns: id and name</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='va'>gene_names</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_biofeature_id.html'>get_biofeature_id</a></span><span class='op'>(</span>id_In <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'VIT_00s0246g00220'</span>,
-<span class='st'>'VIT_00s0332g00060'</span>,<span class='st'>'VIT_00s0332g00110'</span><span class='op'>)</span>, useIds <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span>
-<span class='va'>mod</span> <span class='op'>&lt;-</span> <span class='fu'><a href='create_module.html'>create_module</a></span><span class='op'>(</span>biofeaturesNames<span class='op'>=</span><span class='va'>gene_names</span><span class='op'>$</span><span class='va'>id</span>, normalization <span class='op'>=</span> <span class='st'>"legacy"</span>, useIds <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span>
-<span class='fu'>plot_module_heatmap</span><span class='op'>(</span>module <span class='op'>=</span> <span class='va'>mod</span>, plot <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='va'>sorted_idx</span> <span class='op'>&lt;-</span> <span class='fu'>plot_module_heatmap</span><span class='op'>(</span>mod <span class='op'>=</span> <span class='va'>module_1</span>, sorted <span class='op'>=</span> <span class='cn'>TRUE</span>, plot <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='va'>my_ids</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"U2FtcGxlVHlwZToxMzM4"</span>,<span class='st'>"U2FtcGxlU2V0VHlwZToxMzM3"</span><span class='op'>)</span>
+<span class='fu'>get_sampleset_by_sampleid</span><span class='op'>(</span>samples <span class='op'>=</span> <span class='va'>my_ids</span>, normalization <span class='op'>=</span> <span class='st'>"tpm"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                             id           name
+#&gt; 1 U2FtcGxlU2V0VHlwZToyMTk5MA== GSM1551305.ch1
+#&gt; 2 U2FtcGxlU2V0VHlwZToyMTk5MQ== GSM1551302.ch1</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

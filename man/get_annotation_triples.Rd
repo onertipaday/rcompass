@@ -19,7 +19,4 @@ get_annotation_triples
 }
 \examples{
 get_annotation_triples(ids = "U2FtcGxlVHlwZTozMjAw")
-my_ids <- get_biofeature_id(name_In = c("VIT_00s0332g00160","VIT_00s0396g00010"
-,"VIT_00s0505g00030"))$id
-get_annotation_triples(ids = my_ids)
 }

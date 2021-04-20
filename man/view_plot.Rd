@@ -8,6 +8,7 @@ view_plot(
   module = NULL,
   plotType = "biological_features_uncentered_correlation_distribution",
   normalization = "legacy",
+  alternativeColoring = TRUE,
   threshold = 0.7,
   min = -6,
   max = 6
@@ -19,6 +20,8 @@ view_plot(
 \item{plotType}{A string - see \code{\link{get_available_plot_methods}}}
 
 \item{normalization}{A string - either 'limma','tpm' or legacy as normalization}
+
+\item{alternativeColoring}{A logical - if TRUE (defautl) a color blind friendly palette is used}
 
 \item{threshold}{A numeric - A Pearson correalation value}
 

@@ -4,10 +4,16 @@
 \alias{get_sample_info}
 \title{get_sample_info}
 \usage{
-get_sample_info(compendium = "vespucci", sampleName = NULL)
+get_sample_info(
+  compendium = "vespucci",
+  normalization = "limma",
+  sampleName = NULL
+)
 }
 \arguments{
 \item{compendium}{A string - the selected compendium}
+
+\item{normalization}{A string ('legacy' as default)}
 
 \item{sampleName}{A string - GEO Sample accession id (GSM)}
 }

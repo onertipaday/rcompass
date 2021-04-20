@@ -46,7 +46,7 @@ We can query the compendium with the list of gene names and get a list of Biolog
 
 
 ```{r}
-bf_ids <- get_biofeature_id(compendium = "vespucci", name_In = gene_names) 
+bf_ids <- get_biofeature_id(compendium = "vespucci", id_In = gene_names, useIds = FALSE) 
 knitr::kable(bf_ids)
 ```
 Each BiologicalFeature object has several fields. In our case, since the BiologicalFeature represent a gene, we have sequence. The id is the identifier used internally in the database.
@@ -75,32 +75,42 @@ and check results are the same:
 ```{r}
 identical(sparql_results[,1],sparql_results_check)
 ```
-As before we can retrieve the sequence associate to our aliases using the ids from the database.
+
+Now we add the genes id retrieved using either the sparql query or the wrapper function `get_ids_from_alias()` to the original genes id list.
+
 ```{r}
-#knitr::kable(get_biofeature_by_name(name_In = unique(unique( get_annotation_triples(ids = sparql_results[,1])[,1]))))
+gene_ids_module <- c(bf_ids$id, sparql_results_check)
+gene_names_module <- c(bf_ids$name, get_biofeature_id(id_In = sparql_results_check)$name)
 ```
+
 
 # Create a Module
 We are now ready to create our first module. If we pass a list of genes (BiologicalFeature objects) it will automatically retrieve the "best" conditions (SampleSet objects).
 
 ```{r module_1_creation}
-module_1 <- create_module(biofeaturesNames = gene_names, normalization = "legacy")
+module_1 <- create_module_bf(biofeaturesNames = gene_ids_module, 
+                             normalization = "limma", 
+                             useIds = TRUE)
 ```
 
 A module can be thought as a matrix composed by BiologicalFeature objects (genes in our case) as rows and SampleSet objects (conditions contrasts in our case) as columns. Each SampleSet, as the name suggests, is composed by 1 or more Sample objects. Since we are using the legacy normalization each SampleSet is composed by 2 samples, one Test sample and one Reference sample and the value associated is the logratio between the Test and Reference for a specific gene (BiologicalFeature).
 
 ```{r}
-knitr::kable(module_1, class = 'cell-border stripe')
-```
-```{r eval=FALSE, include=FALSE}
-knitr::kable(get_sampleset_id(name_In = colnames(module_1), normalization = "legacy"))
+module_limma <- module_1
+colnames(module_limma) <- get_sampleset_id(normalization = "limma", id_In = colnames(module_limma), useIds = T)$name
+row.names(module_limma) <- get_biofeature_id(id_In = rownames(module_limma))$name
+knitr::kable(module_limma, class = 'cell-border stripe')
 ```
 
 # Plot a module
 The easiest way to visualize a module is using a heatmap. The Plot object wraps a module and can return different plot type with different format (the Plotly JSON format or HTML). To see an heatmap embedded in rstudio we can retrieve the HTML code of the Plot (that uses Plotly) and display it directly into the viewer.
 
 ```{r plot_module_heatmap_html, echo = TRUE, eval = FALSE}
-view_plot(module = module_1, plotType = "module_heatmap_expression", min = -7, max = 7)
+view_plot(module = module_1, 
+          normalization = "limma",
+          plotType = "module_heatmap_expression",
+          alternativeColoring = FALSE,
+          min = -10, max = 10)
 ```
 
 Alternatively you can use directly any R function to cluster data and produce an heatmap, e.g.:
@@ -123,21 +133,10 @@ pheat_cl
 Biological Features (genes) and Sample Sets (contrasts) have no particular order in a module. But since the heatmap is clustered we can retrieve the sorted list of Biological Features and Sample Sets respectively using the `sorted = TRUE` parameter. 
 
 ```{r}
-my_sorted_indexes <- plot_module_heatmap(module = module_1, plot = FALSE, sorted = TRUE)
-unsorted_ss <- get_sampleset_id(name_In = colnames(module_1), normalization = "legacy")
-unsorted_bf <- get_biofeature_id(name_In = row.names(module_1))
-sorted_ss <- unsorted_ss[match(my_sorted_indexes$sortedSamplesets,unsorted_ss$id),]
-sorted_bf <- unsorted_bf[match(my_sorted_indexes$sortedBiofeatures,unsorted_bf$id),]
-module_1[sorted_bf$name,sorted_ss$name][1:5,1:5]
-```
-
-or, alternatively, you can create a new module with the sorted features (bf and ss) already in place:
-
-```{r}
-module_1_sorted <- create_module(biofeaturesNames = my_sorted_indexes$sortedBiofeatures, 
-                                 samplesetNames = my_sorted_indexes$sortedSamplesets, 
-                                 normalization = "legacy", 
-                                 useIds = TRUE)
+my_sorted_indexes <- plot_module_heatmap(module = module_1, normalization = "limma", plot = FALSE, sorted = TRUE)
+mod_tmp = module_1[match(my_sorted_indexes$sortedBiofeatures,rownames(module_1)),
+                   match(my_sorted_indexes$sortedSamplesets,colnames(module_1))]
+mod_tmp[1:5,1:5]
 ```
 
 Alternatively we can use variables containing the order for both rows and columns produced by other heatmap functions.
@@ -150,7 +149,10 @@ knitr::kable(module_1[pheat_cl$tree_row$order,pheat_cl$tree_col$order])
 Given a module we can plot the correlation network between Biological Features (genes) by looking at the Pearson correlation coefficient of the module's Sample Sets (contrast). The default threshold is 0.7, but it can be changed. Edges in orange represent anti-correlation.
 
 ```{r plot_module_network, echo = TRUE, eval = FALSE}
-view_plot(module = module_1, plotType = "module_coexpression_network", threshold = 0.2)
+view_plot(module = module_1, 
+          normalization = "limma",
+          plotType = "module_coexpression_network", 
+          threshold = 0.2)
 ```
 
 # Automatically expand a module
@@ -158,13 +160,15 @@ One of the classic way to use VESPUCCI is to start with a set of genes selected 
 The way to do it is to plot the distribution of genes that show a similar behavior of the module's genes across the same condition in order pick up a suitable threshold.
 
 ```{r plot_module_distribution html, echo = TRUE, eval = FALSE}
-view_plot(module = module_1, plotType = "biological_features_uncentered_correlation_distribution")
+view_plot(module = module_1, normalization = "limma",
+          plotType = "biological_features_uncentered_correlation_distribution")
 ```
 
-For example, if we pick a threshold around 0.8 (looking at the top plot) we might expect to have around 40 Biological Features (genes) with a score equal or greater than that, to be added in our module. In this case let's just pick the top 30 genes and create e new module.
+For example, if we pick a threshold around 0.9 (looking at the top plot) we might expect to have around 15 Biological Features (genes) with a score equal or greater than that, to be added in our module. In this case let's just pick the top 15 genes and create e new module.
 
 ```{r}
 top_bf <- plot_module_distribution(module = module_1, 
+                                   normalization = "limma",
                                    plotType = "biological_features_uncentered_correlation_distribution",
                                    getRank = TRUE)
 ```
@@ -172,29 +176,33 @@ top_bf <- plot_module_distribution(module = module_1,
 The new module is created by adding Biological Feature objects to the old module.
 
 ```{r}
-module_2 <- create_module(biofeaturesNames = c(rownames(module_1), top_bf$name[1:30]), 
-                          normalization = "legacy", 
-                          useIds = FALSE)
+module_2 <- create_module(biofeaturesNames = c(rownames(module_1), top_bf$id[1:15]), 
+                             normalization = "limma", 
+                             useIds = TRUE)
 ```
 
 We can have a look at the heatmap of the new module
 
 ```{r pheatmap_module_2, echo = TRUE, eval = FALSE}
-view_plot(module_2, plotType = "module_heatmap_expression" )
+view_plot(module = module_2, 
+          normalization = "limma",
+          plotType = "module_heatmap_expression",
+          alternativeColoring = TRUE)
 ```
 
 # Annotations
 In VESPUCCI, both Biological Feature (gene) and Sample annotations are represented using [RDF](https://en.wikipedia.org/wiki/Resource_Description_Framework). We can visualize annotation as a set of RDF triples.
 ```{r echo=TRUE}
-samples <- strsplit(sorted_ss$name[[1]],split = "-vs-")[[1]]
-# knitr::kable(get_sample_by_gsm(sampleName_In =  samples))
-knitr::kable(get_annotation_triples(ids =  get_sample_by_gsm(sampleName_In =  samples)$sampleId))
+samples <- my_sorted_indexes$sortedSamplesets
+# samples <- strsplit(sorted_ss$name[[1]],split = "-vs-")[[1]]
+# # knitr::kable(get_sample_by_gsm(sampleName_In =  samples))
+# knitr::kable(get_annotation_triples(ids =  get_sample_by_gsm(sampleName_In =  samples)$sampleId))
 ```
 
 Another way is to visualize the annotation is with RDF graph.
 
 ```{r plot_annotation_network, echo = TRUE, eval = FALSE}
-plot_annotation_network(ids = sorted_ss$id, viewer = T)
+plot_annotation_network(ids = my_sorted_indexes$sortedBiofeatures, viewer = T)
 ```
 
 Annotations can also be used to retrieve Sample or Biological Features (gene) starting from a SPARQL query. For example we might want to select all seed Sample.
@@ -210,20 +218,23 @@ Here we retrieve all the samples used based on the sparql query:
 ```{r}
 seed_samples <- get_sparql_annotation_triples(target = "sample", 
                                               query = sparql,
-                                              normalization = "legacy")[,1]
+                                              normalization = "limma")[,1]
 ```
 
 Now we can collect all the Sample Sets in which these samples are used and then create a new module based on Sample Sets only leaving VESPUCCI to figure out which are the genes (Biological Feature objects) that show a consistent up or down-regulated profile.
 
 ```{r}
-seed_ss <- get_sampleset_id(name_In = seed_samples, useIds = TRUE)
-module_3 <- create_module(samplesetNames = seed_ss$name, useIds = FALSE)
+seed_ss <- get_sampleset_id(id_In = seed_samples, useIds = TRUE)
+module_3 <- create_module(samplesetNames = seed_ss$id, useIds = TRUE)
 ```
 
 And now we can plot the heatmap
 
 ```{r plot_heatmap_module_3, echo = TRUE, eval = FALSE}
-view_plot(module_3, plotType = "module_heatmap_expression" )
+view_plot(module = module_3, 
+          normalization = "limma",
+          plotType = "module_heatmap_expression",
+          alternativeColoring = FALSE)
 ```
 
 # Session information
