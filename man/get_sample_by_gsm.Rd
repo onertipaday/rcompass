@@ -4,10 +4,16 @@
 \alias{get_sample_by_gsm}
 \title{retrieve internal id, name (GSM), description for sample providing sampleName (GSM)}
 \usage{
-get_sample_by_gsm(compendium = "vespucci", sampleName_In = "GSM1313535")
+get_sample_by_gsm(
+  compendium = "vespucci",
+  normalization = "limma",
+  sampleName_In = "GSM1313535"
+)
 }
 \arguments{
 \item{compendium}{A string - the selected compendium}
+
+\item{normalization}{A string - 'tpm' (as default), 'limma' or 'legacy'}
 
 \item{sampleName_In}{A character5 vector - GSMs (GEO Sample access ids)}
 }
@@ -19,6 +25,6 @@ retrieve internal id, name (GSM), description for sample providing sampleName (G
 }
 \examples{
 \dontrun{
-get_sample_by_gsm(sampleName_Icontains="GSM147672.ch1")
+get_sample_by_gsm(sampleName_In="GSM147672.ch1")
 }
 }

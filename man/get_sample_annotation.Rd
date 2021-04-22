@@ -7,6 +7,7 @@
 get_sample_annotation(
   compendium = "vespucci",
   n = NULL,
+  normalization = "limma",
   sampleName = NULL,
   useIds = FALSE
 )
@@ -15,6 +16,8 @@ get_sample_annotation(
 \item{compendium}{A string - the selected compendium}
 
 \item{n}{A numeric (integer): number of sample to retrieve (default 10)}
+
+\item{normalization}{A string - 'tpm' (as default), 'limma' or 'legacy'}
 
 \item{sampleName}{A string - A sampleId or sampleName}
 
@@ -29,6 +32,7 @@ get annotations for either n samples or selected sampleName
 \examples{
 \dontrun{
 get_sample_annotation(n=5)
+get_sample_annotation(sampleName = "U2FtcGxlVHlwZTo2NDE5", useIds = TRUE)
 get_sample_annotation(sampleName = "GSM287866.ch1")
 }
 }

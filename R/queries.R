@@ -126,42 +126,53 @@ get_platform_types <- function(compendium = "vespucci"){
 }
 
 
-#' get_sample_info
+#' get_samples_info
 #'
 #' @param compendium A string - the selected compendium
-#' @param sampleName A string - GEO Sample accession id (GSM)
-#' @param normalization A string ('legacy' as default)
+#' @param normalization A string ('limma' as default)
+#' @param id_In A character vector of sample ids
+#' @param useIds A logical (FALSE as default) - It allows using sampleIds
 #'
 #' @return A data.frame
 #' @export
 #'
 #' @examples
-#' get_sample_info(sampleName = "GSM287866.ch1")
-get_sample_info <-function(compendium = "vespucci", normalization = "limma", sampleName=NULL){
-  if(missing(sampleName))stop("Provide a sampleName.")
+#'
+#'\dontrun{
+#' get_samples_info(id_In = c("U2FtcGxlU2V0VHlwZTo2NDE5","U2FtcGxlU2V0VHlwZTo2NDIx"),
+#' useIds = TRUE)
+#' get_samples_info(id_In = "GSM287866.ch1", useIds = FALSE)
+#' }
+get_samples_info <-function(compendium = "vespucci",
+                            normalization = "limma",
+                            id_In = NULL,
+                            useIds = FALSE){
+  if(missing(id_In))stop("Provide at least one sample id for the selected normalization.")
   if(normalization == "legacy") version <- "legacy"
   else if(normalization %in% c("limma","tpm")) version <- "2.0"
   else stop("normalization HAS TO BE either legacy, limma or tpm.")
-  # if(is.null(samplesetNames)) stop("Provide samplesetNames")
-  # if(useIds) samplesetIds <- samplesetNames
-  # else samplesetIds <- get_sampleset_id(name_In = samplesetNames)$id
+  if(useIds){ my_query <- paste0('{
+      samples(compendium:\"', compendium, '\", version:\"', version, '\",
+    normalization:\"', normalization, '\", id_In:\"', paste0(id_In, collapse = ','), '\") {')
+
+  } else {
     my_query <- paste0('{
       samples(compendium:\"', compendium, '\", version:\"', version, '\",
-    normalization:\"', normalization, '\", sampleName:\"', sampleName,'\") {
+    normalization:\"', normalization, '\", sampleName_In:\"', paste0(id_In, collapse = ','), '\") {')
+  }
+    my_query <- paste0(my_query,'
       edges{
         node{
           id
           sampleName
+          description
           experiment{
             id
             experimentAccessId
             experimentName
           }
           platform{
-            platformAccessId
-            platformName
-          }
-          reporterPlatform{
+            id
             platformAccessId
             platformName
           }
@@ -170,11 +181,11 @@ get_sample_info <-function(compendium = "vespucci", normalization = "limma", sam
     }
 
   }')
+  # cat(my_query, "\n")
   tmp <- as.data.frame(t(sapply(build_query(my_query)$samples$edges, unlist)))
-  colnames(tmp) <-  c("sampleId","sampleName",
+  colnames(tmp) <-  c("sampleId","sampleName","sampleDescription",
                       "experimentId","experimentAccessId","experimentName",
-                      "platformAccessId","platformName",
-                      "reporterPlatformId","reporterPlatformName")
+                      "platformId","platformAccessId","platformName")
   rownames(tmp) <-  NULL
   tmp
 }
@@ -184,35 +195,45 @@ get_sample_info <-function(compendium = "vespucci", normalization = "limma", sam
 #' use \code{\link{get_available_compendia}} to check all the available compendia
 #'
 #' @param compendium A string - the selected compendium
+#' @param normalization A string ('limma' as default)
 #' @param sampleName A string - if NULL(default) returns all available experiments ids
 #' for the selected compendium
-#' @return A data.frame with experimentAccessId and esperimentName
+#' @return A data.frame with experimentAccessId, esperimentName and description
 #' @export
 #'
 #' @examples
+#'\dontrun{
 #' get_experiments()
-#' get_experiments(sampleName="GSM671721.ch1")
+#' get_experiments(sampleName="U2FtcGxlVHlwZTo2NDE5")
+#' }
 get_experiments <- function(compendium = "vespucci",
-                            sampleName=NULL){
+                            normalization = "limma",
+                            sampleName = NULL){
+  if(normalization == "legacy") version <- "legacy"
+  else if(normalization %in% c("limma","tpm")) version <- "2.0"
+  else stop("normalization HAS TO BE either legacy, limma or tpm.")
   if(is.null(sampleName)){
     my_query <- paste0('{
-      experiments(compendium:\"', compendium, '\") {')}
+      experiments(compendium:\"', compendium, '\", normalization:\"', normalization, '\") {')}
   else{
-    tmp <- get_sample_info(sampleName = sampleName)
+    tmp <- get_samples_info(id_In = sampleName, normalization = normalization)
     my_query <- paste0('{
-    experiments(compendium:\"', compendium, '\", id:\"', tmp$sampleId,'\") {')
+    experiments(compendium:\"', compendium, '\",
+    normalization:\"', normalization, '\", id:\"', tmp$experimentId,'\") {')
   }
   my_query <- paste0(my_query,'
         edges {
         node {
           experimentAccessId,
           experimentName
+          description
         }
       }
     }
   }')
+  # cat(my_query, "\n")
   tmp <- as.data.frame(t(sapply(build_query(my_query)$experiments$edges, unlist)))
-  colnames(tmp) <-  c("experimentAccessId","experimentName")
+  colnames(tmp) <-  c("experimentAccessId","experimentName","description")
   rownames(tmp) <-  NULL
   tmp
 }
@@ -224,6 +245,7 @@ get_experiments <- function(compendium = "vespucci",
 #' @param n A numeric (integer): number of sample to retrieve (default 10)
 #' @param sampleName A string - A sampleId or sampleName
 #' @param useIds A logical (FALSE as default) - It allows using sampleIds
+#' @param normalization A string - 'tpm' (as default), 'limma' or 'legacy'
 #'
 #' @return A data.frame with three columns: sampleId sampleName sampleAnnotation
 #' @export
@@ -231,21 +253,26 @@ get_experiments <- function(compendium = "vespucci",
 #' @examples
 #'\dontrun{
 #' get_sample_annotation(n=5)
+#' get_sample_annotation(sampleName = "U2FtcGxlVHlwZTo2NDE5", useIds = TRUE)
 #' get_sample_annotation(sampleName = "GSM287866.ch1")
 #' }
 get_sample_annotation <- function(compendium = "vespucci",
                                   n = NULL,
+                                  normalization = "limma",
                                   sampleName = NULL,
                                   useIds = FALSE){
+  if(normalization == "legacy") version <- "legacy"
+  else if(normalization %in% c("limma","tpm")) version <- "2.0"
+  else stop("normalization HAS TO BE either legacy, limma or tpm.")
   if(is.null(sampleName) && is.null(n)) stop("provide either n (an integer) XOR sampleName.")
   if(!is.null(n)){
     my_query <- paste0('{
-      sampleAnnotations(compendium:\"', compendium, '\", first: ', n,') {')}
+      sampleAnnotations(compendium:\"', compendium, '\", normalization:\"', normalization,  '\", first: ', n,') {')}
   else{
-    if(useIds) tmp = sampleName
-    else tmp <- get_sample_info(sampleName = sampleName)
+    if(useIds) tmp <- sampleName
+    else tmp <- get_samples_info(id_In = sampleName, normalization = normalization)$sampleId
     my_query <- paste0('{
-    sampleAnnotations(compendium:\"', compendium, '\", sampleId:\"', tmp$sampleId,'\") {')
+    sampleAnnotations(compendium:\"', compendium, '\", version:\"', version, '\", normalization:\"', normalization,  '\", sampleId:\"', tmp,'\") {')
   }
   my_query <- paste0(my_query,'
         edges {
@@ -259,6 +286,7 @@ get_sample_annotation <- function(compendium = "vespucci",
         }
       }
     }')
+    # cat(my_query,"\n")
     tmp <- build_query(my_query)$sampleAnnotations$edges$node
     data.frame (sampleName = tmp$sample$sampleName,
                 sampleId = tmp$sample$id,
@@ -273,6 +301,7 @@ get_sample_annotation <- function(compendium = "vespucci",
 #'
 #' @param compendium A string - the selected compendium
 #' @param experimentAccessId A string - GSE (GEO Series (experiment) access id)
+#' @param normalization A string - 'tpm' (as default), 'limma' or 'legacy'
 #'
 #' @return A data.frame with three columns: sampleId, sampleName, sampleDescription
 #' @export
@@ -282,10 +311,15 @@ get_sample_annotation <- function(compendium = "vespucci",
 #' get_samples_by_gse(experimentAccessId = "GSE98923")
 #' }
 get_samples_by_gse <- function(compendium = "vespucci",
+                               normalization = "legacy",
                                experimentAccessId = NULL){
   if(is.null(experimentAccessId)) stop("Provide experimentAccessId (e.g. GSE98923)")
+  if(normalization == "legacy") version <- "legacy"
+  else if(normalization %in% c("limma","tpm")) version <- "2.0"
+  else stop("normalization HAS TO BE either legacy, limma or tpm.")
   my_query <- paste0('{
-  samples(compendium:\"', compendium, '\", experiment_ExperimentAccessId:\"', experimentAccessId, '\") {
+  samples(compendium:\"', compendium, '\",
+  experiment_ExperimentAccessId:\"', experimentAccessId, '\", version:\"', version, '\", normalization:\"', normalization, '\") {
     edges {
       node {
       id,
@@ -295,6 +329,7 @@ get_samples_by_gse <- function(compendium = "vespucci",
       }
     }
   }')
+  # cat(my_query,"\n")
   tmp <- as.data.frame(t(sapply(build_query(my_query)$samples$edges, unlist)))
   colnames(tmp) <-  c("sampleId", "sampleName", "sampleDescription")
   rownames(tmp) <-  NULL
@@ -305,20 +340,24 @@ get_samples_by_gse <- function(compendium = "vespucci",
 #'
 #' @param compendium A string - the selected compendium
 #' @param sampleName_In A character5 vector - GSMs (GEO Sample access ids)
+#' @param normalization A string - 'tpm' (as default), 'limma' or 'legacy'
 #'
 #' @return A data.frame with three columns: sampleId, sampleName, sampleDescription
 #' @export
 #'
 #' @examples
 #'\dontrun{
-#' get_sample_by_gsm(sampleName_Icontains="GSM147672.ch1")
+#' get_sample_by_gsm(sampleName_In="GSM147672.ch1")
 #' }
 get_sample_by_gsm <- function(compendium = "vespucci",
+                              normalization = "limma",
                               sampleName_In="GSM1313535"){
-  # my_query <- paste0('{
-  # samples(compendium:\"', compendium, '\", sampleName_Icontains:\"', sampleName_Icontains, '\") {
+  if(missing(sampleName_In))stop("Provide at least one sample id for the selected normalization.")
+  if(normalization == "legacy") version <- "legacy"
+  else if(normalization %in% c("limma","tpm")) version <- "2.0"
+  else stop("normalization HAS TO BE either legacy, limma or tpm.")
   my_query <- paste0('{
-  samples(compendium:\"', compendium, '\", sampleName_In:\"', paste0(sampleName_In, collapse = ','), '\") {
+  samples(compendium:\"', compendium, '\", sampleName_In:\"', paste0(sampleName_In, collapse = ','), '\", version:\"', version, '\", normalization:\"', normalization, '\") {
     edges {
       node {
       id,
@@ -409,7 +448,7 @@ get_samples <- function(compendium = "vespucci",
 #' @param compendium A string - the selected compendium
 #' @param ids A string - unique id of a biofeature, a sample, etc.
 #'
-#' @return A matrix with 3 columns
+#' @return A matrix
 #' @export
 #'
 #' @examples
@@ -421,6 +460,8 @@ get_annotation_triples <- function(compendium = "vespucci", ids = NULL) {
   rdfTriples
     }
   }')
+  # cat(my_query, "\n")
+  # build_query(my_query)$annotationPrettyPrint$rdfTriple
   matrix(sapply(build_query(my_query)$annotationPrettyPrint$rdfTriples, unlist), ncol = 3, byrow = TRUE)
 }
 
@@ -430,19 +471,24 @@ get_annotation_triples <- function(compendium = "vespucci", ids = NULL) {
 #' @param compendium A string - the selected compendium
 #' @param ids A string - unique id of a biofeature, a sample, etc.
 #' @param viewer A logical - if TRUE will plot the html widget
+#' @param normalization A string - 'tpm' (as default), 'limma' or 'legacy'
 #'
 #' @return Either a json, an html or a plotly htmlwidget
 #' @export
 #'
 #' @examples
 #'\dontrun{
-#' my_ids <- get_biofeature_id(name_In = c("VIT_00s0332g00160","VIT_00s0396g00010"
-#' ,"VIT_00s0505g00030"))$id
-#' plot_annotation_network(ids = my_ids, viewer = TRUE)
+#' my_ids <- get_biofeature_id(id_In = c("U2FtcGxlU2V0VHlwZTo3MTA=","U2FtcGxlU2V0VHlwZToxMDI4",
+#'  "U2FtcGxlU2V0VHlwZToxMDI5"))
+#' plot_annotation_network(ids = my_ids$id, viewer = TRUE)
 #' }
 plot_annotation_network <- function(compendium = "vespucci",
                                     ids = NULL,
+                                    normalization = "limma",
                                     viewer = FALSE) {
+  if(normalization == "legacy") version <- "legacy"
+  else if(normalization %in% c("limma","tpm")) version <- "2.0"
+  else stop("normalization HAS TO BE either legacy, limma or tpm.")
   if(is.null(ids)) stop("You need to provide and id")
   type <- "html"
   my_query <- paste0('{
@@ -492,15 +538,14 @@ get_sparql_annotation_triples <- function(compendium = "vespucci",
   if(normalization == "legacy") version <- "legacy"
   else if(normalization %in% c("limma","tpm")) version <- "2.0"
   else stop("normalization HAS TO BE either legacy, limma or tpm.")
-
   if(is.null(query) | is.null(target)) stop("Provide both a target ('sample' or 'biofeature') AND a proper sparql query!")
 
   my_query <- paste0('{
-  sparql(compendium:\"', compendium, '\", version:\"', version, '\", target:\"',target, '\", query:\"', query, '\", normalization:\"', normalization, '\") {
+  sparql(compendium:\"', compendium, '\", version:\"', version, '\", normalization:\"', normalization, '\", target:\"',target, '\", query:\"', query, '\") {
         rdfTriples
         }
   }')
-  # as.data.frame(t(sapply(build_query(my_query)$sparql$rdfTriples, unlist)))
+  # cat(my_query,"\n")
   triples <- build_query(my_query)
   out <- as.data.frame(t(sapply(triples$sparql$rdfTriples,unlist)))
   # colnames(out) <- c("id", "name")
@@ -758,7 +803,7 @@ get_biofeature_id <- function(compendium = "vespucci",
 #' @param compendium A string - the selected compendium
 #' @param id_In A vector of character strings - either samplesetNames or sampleSetIds
 #' @param useIds A logical (FALSE as default) - It allows using sampleSetIds
-#' @param normalization A string ('legacy' as default)
+#' @param normalization A string - 'tpm' (as default), 'limma' or 'legacy'
 #'
 #' @return A data.frame with two columns: id and name
 #' @export
@@ -770,7 +815,7 @@ get_biofeature_id <- function(compendium = "vespucci",
 #' my_ids=c("U2FtcGxlU2V0VHlwZTo2NDE5","U2FtcGxlU2V0VHlwZToyMTg2OA==","U2FtcGxlU2V0VHlwZToyMTg2Nw==")
 #' get_sampleset_id(id_In = my_ids, normalization = "limma", useIds = TRUE)
 get_sampleset_id <- function(compendium = "vespucci",
-                             normalization = "legacy",
+                             normalization = "tpm",
                              id_In = NULL,
                              useIds = FALSE){
   if(is.null(id_In)) stop("Provide id_In (e.g. id_In = 'GSM671720.ch1-vs-GSM671719.ch1','GSM671721.ch1-vs-GSM671719.ch1'")
@@ -801,6 +846,7 @@ get_sampleset_id <- function(compendium = "vespucci",
     }
     }')
   }
+  # cat(my_query,"\n")
   tmp <- as.data.frame(t(sapply(build_query(my_query)$sampleSets$edges, unlist)))
   colnames(tmp) <-  c("id","name"); rownames(tmp) <-  NULL
   tmp
@@ -877,9 +923,11 @@ get_ranking <- function(compendium = "vespucci"){
 #' @export
 #'
 #' @examples
+#'\dontrun{
 #' get_samplesets_ranking(biofeaturesNames=c("QmlvRmVhdHVyZVR5cGU6MQ==",
 #' "QmlvRmVhdHVyZVR5cGU6Mg==","QmlvRmVhdHVyZVR5cGU6Mw==","QmlvRmVhdHVyZVR5cGU6NA==",
 #'  "QmlvRmVhdHVyZVR5cGU6NQ=="), useIds = TRUE, top_n = 10)
+#'  }
 get_samplesets_ranking <- function(compendium = "vespucci",
                                    normalization = "legacy",
                                    rankTarget = "samplesets",
@@ -892,7 +940,7 @@ get_samplesets_ranking <- function(compendium = "vespucci",
   else stop("normalization HAS TO BE either legacy, limma or tpm.")
   if(is.null(biofeaturesNames)) stop("Provide biofeaturesNames")
   if(useIds) biofeaturesIds <- biofeaturesNames
-  else biofeaturesIds <- get_biofeature_id(name_In=biofeaturesNames)$id
+  else biofeaturesIds <- get_biofeature_id(id_In=biofeaturesNames)$id
   my_query <- paste0('{
   ranking(compendium:\"', compendium, '\",
     version:\"', version, '\",
@@ -941,7 +989,7 @@ get_biofeature_ranking <- function(compendium = "vespucci",
   else stop("normalization HAS TO BE either legacy, limma or tpm.")
   if(is.null(samplesetNames)) stop("Provide samplesetNames")
   if(useIds) samplesetIds <- samplesetNames
-  else samplesetIds <- get_sampleset_id(name_In = samplesetNames)$id
+  else samplesetIds <- get_sampleset_id(id_In = samplesetNames)$id
   my_query <- paste0('{
   ranking(compendium:\"', compendium, '\",
     version:\"', version, '\",

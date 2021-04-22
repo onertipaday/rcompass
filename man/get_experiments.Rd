@@ -4,21 +4,29 @@
 \alias{get_experiments}
 \title{Get experimentAccessid and experimentName from sampleName}
 \usage{
-get_experiments(compendium = "vespucci", sampleName = NULL)
+get_experiments(
+  compendium = "vespucci",
+  normalization = "limma",
+  sampleName = NULL
+)
 }
 \arguments{
 \item{compendium}{A string - the selected compendium}
+
+\item{normalization}{A string ('limma' as default)}
 
 \item{sampleName}{A string - if NULL(default) returns all available experiments ids
 for the selected compendium}
 }
 \value{
-A data.frame with experimentAccessId and esperimentName
+A data.frame with experimentAccessId, esperimentName and description
 }
 \description{
 use \code{\link{get_available_compendia}} to check all the available compendia
 }
 \examples{
+\dontrun{
 get_experiments()
-get_experiments(sampleName="GSM671721.ch1")
+get_experiments(sampleName="U2FtcGxlVHlwZTo2NDE5")
+}
 }

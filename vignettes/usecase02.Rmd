@@ -120,14 +120,15 @@ ggplotly(p)
 ```
 
 ### Choose a cutoff for non-expressed genes
-From the plot we can (arbitrarily) choose a log2-TPM cutoff value to distinguish the portion of expressed genes from the non-expressed genes. We chose to set this cutoff at 0.5, that is roughly the median value of the lowly expressed component.
+From the plot we can (arbitrarily) choose a log2-TPM cutoff value to distinguish the portion of expressed genes from the non-expressed genes. We chose to set this cutoff at 1, that is roughly the median value of the lowly expressed component.
 
 ```{r}
 plot_cut_point(gmm_fit, plot = FALSE)
-# genes with log2(tpm) < 0.5 in all samples
-never_expressed_in_fruit <- apply(module_df, 1, function(x) all(x < 0.5))
+# [1] 0.8443817
+# genes with log2(tpm) < 1 in all samples
+never_expressed_in_fruit <- apply(module_df, 1, function(x) all(x < 1))
 never_expressed_in_fruit_names <- names(never_expressed_in_fruit)[never_expressed_in_fruit]
-table(apply(module_df, 1, function(x) all(x < 0.5)))
+table(apply(module_df, 1, function(x) all(x < 1)))
 # percentage of genes not expressed in fruit
 cat(length(names(never_expressed_in_fruit)[never_expressed_in_fruit])/(dim(module_df)[[1]]) * 100, "%")
 ```
@@ -196,7 +197,7 @@ showSigOfNodes(GOdata.BP, score(resultFis.BP), firstSigNodes = 10, useInfo = "al
 ### Custom annotations
 Besides using bioconductor’s annotation packages for the mapping of genes to GO-categories, it is also possible to provide the annotations directly as a dataframe with two columns: (1) genes and (2) GO-IDs (parameter annotations).
 
-```{r custom_annotation_enrichment, results='hide'}
+```{r custom_annotation_enrichment, results='hide', echo=FALSE, eval=FALSE}
 suppressPackageStartupMessages(library(GOfuncR))
 gene_ids <- never_expressed_in_fruit_names
 custom_anno <- go_assoc %>% transmute(gene = name, go_id=GOTERM)
@@ -208,7 +209,7 @@ res_hyper_anno = go_enrich(input_hyper, annotations=custom_anno)
 
 Take a look at the data
 
-```{r}
+```{r, eval=FALSE}
 ## first element of go_enrich result has the stats
 stats = res_hyper_anno[[1]]
 ## top-GO categories

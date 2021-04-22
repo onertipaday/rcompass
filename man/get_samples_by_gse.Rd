@@ -4,10 +4,16 @@
 \alias{get_samples_by_gse}
 \title{retrieve internal id, name (GSM), description from all samples with experiment id (GSE)}
 \usage{
-get_samples_by_gse(compendium = "vespucci", experimentAccessId = NULL)
+get_samples_by_gse(
+  compendium = "vespucci",
+  normalization = "legacy",
+  experimentAccessId = NULL
+)
 }
 \arguments{
 \item{compendium}{A string - the selected compendium}
+
+\item{normalization}{A string - 'tpm' (as default), 'limma' or 'legacy'}
 
 \item{experimentAccessId}{A string - GSE (GEO Series (experiment) access id)}
 }

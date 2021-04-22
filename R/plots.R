@@ -133,7 +133,7 @@ plot_module_distribution <- function(compendium = "vespucci",
                        type,'
       }
     }')
-  #return(cat(my_query))
+  #(cat(my_query))
   output <- build_query(my_query)$plotDistribution
   if (plot) {
     my_data <- RJSONIO::fromJSON(output)$data
@@ -234,7 +234,8 @@ plot_module_heatmap <- function(compendium = "vespucci",
                      type,'
       }
     }')
-}
+  }
+  # cat(my_query, "\n")
   output <- build_query(my_query)$plotHeatmap
   if (plot) {
     my_data <- RJSONIO::fromJSON(output)$data

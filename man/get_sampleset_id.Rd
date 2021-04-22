@@ -6,7 +6,7 @@
 \usage{
 get_sampleset_id(
   compendium = "vespucci",
-  normalization = "legacy",
+  normalization = "tpm",
   id_In = NULL,
   useIds = FALSE
 )
@@ -14,7 +14,7 @@ get_sampleset_id(
 \arguments{
 \item{compendium}{A string - the selected compendium}
 
-\item{normalization}{A string ('legacy' as default)}
+\item{normalization}{A string - 'tpm' (as default), 'limma' or 'legacy'}
 
 \item{id_In}{A vector of character strings - either samplesetNames or sampleSetIds}
 

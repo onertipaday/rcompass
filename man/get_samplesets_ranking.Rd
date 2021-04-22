@@ -36,7 +36,9 @@ A data.frame with three columns id, name, value
 get_samplesets_ranking
 }
 \examples{
+\dontrun{
 get_samplesets_ranking(biofeaturesNames=c("QmlvRmVhdHVyZVR5cGU6MQ==",
 "QmlvRmVhdHVyZVR5cGU6Mg==","QmlvRmVhdHVyZVR5cGU6Mw==","QmlvRmVhdHVyZVR5cGU6NA==",
  "QmlvRmVhdHVyZVR5cGU6NQ=="), useIds = TRUE, top_n = 10)
+ }
 }

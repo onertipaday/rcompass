@@ -153,7 +153,7 @@ create_module_ss <- function(compendium = "vespucci",
                              useIds = FALSE){
   if(is.null(samplesetNames)) stop("You need to provide samplesetNames")
   if(useIds) samplesetIds <- samplesetNames
-  else samplesetIds <- get_sampleset_id(name_In=samplesetNames)$id
+  else samplesetIds <- get_sampleset_id(id_In = samplesetNames)$id
   if(normalization == "legacy") version <- "legacy"
   else if(normalization %in% c("limma","tpm")) version <- "2.0"
   else stop("normalization HAS TO BE either legacy, limma or tpm.")
@@ -181,6 +181,7 @@ create_module_ss <- function(compendium = "vespucci",
         }
     }
   }')
+  # cat(my_query, "\n")
   tmp <- build_query(my_query)$modules
   nv <- t(as.data.frame(sapply(tmp$normalizedValues, unlist)))
   rownames(nv) <- as.character(sapply(tmp$biofeatures, unlist))

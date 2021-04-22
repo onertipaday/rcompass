@@ -115,18 +115,8 @@ view_plot(module = module_1,
 
 Alternatively you can use directly any R function to cluster data and produce an heatmap, e.g.:
 
-```{r heatmaply, eval=FALSE, echo = TRUE}
-heatmaply::heatmaply(module_1,
-                     showticklabels = c(TRUE, TRUE),
-                     fontsize_col = 7.5,
-                     col = gplots::greenred(50),
-                     plot_method = 'plotly')
-```
-
-or
-
-```{r pheatmap_module1, eval=FALSE, echo = TRUE}
-pheat_cl <- pheatmap::pheatmap(mat =  as.matrix(module_1))
+```{r pheatmap_module1, echo = FALSE, eval = FALSE}
+pheat_cl <- pheatmap::pheatmap(mat =  as.matrix(module_limma))
 pheat_cl
 ```
 
@@ -146,13 +136,13 @@ knitr::kable(module_1[pheat_cl$tree_row$order,pheat_cl$tree_col$order])
 ```
 
 # Plot correlation network
-Given a module we can plot the correlation network between Biological Features (genes) by looking at the Pearson correlation coefficient of the module's Sample Sets (contrast). The default threshold is 0.7, but it can be changed. Edges in orange represent anti-correlation.
+Given a module we can plot the correlation network between Biological Features (genes) by looking at the Pearson correlation coefficient of the module's Sample Sets (contrast). The default threshold is 0.8, but it can be changed. Edges in orange represent anti-correlation.
 
 ```{r plot_module_network, echo = TRUE, eval = FALSE}
 view_plot(module = module_1, 
           normalization = "limma",
           plotType = "module_coexpression_network", 
-          threshold = 0.2)
+          threshold = 0.8)
 ```
 
 # Automatically expand a module
@@ -175,8 +165,10 @@ top_bf <- plot_module_distribution(module = module_1,
 
 The new module is created by adding Biological Feature objects to the old module.
 
+__NB__ Being the ranking based on the full biofeatures set we remove the duplicates ids (keeping unique ids only) and create a new model.
+
 ```{r}
-module_2 <- create_module(biofeaturesNames = c(rownames(module_1), top_bf$id[1:15]), 
+module_2 <- create_module(biofeaturesNames = unique(c(rownames(module_1), top_bf$id[1:15])), 
                              normalization = "limma", 
                              useIds = TRUE)
 ```
@@ -192,17 +184,21 @@ view_plot(module = module_2,
 
 # Annotations
 In VESPUCCI, both Biological Feature (gene) and Sample annotations are represented using [RDF](https://en.wikipedia.org/wiki/Resource_Description_Framework). We can visualize annotation as a set of RDF triples.
-```{r echo=TRUE}
+
+```{r annotations, echo = TRUE, eval = FALSE}
 samples <- my_sorted_indexes$sortedSamplesets
-# samples <- strsplit(sorted_ss$name[[1]],split = "-vs-")[[1]]
-# # knitr::kable(get_sample_by_gsm(sampleName_In =  samples))
-# knitr::kable(get_annotation_triples(ids =  get_sample_by_gsm(sampleName_In =  samples)$sampleId))
+samples_info <- get_samples_info(id_In = samples, normalization = "limma")
+knitr::kable(samples_info)
+knitr::kable(get_sample_by_gsm(sampleName_In =  samples_info$sampleName))
+knitr::kable(get_annotation_triples(ids =  get_sample_by_gsm(sampleName_In =  samples_info$sampleName)$sampleId))
 ```
 
 Another way is to visualize the annotation is with RDF graph.
+Here we show the RDF graphs for indexed biofeatures.
 
 ```{r plot_annotation_network, echo = TRUE, eval = FALSE}
-plot_annotation_network(ids = my_sorted_indexes$sortedBiofeatures, viewer = T)
+#plot_annotation_network(ids = samples, viewer = T)
+ plot_annotation_network(ids = my_sorted_indexes$sortedBiofeatures, viewer = T)
 ```
 
 Annotations can also be used to retrieve Sample or Biological Features (gene) starting from a SPARQL query. For example we might want to select all seed Sample.
@@ -224,8 +220,8 @@ seed_samples <- get_sparql_annotation_triples(target = "sample",
 Now we can collect all the Sample Sets in which these samples are used and then create a new module based on Sample Sets only leaving VESPUCCI to figure out which are the genes (Biological Feature objects) that show a consistent up or down-regulated profile.
 
 ```{r}
-seed_ss <- get_sampleset_id(id_In = seed_samples, useIds = TRUE)
-module_3 <- create_module(samplesetNames = seed_ss$id, useIds = TRUE)
+seed_ss <- get_sampleset_by_sampleid(normalization = "limma", samples = seed_samples)
+module_3 <- create_module(samplesetNames = unique(seed_ss$id), useIds = TRUE, normalization = "limma")
 ```
 
 And now we can plot the heatmap
@@ -234,7 +230,17 @@ And now we can plot the heatmap
 view_plot(module = module_3, 
           normalization = "limma",
           plotType = "module_heatmap_expression",
-          alternativeColoring = FALSE)
+          alternativeColoring = TRUE)
+```
+
+or alternatively
+
+```{r heatmaply, echo = TRUE, eval = FALSE}
+heatmaply::heatmaply(module_3,
+                     showticklabels = c(TRUE, TRUE),
+                     fontsize_col = 7.5,
+                     col = gplots::greenred(50),
+                     plot_method = 'plotly')
 ```
 
 # Session information

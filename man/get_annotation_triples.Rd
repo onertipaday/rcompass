@@ -12,7 +12,7 @@ get_annotation_triples(compendium = "vespucci", ids = NULL)
 \item{ids}{A string - unique id of a biofeature, a sample, etc.}
 }
 \value{
-A matrix with 3 columns
+A matrix
 }
 \description{
 get_annotation_triples
