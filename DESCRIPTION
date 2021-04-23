@@ -4,7 +4,7 @@ Title: R Client for the COMPASS GrapgQL API
 Author: c(person("Paolo", "Sonego", role = c("aut", "cre"),
     email = "paolo.sonego@fmach.it")) 
 Maintainer: Paolo Sonego <paolo.sonego@fmach.it>
-Version: 0.0.4
+Version: 0.0.5
 License: GPL-3
 BugReports: https://github.com/onertipaday/rcompass/issues
 Description: Provides functions for querying data from 
@@ -24,6 +24,14 @@ RoxygenNote: 7.1.1
 Language: en-US
 Suggests: 
     dplyr,
+    plyr,
     knitr,
-    rmarkdown
+    rmarkdown,
+    ggplot2,
+    mixtools,
+    stringr,
+    flexmix,
+    EMCluster,
+    plotmm,
+    topGO
 VignetteBuilder: knitr

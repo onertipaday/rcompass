@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rcompass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
       </span>
     </div>
 
@@ -82,9 +82,7 @@
 
       
 
-      </header><script src="usecase02_files/header-attrs-2.7/header-attrs.js"></script><script src="usecase02_files/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="usecase02_files/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="usecase02_files/plotly-binding-4.9.3/plotly.js"></script><script src="usecase02_files/typedarray-0.1/typedarray.min.js"></script><script src="usecase02_files/jquery-3.5.1/jquery.min.js"></script><link href="usecase02_files/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet">
-<script src="usecase02_files/crosstalk-1.1.1/js/crosstalk.min.js"></script><link href="usecase02_files/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet">
-<script src="usecase02_files/plotly-main-1.57.1/plotly-latest.min.js"></script><div class="row">
+      </header><script src="usecase02_files/header-attrs-2.7/header-attrs.js"></script><script src="usecase02_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Use Case 02</h1>
@@ -111,7 +109,7 @@
 <code class="sourceCode R"><span class="co"># devtools::install_github("onertipaday/rcompass")</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">rcompass</span><span class="op">)</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; This is 'rCOMPASS' version 0.0.4 based on COMPASS version 0.8.8.</span></code></pre></div>
+<span class="co">#&gt; This is 'rCOMPASS' version 0.0.5 based on COMPASS version 0.8.8.</span></code></pre></div>
 <div id="select-the-samples-of-interest" class="section level1">
 <h1 class="hasAnchor">
 <a href="#select-the-samples-of-interest" class="anchor"></a>Select the samples of interest</h1>
@@ -181,50 +179,39 @@
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">mixtools</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span> 
 <span class="va">gmm_fit</span> <span class="op">&lt;-</span>  <span class="fu">mixtools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/mixtools/man/normalmixEM.html">normalmixEM</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/vector.html">as.vector</a></span><span class="op">(</span><span class="va">module_df</span><span class="op">)</span>, k <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
-<span class="co">#&gt; number of iterations= 215</span></code></pre></div>
+<span class="co">#&gt; number of iterations= 116</span></code></pre></div>
 <div id="plot-the-data-distribution-and-the-fitted-model" class="section level3">
 <h3 class="hasAnchor">
 <a href="#plot-the-data-distribution-and-the-fitted-model" class="anchor"></a>Plot the data distribution and the fitted model</h3>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://plotly-r.com">plotly</a></span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/snoweye/EMCluster">EMCluster</a></span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://plotly-r.com">plotly</a></span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">plotmm</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/plotmm/man/plot_mm.html">plot_mm</a></span><span class="op">(</span><span class="va">gmm_fit</span>, <span class="fl">2</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Berry samples Log2-TPM distribution"</span>,
                 subtitle <span class="op">=</span> <span class="st">"Mixtools Object"</span>, 
                 x <span class="op">=</span> <span class="st">"log2(TPM)"</span>,
-                y <span class="op">=</span> <span class="st">"Density(normalized)"</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p><img src="usecase02_files/figure-html/plot_mixtools-1.png" width="700"></p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/plotmm/man/plot_cut_point.html">plot_cut_point</a></span><span class="op">(</span><span class="va">gmm_fit</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, color <span class="op">=</span> <span class="st">"amerika"</span><span class="op">)</span> <span class="op">+</span> 
+                y <span class="op">=</span> <span class="st">"Density(normalized)"</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span>
+<span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/plotmm/man/plot_cut_point.html">plot_cut_point</a></span><span class="op">(</span><span class="va">gmm_fit</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, color <span class="op">=</span> <span class="st">"amerika"</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Berry samples Log2-TPM distribution"</span>,
                 subtitle <span class="op">=</span> <span class="st">"Mixtools Object"</span>, 
                 x <span class="op">=</span> <span class="st">"log2(TPM)"</span>,
                 y <span class="op">=</span> <span class="st">"Density"</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; Registered S3 method overwritten by 'wesanderson':</span>
-<span class="co">#&gt;   method        from   </span>
-<span class="co">#&gt;   print.palette amerika</span>
-<span class="fu"><a href="https://docs.ropensci.org/plotly/reference/ggplotly.html">ggplotly</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span>
-<span class="co">#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span></code></pre></div>
-<div id="htmlwidget-2e17466358a46d139971" style="width:700px;height:432.632880098888px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-2e17466358a46d139971">{"x":{"data":[{"orientation":"v","width":0.80100065675307,"base":0,"x":[-4.80600394051842],"y":[268],"text":"count:   268<br />m$x: -4.8060039","type":"bar","marker":{"autocolorscale":false,"color":"rgba(0,51,121,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.80100065675307,"base":0,"x":[-4.00500328376535],"y":[1814],"text":"count:  1814<br />m$x: -4.0050033","type":"bar","marker":{"autocolorscale":false,"color":"rgba(0,51,143,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.80100065675307,"base":0,"x":[-3.20400262701228],"y":[5105],"text":"count:  5105<br />m$x: -3.2040026","type":"bar","marker":{"autocolorscale":false,"color":"rgba(0,51,164,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.80100065675307,"base":0,"x":[-2.40300197025921],"y":[7703],"text":"count:  7703<br />m$x: -2.4030020","type":"bar","marker":{"autocolorscale":false,"color":"rgba(0,51,186,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753072,"base":0,"x":[-5.60700459727149],"y":[73],"text":"count:    73<br />m$x: -5.6070046","type":"bar","marker":{"autocolorscale":false,"color":"rgba(1,51,100,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753071,"base":0,"x":[-1.60200131350614],"y":[9755],"text":"count:  9755<br />m$x: -1.6020013","type":"bar","marker":{"autocolorscale":false,"color":"rgba(2,54,203,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753071,"base":0,"x":[-0.80100065675307],"y":[10642],"text":"count: 10642<br />m$x: -0.8010007","type":"bar","marker":{"autocolorscale":false,"color":"rgba(15,72,203,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.80100065675307,"base":0,"x":[0],"y":[11091],"text":"count: 11091<br />m$x:  0.0000000","type":"bar","marker":{"autocolorscale":false,"color":"rgba(29,90,203,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.80100065675307,"base":0,"x":[0.80100065675307],"y":[11025],"text":"count: 11025<br />m$x:  0.8010007","type":"bar","marker":{"autocolorscale":false,"color":"rgba(43,108,202,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.80100065675307,"base":0,"x":[1.60200131350614],"y":[11493],"text":"count: 11493<br />m$x:  1.6020013","type":"bar","marker":{"autocolorscale":false,"color":"rgba(56,126,202,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753072,"base":0,"x":[2.40300197025921],"y":[13197],"text":"count: 13197<br />m$x:  2.4030020","type":"bar","marker":{"autocolorscale":false,"color":"rgba(75,143,202,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.80100065675307,"base":0,"x":[3.20400262701228],"y":[15335],"text":"count: 15335<br />m$x:  3.2040026","type":"bar","marker":{"autocolorscale":false,"color":"rgba(103,156,202,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.80100065675307,"base":0,"x":[4.00500328376535],"y":[16475],"text":"count: 16475<br />m$x:  4.0050033","type":"bar","marker":{"autocolorscale":false,"color":"rgba(132,169,202,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753075,"base":0,"x":[17.6220144485675],"y":[1],"text":"count:     1<br />m$x: 17.6220144","type":"bar","marker":{"autocolorscale":false,"color":"rgba(139,0,0,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753068,"base":0,"x":[16.8210137918145],"y":[2],"text":"count:     2<br />m$x: 16.8210138","type":"bar","marker":{"autocolorscale":false,"color":"rgba(153,2,2,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753072,"base":0,"x":[4.80600394051842],"y":[15488],"text":"count: 15488<br />m$x:  4.8060039","type":"bar","marker":{"autocolorscale":false,"color":"rgba(160,182,202,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753073,"base":0,"x":[16.0200131350614],"y":[1],"text":"count:     1<br />m$x: 16.0200131","type":"bar","marker":{"autocolorscale":false,"color":"rgba(168,4,5,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753072,"base":0,"x":[15.2190124783083],"y":[7],"text":"count:     7<br />m$x: 15.2190125","type":"bar","marker":{"autocolorscale":false,"color":"rgba(183,6,8,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.80100065675307,"base":0,"x":[5.60700459727149],"y":[11757],"text":"count: 11757<br />m$x:  5.6070046","type":"bar","marker":{"autocolorscale":false,"color":"rgba(188,195,202,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753068,"base":0,"x":[14.4180118215553],"y":[7],"text":"count:     7<br />m$x: 14.4180118","type":"bar","marker":{"autocolorscale":false,"color":"rgba(198,9,10,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.80100065675307,"base":0,"x":[6.40800525402456],"y":[7567],"text":"count:  7567<br />m$x:  6.4080053","type":"bar","marker":{"autocolorscale":false,"color":"rgba(203,193,193,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.80100065675307,"base":0,"x":[7.20900591077763],"y":[4089],"text":"count:  4089<br />m$x:  7.2090059","type":"bar","marker":{"autocolorscale":false,"color":"rgba(205,176,176,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753068,"base":0,"x":[8.0100065675307],"y":[2032],"text":"count:  2032<br />m$x:  8.0100066","type":"bar","marker":{"autocolorscale":false,"color":"rgba(206,160,160,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753072,"base":0,"x":[8.81100722428377],"y":[1103],"text":"count:  1103<br />m$x:  8.8110072","type":"bar","marker":{"autocolorscale":false,"color":"rgba(208,143,143,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753068,"base":0,"x":[9.61200788103684],"y":[508],"text":"count:   508<br />m$x:  9.6120079","type":"bar","marker":{"autocolorscale":false,"color":"rgba(209,126,126,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753072,"base":0,"x":[13.6170111648022],"y":[13],"text":"count:    13<br />m$x: 13.6170112","type":"bar","marker":{"autocolorscale":false,"color":"rgba(210,14,16,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753072,"base":0,"x":[12.8160105080491],"y":[23],"text":"count:    23<br />m$x: 12.8160105","type":"bar","marker":{"autocolorscale":false,"color":"rgba(210,37,39,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753068,"base":0,"x":[12.0150098512961],"y":[37],"text":"count:    37<br />m$x: 12.0150099","type":"bar","marker":{"autocolorscale":false,"color":"rgba(210,60,61,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753072,"base":0,"x":[11.214009194543],"y":[91],"text":"count:    91<br />m$x: 11.2140092","type":"bar","marker":{"autocolorscale":false,"color":"rgba(210,83,83,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":0.801000656753072,"base":0,"x":[10.4130085377899],"y":[186],"text":"count:   186<br />m$x: 10.4130085","type":"bar","marker":{"autocolorscale":false,"color":"rgba(210,105,106,1)","line":{"width":1.88976377952756,"color":"rgba(169,169,169,1)"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1.20638150103607,1.20638150103607],"y":[-823.75,17298.75],"text":"xintercept: 1.206382","type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(0,0,0,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":45.3588829941669,"r":7.30593607305936,"b":41.7789743183678,"l":54.7945205479452},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Berry samples Log2-TPM distribution","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-7.20900591077763,19.2240157620737],"tickmode":"array","ticktext":["0","10"],"tickvals":[-8.88178419700125e-16,10],"categoryorder":"array","categoryarray":["0","10"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"log2(TPM)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-823.75,17298.75],"tickmode":"array","ticktext":["0","5000","10000","15000"],"tickvals":[0,5000,10000,15000],"categoryorder":"array","categoryarray":["0","5000","10000","15000"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"Density","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","showSendToCloud":false},"source":"A","attrs":{"2224763327c20":{"x":{},"type":"bar"},"222475c42fa1c":{"xintercept":{}}},"cur_data":"2224763327c20","visdat":{"2224763327c20":["function (y) ","x"],"222475c42fa1c":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<span class="fu"><a href="https://docs.ropensci.org/plotly/reference/ggplotly.html">ggplotly</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="choose-a-cutoff-for-non-expressed-genes" class="section level3">
 <h3 class="hasAnchor">
 <a href="#choose-a-cutoff-for-non-expressed-genes" class="anchor"></a>Choose a cutoff for non-expressed genes</h3>
-<p>From the plot we can (arbitrarily) choose a log2-TPM cutoff value to distinguish the portion of expressed genes from the non-expressed genes. We chose to set this cutoff at 0.5, that is roughly the median value of the lowly expressed component.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/plotmm/man/plot_cut_point.html">plot_cut_point</a></span><span class="op">(</span><span class="va">gmm_fit</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="co">#&gt; [1] 1.206382</span>
-<span class="co"># genes with log2(tpm) &lt; 0.5 in all samples</span>
-<span class="va">never_expressed_in_fruit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">module_df</span>, <span class="fl">1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="va">x</span> <span class="op">&lt;</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span>
+<p>From the plot we can (arbitrarily) choose a log2-TPM cutoff value to distinguish the portion of expressed genes from the non-expressed genes. We chose to set this cutoff at 1, that is roughly the median value of the lowly expressed component.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">plotmm</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/plotmm/man/plot_cut_point.html">plot_cut_point</a></span><span class="op">(</span><span class="va">gmm_fit</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="co"># [1] 0.8443817</span>
+<span class="co"># genes with log2(tpm) &lt; 1 in all samples</span>
+<span class="va">never_expressed_in_fruit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">module_df</span>, <span class="fl">1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="va">x</span> <span class="op">&lt;</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span>
 <span class="va">never_expressed_in_fruit_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">never_expressed_in_fruit</span><span class="op">)</span><span class="op">[</span><span class="va">never_expressed_in_fruit</span><span class="op">]</span>
-<span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">module_df</span>, <span class="fl">1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="va">x</span> <span class="op">&lt;</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; FALSE  TRUE </span>
-<span class="co">#&gt; 21456  4692</span>
+<span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">module_df</span>, <span class="fl">1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="va">x</span> <span class="op">&lt;</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="co"># percentage of genes not expressed in fruit</span>
-<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">never_expressed_in_fruit</span><span class="op">)</span><span class="op">[</span><span class="va">never_expressed_in_fruit</span><span class="op">]</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">module_df</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span>, <span class="st">"%"</span><span class="op">)</span>
-<span class="co">#&gt; 17.94401 %</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">never_expressed_in_fruit</span><span class="op">)</span><span class="op">[</span><span class="va">never_expressed_in_fruit</span><span class="op">]</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">module_df</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span>, <span class="st">"%"</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
 </div>
@@ -236,7 +223,7 @@
 <a href="#retrieve-the-go-annotation" class="anchor"></a>Retrieve the GO annotation</h2>
 <p>Now it’s time to retrieve all the GO terms for our genes and see if in the subset of genes never expressed in fruit there are GO terms that are over-represented compared to the full annotation.</p>
 <p>We might want to use the Annotation class to retrieve the annotation for all our genes filtering out the GO terms, but to avoid the overhead given by the large number of genes to use, it is better to perform a lower level operation and go directly with a SPARQL query for the annotation terms we are interested in.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"> <span class="fu"><a href="../reference/get_annotation_triples.html">get_annotation_triples</a></span><span class="op">(</span>ids <span class="op">=</span> <span class="va">genes</span><span class="op">$</span><span class="va">id</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span>
 <span class="co">#&gt;       [,1]                [,2]         [,3]                            </span>
 <span class="co">#&gt;  [1,] "VIT_10s0116g00040" "Gene Alias" "Vv10s0116g00040"               </span>
@@ -262,7 +249,7 @@
 <span class="co">#&gt; [21,] "VIT_10s0116g00150" "Gene Alias" "B9RXT0"                        </span>
 <span class="co">#&gt; [22,] "VIT_10s0116g00150" "Gene Alias" "Vv10s0116g00150"</span></code></pre></div>
 <p>So let’s avoid the previous code that we ran for only 5 genes and go with the following instead, that is a SPARQL query that will return all the triples where a biofeature is annotated (Annotation is the term NCIT_C44272) with a term starting with ‘GO_’</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sparql</span> <span class="op">=</span> <span class="st">"SELECT ?s ?o WHERE {?s &lt;http://purl.obolibrary.org/obo/NCIT_C44272&gt; ?o FILTER (strstarts(str(?o), 'GO_'))}"</span>
 
 <span class="va">triples</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_sparql_annotation_triples.html">get_sparql_annotation_triples</a></span><span class="op">(</span>compendium <span class="op">=</span> <span class="st">"vespucci"</span>,
@@ -279,123 +266,29 @@
 <h2 class="hasAnchor">
 <a href="#go-analysis-using-topgo" class="anchor"></a>GO analysis using topGO</h2>
 <p>To start the GO analysis we will download the basic GO and the Plant Slim GO and create both DAGs objects.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st">"topGO"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; groupGOTerms:    GOBPTerm, GOMFTerm, GOCCTerm environments built.</span>
 <span class="va">GO_plant_slim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"GO_plant_slim.tsv"</span>, package <span class="op">=</span> <span class="st">"rcompass"</span><span class="op">)</span>, sep<span class="op">=</span><span class="st">"\t"</span>, header<span class="op">=</span><span class="cn">FALSE</span>, stringsAsFactors<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">GO_plant_slim</span><span class="op">)</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ID"</span>,<span class="st">"GOTERM"</span>,<span class="st">"GOdescription"</span>,<span class="st">"Category"</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="http://had.co.nz/plyr">"plyr"</a></span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'plyr'</span>
-<span class="co">#&gt; The following object is masked from 'package:IRanges':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     desc</span>
-<span class="co">#&gt; The following object is masked from 'package:S4Vectors':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     rename</span>
-<span class="co">#&gt; The following object is masked from 'package:graph':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     join</span>
-<span class="co">#&gt; The following objects are masked from 'package:plotly':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     arrange, mutate, rename, summarise</span>
 <span class="va">tmp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/plyr/man/dlply.html">dlply</a></span><span class="op">(</span><span class="va">GO_plant_slim</span>,<span class="fu"><a href="https://rdrr.io/pkg/plyr/man/quoted.html">.</a></span><span class="op">(</span><span class="va">GOTERM</span><span class="op">)</span><span class="op">)</span>
 <span class="va">my_GO_ann_lib</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">tmp</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">x</span>, select<span class="op">=</span><span class="fl">1</span>, drop<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">}</span><span class="op">)</span> <span class="co"># drop=T ==&gt; genes in a vector of characters</span>
 <span class="va">geneID2GO</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/topGO/man/annFUN.html">inverseList</a></span><span class="op">(</span><span class="va">my_GO_ann_lib</span><span class="op">)</span> <span class="co"># we need this object for the annotation since there is no vitis.db</span>
 <span class="va">geneNames</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">geneID2GO</span><span class="op">)</span> <span class="co"># As Universe I select all the genes in the genome</span></code></pre></div>
 <p>We perform a classical enrichment analysis by testing the over-representation of GO terms within the group of expressed genes. For the method classic each GO category is tested independently. We will look for enriched GOTERMS of the Biological Process (BP) Gene Ontology.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">myInterestingGenes</span> <span class="op">&lt;-</span> <span class="va">never_expressed_in_fruit_names</span>
 <span class="va">geneList</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span><span class="op">(</span><span class="va">geneNames</span> <span class="op">%in%</span> <span class="va">myInterestingGenes</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">geneList</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">geneNames</span>
 <span class="co">#table(geneList)</span>
 <span class="va">GOdata.BP</span> <span class="op">&lt;-</span> <span class="fu">new</span><span class="op">(</span><span class="st">"topGOdata"</span>, ontology <span class="op">=</span> <span class="st">"BP"</span>, allGenes <span class="op">=</span> <span class="va">geneList</span>, annot <span class="op">=</span> <span class="va">annFUN.gene2GO</span>, gene2GO <span class="op">=</span> <span class="va">geneID2GO</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Building most specific GOs .....</span>
-<span class="co">#&gt;  ( 45 GO terms found. )</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Build GO DAG topology ..........</span>
-<span class="co">#&gt;  ( 102 GO terms and 165 relations. )</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Annotating nodes ...............</span>
-<span class="co">#&gt;  ( 15050 genes annotated to the GO terms. )</span>
 <span class="va">test.stat</span> <span class="op">&lt;-</span> <span class="fu">new</span><span class="op">(</span><span class="st">"classicCount"</span>, testStatistic <span class="op">=</span> <span class="va">GOFisherTest</span>, name <span class="op">=</span> <span class="st">"Fisher test"</span><span class="op">)</span>
 <span class="op">(</span> <span class="va">resultFisher.BP</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/topGO/man/getSigGroups.html">getSigGroups</a></span><span class="op">(</span><span class="va">GOdata.BP</span>, <span class="va">test.stat</span><span class="op">)</span> <span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;           -- Classic Algorithm -- </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;       the algorithm is scoring 98 nontrivial nodes</span>
-<span class="co">#&gt;       parameters: </span>
-<span class="co">#&gt;           test statistic: Fisher test</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Description:  </span>
-<span class="co">#&gt; Ontology: BP </span>
-<span class="co">#&gt; 'classic' algorithm with the 'Fisher test' test</span>
-<span class="co">#&gt; 102 GO terms scored: 13 terms with p &lt; 0.01</span>
-<span class="co">#&gt; Annotation data:</span>
-<span class="co">#&gt;     Annotated genes: 15050 </span>
-<span class="co">#&gt;     Significant genes: 2042 </span>
-<span class="co">#&gt;     Min. no. of genes annotated to a GO: 1 </span>
-<span class="co">#&gt;     Nontrivial nodes: 98</span>
 <span class="va">topNodes</span> <span class="op">=</span> <span class="fl">20</span>
 <span class="va">resultFis.BP</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/topGO/man/getSigGroups.html">runTest</a></span><span class="op">(</span><span class="va">GOdata.BP</span>, statistic <span class="op">=</span> <span class="st">"fisher"</span><span class="op">)</span> <span class="co"># weight01 is the default algorithm </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;           -- Weight01 Algorithm -- </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;       the algorithm is scoring 98 nontrivial nodes</span>
-<span class="co">#&gt;       parameters: </span>
-<span class="co">#&gt;           test statistic: fisher</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   Level 9:   2 nodes to be scored    (0 eliminated genes)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   Level 8:   3 nodes to be scored    (0 eliminated genes)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   Level 7:   5 nodes to be scored    (91 eliminated genes)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   Level 6:   9 nodes to be scored    (749 eliminated genes)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   Level 5:   16 nodes to be scored   (3767 eliminated genes)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   Level 4:   24 nodes to be scored   (3767 eliminated genes)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   Level 3:   27 nodes to be scored   (6369 eliminated genes)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   Level 2:   11 nodes to be scored   (10517 eliminated genes)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   Level 1:   1 nodes to be scored    (12533 eliminated genes)</span>
 <span class="va">allRes.BP</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span> <span class="fu"><a href="https://rdrr.io/pkg/topGO/man/diagnosticMethods.html">GenTable</a></span><span class="op">(</span><span class="va">GOdata.BP</span>, classic <span class="op">=</span> <span class="va">resultFis.BP</span>, orderBy <span class="op">=</span> <span class="st">"weight"</span>, 
     ranksOf <span class="op">=</span> <span class="st">"classic"</span>, topNodes <span class="op">=</span> <span class="va">topNodes</span><span class="op">)</span>, Ontology<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"BP"</span>, <span class="va">topNodes</span><span class="op">)</span> <span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/topGO/man/printGraph-methods.html">showSigOfNodes</a></span><span class="op">(</span><span class="va">GOdata.BP</span>, <span class="fu"><a href="https://rdrr.io/pkg/topGO/man/topGOresult-class.html">score</a></span><span class="op">(</span><span class="va">resultFis.BP</span><span class="op">)</span>, firstSigNodes <span class="op">=</span> <span class="fl">10</span>, useInfo <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span>
-<span class="co">#&gt; Loading required package: Rgraphviz</span>
-<span class="co">#&gt; Loading required package: grid</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'grid'</span>
-<span class="co">#&gt; The following object is masked from 'package:topGO':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     depth</span>
-<span class="co">#&gt; The following object is masked from 'package:mixtools':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     depth</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'Rgraphviz'</span>
-<span class="co">#&gt; The following objects are masked from 'package:IRanges':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     from, to</span>
-<span class="co">#&gt; The following objects are masked from 'package:S4Vectors':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     from, to</span>
-<span class="co">#&gt; The following object is masked from 'package:plotly':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     style</span></code></pre></div>
-<p><img src="usecase02_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
-<pre><code>#&gt; $dag
-#&gt; A graphNEL graph with directed edges
-#&gt; Number of Nodes = 42 
-#&gt; Number of Edges = 65 
-#&gt; 
-#&gt; $complete.dag
-#&gt; [1] "A graph with 42 nodes."</code></pre>
+<span class="fu"><a href="https://rdrr.io/pkg/topGO/man/printGraph-methods.html">showSigOfNodes</a></span><span class="op">(</span><span class="va">GOdata.BP</span>, <span class="fu"><a href="https://rdrr.io/pkg/topGO/man/topGOresult-class.html">score</a></span><span class="op">(</span><span class="va">resultFis.BP</span><span class="op">)</span>, firstSigNodes <span class="op">=</span> <span class="fl">10</span>, useInfo <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
 <div id="gofuncr" class="section level1">
@@ -405,178 +298,19 @@
 <h3 class="hasAnchor">
 <a href="#custom-annotations" class="anchor"></a>Custom annotations</h3>
 <p>Besides using bioconductor’s annotation packages for the mapping of genes to GO-categories, it is also possible to provide the annotations directly as a dataframe with two columns: (1) genes and (2) GO-IDs (parameter annotations).</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">GOfuncR</span><span class="op">)</span><span class="op">)</span>
-<span class="va">gene_ids</span> <span class="op">&lt;-</span> <span class="va">never_expressed_in_fruit_names</span>
-<span class="va">custom_anno</span> <span class="op">&lt;-</span> <span class="va">go_assoc</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">transmute</a></span><span class="op">(</span>gene <span class="op">=</span> <span class="va">name</span>, go_id<span class="op">=</span><span class="va">GOTERM</span><span class="op">)</span>
-<span class="va">input_hyper</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">gene_ids</span>, is_candidate<span class="op">=</span><span class="fl">1</span><span class="op">)</span>
-<span class="va">input_hyper</span>
-<span class="co">## run enrichment analysis with custom annotations</span>
-<span class="va">res_hyper_anno</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/GOfuncR/man/go_enrich.html">go_enrich</a></span><span class="op">(</span><span class="va">input_hyper</span>, annotations<span class="op">=</span><span class="va">custom_anno</span><span class="op">)</span>
-<span class="co">#&gt; Checking arguments...</span>
-<span class="co">#&gt; Write temporary files...</span>
-<span class="co">#&gt; Find associated categories using custom annotations...</span>
-<span class="co">#&gt; Remove annotated categories not present in GO-graph...</span>
-<span class="co">#&gt; Found root_nodes: biological_process</span>
-<span class="co">#&gt; Remove invalid genes...</span>
-<span class="co">#&gt; Warning in go_enrich(input_hyper, annotations = custom_anno): No GO-</span>
-<span class="co">#&gt; annotation for genes: VIT_10s0116g00040, VIT_10s0116g00470, VIT_10s0116g01090,</span>
-<span class="co">#&gt; VIT_10s0116g01520, VIT_10s0116g01530, VIT_10s0116g01590, VIT_10s0116g01570,</span>
-<span class="co">#&gt; VIT_10s0003g00160, VIT_10s0003g00400, VIT_10s0003g00480, VIT_10s0003g00700,</span>
-<span class="co">#&gt; VIT_10s0003g00840, VIT_10s0003g00850, VIT_10s0003g00970, VIT_10s0003g01030,</span>
-<span class="co">#&gt; VIT_10s0003g01250, VIT_10s0003g01510, VIT_10s0003g01740, VIT_10s0003g01930,</span>
-<span class="co">#&gt; VIT_10s0003g02010, VIT_10s0003g02630, VIT_10s0003g03210, VIT_10s0003g03220,</span>
-<span class="co">#&gt; VIT_10s0003g03350, VIT_10s0003g03530, VIT_10s0003g03560, VIT_10s0003g03610,</span>
-<span class="co">#&gt; VIT_10s0003g03650, VIT_10s0003g03840, VIT_10s0003g03990, VIT_10s0003g04290,</span>
-<span class="co">#&gt; VIT_10s0003g04520, VIT_10s0003g04760, VIT_10s0003g05050, VIT_10s0003g05270,</span>
-<span class="co">#&gt; VIT_10s0003g05800, VIT_10s0003g03450, VIT_10s0003g00450, VIT_10s0003g01970,</span>
-<span class="co">#&gt; VIT_10s0003g02370, VIT_10s0003g02920, VIT_10s0003g03540, VIT_10s0003g03570,</span>
-<span class="co">#&gt; VIT_10s0003g03760, VIT_10s0003g04140, VIT_10s0003g04150, VIT_10s0003g04440,</span>
-<span class="co">#&gt; VIT_10s0003g04750, VIT_10s0003g04780, VIT_10s0003g04920, VIT_10s0003g04930,</span>
-<span class="co">#&gt; VIT_10s0003g05410, VIT_10s0003g05440, VIT_10s0003g05500, VIT_10s0003g05750,</span>
-<span class="co">#&gt; VIT_10s0003g05760, VIT_10s0405g00070, VIT_10s0042g00130, VIT_10s0042g00320,</span>
-<span class="co">#&gt; VIT_10s0042g00540, VIT_10s0042g00670, VIT_10s0042g00900, VIT_10s0042g01160,</span>
-<span class="co">#&gt; VIT_10s0042g00290, VIT_10s0042g00720, VIT_10s0042g00980, VIT_10s0042g01410,</span>
-<span class="co">#&gt; VIT_10s0071g00570, VIT_10s0071g00520, VIT_10s0071g00460, VIT_10s0071g00650,</span>
-<span class="co">#&gt; VIT_10s0071g00620, VIT_10s0071g00380, VIT_10s0071g00170, VIT_10s0071g00120,</span>
-<span class="co">#&gt; VIT_10s0092g00130, VIT_10s0092g00300, VIT_10s0092g00310, VIT_10s0092g00380,</span>
-<span class="co">#&gt; VIT_10s0092g00390, VIT_10s0092g00580, VIT_10s0092g00740, VIT_10s0092g00410,</span>
-<span class="co">#&gt; VIT_10s0116g01190, VIT_10s0116g01320, VIT_10s0116g00610, VIT_11s0103g00340,</span>
-<span class="co">#&gt; VIT_11s0103g00260, VIT_11s0103g00200, VIT_11s0103g00460, VIT_11s0103g00440,</span>
-<span class="co">#&gt; VIT_11s0118g00190, VIT_11s0118g00600, VIT_11s0118g00640, VIT_11s0118g00110,</span>
-<span class="co">#&gt; VIT_11s0118g00690, VIT_11s0149g00310, VIT_11s0016g01140, VIT_11s0016g01560,</span>
-<span class="co">#&gt; VIT_11s0016g02730, VIT_11s0016g02740, VIT_11s0016g03340, VIT_11s0016g03740,</span>
-<span class="co">#&gt; VIT_11s0016g04280, VIT_11s0016g04400, VIT_11s0016g04640, VIT_11s0016g04660,</span>
-<span class="co">#&gt; VIT_11s0016g05670, VIT_11s0016g05790, VIT_11s0016g01580, VIT_11s0016g02930,</span>
-<span class="co">#&gt; VIT_11s0016g04110, VIT_11s0016g05150, VIT_11s0016g05550, VIT_11s0206g00010,</span>
-<span class="co">#&gt; VIT_11s0037g00060, VIT_11s0037g00310, VIT_11s0037g00540, VIT_11s0037g00790,</span>
-<span class="co">#&gt; VIT_11s0037g01190, VIT_11s0037g01200, VIT_11s0037g01350, VIT_11s0037g01140,</span>
-<span class="co">#&gt; VIT_11s0037g01260, VIT_11s0052g01140, VIT_11s0052g00390, VIT_11s0052g01790,</span>
-<span class="co">#&gt; VIT_11s0052g00910, VIT_11s0052g00900, VIT_11s0052g00690, VIT_11s0052g00370,</span>
-<span class="co">#&gt; VIT_11s0052g00360, VIT_11s0052g00050, VIT_11s0065g00240, VIT_11s0065g00530,</span>
-<span class="co">#&gt; VIT_11s0065g00590, VIT_11s0065g00610, VIT_11s0065g00680, VIT_11s0065g00760,</span>
-<span class="co">#&gt; VIT_11s0065g00770, VIT_11s0065g00840, VIT_11s0065g01110, VIT_11s0065g00080,</span>
-<span class="co">#&gt; VIT_11s0065g00430, VIT_11s0065g00670, VIT_11s0065g01200, VIT_11s0078g00060,</span>
-<span class="co">#&gt; VIT_11s0078g00300, VIT_11s0078g00450, VIT_11s0078g00280, VIT_11s0078g00050,</span>
-<span class="co">#&gt; VIT_12s0121g00410, VIT_12s0121g00430, VIT_12s0121g00250, VIT_12s0121g00420,</span>
-<span class="co">#&gt; VIT_12s0134g00250, VIT_12s0134g00440, VIT_12s0134g00180, VIT_12s0142g00080,</span>
-<span class="co">#&gt; VIT_12s0142g00140, VIT_12s0178g00110, VIT_12s0178g00180, VIT_12s0028g04030,</span>
-<span class="co">#&gt; VIT_12s0028g04020, VIT_12s0028g03990, VIT_12s0028g03970, VIT_12s0028g03960,</span>
-<span class="co">#&gt; VIT_12s0028g03710, VIT_12s0028g02850, VIT_12s0028g02830, VIT_12s0028g02810,</span>
-<span class="co">#&gt; VIT_12s0028g02730, VIT_12s0028g02090, VIT_12s0028g01900, VIT_12s0028g01730,</span>
-<span class="co">#&gt; VIT_12s0028g01690, VIT_12s0028g01660, VIT_12s0028g01590, VIT_12s0028g01580,</span>
-<span class="co">#&gt; VIT_12s0028g01440, VIT_12s0028g00500, VIT_12s0028g00480, VIT_12s0028g00070,</span>
-<span class="co">#&gt; VIT_12s0028g02330, VIT_12s0028g02310, VIT_12s0028g01610, VIT_12s0028g01500,</span>
-<span class="co">#&gt; VIT_12s0028g00900, VIT_12s0028g00680, VIT_12s0034g02520, VIT_12s0034g02430,</span>
-<span class="co">#&gt; VIT_12s0034g02410, VIT_12s0034g02250, VIT_12s0034g02210, VIT_12s0034g02090,</span>
-<span class="co">#&gt; VIT_12s0034g02000, VIT_12s0034g01980, VIT_12s0034g01740, VIT_12s0034g01700,</span>
-<span class="co">#&gt; VIT_12s0034g01570, VIT_12s0034g01400, VIT_12s0034g01390, VIT_12s0034g00990,</span>
-<span class="co">#&gt; VIT_12s0034g00940, VIT_12s0034g00830, VIT_12s0034g00650, VIT_12s0034g00520,</span>
-<span class="co">#&gt; VIT_12s0034g00390, VIT_12s0034g00340, VIT_12s0034g00330, VIT_12s0034g00010,</span>
-<span class="co">#&gt; VIT_12s0034g02420, VIT_12s0034g01550, VIT_12s0034g01540, VIT_12s0034g01280,</span>
-<span class="co">#&gt; VIT_12s0034g00530, VIT_12s0034g00280, VIT_12s0034g02290, VIT_12s0034g02120,</span>
-<span class="co">#&gt; VIT_12s0034g00630, VIT_12s0034g00450, VIT_12s0034g00170, VIT_12s0034g00070,</span>
-<span class="co">#&gt; VIT_12s0035g01970, VIT_12s0035g01640, VIT_12s0035g01620, VIT_12s0035g01000,</span>
-<span class="co">#&gt; VIT_12s0035g00940, VIT_12s0035g00630, VIT_12s0035g00590, VIT_12s0035g00550,</span>
-<span class="co">#&gt; VIT_12s0035g00520, VIT_12s0035g00250, VIT_12s0035g00160, VIT_12s0035g00040,</span>
-<span class="co">#&gt; VIT_12s0035g01550, VIT_12s0035g01460, VIT_12s0035g00220, VIT_12s0035g01610,</span>
-<span class="co">#&gt; VIT_12s0035g00980, VIT_12s0035g00650, VIT_12s0035g00450, VIT_12s0035g00290,</span>
-<span class="co">#&gt; VIT_12s0055g00400, VIT_12s0055g00730, VIT_12s0055g00990, VIT_12s0055g00520,</span>
-<span class="co">#&gt; VIT_12s0055g00530, VIT_12s0055g00100, VIT_12s0055g00680, VIT_12s0055g01120,</span>
-<span class="co">#&gt; VIT_12s0055g01260, VIT_12s0057g00410, VIT_12s0057g00540, VIT_12s0057g00620,</span>
-<span class="co">#&gt; VIT_12s0057g00640, VIT_12s0057g00730, VIT_12s0057g00760, VIT_12s0057g00780,</span>
-<span class="co">#&gt; VIT_12s0057g00860, VIT_12s0057g00870, VIT_12s0057g00930, VIT_12s0057g01150,</span>
-<span class="co">#&gt; VIT_12s0057g01610, VIT_12s0057g00450, VIT_12s0057g00340, VIT_12s0057g00350,</span>
-<span class="co">#&gt; VIT_12s0057g00820, VIT_12s0057g01600, VIT_12s0059g00120, VIT_12s0059g00210,</span>
-<span class="co">#&gt; VIT_12s0059g00240, VIT_12s0059g00790, VIT_12s0059g00920, VIT_12s0059g01410,</span>
-<span class="co">#&gt; VIT_12s0059g01610, VIT_12s0059g02200, VIT_12s0059g01710, VIT_12s0059g01780,</span>
-<span class="co">#&gt; VIT_12s0059g01840, VIT_12s0059g01950, VIT_12s0059g02040, VIT_12s0059g02080,</span>
-<span class="co">#&gt; VIT_12s0059g02100, VIT_12s0059g02500, VIT_12s0059g02630, VIT_12s0059g00850,</span>
-<span class="co">#&gt; VIT_12s0059g01360, VIT_12s0059g02690, VIT_12s0059g00680, VIT_12s0142g00530,</span>
-<span class="co">#&gt; VIT_12s0142g00540, VIT_12s0028g00280, VIT_12s0142g00020, VIT_12s0142g00680,</span>
-<span class="co">#&gt; VIT_12s0028g00870, VIT_13s0101g00020, VIT_13s0101g00310, VIT_13s0101g00440,</span>
-<span class="co">#&gt; VIT_13s0106g00190, VIT_13s0106g00200, VIT_13s0106g00210, VIT_13s0106g00390,</span>
-<span class="co">#&gt; VIT_13s0106g00430, VIT_13s0106g00540, VIT_13s0106g00580, VIT_13s0106g00170,</span>
-<span class="co">#&gt; VIT_13s0106g00680, VIT_13s0139g00240, VIT_13s0139g00280, VIT_13s0139g00410,</span>
-<span class="co">#&gt; VIT_13s0139g00330, VIT_13s0139g00470, VIT_13s0147g00080, VIT_13s0147g00140,</span>
-<span class="co">#&gt; VIT_13s0156g00160, VIT_13s0156g00380, VIT_13s0019g05060, VIT_13s0019g04900,</span>
-<span class="co">#&gt; VIT_13s0019g04510, VIT_13s0019g04290, VIT_13s0019g03780, VIT_13s0019g03760,</span>
-<span class="co">#&gt; VIT_13s0019g03530, VIT_13s0019g03310, VIT_13s0019g03110, VIT_13s0019g02500,</span>
-<span class="co">#&gt; VIT_13s0019g02270, VIT_13s0019g02120, VIT_13s0019g01340, VIT_13s0019g01310,</span>
-<span class="co">#&gt; VIT_13s0019g01020, VIT_13s0019g00990, VIT_13s0019g00580, VIT_13s0019g00500,</span>
-<span class="co">#&gt; VIT_13s0019g00410, VIT_13s0019g00400, VIT_13s0019g00180, VIT_13s0019g00160,</span>
-<span class="co">#&gt; VIT_13s0019g05320, VIT_13s0019g05310, VIT_13s0019g05300, VIT_13s0019g02870,</span>
-<span class="co">#&gt; VIT_13s0019g04020, VIT_13s0320g00020, VIT_13s0047g01220, VIT_13s0047g00920,</span>
-<span class="co">#&gt; VIT_13s0047g00840, VIT_13s0047g00830, VIT_13s0047g00090, VIT_13s0047g00420,</span>
-<span class="co">#&gt; VIT_13s0047g01000, VIT_13s0047g00960, VIT_13s0047g00890, VIT_13s0047g00810,</span>
-<span class="co">#&gt; VIT_13s0047g00430, VIT_13s0047g00140, VIT_13s0064g01780, VIT_13s0064g01400,</span>
-<span class="co">#&gt; VIT_13s0064g01060, VIT_13s0064g01000, VIT_13s0064g00330, VIT_13s0064g00250,</span>
-<span class="co">#&gt; VIT_13s0064g00070, VIT_13s0064g01420, VIT_13s0064g00090, VIT_13s0064g01880,</span>
-<span class="co">#&gt; VIT_13s0064g00350, VIT_13s0064g00110, VIT_13s0067g03860, VIT_13s0067g03180,</span>
-<span class="co">#&gt; VIT_13s0067g03010, VIT_13s0067g01610, VIT_13s0067g02590, VIT_13s0073g00570,</span>
-<span class="co">#&gt; VIT_13s0073g00220, VIT_13s0073g00320, VIT_13s0073g00700, VIT_13s0073g00380,</span>
-<span class="co">#&gt; VIT_13s0073g00290, VIT_13s0073g00260, VIT_13s0073g00200, VIT_13s0073g00080,</span>
-<span class="co">#&gt; VIT_13s0074g00170, VIT_13s0074g00220, VIT_13s0074g00460, VIT_13s0074g00350,</span>
-<span class="co">#&gt; VIT_13s0074g00670, VIT_13s0084g00220, VIT_13s0084g00380, VIT_13s0084g00230,</span>
-<span class="co">#&gt; VIT_13s0084g00760, VIT_13s0084g00730, VIT_13s0067g00070, VIT_13s0067g00340,</span>
-<span class="co">#&gt; VIT_13s0067g01700, VIT_13s0067g01390, VIT_13s0067g02010, VIT_13s0067g03540,</span>
-<span class="co">#&gt; VIT_13s0019g00100, VIT_13s0067g03610, VIT_13s0019g00560, VIT_13s0019g00570,</span>
-<span class="co">#&gt; VIT_13s0019g00790, VIT_13s0019g00820, VIT_13s0019g01250, VIT_13s0019g01420,</span>
-<span class="co">#&gt; VIT_14s0108g00030, VIT_14s0108g00200, VIT_14s0108g00530, VIT_14s0108g00650,</span>
-<span class="co">#&gt; VIT_14s0108g00900, VIT_14s0108g01250, VIT_14s0108g01530, VIT_14s0128g00040,</span>
-<span class="co">#&gt; VIT_14s0128g00420, VIT_14s0128g00700, VIT_14s0128g00800, VIT_14s0128g00590,</span>
-<span class="co">#&gt; VIT_14s0171g00070, VIT_14s0171g00350, VIT_14s0171g00500, VIT_14s0219g00180,</span>
-<span class="co">#&gt; VIT_14s0219g00240, VIT_14s0219g00300, VIT_14s0030g02280, VIT_14s0030g02210,</span>
-<span class="co">#&gt; VIT_14s0030g02040, VIT_14s0030g00800, VIT_14s0030</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Processing root node: biological_process...</span>
-<span class="co">#&gt; Run Func...</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Done.</span></code></pre></div>
 <p>Take a look at the data</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## first element of go_enrich result has the stats</span>
 <span class="va">stats</span> <span class="op">=</span> <span class="va">res_hyper_anno</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
 <span class="co">## top-GO categories</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">stats</span><span class="op">)</span>
-<span class="co">#&gt;             ontology    node_id               node_name raw_p_underrep</span>
-<span class="co">#&gt; 1 biological_process GO:0006468 protein phosphorylation              1</span>
-<span class="co">#&gt; 2 biological_process GO:0006915       apoptotic process              1</span>
-<span class="co">#&gt; 3 biological_process GO:0008219              cell death              1</span>
-<span class="co">#&gt; 4 biological_process GO:0012501   programmed cell death              1</span>
-<span class="co">#&gt; 5 biological_process GO:0016310         phosphorylation              1</span>
-<span class="co">#&gt; 6 biological_process GO:0006952        defense response              1</span>
-<span class="co">#&gt;   raw_p_overrep FWER_underrep FWER_overrep</span>
-<span class="co">#&gt; 1  3.185314e-23             1            0</span>
-<span class="co">#&gt; 2  4.258506e-22             1            0</span>
-<span class="co">#&gt; 3  8.626769e-22             1            0</span>
-<span class="co">#&gt; 4  3.438782e-21             1            0</span>
-<span class="co">#&gt; 5  1.302778e-19             1            0</span>
-<span class="co">#&gt; 6  1.226173e-14             1            0</span>
 <span class="co">## top GO-categories per domain</span>
 <span class="fu"><a href="https://rdrr.io/r/base/by.html">by</a></span><span class="op">(</span><span class="va">stats</span>, <span class="va">stats</span><span class="op">$</span><span class="va">ontology</span>, <span class="va">head</span>, n<span class="op">=</span><span class="fl">3</span><span class="op">)</span>
-<span class="co">#&gt; stats$ontology: biological_process</span>
-<span class="co">#&gt;             ontology    node_id               node_name raw_p_underrep</span>
-<span class="co">#&gt; 1 biological_process GO:0006468 protein phosphorylation              1</span>
-<span class="co">#&gt; 2 biological_process GO:0006915       apoptotic process              1</span>
-<span class="co">#&gt; 3 biological_process GO:0008219              cell death              1</span>
-<span class="co">#&gt;   raw_p_overrep FWER_underrep FWER_overrep</span>
-<span class="co">#&gt; 1  3.185314e-23             1            0</span>
-<span class="co">#&gt; 2  4.258506e-22             1            0</span>
-<span class="co">#&gt; 3  8.626769e-22             1            0</span>
 <span class="co">#all valid input genes</span>
 <span class="co"># res_hyper_anno[[2]]</span>
 <span class="co">#The fourth element is a dataframe with the minimum p-values from the permutations, which are used to compute the FWER:</span>
 <span class="co">## minimum p-values from randomsets</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">res_hyper_anno</span><span class="op">[[</span><span class="fl">4</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
-<span class="co">#&gt;             ontology   lower_tail   upper_tail</span>
-<span class="co">#&gt; 1 biological_process 4.806552e-08 3.266235e-07</span>
-<span class="co">#&gt; 2 biological_process 1.246834e-05 1.360433e-05</span>
-<span class="co">#&gt; 3 biological_process 3.147404e-05 2.229046e-05</span>
-<span class="co">#&gt; 4 biological_process 3.352672e-05 2.272127e-05</span>
-<span class="co">#&gt; 5 biological_process 3.443877e-05 2.572346e-05</span>
-<span class="co">#&gt; 6 biological_process 3.487649e-05 2.803566e-05</span>
 <span class="co">## hypergeometric test</span>
 <span class="co"># top_gos_hyper = res_hyper_anno[[1]][1:5, 'node_id']</span>
 <span class="co"># GO-categories with a high proportion of candidate genes</span>
@@ -595,52 +329,28 @@
 #&gt; BLAS/LAPACK: /usr/lib64/libflexiblas.so.3.0
 #&gt; 
 #&gt; attached base packages:
-#&gt;  [1] grid      stats4    parallel  stats     graphics  grDevices utils    
-#&gt;  [8] datasets  methods   base     
+#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
 #&gt; 
 #&gt; other attached packages:
-#&gt;  [1] GOfuncR_1.10.0       vioplot_0.3.6        zoo_1.8-9           
-#&gt;  [4] sm_2.2-5.6           Rgraphviz_2.34.0     plyr_1.8.6          
-#&gt;  [7] topGO_2.42.0         SparseM_1.81         GO.db_3.12.1        
-#&gt; [10] AnnotationDbi_1.52.0 IRanges_2.24.1       S4Vectors_0.28.1    
-#&gt; [13] Biobase_2.50.0       graph_1.68.0         BiocGenerics_0.36.1 
-#&gt; [16] plotmm_0.1.0         plotly_4.9.3         ggplot2_3.3.3       
-#&gt; [19] mixtools_1.2.0       rcompass_0.0.4      
+#&gt; [1] mixtools_1.2.0 rcompass_0.0.5
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
-#&gt;  [1] ghql_0.1.0             colorspace_2.0-0       ellipsis_0.3.1        
-#&gt;  [4] modeltools_0.2-23      rprojroot_2.0.2        XVector_0.30.0        
-#&gt;  [7] GenomicRanges_1.42.0   fs_1.5.0               amerika_0.1.0         
-#&gt; [10] httpcode_0.3.0         farver_2.1.0           urltools_1.7.3        
-#&gt; [13] flexmix_2.3-17         bit64_4.0.5            fansi_0.4.2           
-#&gt; [16] splines_4.0.4          cachem_1.0.4           knitr_1.32            
-#&gt; [19] wesanderson_0.3.6      jsonlite_1.7.2         kernlab_0.9-29        
-#&gt; [22] compiler_4.0.4         httr_1.4.2             assertthat_0.2.1      
-#&gt; [25] Matrix_1.3-2           fastmap_1.1.0          lazyeval_0.2.2        
-#&gt; [28] htmltools_0.5.1.1      tools_4.0.4            gtable_0.3.0          
-#&gt; [31] glue_1.4.2             GenomeInfoDbData_1.2.4 dplyr_1.0.5           
-#&gt; [34] Rcpp_1.0.6             jquerylib_0.1.3        pkgdown_1.6.1         
-#&gt; [37] vctrs_0.3.7            RJSONIO_1.3-1.4        crul_1.1.0            
-#&gt; [40] crosstalk_1.1.1        xfun_0.22              stringr_1.4.0         
-#&gt; [43] lifecycle_1.0.0        gtools_3.8.2           zlibbioc_1.36.0       
-#&gt; [46] MASS_7.3-53            scales_1.1.1           ragg_1.1.2            
-#&gt; [49] mapplots_1.5.1         yaml_2.2.1             curl_4.3              
-#&gt; [52] memoise_2.0.0          sass_0.3.1             triebeard_0.3.0       
-#&gt; [55] segmented_1.3-3        stringi_1.5.3          RSQLite_2.2.6         
-#&gt; [58] highr_0.9              desc_1.3.0             GenomeInfoDb_1.26.7   
-#&gt; [61] rlang_0.4.10           pkgconfig_2.0.3        systemfonts_1.0.1     
-#&gt; [64] matrixStats_0.58.0     bitops_1.0-6           evaluate_0.14         
-#&gt; [67] lattice_0.20-41        purrr_0.3.4            patchwork_1.1.1       
-#&gt; [70] htmlwidgets_1.5.3      labeling_0.4.2         bit_4.0.4             
-#&gt; [73] tidyselect_1.1.0       magrittr_2.0.1         R6_2.5.0              
-#&gt; [76] generics_0.1.0         DBI_1.1.1              EMCluster_0.2-13      
-#&gt; [79] pillar_1.6.0           withr_2.4.2            survival_3.2-7        
-#&gt; [82] RCurl_1.98-1.3         nnet_7.3-15            tibble_3.1.1          
-#&gt; [85] crayon_1.4.1           utf8_1.2.1             rmarkdown_2.7         
-#&gt; [88] data.table_1.14.0      blob_1.2.1             graphql_1.5           
-#&gt; [91] digest_0.6.27          tidyr_1.1.3            textshaping_0.3.3     
-#&gt; [94] munsell_0.5.0          viridisLite_0.4.0      bslib_0.2.4           
-#&gt; [97] tcltk_4.0.4</code></pre>
+#&gt;  [1] tidyselect_1.1.0  xfun_0.22         bslib_0.2.4       purrr_0.3.4      
+#&gt;  [5] kernlab_0.9-29    splines_4.0.4     lattice_0.20-41   vctrs_0.3.7      
+#&gt;  [9] generics_0.1.0    htmltools_0.5.1.1 yaml_2.2.1        utf8_1.2.1       
+#&gt; [13] survival_3.2-7    rlang_0.4.10      pkgdown_1.6.1     jquerylib_0.1.3  
+#&gt; [17] pillar_1.6.0      DBI_1.1.1         httpcode_0.3.0    glue_1.4.2       
+#&gt; [21] ghql_0.1.0        segmented_1.3-3   lifecycle_1.0.0   stringr_1.4.0    
+#&gt; [25] graphql_1.5       ragg_1.1.2        memoise_2.0.0     evaluate_0.14    
+#&gt; [29] knitr_1.32        fastmap_1.1.0     curl_4.3          fansi_0.4.2      
+#&gt; [33] urltools_1.7.3    triebeard_0.3.0   highr_0.9         Rcpp_1.0.6       
+#&gt; [37] cachem_1.0.4      desc_1.3.0        jsonlite_1.7.2    systemfonts_1.0.1
+#&gt; [41] fs_1.5.0          textshaping_0.3.3 digest_0.6.27     stringi_1.5.3    
+#&gt; [45] dplyr_1.0.5       RJSONIO_1.3-1.4   rprojroot_2.0.2   grid_4.0.4       
+#&gt; [49] tools_4.0.4       magrittr_2.0.1    sass_0.3.1        tibble_3.1.1     
+#&gt; [53] crul_1.1.0        crayon_1.4.1      pkgconfig_2.0.3   MASS_7.3-53      
+#&gt; [57] ellipsis_0.3.1    Matrix_1.3-2      assertthat_0.2.1  rmarkdown_2.7    
+#&gt; [61] R6_2.5.0          compiler_4.0.4</code></pre>
 </div>
   </div>
 

@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rcompass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
       </span>
     </div>
 
@@ -106,7 +106,7 @@
 <code class="sourceCode R"><span class="co"># devtools::install_github("onertipaday/rcompass")</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">rcompass</span><span class="op">)</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; This is 'rCOMPASS' version 0.0.4 based on COMPASS version 0.8.8.</span></code></pre></div>
+<span class="co">#&gt; This is 'rCOMPASS' version 0.0.5 based on COMPASS version 0.8.8.</span></code></pre></div>
 <p>The COMPASS GraphQL endpoint might hosts different compendia. At the moment there is only the VESPUCCI compendium, but there are different version of VESPUCCI, and each version might have data normalized in different ways. In this case there are 2 versions of VESPUCCI, version 1.0 (legacy) and version 2.0 (latest). The latter has data normalized in 2 different ways, TPM normalization and LIMMA (the default one) while the legacy version has the legacy normalization only (i.e. per-sample logratios). For every query we will need to indicate the compendium we want to use, if no version, no normalization and no database is specified the default values will be used.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/get_available_compendia.html">get_available_compendia</a></span><span class="op">(</span><span class="op">)</span>
@@ -316,24 +316,24 @@
 <col width="3%">
 <col width="3%">
 <col width="4%">
+<col width="3%">
 <col width="2%">
 <col width="3%">
-<col width="5%">
-<col width="3%">
+<col width="2%">
 <col width="1%">
-<col width="2%">
 <col width="2%">
 <col width="4%">
 <col width="2%">
+<col width="5%">
 <col width="0%">
 <col width="2%">
 <col width="3%">
-<col width="2%">
-<col width="2%">
 <col width="4%">
 <col width="2%">
-<col width="3%">
 <col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="3%">
 <col width="3%">
 <col width="2%">
 <col width="0%">
@@ -369,24 +369,24 @@
 <th align="right">GSE36234_THINCLUSTER_EL38-1-vs-GSE36234_CONTROL_EL35-4</th>
 <th align="right">E-MTAB-3062_rip_60dpt_nit+-7-vs-E-MTAB-3062_rip_15dpt_nit+-4</th>
 <th align="right">GSE65969_berry_el38_crtl_0hpi-3-vs-GSE65969_berry_el35_crtl_0hpi-4</th>
-<th align="right">GSE49569_seed_PSH-2-vs-GSE49569_seed_PV-7</th>
 <th align="right">GSE36128_flesh_EL38-40-vs-GSE36128_flesh_EL32-43</th>
-<th align="right">GSE118569_Daktulosphaira_vitifoliae_Large_Leaf-8-vs-GSE118569_WildType_Large_Leaf-3</th>
+<th align="right">GSE49569_seed_PSH-2-vs-GSE49569_seed_PV-7</th>
 <th align="right">GSE36128_flesh_PHW2m-38-vs-GSE36128_flesh_EL32-43</th>
-<th align="right">cond_4-vs-cond_3</th>
 <th align="right">GSE75498_SG_T0-3-vs-GSE75498_C_T0-21</th>
+<th align="right">cond_4-vs-cond_3</th>
 <th align="right">GSE75498_OS_T0-13-vs-GSE75498_C_T0-21</th>
 <th align="right">GSE41633_2006_mid-ripening_AM-17-vs-GSE41633_2006_veraison_AM-18</th>
 <th align="right">GSE75498_M_T0-14-vs-GSE75498_C_T0-21</th>
+<th align="right">GSE118569_Daktulosphaira_vitifoliae_Large_Leaf-8-vs-GSE118569_WildType_Large_Leaf-3</th>
 <th align="right">chardo_3</th>
 <th align="right">GSE36128_stem_EL43-4-vs-GSE36128_stem_EL14-5</th>
 <th align="right">GSE36128_pollen_EL25-23-vs-GSE36128_flesh_EL32-43</th>
+<th align="right">GSE36128_inflorescence_EL17-35-vs-GSE36128_inflorescence_EL14-36</th>
 <th align="right">GSE36128_skin_PHW1m-8-vs-GSE36128_skin_EL32-12</th>
 <th align="right">GSE36128_skin_PHW3m-6-vs-GSE36128_skin_EL32-12</th>
-<th align="right">GSE36128_inflorescence_EL17-35-vs-GSE36128_inflorescence_EL14-36</th>
 <th align="right">GSE36128_leaf_EL43-29-vs-GSE36128_leaf_EL14-31</th>
-<th align="right">GSE36128_flesh_EL35-42-vs-GSE36128_flesh_EL32-43</th>
 <th align="right">GSE36128_bud_EL01-44-vs-GSE36128_bud_EL02-48</th>
+<th align="right">GSE36128_flesh_EL35-42-vs-GSE36128_flesh_EL32-43</th>
 <th align="right">GSE36128_flesh_PHW3m-37-vs-GSE36128_flesh_EL32-43</th>
 <th align="right">GSE36128_skin_PHW2m-7-vs-GSE36128_skin_EL32-12</th>
 <th align="right">pea_5</th>
@@ -1577,7 +1577,7 @@
 #&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
 #&gt; 
 #&gt; other attached packages:
-#&gt; [1] rcompass_0.0.4
+#&gt; [1] rcompass_0.0.5
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
 #&gt;  [1] Rcpp_1.0.6        knitr_1.32        magrittr_2.0.1    graphql_1.5      

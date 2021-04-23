@@ -103,7 +103,8 @@ gmm_fit <-  mixtools::normalmixEM(as.vector(module_df), k = 2)
 
 ### Plot the data distribution and the fitted model
 
-```{r plot_mixtools}
+```{r plot_mixtools, eval = FALSE}
+suppressPackageStartupMessages(library(EMCluster))
 suppressPackageStartupMessages(library(plotly))
 suppressPackageStartupMessages(library(plotmm))
 plot_mm(gmm_fit, 2) +
@@ -122,8 +123,8 @@ ggplotly(p)
 ### Choose a cutoff for non-expressed genes
 From the plot we can (arbitrarily) choose a log2-TPM cutoff value to distinguish the portion of expressed genes from the non-expressed genes. We chose to set this cutoff at 1, that is roughly the median value of the lowly expressed component.
 
-```{r}
-plot_cut_point(gmm_fit, plot = FALSE)
+```{r, eval = FALSE}
+plotmm::plot_cut_point(gmm_fit, plot = FALSE)
 # [1] 0.8443817
 # genes with log2(tpm) < 1 in all samples
 never_expressed_in_fruit <- apply(module_df, 1, function(x) all(x < 1))
@@ -162,7 +163,7 @@ go_assoc <- dplyr::full_join(triples, genes)
 ## GO analysis using topGO
 To start the GO analysis we will download the basic GO and the Plant Slim GO and create both DAGs objects.
 
-```{r}
+```{r eval = FALSE}
 suppressPackageStartupMessages(library("topGO"))
 GO_plant_slim <- read.table(system.file("extdata", "GO_plant_slim.tsv", package = "rcompass"), sep="\t", header=FALSE, stringsAsFactors=FALSE)
 colnames(GO_plant_slim)<-c("ID","GOTERM","GOdescription","Category")
@@ -177,7 +178,7 @@ We perform a classical enrichment analysis by testing the over-representation of
 group of expressed genes. For the method classic each GO category is tested independently.
 We will look for enriched GOTERMS of the Biological Process (BP) Gene Ontology.
 
-```{r}
+```{r eval = FALSE}
 myInterestingGenes <- never_expressed_in_fruit_names
 geneList <- factor(as.integer(geneNames %in% myInterestingGenes))
 names(geneList) <- geneNames
