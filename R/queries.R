@@ -12,7 +12,7 @@ get_compass_version <- function(){
 
 #' Get all available compendia in COMPASS
 #'
-#' @return a list with info and version information
+#' @return a list with info and versions
 #' @export
 #'
 #' @examples
@@ -36,7 +36,8 @@ get_available_compendia <- function(){
   list(info = c(name =  tmp$name,
                 fullName =  tmp$fullName,
                 description =  tmp$description),
-       versions = sapply(tmp$versions, unlist))
+       versions = tidyr::unite(dplyr::bind_rows(sapply(tmp$versions, unlist)),
+       "normalizationType", starts_with("databases.norm"), sep = ",", na.rm = T))
 }
 
 
@@ -238,6 +239,63 @@ get_experiments <- function(compendium = "vespucci",
   tmp
 }
 
+
+#' Get experimentAccessid and experimentName from sampleName
+#'
+#' use \code{\link{get_available_compendia}} to check all the available compendia
+#'
+#' @param compendium A string - the selected compendium
+#' @param normalization A string ('limma' as default)
+#' @param sampleSetId A string - if NULL(default) returns all available experiments ids
+#' for the selected compendium
+#' @return A data.frame with experimentAccessId, esperimentName and description
+#' @export
+#'
+#' @examples
+#'\dontrun{
+#' ss=c("GSE75498_OS_T0-13-vs-GSE75498_C_T0-21","harvest_4","harvest_5")
+#' my_ss <- get_sampleset_id(id_In = ss, normalization = "limma", useIds = FALSE)
+#' get_experimentId_by_sampleSetId(sampleSetId = my_ss$id)
+#' }
+get_experimentId_by_sampleSetId <- function(compendium = "vespucci",
+                            normalization = "limma",
+                            sampleSetId = NULL){
+  if(normalization == "legacy") version <- "legacy"
+  else if(normalization %in% c("limma","tpm")) version <- "2.0"
+  else stop("normalization HAS TO BE either legacy, limma or tpm.")
+  if(is.null(sampleSetId)){
+    my_query <- paste0('{
+      sampleSets(compendium:\"', compendium, '\", normalization:\"', normalization, '\") {')}
+  else{
+    my_query <- paste0('{
+    sampleSets(compendium:\"', compendium, '\", normalization:\"', normalization, '\", id_In:\"', paste0(sampleSetId, collapse =","), '\") {')
+  }
+  my_query <- paste0(my_query,'
+    edges {
+      node {
+      id
+      name
+        normalizationdesignsampleSet {
+          edges {
+            node {
+              sample {
+                experiment {
+                  id,
+                  experimentAccessId
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    }
+  }')
+  #cat(my_query, "\n")
+  tmp <- suppressMessages(bind_rows(lapply(build_query(my_query)$sampleSets$edges, unlist))[,1:4])
+  colnames(tmp) <- c("sampleSetId","sampleSetName","experimentId","experimentAccessId")
+  tmp
+}
 
 #' get annotations for either n samples or selected sampleName
 #'
@@ -726,6 +784,7 @@ get_biofeature_by_name <- function(compendium = "vespucci",
             }
           }
   }')
+  # cat(my_query,"\n")
   tmp <- t(sapply(build_query(my_query)$biofeatures$edges, unlist))
   colnames(tmp) <- c("id", "value")
   rownames(tmp) <- NULL
@@ -803,19 +862,18 @@ get_biofeature_id <- function(compendium = "vespucci",
 #' @param compendium A string - the selected compendium
 #' @param id_In A vector of character strings - either samplesetNames or sampleSetIds
 #' @param useIds A logical (FALSE as default) - It allows using sampleSetIds
-#' @param normalization A string - 'tpm' (as default), 'limma' or 'legacy'
+#' @param normalization A string - either 'limma' (default),'tpm' or legacy as normalization
 #'
 #' @return A data.frame with two columns: id and name
 #' @export
 #'
 #' @examples
-#' my_ss=c("GSM671720.ch1-vs-GSM671719.ch1","GSM671721.ch1-vs-GSM671719.ch1"
-#' ,"GSM671722.ch1-vs-GSM671719.ch1","GSM147672.ch1-vs-GSM147690.ch1")
-#' get_sampleset_id(id_In = my_ss, normalization = "legacy")
+#' my_ss=c("GSE75498_OS_T0-13-vs-GSE75498_C_T0-21","harvest_4","harvest_5")
+#' get_sampleset_id(id_In = my_ss, normalization = "limma", useIds = FALSE)
 #' my_ids=c("U2FtcGxlU2V0VHlwZTo2NDE5","U2FtcGxlU2V0VHlwZToyMTg2OA==","U2FtcGxlU2V0VHlwZToyMTg2Nw==")
 #' get_sampleset_id(id_In = my_ids, normalization = "limma", useIds = TRUE)
 get_sampleset_id <- function(compendium = "vespucci",
-                             normalization = "tpm",
+                             normalization = "limma",
                              id_In = NULL,
                              useIds = FALSE){
   if(is.null(id_In)) stop("Provide id_In (e.g. id_In = 'GSM671720.ch1-vs-GSM671719.ch1','GSM671721.ch1-vs-GSM671719.ch1'")

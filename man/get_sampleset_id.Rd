@@ -6,7 +6,7 @@
 \usage{
 get_sampleset_id(
   compendium = "vespucci",
-  normalization = "tpm",
+  normalization = "limma",
   id_In = NULL,
   useIds = FALSE
 )
@@ -14,7 +14,7 @@ get_sampleset_id(
 \arguments{
 \item{compendium}{A string - the selected compendium}
 
-\item{normalization}{A string - 'tpm' (as default), 'limma' or 'legacy'}
+\item{normalization}{A string - either 'limma' (default),'tpm' or legacy as normalization}
 
 \item{id_In}{A vector of character strings - either samplesetNames or sampleSetIds}
 
@@ -27,9 +27,8 @@ A data.frame with two columns: id and name
 get_sampleset_id
 }
 \examples{
-my_ss=c("GSM671720.ch1-vs-GSM671719.ch1","GSM671721.ch1-vs-GSM671719.ch1"
-,"GSM671722.ch1-vs-GSM671719.ch1","GSM147672.ch1-vs-GSM147690.ch1")
-get_sampleset_id(id_In = my_ss, normalization = "legacy")
+my_ss=c("GSE75498_OS_T0-13-vs-GSE75498_C_T0-21","harvest_4","harvest_5")
+get_sampleset_id(id_In = my_ss, normalization = "limma", useIds = FALSE)
 my_ids=c("U2FtcGxlU2V0VHlwZTo2NDE5","U2FtcGxlU2V0VHlwZToyMTg2OA==","U2FtcGxlU2V0VHlwZToyMTg2Nw==")
 get_sampleset_id(id_In = my_ids, normalization = "limma", useIds = TRUE)
 }

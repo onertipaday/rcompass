@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>create a module based on provided sample sets — create_module_ss • rcompass</title>
+<title>describe a module — describe_module • rcompass</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="create a module based on provided sample sets — create_module_ss" />
-<meta property="og:description" content="create a module based on provided sample sets" />
+<meta property="og:title" content="describe a module — describe_module" />
+<meta property="og:description" content="describe a module" />
 
 
 
@@ -126,22 +126,19 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>create a module based on provided sample sets</h1>
+    <h1>describe a module</h1>
     <small class="dont-index">Source: <a href='https://github.com/onertipaday/rcompass/blob/master/R/modules.R'><code>R/modules.R</code></a></small>
-    <div class="hidden name"><code>create_module_ss.Rd</code></div>
+    <div class="hidden name"><code>describe_module.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>create a module based on provided sample sets</p>
+    <p>describe a module</p>
     </div>
 
-    <pre class="usage"><span class='fu'>create_module_ss</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>describe_module</span><span class='op'>(</span>
   compendium <span class='op'>=</span> <span class='st'>"vespucci"</span>,
-  samplesetNames <span class='op'>=</span> <span class='cn'>NULL</span>,
-  normalization <span class='op'>=</span> <span class='st'>"limma"</span>,
-  rank <span class='op'>=</span> <span class='st'>"uncentered_correlation"</span>,
-  top_n <span class='op'>=</span> <span class='fl'>50</span>,
-  useIds <span class='op'>=</span> <span class='cn'>FALSE</span>
+  module <span class='op'>=</span> <span class='cn'>NULL</span>,
+  normalization <span class='op'>=</span> <span class='st'>"limma"</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -152,36 +149,26 @@
       <td><p>A string - the selected compendium</p></td>
     </tr>
     <tr>
-      <th>samplesetNames</th>
-      <td><p>A character vector (sampleset names)</p></td>
+      <th>module</th>
+      <td><p>A matrix with valid rownames (biofeatureNames) and colnames (samplesetsNames)</p></td>
     </tr>
     <tr>
       <th>normalization</th>
       <td><p>A string - either 'limma' (default),'tpm' or legacy as normalization</p></td>
     </tr>
-    <tr>
-      <th>rank</th>
-      <td><p>A string ('magnitude' as default) - use <code><a href='get_ranking.html'>get_ranking</a></code></p></td>
-    </tr>
-    <tr>
-      <th>top_n</th>
-      <td><p>A numeric - an integer for selecting the top ranked samplesets</p></td>
-    </tr>
-    <tr>
-      <th>useIds</th>
-      <td><p>A logical (FALSE as default) - It allows using samplesetIds</p></td>
-    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A matrix - the module</p>
+    <p>a data.frame</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='va'>my_ids</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"U2FtcGxlU2V0VHlwZTo2NDE5"</span>,<span class='st'>"U2FtcGxlU2V0VHlwZToyMTg2OA=="</span><span class='op'>)</span>
-<span class='va'>mod_ss</span> <span class='op'>&lt;-</span> <span class='fu'>create_module_ss</span><span class='op'>(</span>samplesetNames <span class='op'>=</span> <span class='va'>my_ids</span>,
-normalization <span class='op'>=</span> <span class='st'>"limma"</span>, top_n <span class='op'>=</span> <span class='fl'>15</span>, useIds <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>gene_names</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'VIT_00s0246g00220'</span>,<span class='st'>'VIT_00s0332g00060'</span>,<span class='st'>'VIT_00s0332g00110'</span>,
+<span class='st'>'VIT_00s0332g00160'</span>,<span class='st'>'VIT_00s0396g00010'</span>,<span class='st'>'VIT_00s0505g00030'</span>,<span class='st'>'VIT_00s0505g00060'</span>
+,<span class='st'>'VIT_00s0873g00020'</span>,<span class='st'>'VIT_00s0904g00010'</span><span class='op'>)</span>
+<span class='va'>module_1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='create_module.html'>create_module</a></span><span class='op'>(</span>biofeaturesNames<span class='op'>=</span><span class='va'>gene_names</span>, normalization <span class='op'>=</span> <span class='st'>"limma"</span><span class='op'>)</span>
+<span class='fu'>describe_module</span><span class='op'>(</span>module <span class='op'>=</span> <span class='va'>module_1</span>, normalization <span class='op'>=</span> <span class='st'>"limma"</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>
   </div>

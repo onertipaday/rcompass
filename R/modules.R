@@ -1,7 +1,7 @@
 #' create a module providing both biological features and sample sets
 #'
 #' @param compendium A string - the selected compendium
-#' @param normalization A string ('legacy' as default)
+#' @param normalization A string - either 'limma' (default),'tpm' or legacy as normalization
 #' @param biofeaturesNames A character vector (gene_names)
 #' @param samplesetNames A character vector (sampleset names)
 #' @param useIds A logical (FALSE as default) - It allows using biofeatureIds
@@ -15,14 +15,15 @@
 #' "VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030",
 #' "VIT_00s0505g00060","VIT_00s0873g00020","VIT_00s0904g00010")
 #' mod_bf <- create_module(biofeaturesNames = gene_names)
-#' my_bf <- c("VIT_00s0332g00110","VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030")
-#' my_ss <- c("GSM671720.ch1-vs-GSM671719.ch1","GSM671721.ch1-vs-GSM671719.ch1"
-#' ,"GSM671722.ch1-vs-GSM671719.ch1","GSM147672.ch1-vs-GSM147690.ch1")
-#' my_mod <- create_module(biofeaturesNames = my_bf, samplesetNames = my_ss)
+#' my_bf <- get_biofeature_id(id_In = gene_names, useIds = FALSE)
+#' ss=c("GSE75498_OS_T0-13-vs-GSE75498_C_T0-21","harvest_4","harvest_5")
+#' my_ss <- get_sampleset_id(id_In = ss, normalization = "limma", useIds = FALSE)
+#' my_mod <- create_module(biofeaturesNames = my_bf$id, samplesetNames = my_ss$id,
+#' normalization = "limma", useIds = TRUE)
 #' pheatmap::pheatmap(na.omit(my_mod), col = RColorBrewer::brewer.pal(11,name="RdBu"))
 #' }
 create_module <- function(compendium = "vespucci",
-                          normalization = "legacy",
+                          normalization = "limma",
                           biofeaturesNames = NULL,
                           samplesetNames = NULL,
                           useIds = FALSE){
@@ -59,7 +60,7 @@ create_module <- function(compendium = "vespucci",
     }
   }')
   }
-  # cat(my_query)
+  cat(my_query)
   nv <- t(as.data.frame(sapply(build_query(my_query)$modules$normalizedValues, unlist)))
   rownames(nv) <- biofeaturesNames
   colnames(nv) <- samplesetNames
@@ -71,8 +72,9 @@ create_module <- function(compendium = "vespucci",
 #'
 #' @param compendium A string - the selected compendium
 #' @param biofeaturesNames A character vector (gene_names)
-#' @param normalization A string ('legacy' as default)
+#' @param normalization A string - either 'limma' (default),'tpm' or legacy as normalization
 #' @param rank A string ('magnitude' as default)
+#' @param top_n A numeric - an integer for selecting the top ranked samplesets
 #' @param useIds A logical (FALSE as default) - It allows using biofeatureIds
 #'b
 #' @return A matrix - the module
@@ -80,25 +82,24 @@ create_module <- function(compendium = "vespucci",
 #'
 #' @examples
 #'\dontrun{
-#' my_bf <- c("VIT_00s0246g00220","VIT_00s0332g00060","VIT_00s0332g00110"
-#' ,"VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030","VIT_00s0505g00060"
-#' ,"VIT_00s0873g00020","VIT_00s0904g00010")
-#' mod_bf <- create_module_bf(biofeaturesNames=my_bf, normalization = "legacy")
+#' my_bf <- c("VIT_00s0246g00220","VIT_00s0332g00060","VIT_00s0332g00110")
+#' tmp <- get_biofeature_id(id_In = my_bf, useIds = F)$id
+#' my_mod <- create_module_bf(biofeaturesNames= tmp,
+#' normalization = "limma", top_n = 15, useIds = T)
 #' }
 create_module_bf <- function(compendium = "vespucci",
                              biofeaturesNames=NULL,
-                             normalization = "legacy",
+                             normalization = "limma",
                              rank = "magnitude",
+                             top_n = 50,
                              useIds = FALSE) {
   if(is.null(biofeaturesNames)) stop("You need to provide biofeaturesNames")
   if(useIds) biofeaturesIds <- biofeaturesNames
-  else biofeaturesIds <- get_biofeature_id(id_In=biofeaturesNames)$id
+  else biofeaturesIds <- get_biofeature_id(id_In=biofeaturesNames, useIds = useIds)$id
   if(normalization == "legacy") version <- "legacy"
   else if(normalization %in% c("limma","tpm")) version <- "2.0"
   else stop("normalization HAS TO BE either legacy, limma or tpm.")
-
-  samplesetIds <- get_samplesets_ranking(biofeaturesNames = biofeaturesNames, normalization = normalization, rank = rank, rankTarget = "samplesets", useIds = useIds)$id
-  # print(samplesetIds)
+  samplesetIds <- get_samplesets_ranking(biofeaturesNames = biofeaturesIds, normalization = normalization, rank = rank, rankTarget = "samplesets", top_n = top_n, useIds = useIds)$id
   my_query <- paste0('{
     modules(compendium:\"', compendium, '\", version:\"', version, '\", normalization:\"', normalization, '\",
     biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"],
@@ -120,10 +121,9 @@ create_module_bf <- function(compendium = "vespucci",
         }
     }
   }')
+  # cat(my_query,"\n")
   tmp <- build_query(my_query)$modules
   nv <- t(as.data.frame(sapply(tmp$normalizedValues, unlist)))
-  #rownames(nv) <- biofeaturesNames
-  #colnames(nv) <- samplesetIds
   rownames(nv) <- as.character(sapply(tmp$biofeatures, unlist))
   colnames(nv) <- as.character(sapply(tmp$sampleSets, unlist))
   nv
@@ -132,9 +132,10 @@ create_module_bf <- function(compendium = "vespucci",
 #' create a module based on provided sample sets
 #'
 #' @param compendium A string - the selected compendium
-#' @param normalization A string ('legacy' as default)
+#' @param normalization A string - either 'limma' (default),'tpm' or legacy as normalization
 #' @param samplesetNames A character vector (sampleset names)
 #' @param rank A string ('magnitude' as default) - use \code{\link{get_ranking}}
+#' @param top_n A numeric - an integer for selecting the top ranked samplesets
 #' @param useIds A logical (FALSE as default) - It allows using samplesetIds
 #'
 #' @return A matrix - the module
@@ -142,24 +143,25 @@ create_module_bf <- function(compendium = "vespucci",
 #'
 #' @examples
 #'\dontrun{
-#' my_ss <- c("GSM671720.ch1-vs-GSM671719.ch1","GSM671721.ch1-vs-GSM671719.ch1"
-#' ,"GSM671722.ch1-vs-GSM671719.ch1","GSM147672.ch1-vs-GSM147690.ch1")
-#' mod_ss <- create_module_ss(samplesetNames = my_ss)
+#' my_ids=c("U2FtcGxlU2V0VHlwZTo2NDE5","U2FtcGxlU2V0VHlwZToyMTg2OA==")
+#' mod_ss <- create_module_ss(samplesetNames = my_ids,
+#' normalization = "limma", top_n = 15, useIds = TRUE)
 #' }
 create_module_ss <- function(compendium = "vespucci",
                              samplesetNames = NULL,
-                             normalization = "legacy",
+                             normalization = "limma",
                              rank = "uncentered_correlation",
+                             top_n = 50,
                              useIds = FALSE){
   if(is.null(samplesetNames)) stop("You need to provide samplesetNames")
   if(useIds) samplesetIds <- samplesetNames
-  else samplesetIds <- get_sampleset_id(id_In = samplesetNames)$id
+  else samplesetIds <- get_sampleset_id(id_In = samplesetNames,
+                                        normalization = normalization,
+                                        useIds = useIds)$id
   if(normalization == "legacy") version <- "legacy"
   else if(normalization %in% c("limma","tpm")) version <- "2.0"
   else stop("normalization HAS TO BE either legacy, limma or tpm.")
-
-  biofeaturesIds <- get_biofeature_ranking(samplesetNames = samplesetNames, normalization = normalization, rank = rank, rankTarget = "biofeatures", useIds = useIds)$id
-  print(biofeaturesIds)
+  biofeaturesIds <- get_biofeature_ranking(samplesetNames = samplesetIds, normalization = normalization, rank = rank, rankTarget = "biofeatures", top_n = top_n, useIds = useIds)$id
   my_query <- paste0('{
     modules(compendium:\"', compendium, '\", version:\"', version, '\", normalization:\"', normalization, '\",
     biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"],
@@ -212,6 +214,64 @@ create_module_ss <- function(compendium = "vespucci",
 merge_modules <- function(mod1, mod2){
   create_module(biofeaturesNames = c(rownames(mod1),rownames(mod2)),
                 samplesetNames = c(colnames(mod1),colnames(mod2)))
+}
+
+# -----------------------------------------------------------------------------
+
+#' describe a module
+#'
+#' @param compendium A string - the selected compendium
+#' @param module A matrix with valid rownames (biofeatureNames) and colnames (samplesetsNames)
+#' @param normalization A string - either 'limma' (default),'tpm' or legacy as normalization
+#'
+#' @return a data.frame
+#' @export
+#'
+#' @examples
+#'\dontrun{
+#' gene_names <- c('VIT_00s0246g00220','VIT_00s0332g00060','VIT_00s0332g00110',
+#' 'VIT_00s0332g00160','VIT_00s0396g00010','VIT_00s0505g00030','VIT_00s0505g00060'
+#' ,'VIT_00s0873g00020','VIT_00s0904g00010')
+#' module_1 <- create_module(biofeaturesNames=gene_names, normalization = "limma")
+#' describe_module(module = module_1, normalization = "limma")
+#'}
+describe_module <- function(compendium = "vespucci",
+                                module = NULL,
+                                normalization = "limma"){
+  if (is.null(module)) stop ("Provide a module.")
+  if (is.null(normalization)) stop ("Normalization has to be either 'limma','tpm' or 'legacy'.")
+  else if (normalization == "limma" | normalization == "tpm") version <- "2.0"
+  else version <- "legacy"
+
+  samplesetIds <- colnames(module)
+  biofeaturesIds <- rownames(module)
+  my_query <- paste0('{
+    modules(compendium:\"', compendium, '\", version:\"', version, '\", normalization:\"', normalization, '\",
+    biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"],
+    samplesetIds:["', paste0(samplesetIds, collapse = '","'),'\"]), {
+      normalizedValues,
+      biofeatures {
+          edges {
+                node {
+                  id
+                 }
+          }
+      },
+       sampleSets {
+          edges {
+                node {
+                  id
+                }
+          }
+        }
+    }
+  }')
+  # cat(my_query, "\n")
+  # tmp <- build_query(my_query)$modules
+  # nv <- t(as.data.frame(sapply(tmp$normalizedValues, unlist)))
+  # rownames(nv) <- as.character(sapply(tmp$biofeatures, unlist))
+  # colnames(nv) <- as.character(sapply(tmp$sampleSets, unlist))
+  # nv
 }
 
 

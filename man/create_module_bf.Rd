@@ -7,8 +7,9 @@
 create_module_bf(
   compendium = "vespucci",
   biofeaturesNames = NULL,
-  normalization = "legacy",
+  normalization = "limma",
   rank = "magnitude",
+  top_n = 50,
   useIds = FALSE
 )
 }
@@ -17,9 +18,11 @@ create_module_bf(
 
 \item{biofeaturesNames}{A character vector (gene_names)}
 
-\item{normalization}{A string ('legacy' as default)}
+\item{normalization}{A string - either 'limma' (default),'tpm' or legacy as normalization}
 
 \item{rank}{A string ('magnitude' as default)}
+
+\item{top_n}{A numeric - an integer for selecting the top ranked samplesets}
 
 \item{useIds}{A logical (FALSE as default) - It allows using biofeatureIds
 b}
@@ -32,9 +35,9 @@ create a module based on provided biological features
 }
 \examples{
 \dontrun{
-my_bf <- c("VIT_00s0246g00220","VIT_00s0332g00060","VIT_00s0332g00110"
-,"VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030","VIT_00s0505g00060"
-,"VIT_00s0873g00020","VIT_00s0904g00010")
-mod_bf <- create_module_bf(biofeaturesNames=my_bf, normalization = "legacy")
+my_bf <- c("VIT_00s0246g00220","VIT_00s0332g00060","VIT_00s0332g00110")
+tmp <- get_biofeature_id(id_In = my_bf, useIds = F)$id
+my_mod <- create_module_bf(biofeaturesNames= tmp,
+normalization = "limma", top_n = 15, useIds = T)
 }
 }

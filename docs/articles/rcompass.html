@@ -128,27 +128,9 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">rcompass</span><span class="op">)</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; This is 'rCOMPASS' version 0.0.5 based on COMPASS version 0.8.8.</span></code></pre></div>
-<p>The COMPASS GraphQL endpoint might hosts different compendia. At the moment there is only the VESPUCCI compendium, but there are different version of VESPUCCI, and each version might have data normalized in different ways. In this case there are 2 versions of VESPUCCI, version 1.0 (legacy) and version 2.0 (latest). The latter has data normalized in 2 different ways, TPM normalization and LIMMA (the default one) while the legacy version has the legacy normalization only (i.e. per-sample logratios). For every query we will need to indicate the compendium we want to use, if no version, no normalization and no database is specified the default values will be used.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/get_available_compendia.html">get_available_compendia</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; $info</span>
-<span class="co">#&gt;                                   name                               fullName </span>
-<span class="co">#&gt;                             "vespucci"                             "VESPUCCI" </span>
-<span class="co">#&gt;                            description </span>
-<span class="co">#&gt; "The Vitis gene expression compendium" </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $versions</span>
-<span class="co">#&gt; $versions[[1]]</span>
-<span class="co">#&gt;            versionNumber           databases.name databases.normalizations </span>
-<span class="co">#&gt;                    "1.0"         "vitis_vinifera"       "legacy (default)" </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $versions[[2]]</span>
-<span class="co">#&gt;             versionNumber            databases.name databases.normalizations1 </span>
-<span class="co">#&gt;                     "2.0"          "vitis_vinifera"                     "tpm" </span>
-<span class="co">#&gt; databases.normalizations2 </span>
-<span class="co">#&gt;         "limma (default)"</span></code></pre></div>
-<p>Now we can use <code>rcompass</code> to retrieve some stats about VESPUCCI. The Vitis gene expression compendium version 1.0 vitis_vinifera legacy (default) normalized contains values for 29090 biological features (genes), measured for 3687 sample sets. This corresponds to a total of 160 experiments and 4101 samples measured on 53 different platforms.</p>
+<span class="co">#&gt; This is 'rCOMPASS' version 0.0.5 based on COMPASS version 0.8.9.</span></code></pre></div>
+<p>The COMPASS GraphQL endpoint might hosts different compendia. At the moment there is only the VESPUCCI compendium, but there are different version of VESPUCCI, and each version might have data normalized in different ways. In this case there are 2 versions of VESPUCCI, version 1.0 (legacy) and version 2.0 (latest). The latter has data normalized in 2 different ways, TPM normalization and LIMMA (the default one) while the legacy version has the legacy normalization only (i.e. per-sample logratios). For every query we will need to indicate the compendium we want to use, if no version, no normalization and no database is specified the default values (version 2.0, normalization <code>limma</code>) will be used.</p>
+<p>We can use <code>rcompass</code> to retrieve some stats about VESPUCCI. The Vitis gene expression compendium version 2.0 normalized contains values for 29090 biological features (genes), measured for 1689 sample sets. This corresponds to a total of 160 experiments and 4101 samples measured on 53 different platforms.</p>
 </div>
 </div>
   </div>

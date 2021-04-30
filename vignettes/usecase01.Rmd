@@ -29,10 +29,13 @@ In this first exercise we will perform few basic operations with VESPUCCI. We wi
 library(rcompass)
 ```
 
-The COMPASS GraphQL endpoint might hosts different compendia. At the moment there is only the VESPUCCI compendium, but there are different version of VESPUCCI, and each version might have data normalized in different ways. In this case there are 2 versions of VESPUCCI, version 1.0 (legacy) and version 2.0 (latest). The latter has data normalized in 2 different ways, TPM normalization and LIMMA (the default one) while the legacy version has the legacy normalization only (i.e. per-sample logratios). For every query we will need to indicate the compendium we want to use, if no version, no normalization and no database is specified the default values will be used.
+The COMPASS GraphQL endpoint might hosts different compendia. At the moment there is only the VESPUCCI compendium, but there are different version of VESPUCCI, and each version might have data normalized in different ways. In this case there are 2 versions of VESPUCCI, version 1.0 (legacy) and version 2.0 (latest). The latter has data normalized in 2 different ways, TPM normalization and LIMMA (the default one) while the legacy version has the legacy normalization only (i.e. per-sample logratios). For every query we will need to indicate the compendium we want to use, if no version, no normalization and no database is specified the `r get_available_compendia()$versions[2,]` values will be used.
 
-```{r}
-get_available_compendia()
+```{r VESPUCCI_stats}
+paste("The Vitis gene expression compendium version", paste(get_available_compendia()$versions[2,], collapse = " "),"normalized contains values for", totalCounts(version="1.0", aggregate_type="biofeatures"), " biological features, measured for", totalCounts(version="2.0", aggregate_type="sampleSets"), " sample sets. This corresponds to a total of", totalCounts(aggregate_type = "experiments"), " experiments and", totalCounts(aggregate_type = "samples"), " samples measured on", totalCounts(aggregate_type = "platforms")," different platforms:")
+```
+```{r platforms_stats, echo = TRUE, eval = FALSE}
+knitr::kable( dplyr::count(get_platform_information(),source))
 ```
 
 # Genes
@@ -90,6 +93,7 @@ We are now ready to create our first module. If we pass a list of genes (Biologi
 ```{r module_1_creation}
 module_1 <- create_module_bf(biofeaturesNames = gene_ids_module, 
                              normalization = "limma", 
+                             top_n = 50,
                              useIds = TRUE)
 ```
 
@@ -187,7 +191,7 @@ In VESPUCCI, both Biological Feature (gene) and Sample annotations are represent
 
 ```{r annotations, echo = TRUE, eval = FALSE}
 samples <- my_sorted_indexes$sortedSamplesets
-samples_info <- get_samples_info(id_In = samples, normalization = "limma")
+samples_info <- get_samples_info(id_In = samples, normalization = "limma", useIds = TRUE)
 knitr::kable(samples_info)
 knitr::kable(get_sample_by_gsm(sampleName_In =  samples_info$sampleName))
 knitr::kable(get_annotation_triples(ids =  get_sample_by_gsm(sampleName_In =  samples_info$sampleName)$sampleId))

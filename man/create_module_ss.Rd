@@ -7,8 +7,9 @@
 create_module_ss(
   compendium = "vespucci",
   samplesetNames = NULL,
-  normalization = "legacy",
+  normalization = "limma",
   rank = "uncentered_correlation",
+  top_n = 50,
   useIds = FALSE
 )
 }
@@ -17,9 +18,11 @@ create_module_ss(
 
 \item{samplesetNames}{A character vector (sampleset names)}
 
-\item{normalization}{A string ('legacy' as default)}
+\item{normalization}{A string - either 'limma' (default),'tpm' or legacy as normalization}
 
 \item{rank}{A string ('magnitude' as default) - use \code{\link{get_ranking}}}
+
+\item{top_n}{A numeric - an integer for selecting the top ranked samplesets}
 
 \item{useIds}{A logical (FALSE as default) - It allows using samplesetIds}
 }
@@ -31,8 +34,8 @@ create a module based on provided sample sets
 }
 \examples{
 \dontrun{
-my_ss <- c("GSM671720.ch1-vs-GSM671719.ch1","GSM671721.ch1-vs-GSM671719.ch1"
-,"GSM671722.ch1-vs-GSM671719.ch1","GSM147672.ch1-vs-GSM147690.ch1")
-mod_ss <- create_module_ss(samplesetNames = my_ss)
+my_ids=c("U2FtcGxlU2V0VHlwZTo2NDE5","U2FtcGxlU2V0VHlwZToyMTg2OA==")
+mod_ss <- create_module_ss(samplesetNames = my_ids,
+normalization = "limma", top_n = 15, useIds = TRUE)
 }
 }

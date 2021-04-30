@@ -6,7 +6,7 @@
 \usage{
 create_module(
   compendium = "vespucci",
-  normalization = "legacy",
+  normalization = "limma",
   biofeaturesNames = NULL,
   samplesetNames = NULL,
   useIds = FALSE
@@ -15,7 +15,7 @@ create_module(
 \arguments{
 \item{compendium}{A string - the selected compendium}
 
-\item{normalization}{A string ('legacy' as default)}
+\item{normalization}{A string - either 'limma' (default),'tpm' or legacy as normalization}
 
 \item{biofeaturesNames}{A character vector (gene_names)}
 
@@ -35,10 +35,11 @@ gene_names <- c("VIT_00s0246g00220","VIT_00s0332g00060","VIT_00s0332g00110",
 "VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030",
 "VIT_00s0505g00060","VIT_00s0873g00020","VIT_00s0904g00010")
 mod_bf <- create_module(biofeaturesNames = gene_names)
-my_bf <- c("VIT_00s0332g00110","VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030")
-my_ss <- c("GSM671720.ch1-vs-GSM671719.ch1","GSM671721.ch1-vs-GSM671719.ch1"
-,"GSM671722.ch1-vs-GSM671719.ch1","GSM147672.ch1-vs-GSM147690.ch1")
-my_mod <- create_module(biofeaturesNames = my_bf, samplesetNames = my_ss)
+my_bf <- get_biofeature_id(id_In = gene_names, useIds = FALSE)
+ss=c("GSE75498_OS_T0-13-vs-GSE75498_C_T0-21","harvest_4","harvest_5")
+my_ss <- get_sampleset_id(id_In = ss, normalization = "limma", useIds = FALSE)
+my_mod <- create_module(biofeaturesNames = my_bf$id, samplesetNames = my_ss$id,
+normalization = "limma", useIds = TRUE)
 pheatmap::pheatmap(na.omit(my_mod), col = RColorBrewer::brewer.pal(11,name="RdBu"))
 }
 }

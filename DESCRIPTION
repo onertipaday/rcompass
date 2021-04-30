@@ -24,6 +24,7 @@ RoxygenNote: 7.1.1
 Language: en-US
 Suggests: 
     dplyr,
+    tidyr,
     plyr,
     knitr,
     rmarkdown,

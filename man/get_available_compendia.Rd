@@ -7,7 +7,7 @@
 get_available_compendia()
 }
 \value{
-a list with info and version information
+a list with info and versions
 }
 \description{
 Get all available compendia in COMPASS
