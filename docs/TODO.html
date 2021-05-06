@@ -131,12 +131,27 @@
 
 <div id="todo" class="section level1">
 
+<div id="check-the-graphql-query-from-pycompass" class="section level2">
+<h2 class="hasAnchor">
+<a href="#check-the-graphql-query-from-pycompass" class="anchor"></a>check the graphql query from pycompass</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="op">!</span>pip install pycompass<span class="op">==</span><span class="fl">0.8.0</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="im">from</span> pycompass <span class="im">import</span> Compendium, Connect, BiologicalFeature, Module, SampleSet, Plot, Annotation, Experiment, Sample, Platform, Ontology</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a><span class="im">from</span> IPython.core.display <span class="im">import</span> HTML</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a><span class="im">import</span> pycompass</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a>pycompass.query.__SHOW_GRAPHQL_QUERY__<span class="op">=</span> <span class="va">True</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a><span class="ex">connect</span> <span class="op">=</span> Connect(<span class="st">'http://compass.fmach.it/graphql'</span>)</span></code></pre></div>
 <p>##NEW</p>
 <ul>
 <li>Funzione che descrive il modulo (prima in GraphQL e poi wrapper)</li>
 </ul>
 <p>describe_module &lt;- function(module = module_1){</p>
 <p>}</p>
+</div>
 <div id="old" class="section level2">
 <h2 class="hasAnchor">
 <a href="#old" class="anchor"></a>OLD</h2>
@@ -170,18 +185,18 @@
 <div id="test-con-pacchetto-python" class="section level1">
 <h1 class="hasAnchor">
 <a href="#test-con-pacchetto-python" class="anchor"></a>test con pacchetto python</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="co">#vm-bact</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a><span class="fu">ssh</span> sonego@vm-bact</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="co">#ssh sonego@10.234.110.129</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a><span class="ex">conda</span> activate py385</span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="im">from</span> pycompass <span class="im">import</span> Compendium, Connect, BiologicalFeature, Module, SampleSet, Plot, Annotation, Experiment, Sample, Platform, Ontology</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a><span class="im">from</span> IPython.core.display <span class="im">import</span> HTML</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="ex">connect</span> <span class="op">=</span> Connect(<span class="st">'http://compass.fmach.it/graphql'</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a><span class="ex">connect</span>.describe_compendia()</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>compendium <span class="op">=</span> <span class="ex">connect</span>.get_compendium(<span class="st">'vespucci'</span>, version<span class="op">=</span><span class="st">'latest'</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>compendium_legacy <span class="op">=</span> <span class="ex">connect</span>.get_compendium(<span class="st">'vespucci'</span>, version<span class="op">=</span><span class="st">'legacy'</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="co">#vm-bact</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a><span class="fu">ssh</span> sonego@vm-bact</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a><span class="co">#ssh sonego@10.234.110.129</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a><span class="ex">conda</span> activate py385</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="im">from</span> pycompass <span class="im">import</span> Compendium, Connect, BiologicalFeature, Module, SampleSet, Plot, Annotation, Experiment, Sample, Platform, Ontology</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a><span class="im">from</span> IPython.core.display <span class="im">import</span> HTML</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="ex">connect</span> <span class="op">=</span> Connect(<span class="st">'http://compass.fmach.it/graphql'</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a><span class="ex">connect</span>.describe_compendia()</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>compendium <span class="op">=</span> <span class="ex">connect</span>.get_compendium(<span class="st">'vespucci'</span>, version<span class="op">=</span><span class="st">'latest'</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a>compendium_legacy <span class="op">=</span> <span class="ex">connect</span>.get_compendium(<span class="st">'vespucci'</span>, version<span class="op">=</span><span class="st">'legacy'</span>)</span></code></pre></div>
 </div>
 
 

@@ -117,12 +117,29 @@ view_plot(module = module_1,
           min = -10, max = 10)
 ```
 
-Alternatively you can use directly any R function to cluster data and produce an heatmap, e.g.:
+When using the heatmap it is possible to use the button Get Module IDs in order to copy on the clipboard BioFeatures and SampleSets IDs after having selected a part of the module with the left mouse button. For example after having selected one small block of up-regulated genes and clicked the Get Module IDs button, we can paste a JSON structure to be used for create a new module:
 
-```{r pheatmap_module1, echo = FALSE, eval = FALSE}
-pheat_cl <- pheatmap::pheatmap(mat =  as.matrix(module_limma))
-pheat_cl
+```{r}
+json_selection <- '{"sample_sets":["U2FtcGxlU2V0VHlwZToyMTg3Mg==","U2FtcGxlU2V0VHlwZToyMTg2Mg==","U2FtcGxlU2V0VHlwZToyMTAyNg==","U2FtcGxlU2V0VHlwZTo2NTU2","U2FtcGxlU2V0VHlwZToyMTAyNw==","U2FtcGxlU2V0VHlwZToyMTAyOA==","U2FtcGxlU2V0VHlwZTo1ODc2","U2FtcGxlU2V0VHlwZTo1ODg2","U2FtcGxlU2V0VHlwZToyMTAyOQ==","U2FtcGxlU2V0VHlwZTo1ODU4","U2FtcGxlU2V0VHlwZTo1ODYy","U2FtcGxlU2V0VHlwZTo1OTE3"],"biological_features":["QmlvRmVhdHVyZVR5cGU6Mjc5MDA=","QmlvRmVhdHVyZVR5cGU6Mjc4OTY=","QmlvRmVhdHVyZVR5cGU6Mjc4OTI=","QmlvRmVhdHVyZVR5cGU6Mjg1OTg=","QmlvRmVhdHVyZVR5cGU6Mjg2MDk=","QmlvRmVhdHVyZVR5cGU6Mjg2MzA="]}'
+
+submodule_ids <- jsonlite::fromJSON(json_selection)
+
+submodule_1 <- create_module(biofeaturesNames = submodule_ids$biological_features,
+                             samplesetNames = submodule_ids$sample_sets,
+                             normalization = "limma", useIds = TRUE)
 ```
+and visualize it
+
+```{r  echo = TRUE, eval = FALSE}
+view_plot(module = submodule_1, 
+          normalization = "limma",
+          plotType = "module_heatmap_expression",
+          alternativeColoring = FALSE,
+          min = -10, max = 10)
+```
+
+
+
 
 Biological Features (genes) and Sample Sets (contrasts) have no particular order in a module. But since the heatmap is clustered we can retrieve the sorted list of Biological Features and Sample Sets respectively using the `sorted = TRUE` parameter. 
 
@@ -133,10 +150,18 @@ mod_tmp = module_1[match(my_sorted_indexes$sortedBiofeatures,rownames(module_1))
 mod_tmp[1:5,1:5]
 ```
 
-Alternatively we can use variables containing the order for both rows and columns produced by other heatmap functions.
+Alternatively you can use directly any R function to cluster data and produce an heatmap, e.g.:
 
 ```{r pheatmap order, echo = TRUE, eval = FALSE}
+pheat_cl <- pheatmap::pheatmap(mat =  as.matrix(module_limma))
 knitr::kable(module_1[pheat_cl$tree_row$order,pheat_cl$tree_col$order])
+```
+
+# Export it in another format
+Since we created a `data.frame` from the module we can now export it in another format (e.g. `.csv`, `.tsv`, etc.) and keep working with it elsewhere with different tools:
+
+```{r save_module, echo = FALSE, eval = FALSE}
+# write.table(module_1, file="module_1.tsv", sep="\t", col.names=NA, row.names=T)
 ```
 
 # Plot correlation network
@@ -237,15 +262,6 @@ view_plot(module = module_3,
           alternativeColoring = TRUE)
 ```
 
-or alternatively
-
-```{r heatmaply, echo = TRUE, eval = FALSE}
-heatmaply::heatmaply(module_3,
-                     showticklabels = c(TRUE, TRUE),
-                     fontsize_col = 7.5,
-                     col = gplots::greenred(50),
-                     plot_method = 'plotly')
-```
 
 # Session information
 ```{r session information, echo=FALSE}

@@ -106,7 +106,7 @@
 <code class="sourceCode R"><span class="co"># devtools::install_github("onertipaday/rcompass")</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">rcompass</span><span class="op">)</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; This is 'rCOMPASS' version 0.0.5 based on COMPASS version 0.8.9.</span></code></pre></div>
+<span class="co">#&gt; This is 'rCOMPASS' version 0.0.5 based on COMPASS version 0.9.1.</span></code></pre></div>
 <p>The COMPASS GraphQL endpoint might hosts different compendia. At the moment there is only the VESPUCCI compendium, but there are different version of VESPUCCI, and each version might have data normalized in different ways. In this case there are 2 versions of VESPUCCI, version 1.0 (legacy) and version 2.0 (latest). The latter has data normalized in 2 different ways, TPM normalization and LIMMA (the default one) while the legacy version has the legacy normalization only (i.e. per-sample logratios). For every query we will need to indicate the compendium we want to use, if no version, no normalization and no database is specified the 2.0, vitis_vinifera, tpm,limma (default) values will be used.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"The Vitis gene expression compendium version"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_available_compendia.html">get_available_compendia</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">versions</span><span class="op">[</span><span class="fl">2</span>,<span class="op">]</span>, collapse <span class="op">=</span> <span class="st">" "</span><span class="op">)</span>,<span class="st">"normalized contains values for"</span>, <span class="fu"><a href="../reference/totalCounts.html">totalCounts</a></span><span class="op">(</span>version<span class="op">=</span><span class="st">"1.0"</span>, aggregate_type<span class="op">=</span><span class="st">"biofeatures"</span><span class="op">)</span>, <span class="st">" biological features, measured for"</span>, <span class="fu"><a href="../reference/totalCounts.html">totalCounts</a></span><span class="op">(</span>version<span class="op">=</span><span class="st">"2.0"</span>, aggregate_type<span class="op">=</span><span class="st">"sampleSets"</span><span class="op">)</span>, <span class="st">" sample sets. This corresponds to a total of"</span>, <span class="fu"><a href="../reference/totalCounts.html">totalCounts</a></span><span class="op">(</span>aggregate_type <span class="op">=</span> <span class="st">"experiments"</span><span class="op">)</span>, <span class="st">" experiments and"</span>, <span class="fu"><a href="../reference/totalCounts.html">totalCounts</a></span><span class="op">(</span>aggregate_type <span class="op">=</span> <span class="st">"samples"</span><span class="op">)</span>, <span class="st">" samples measured on"</span>, <span class="fu"><a href="../reference/totalCounts.html">totalCounts</a></span><span class="op">(</span>aggregate_type <span class="op">=</span> <span class="st">"platforms"</span><span class="op">)</span>,<span class="st">" different platforms:"</span><span class="op">)</span>
@@ -304,24 +304,24 @@
 <col width="3%">
 <col width="3%">
 <col width="4%">
+<col width="3%">
 <col width="2%">
 <col width="3%">
+<col width="2%">
 <col width="1%">
-<col width="3%">
 <col width="2%">
-<col width="2%">
-<col width="4%">
 <col width="5%">
-<col width="0%">
+<col width="4%">
 <col width="2%">
+<col width="0%">
 <col width="3%">
 <col width="2%">
 <col width="2%">
 <col width="2%">
 <col width="2%">
 <col width="4%">
-<col width="3%">
 <col width="2%">
+<col width="3%">
 <col width="3%">
 <col width="2%">
 <col width="0%">
@@ -357,29 +357,28 @@
 <th align="right">GSE36234_THINCLUSTER_EL38-1-vs-GSE36234_CONTROL_EL35-4</th>
 <th align="right">E-MTAB-3062_rip_60dpt_nit+-7-vs-E-MTAB-3062_rip_15dpt_nit+-4</th>
 <th align="right">GSE65969_berry_el38_crtl_0hpi-3-vs-GSE65969_berry_el35_crtl_0hpi-4</th>
+<th align="right">GSE36128_flesh_PHW2m-38-vs-GSE36128_flesh_EL32-43</th>
 <th align="right">GSE49569_seed_PSH-2-vs-GSE49569_seed_PV-7</th>
 <th align="right">GSE36128_flesh_EL38-40-vs-GSE36128_flesh_EL32-43</th>
-<th align="right">cond_4-vs-cond_3</th>
-<th align="right">GSE36128_flesh_PHW2m-38-vs-GSE36128_flesh_EL32-43</th>
 <th align="right">GSE75498_SG_T0-3-vs-GSE75498_C_T0-21</th>
+<th align="right">cond_4-vs-cond_3</th>
 <th align="right">GSE75498_OS_T0-13-vs-GSE75498_C_T0-21</th>
-<th align="right">GSE41633_2006_mid-ripening_AM-17-vs-GSE41633_2006_veraison_AM-18</th>
 <th align="right">GSE118569_Daktulosphaira_vitifoliae_Large_Leaf-8-vs-GSE118569_WildType_Large_Leaf-3</th>
-<th align="right">chardo_3</th>
+<th align="right">GSE41633_2006_mid-ripening_AM-17-vs-GSE41633_2006_veraison_AM-18</th>
 <th align="right">GSE75498_M_T0-14-vs-GSE75498_C_T0-21</th>
+<th align="right">chardo_3</th>
 <th align="right">GSE36128_pollen_EL25-23-vs-GSE36128_flesh_EL32-43</th>
 <th align="right">GSE36128_stem_EL43-4-vs-GSE36128_stem_EL14-5</th>
 <th align="right">GSE36128_skin_PHW1m-8-vs-GSE36128_skin_EL32-12</th>
 <th align="right">GSE36128_skin_PHW3m-6-vs-GSE36128_skin_EL32-12</th>
 <th align="right">GSE36128_leaf_EL43-29-vs-GSE36128_leaf_EL14-31</th>
 <th align="right">GSE36128_inflorescence_EL17-35-vs-GSE36128_inflorescence_EL14-36</th>
-<th align="right">GSE36128_flesh_EL35-42-vs-GSE36128_flesh_EL32-43</th>
 <th align="right">GSE36128_bud_EL01-44-vs-GSE36128_bud_EL02-48</th>
+<th align="right">GSE36128_flesh_EL35-42-vs-GSE36128_flesh_EL32-43</th>
 <th align="right">GSE36128_flesh_PHW3m-37-vs-GSE36128_flesh_EL32-43</th>
 <th align="right">GSE36128_skin_PHW2m-7-vs-GSE36128_skin_EL32-12</th>
 <th align="right">pea_5</th>
 <th align="right">pea_8</th>
-<th align="right">pea_4</th>
 <th align="right">begin_2</th>
 <th align="right">begin_8</th>
 <th align="right">begin_5</th>
@@ -390,6 +389,7 @@
 <th align="right">dev_1</th>
 <th align="right">harvest_7</th>
 <th align="right">harvest_5</th>
+<th align="right">pea_4</th>
 <th align="right">pea_3</th>
 <th align="right">pea_2</th>
 </tr></thead>
@@ -1414,9 +1414,31 @@
           plotType <span class="op">=</span> <span class="st">"module_heatmap_expression"</span>,
           alternativeColoring <span class="op">=</span> <span class="cn">FALSE</span>,
           min <span class="op">=</span> <span class="op">-</span><span class="fl">10</span>, max <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></code></pre></div>
-<p>Alternatively you can use directly any R function to cluster data and produce an heatmap, e.g.:</p>
-<p>Biological Features (genes) and Sample Sets (contrasts) have no particular order in a module. But since the heatmap is clustered we can retrieve the sorted list of Biological Features and Sample Sets respectively using the <code>sorted = TRUE</code> parameter.</p>
+<p>When using the heatmap it is possible to use the button Get Module IDs in order to copy on the clipboard BioFeatures and SampleSets IDs after having selected a part of the module with the left mouse button. For example after having selected one small block of up-regulated genes and clicked the Get Module IDs button, we can paste a JSON structure to be used for create a new module:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">json_selection</span> <span class="op">&lt;-</span> <span class="st">'{"sample_sets":["U2FtcGxlU2V0VHlwZToyMTg3Mg==","U2FtcGxlU2V0VHlwZToyMTg2Mg==","U2FtcGxlU2V0VHlwZToyMTAyNg==","U2FtcGxlU2V0VHlwZTo2NTU2","U2FtcGxlU2V0VHlwZToyMTAyNw==","U2FtcGxlU2V0VHlwZToyMTAyOA==","U2FtcGxlU2V0VHlwZTo1ODc2","U2FtcGxlU2V0VHlwZTo1ODg2","U2FtcGxlU2V0VHlwZToyMTAyOQ==","U2FtcGxlU2V0VHlwZTo1ODU4","U2FtcGxlU2V0VHlwZTo1ODYy","U2FtcGxlU2V0VHlwZTo1OTE3"],"biological_features":["QmlvRmVhdHVyZVR5cGU6Mjc5MDA=","QmlvRmVhdHVyZVR5cGU6Mjc4OTY=","QmlvRmVhdHVyZVR5cGU6Mjc4OTI=","QmlvRmVhdHVyZVR5cGU6Mjg1OTg=","QmlvRmVhdHVyZVR5cGU6Mjg2MDk=","QmlvRmVhdHVyZVR5cGU6Mjg2MzA="]}'</span>
+
+<span class="va">submodule_ids</span> <span class="op">&lt;-</span> <span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html">fromJSON</a></span><span class="op">(</span><span class="va">json_selection</span><span class="op">)</span>
+
+<span class="va">submodule_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_module.html">create_module</a></span><span class="op">(</span>biofeaturesNames <span class="op">=</span> <span class="va">submodule_ids</span><span class="op">$</span><span class="va">biological_features</span>,
+                             samplesetNames <span class="op">=</span> <span class="va">submodule_ids</span><span class="op">$</span><span class="va">sample_sets</span>,
+                             normalization <span class="op">=</span> <span class="st">"limma"</span>, useIds <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; {</span>
+<span class="co">#&gt;     modules(compendium:"vespucci", version:"2.0", normalization:"limma",</span>
+<span class="co">#&gt;     biofeaturesIds:["QmlvRmVhdHVyZVR5cGU6Mjc5MDA=","QmlvRmVhdHVyZVR5cGU6Mjc4OTY=","QmlvRmVhdHVyZVR5cGU6Mjc4OTI=","QmlvRmVhdHVyZVR5cGU6Mjg1OTg=","QmlvRmVhdHVyZVR5cGU6Mjg2MDk=","QmlvRmVhdHVyZVR5cGU6Mjg2MzA="],</span>
+<span class="co">#&gt;     samplesetIds:["U2FtcGxlU2V0VHlwZToyMTg3Mg==","U2FtcGxlU2V0VHlwZToyMTg2Mg==","U2FtcGxlU2V0VHlwZToyMTAyNg==","U2FtcGxlU2V0VHlwZTo2NTU2","U2FtcGxlU2V0VHlwZToyMTAyNw==","U2FtcGxlU2V0VHlwZToyMTAyOA==","U2FtcGxlU2V0VHlwZTo1ODc2","U2FtcGxlU2V0VHlwZTo1ODg2","U2FtcGxlU2V0VHlwZToyMTAyOQ==","U2FtcGxlU2V0VHlwZTo1ODU4","U2FtcGxlU2V0VHlwZTo1ODYy","U2FtcGxlU2V0VHlwZTo1OTE3"]), {</span>
+<span class="co">#&gt;       normalizedValues</span>
+<span class="co">#&gt;     }</span>
+<span class="co">#&gt;   }</span></code></pre></div>
+<p>and visualize it</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/view_plot.html">view_plot</a></span><span class="op">(</span>module <span class="op">=</span> <span class="va">submodule_1</span>, 
+          normalization <span class="op">=</span> <span class="st">"limma"</span>,
+          plotType <span class="op">=</span> <span class="st">"module_heatmap_expression"</span>,
+          alternativeColoring <span class="op">=</span> <span class="cn">FALSE</span>,
+          min <span class="op">=</span> <span class="op">-</span><span class="fl">10</span>, max <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></code></pre></div>
+<p>Biological Features (genes) and Sample Sets (contrasts) have no particular order in a module. But since the heatmap is clustered we can retrieve the sorted list of Biological Features and Sample Sets respectively using the <code>sorted = TRUE</code> parameter.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_sorted_indexes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_module_heatmap.html">plot_module_heatmap</a></span><span class="op">(</span>module <span class="op">=</span> <span class="va">module_1</span>, normalization <span class="op">=</span> <span class="st">"limma"</span>, plot <span class="op">=</span> <span class="cn">FALSE</span>, sorted <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="va">mod_tmp</span> <span class="op">=</span> <span class="va">module_1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span><span class="op">(</span><span class="va">my_sorted_indexes</span><span class="op">$</span><span class="va">sortedBiofeatures</span>,<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">module_1</span><span class="op">)</span><span class="op">)</span>,
                    <span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span><span class="op">(</span><span class="va">my_sorted_indexes</span><span class="op">$</span><span class="va">sortedSamplesets</span>,<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">module_1</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>
@@ -1445,15 +1467,21 @@
 <span class="co">#&gt; QmlvRmVhdHVyZVR5cGU6Mjg2MzA=                    -4.332415</span>
 <span class="co">#&gt; QmlvRmVhdHVyZVR5cGU6Mjg2MDk=                    -7.103699</span>
 <span class="co">#&gt; QmlvRmVhdHVyZVR5cGU6Mjg1OTg=                     3.254377</span></code></pre></div>
-<p>Alternatively we can use variables containing the order for both rows and columns produced by other heatmap functions.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">module_1</span><span class="op">[</span><span class="va">pheat_cl</span><span class="op">$</span><span class="va">tree_row</span><span class="op">$</span><span class="va">order</span>,<span class="va">pheat_cl</span><span class="op">$</span><span class="va">tree_col</span><span class="op">$</span><span class="va">order</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<p>Alternatively you can use directly any R function to cluster data and produce an heatmap, e.g.:</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">pheat_cl</span> <span class="op">&lt;-</span> <span class="fu">pheatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html">pheatmap</a></span><span class="op">(</span>mat <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">module_limma</span><span class="op">)</span><span class="op">)</span>
+<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">module_1</span><span class="op">[</span><span class="va">pheat_cl</span><span class="op">$</span><span class="va">tree_row</span><span class="op">$</span><span class="va">order</span>,<span class="va">pheat_cl</span><span class="op">$</span><span class="va">tree_col</span><span class="op">$</span><span class="va">order</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+</div>
+<div id="export-it-in-another-format" class="section level1">
+<h1 class="hasAnchor">
+<a href="#export-it-in-another-format" class="anchor"></a>Export it in another format</h1>
+<p>Since we created a <code>data.frame</code> from the module we can now export it in another format (e.g. <code>.csv</code>, <code>.tsv</code>, etc.) and keep working with it elsewhere with different tools:</p>
 </div>
 <div id="plot-correlation-network" class="section level1">
 <h1 class="hasAnchor">
 <a href="#plot-correlation-network" class="anchor"></a>Plot correlation network</h1>
 <p>Given a module we can plot the correlation network between Biological Features (genes) by looking at the Pearson correlation coefficient of the module’s Sample Sets (contrast). The default threshold is 0.8, but it can be changed. Edges in orange represent anti-correlation.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/view_plot.html">view_plot</a></span><span class="op">(</span>module <span class="op">=</span> <span class="va">module_1</span>, 
           normalization <span class="op">=</span> <span class="st">"limma"</span>,
           plotType <span class="op">=</span> <span class="st">"module_coexpression_network"</span>, 
@@ -1463,23 +1491,23 @@
 <h1 class="hasAnchor">
 <a href="#automatically-expand-a-module" class="anchor"></a>Automatically expand a module</h1>
 <p>One of the classic way to use VESPUCCI is to start with a set of genes selected from previous analysis, have a look at the top conditions in which they show a consistent (and strong) behavior and then look for other genes that behave the same across those same conditions. The way to do it is to plot the distribution of genes that show a similar behavior of the module’s genes across the same condition in order pick up a suitable threshold.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/view_plot.html">view_plot</a></span><span class="op">(</span>module <span class="op">=</span> <span class="va">module_1</span>, normalization <span class="op">=</span> <span class="st">"limma"</span>,
           plotType <span class="op">=</span> <span class="st">"biological_features_uncentered_correlation_distribution"</span><span class="op">)</span></code></pre></div>
 <p>For example, if we pick a threshold around 0.9 (looking at the top plot) we might expect to have around 15 Biological Features (genes) with a score equal or greater than that, to be added in our module. In this case let’s just pick the top 15 genes and create e new module.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">top_bf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_module_distribution.html">plot_module_distribution</a></span><span class="op">(</span>module <span class="op">=</span> <span class="va">module_1</span>, 
                                    normalization <span class="op">=</span> <span class="st">"limma"</span>,
                                    plotType <span class="op">=</span> <span class="st">"biological_features_uncentered_correlation_distribution"</span>,
                                    getRank <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>The new module is created by adding Biological Feature objects to the old module.</p>
 <p><strong>NB</strong> Being the ranking based on the full biofeatures set we remove the duplicates ids (keeping unique ids only) and create a new model.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">module_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_module.html">create_module</a></span><span class="op">(</span>biofeaturesNames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">module_1</span><span class="op">)</span>, <span class="va">top_bf</span><span class="op">$</span><span class="va">id</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">15</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>, 
                              normalization <span class="op">=</span> <span class="st">"limma"</span>, 
                              useIds <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>We can have a look at the heatmap of the new module</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/view_plot.html">view_plot</a></span><span class="op">(</span>module <span class="op">=</span> <span class="va">module_2</span>, 
           normalization <span class="op">=</span> <span class="st">"limma"</span>,
           plotType <span class="op">=</span> <span class="st">"module_heatmap_expression"</span>,
@@ -1489,42 +1517,35 @@
 <h1 class="hasAnchor">
 <a href="#annotations" class="anchor"></a>Annotations</h1>
 <p>In VESPUCCI, both Biological Feature (gene) and Sample annotations are represented using <a href="https://en.wikipedia.org/wiki/Resource_Description_Framework">RDF</a>. We can visualize annotation as a set of RDF triples.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">samples</span> <span class="op">&lt;-</span> <span class="va">my_sorted_indexes</span><span class="op">$</span><span class="va">sortedSamplesets</span>
 <span class="va">samples_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_samples_info.html">get_samples_info</a></span><span class="op">(</span>id_In <span class="op">=</span> <span class="va">samples</span>, normalization <span class="op">=</span> <span class="st">"limma"</span>, useIds <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">samples_info</span><span class="op">)</span>
 <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_sample_by_gsm.html">get_sample_by_gsm</a></span><span class="op">(</span>sampleName_In <span class="op">=</span>  <span class="va">samples_info</span><span class="op">$</span><span class="va">sampleName</span><span class="op">)</span><span class="op">)</span>
 <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_annotation_triples.html">get_annotation_triples</a></span><span class="op">(</span>ids <span class="op">=</span>  <span class="fu"><a href="../reference/get_sample_by_gsm.html">get_sample_by_gsm</a></span><span class="op">(</span>sampleName_In <span class="op">=</span>  <span class="va">samples_info</span><span class="op">$</span><span class="va">sampleName</span><span class="op">)</span><span class="op">$</span><span class="va">sampleId</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Another way is to visualize the annotation is with RDF graph. Here we show the RDF graphs for indexed biofeatures.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#plot_annotation_network(ids = samples, viewer = T)</span>
  <span class="fu"><a href="../reference/plot_annotation_network.html">plot_annotation_network</a></span><span class="op">(</span>ids <span class="op">=</span> <span class="va">my_sorted_indexes</span><span class="op">$</span><span class="va">sortedBiofeatures</span>, viewer <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></code></pre></div>
 <p>Annotations can also be used to retrieve Sample or Biological Features (gene) starting from a SPARQL query. For example we might want to select all seed Sample.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sparql</span> <span class="op">=</span> <span class="st">"SELECT ?s ?p ?o WHERE { ?s &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://purl.obolibrary.org/obo/NCIT_C19157&gt; . ?s &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://purl.obolibrary.org/obo/PO_0009010&gt;}"</span></code></pre></div>
 <p>The term <a href="http://purl.obolibrary.org/obo/NCIT_C19157">NCIT_C19157</a> indicates <strong><em>specimen</em></strong> while <a href="http://purl.obolibrary.org/obo/PO_0009010">PO_0009010</a> is the Plant Ontology term for <strong><em>seed</em></strong>. To indicate a gene, instead the term <a href="http://purl.obolibrary.org/obo/NCIT_C16612">NCIT_C16612</a> is used.</p>
 <p>Here we retrieve all the samples used based on the sparql query:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">seed_samples</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_sparql_annotation_triples.html">get_sparql_annotation_triples</a></span><span class="op">(</span>target <span class="op">=</span> <span class="st">"sample"</span>, 
                                               query <span class="op">=</span> <span class="va">sparql</span>,
                                               normalization <span class="op">=</span> <span class="st">"limma"</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span></code></pre></div>
 <p>Now we can collect all the Sample Sets in which these samples are used and then create a new module based on Sample Sets only leaving VESPUCCI to figure out which are the genes (Biological Feature objects) that show a consistent up or down-regulated profile.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">seed_ss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_sampleset_by_sampleid.html">get_sampleset_by_sampleid</a></span><span class="op">(</span>normalization <span class="op">=</span> <span class="st">"limma"</span>, samples <span class="op">=</span> <span class="va">seed_samples</span><span class="op">)</span>
 <span class="va">module_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_module.html">create_module</a></span><span class="op">(</span>samplesetNames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">seed_ss</span><span class="op">$</span><span class="va">id</span><span class="op">)</span>, useIds <span class="op">=</span> <span class="cn">TRUE</span>, normalization <span class="op">=</span> <span class="st">"limma"</span><span class="op">)</span></code></pre></div>
 <p>And now we can plot the heatmap</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/view_plot.html">view_plot</a></span><span class="op">(</span>module <span class="op">=</span> <span class="va">module_3</span>, 
           normalization <span class="op">=</span> <span class="st">"limma"</span>,
           plotType <span class="op">=</span> <span class="st">"module_heatmap_expression"</span>,
           alternativeColoring <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<p>or alternatively</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">heatmaply</span><span class="fu">::</span><span class="fu"><a href="https://talgalili.github.io/heatmaply/reference/heatmaply.html">heatmaply</a></span><span class="op">(</span><span class="va">module_3</span>,
-                     showticklabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">TRUE</span><span class="op">)</span>,
-                     fontsize_col <span class="op">=</span> <span class="fl">7.5</span>,
-                     col <span class="op">=</span> <span class="fu">gplots</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gplots/man/colorpanel.html">greenred</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span>,
-                     plot_method <span class="op">=</span> <span class="st">'plotly'</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="session-information" class="section level1">
 <h1 class="hasAnchor">
@@ -1546,12 +1567,12 @@
 #&gt;  [1] Rcpp_1.0.6        highr_0.9         pillar_1.6.0      bslib_0.2.4      
 #&gt;  [5] compiler_4.0.4    jquerylib_0.1.4   tools_4.0.4       digest_0.6.27    
 #&gt;  [9] tibble_3.1.1      lifecycle_1.0.0   jsonlite_1.7.2    evaluate_0.14    
-#&gt; [13] memoise_2.0.0     pkgconfig_2.0.3   rlang_0.4.10      rstudioapi_0.13  
-#&gt; [17] cli_2.5.0         DBI_1.1.1         crul_1.1.0        curl_4.3         
+#&gt; [13] memoise_2.0.0     pkgconfig_2.0.3   rlang_0.4.11      rstudioapi_0.13  
+#&gt; [17] cli_2.5.0         DBI_1.1.1         crul_1.1.0        curl_4.3.1       
 #&gt; [21] yaml_2.2.1        pkgdown_1.6.1     xfun_0.22         fastmap_1.1.0    
-#&gt; [25] stringr_1.4.0     dplyr_1.0.5       knitr_1.33        desc_1.3.0       
+#&gt; [25] stringr_1.4.0     dplyr_1.0.6       knitr_1.33        desc_1.3.0       
 #&gt; [29] generics_0.1.0    fs_1.5.0          sass_0.3.1        vctrs_0.3.8      
-#&gt; [33] systemfonts_1.0.1 tidyselect_1.1.0  triebeard_0.3.0   rprojroot_2.0.2  
+#&gt; [33] systemfonts_1.0.1 tidyselect_1.1.1  triebeard_0.3.0   rprojroot_2.0.2  
 #&gt; [37] glue_1.4.2        httpcode_0.3.0    R6_2.5.0          textshaping_0.3.3
 #&gt; [41] fansi_0.4.2       graphql_1.5       rmarkdown_2.7     RJSONIO_1.3-1.4  
 #&gt; [45] purrr_0.3.4       tidyr_1.1.3       magrittr_2.0.1    ellipsis_0.3.2   
