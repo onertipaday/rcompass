@@ -29,15 +29,14 @@ In this first exercise we will perform few basic operations with VESPUCCI. We wi
 library(rcompass)
 ```
 
-The COMPASS GraphQL endpoint might hosts different compendia. At the moment there is only the VESPUCCI compendium, but there are different version of VESPUCCI, and each version might have data normalized in different ways. In this case there are 2 versions of VESPUCCI, version 1.0 (legacy) and version 2.0 (latest). The latter has data normalized in 2 different ways, TPM normalization and LIMMA (the default one) while the legacy version has the legacy normalization only (i.e. per-sample logratios). For every query we will need to indicate the compendium we want to use, if no version, no normalization and no database is specified the `r get_available_compendia()$versions[2,]` values will be used.
+The COMPASS GraphQL endpoint might hosts different compendia. At the moment there is only the VESPUCCI compendium, but there are different version of VESPUCCI, and each version might have data normalized in different ways. In this case there are 2 versions of VESPUCCI, version 1.0 (legacy) and version 2.0 (latest). The latter has data normalized in 2 different ways, TPM normalization and LIMMA (the default one) while the legacy version has the legacy normalization only (i.e. per-sample logratios). For every query we will need to indicate the compendium we want to use, if no version, no normalization and no database is specified the `r get_available_compendia()$versions[2]` values will be used.
 
 ```{r VESPUCCI_stats}
-paste("The Vitis gene expression compendium version", paste(get_available_compendia()$versions[2,], collapse = " "),"normalized contains values for", totalCounts(version="1.0", aggregate_type="biofeatures"), " biological features, measured for", totalCounts(version="2.0", aggregate_type="sampleSets"), " sample sets. This corresponds to a total of", totalCounts(aggregate_type = "experiments"), " experiments and", totalCounts(aggregate_type = "samples"), " samples measured on", totalCounts(aggregate_type = "platforms")," different platforms:")
+paste("The Vitis gene expression compendium version", get_available_compendia()$versions[2], "normalized contains values for", totalCounts(version="1.0", aggregate_type="biofeatures"), " biological features, measured for", totalCounts(version="2.0", aggregate_type="sampleSets"), " sample sets. This corresponds to a total of", totalCounts(aggregate_type = "experiments"), " experiments and", totalCounts(aggregate_type = "samples"), " samples measured on", totalCounts(aggregate_type = "platforms")," different platforms divided in ")
 ```
 ```{r platforms_stats, echo = TRUE, eval = FALSE}
-knitr::kable( dplyr::count(get_platform_information(),source))
+knitr::kable( table(get_platform_information()$source))
 ```
-
 # Genes
 Let's build our module starting from a bunch of genes that might come from a previous analysis. Gene name used are the VIT_ ids
 
@@ -58,7 +57,7 @@ Each BiologicalFeature object has several fields. In our case, since the Biologi
 knitr::kable(get_biofeature_by_name(name_In = gene_names))
 ```
 ## Get ids from aliases using SPARQL
-Genes might have different aliases, all of which are defined in VESPUCCI as annotations. Since annotations (for both genes and samples) are represented as RDF triples using different ontologies, we can perform a [SPARQL](https://en.wikipedia.org/wiki/SPARQL) query to retrieve all the biological features (genes here) that has an ***alias*** ([NCIT_C41095](https://www.ebi.ac.uk/ols/ontologies/ncit/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FNCIT_C41095) term on the NCIT Ontology, http://purl.obolibrary.org/obo/) equal to the ones specified in the list.
+Genes might have different aliases, all of which are defined in VESPUCCI as annotations. Since annotations (for both genes and samples) are represented as RDF triples using different ontologies, we can perform a [SPARQL](https://en.wikipedia.org/wiki/SPARQL) query to retrieve all the biological features (genes here) that has an ***alias*** [NCIT_C41095](https://www.ebi.ac.uk/ols/ontologies/ncit/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FNCIT_C41095) term on the NCIT Ontology, http://purl.obolibrary.org/obo/) equal to the ones specified in the list.
 
 ```{r}
 my_query <- "SELECT ?s ?p ?o WHERE { {?s <http://purl.obolibrary.org/obo/NCIT_C41095> 'B9S8R7'} UNION {?s <http://purl.obolibrary.org/obo/NCIT_C41095> 'Q7M2G6'} UNION {?s <http://purl.obolibrary.org/obo/NCIT_C41095> 'D7SZ93'} UNION {?s <http://purl.obolibrary.org/obo/NCIT_C41095> 'B8XIJ8'} UNION {?s <http://purl.obolibrary.org/obo/NCIT_C41095> 'Vv00s0125g00280'} UNION {?s <http://purl.obolibrary.org/obo/NCIT_C41095> 'Vv00s0187g00140'} UNION {?s <http://purl.obolibrary.org/obo/NCIT_C41095> 'Vv00s0246g00010'} UNION {?s <http://purl.obolibrary.org/obo/NCIT_C41095> 'Vv00s0246g00080'} UNION {?s <http://purl.obolibrary.org/obo/NCIT_C41095> 'Vv00s0438g00020'} UNION {?s <http://purl.obolibrary.org/obo/NCIT_C41095> 'Vv00s0246g00200'} }"
@@ -122,7 +121,7 @@ When using the heatmap it is possible to use the button Get Module IDs in order 
 ```{r}
 json_selection <- '{"sample_sets":["U2FtcGxlU2V0VHlwZToyMTg3Mg==","U2FtcGxlU2V0VHlwZToyMTg2Mg==","U2FtcGxlU2V0VHlwZToyMTAyNg==","U2FtcGxlU2V0VHlwZTo2NTU2","U2FtcGxlU2V0VHlwZToyMTAyNw==","U2FtcGxlU2V0VHlwZToyMTAyOA==","U2FtcGxlU2V0VHlwZTo1ODc2","U2FtcGxlU2V0VHlwZTo1ODg2","U2FtcGxlU2V0VHlwZToyMTAyOQ==","U2FtcGxlU2V0VHlwZTo1ODU4","U2FtcGxlU2V0VHlwZTo1ODYy","U2FtcGxlU2V0VHlwZTo1OTE3"],"biological_features":["QmlvRmVhdHVyZVR5cGU6Mjc5MDA=","QmlvRmVhdHVyZVR5cGU6Mjc4OTY=","QmlvRmVhdHVyZVR5cGU6Mjc4OTI=","QmlvRmVhdHVyZVR5cGU6Mjg1OTg=","QmlvRmVhdHVyZVR5cGU6Mjg2MDk=","QmlvRmVhdHVyZVR5cGU6Mjg2MzA="]}'
 
-submodule_ids <- jsonlite::fromJSON(json_selection)
+submodule_ids <- RJSONIO::fromJSON(json_selection)
 
 submodule_1 <- create_module(biofeaturesNames = submodule_ids$biological_features,
                              samplesetNames = submodule_ids$sample_sets,
@@ -150,21 +149,21 @@ mod_tmp = module_1[match(my_sorted_indexes$sortedBiofeatures,rownames(module_1))
 mod_tmp[1:5,1:5]
 ```
 
-Alternatively you can use directly any R function to cluster data and produce an heatmap, e.g.:
+Alternatively you can use directly any R function to cluster data and retrieve the sorted rows and columns of the matrix, e.g.:
 
 ```{r pheatmap order, echo = TRUE, eval = FALSE}
-pheat_cl <- pheatmap::pheatmap(mat =  as.matrix(module_limma))
+pheat_cl <- pheatmap::pheatmap(mat =  as.matrix(module_limma), silent = TRUE)
 knitr::kable(module_1[pheat_cl$tree_row$order,pheat_cl$tree_col$order])
 ```
 
-# Export it in another format
+### Export it in another format
 Since we created a `data.frame` from the module we can now export it in another format (e.g. `.csv`, `.tsv`, etc.) and keep working with it elsewhere with different tools:
 
 ```{r save_module, echo = FALSE, eval = FALSE}
 # write.table(module_1, file="module_1.tsv", sep="\t", col.names=NA, row.names=T)
 ```
 
-# Plot correlation network
+## Plot correlation network
 Given a module we can plot the correlation network between Biological Features (genes) by looking at the Pearson correlation coefficient of the module's Sample Sets (contrast). The default threshold is 0.8, but it can be changed. Edges in orange represent anti-correlation.
 
 ```{r plot_module_network, echo = TRUE, eval = FALSE}
@@ -174,7 +173,7 @@ view_plot(module = module_1,
           threshold = 0.8)
 ```
 
-# Automatically expand a module
+## Automatically expand a module
 One of the classic way to use VESPUCCI is to start with a set of genes selected from previous analysis, have a look at the top conditions in which they show a consistent (and strong) behavior and then look for other genes that behave the same across those same conditions.
 The way to do it is to plot the distribution of genes that show a similar behavior of the module's genes across the same condition in order pick up a suitable threshold.
 
@@ -226,7 +225,6 @@ Another way is to visualize the annotation is with RDF graph.
 Here we show the RDF graphs for indexed biofeatures.
 
 ```{r plot_annotation_network, echo = TRUE, eval = FALSE}
-#plot_annotation_network(ids = samples, viewer = T)
  plot_annotation_network(ids = my_sorted_indexes$sortedBiofeatures, viewer = T)
 ```
 
@@ -260,6 +258,29 @@ view_plot(module = module_3,
           normalization = "limma",
           plotType = "module_heatmap_expression",
           alternativeColoring = TRUE)
+```
+
+
+## Module summary
+One way to have a general understanding about what is contained in a module, in terms of sample conditions, is to use the get the Module Description Summary Object.
+
+```{r description, echo = FALSE, eval = FALSE}
+(description <- describe_module(module = module_1, normalization = "limma"))
+```
+
+## Enrichment
+
+Another way to have a general understanding about which genes and conditions are present in our module we can explore the Module Enrichment Object. The enrichment is calculated using an Hypergeometric test with p-values corrected for multiple testing using Benjamini-Hochberg.
+
+
+```{r enrichment}
+(enrichment <- enrich_module(module = module_1, normalization = "limma"))
+```
+## SampleSet Short Descriptions
+Another way to have a general descriptions of the different conditions is to use the SampleSet short description. It is calculated using Ontological Terms and tries to highlight similarities and differences between sample annotation within a SampleSet if any. In case a SampleSet is a contrast (as in limma and legacy normalizations) the description is divided by a double pipe || with similar terms between reference and test conditions on the left side and different terms on the right side.
+
+```{r SampleSet_Short_Descriptions}
+knitr::kable(get_sampleset_id(id_In = colnames(module_1)[1], normalization = "limma", useIds = TRUE))
 ```
 
 

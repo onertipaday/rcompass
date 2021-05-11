@@ -4,7 +4,7 @@ Title: R Client for the COMPASS GrapgQL API
 Author: c(person("Paolo", "Sonego", role = c("aut", "cre"),
     email = "paolo.sonego@fmach.it")) 
 Maintainer: Paolo Sonego <paolo.sonego@fmach.it>
-Version: 0.0.5
+Version: 0.0.6
 License: GPL-3
 BugReports: https://github.com/onertipaday/rcompass/issues
 Description: Provides functions for querying data from 
@@ -12,7 +12,7 @@ Description: Provides functions for querying data from
 LazyData: true
 Encoding: UTF-8
 Depends:
-    R (>= 3.6.0)
+    R (>= 4.0.0)
 Imports:
     httr,
     ghql,
@@ -25,7 +25,9 @@ Language: en-US
 Suggests: 
     dplyr,
     tidyr,
+    purrr,
     plyr,
+    rlist,
     knitr,
     rmarkdown,
     ggplot2,

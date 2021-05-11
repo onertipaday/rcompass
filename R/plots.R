@@ -22,6 +22,54 @@ get_available_plot_methods <- function(compendium = "vespucci"){
 }
 
 
+#' plot rdf network
+#'
+#' @param compendium A string - the selected compendium
+#' @param ids A string - unique id of a biofeature, a sample, etc.
+#' @param viewer A logical - if TRUE will plot the html widget
+#' @param normalization A string - 'tpm' (as default), 'limma' or 'legacy'
+#'
+#' @return Either a json, an html or a plotly htmlwidget
+#' @export
+#'
+#' @examples
+#'\dontrun{
+#' my_ids <- get_biofeature_id(id_In = c("U2FtcGxlU2V0VHlwZTo3MTA=","U2FtcGxlU2V0VHlwZToxMDI4",
+#'  "U2FtcGxlU2V0VHlwZToxMDI5"))
+#' plot_annotation_network(ids = my_ids$id, viewer = TRUE)
+#' }
+plot_annotation_network <- function(compendium = "vespucci",
+                                    ids = NULL,
+                                    normalization = "limma",
+                                    viewer = FALSE) {
+  if(normalization == "legacy") version <- "legacy"
+  else if(normalization %in% c("limma","tpm")) version <- "2.0"
+  else stop("normalization HAS TO BE either legacy, limma or tpm.")
+  if(is.null(ids)) stop("You need to provide and id")
+  type <- "html"
+  my_query <- paste0('{
+  annotationPrettyPrint(compendium:\"', compendium, '\", ids:["', paste0(ids, collapse = '","'),'\" ]) {',
+                     type,'
+    }
+  }')
+  my_html <- build_query(my_query)$annotationPrettyPrint
+  if(type == "html" && viewer){
+    h <- xml2::read_html(my_html)
+    tmpDir <- tempfile()
+    dir.create(tmpDir)
+    htmlFile <- file.path(tmpDir, "viewer.html")
+    xml2::write_html(h, tmpDir,file = htmlFile)
+    # rstudioapi::viewer(htmlFile)
+    viewer <- getOption("viewer")
+    if (!is.null(viewer))
+      viewer("http://localhost:8100")
+    else
+      utils::browseURL("http://localhost:8100")
+    viewer(htmlFile)
+  } else my_html
+}
+
+
 #' Plot a network from a model
 #'
 #' @param compendium A string - the selected compendium

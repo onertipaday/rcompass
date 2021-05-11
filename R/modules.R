@@ -60,7 +60,7 @@ create_module <- function(compendium = "vespucci",
     }
   }')
   }
-  cat(my_query)
+  # cat(my_query)
   nv <- t(as.data.frame(sapply(build_query(my_query)$modules$normalizedValues, unlist)))
   rownames(nv) <- biofeaturesNames
   colnames(nv) <- samplesetNames
@@ -183,7 +183,7 @@ create_module_ss <- function(compendium = "vespucci",
         }
     }
   }')
-  # cat(my_query, "\n")
+  cat(my_query, "\n")
   tmp <- build_query(my_query)$modules
   nv <- t(as.data.frame(sapply(tmp$normalizedValues, unlist)))
   rownames(nv) <- as.character(sapply(tmp$biofeatures, unlist))
@@ -216,7 +216,6 @@ merge_modules <- function(mod1, mod2){
                 samplesetNames = c(colnames(mod1),colnames(mod2)))
 }
 
-# -----------------------------------------------------------------------------
 
 #' describe a module
 #'
@@ -224,7 +223,7 @@ merge_modules <- function(mod1, mod2){
 #' @param module A matrix with valid rownames (biofeatureNames) and colnames (samplesetsNames)
 #' @param normalization A string - either 'limma' (default),'tpm' or legacy as normalization
 #'
-#' @return a data.frame
+#' @return a list of three: "originalIds", "termShortName" and "samples"
 #' @export
 #'
 #' @examples
@@ -233,7 +232,8 @@ merge_modules <- function(mod1, mod2){
 #' 'VIT_00s0332g00160','VIT_00s0396g00010','VIT_00s0505g00030','VIT_00s0505g00060'
 #' ,'VIT_00s0873g00020','VIT_00s0904g00010')
 #' module_1 <- create_module(biofeaturesNames=gene_names, normalization = "limma")
-#' describe_module(module = module_1, normalization = "limma")
+#' d_module <- describe_module(module = module_1, normalization = "limma")
+#' d_module # summary description - TODO
 #'}
 describe_module <- function(compendium = "vespucci",
                                 module = NULL,
@@ -249,43 +249,126 @@ describe_module <- function(compendium = "vespucci",
     modules(compendium:\"', compendium, '\", version:\"', version, '\", normalization:\"', normalization, '\",
     biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"],
     samplesetIds:["', paste0(samplesetIds, collapse = '","'),'\"]), {
-      normalizedValues,
-      biofeatures {
-          edges {
-                node {
-                  id
-                 }
-          }
-      },
-       sampleSets {
-          edges {
-                node {
-                  id
-                }
-          }
-        }
+    samplesDescriptionSummary {
+                        category
+                        details {
+                            originalId
+                            termShortName
+                            samples {
+                                id
+                            }
+                        }
+    }
     }
   }')
   # cat(my_query, "\n")
-  # tmp <- build_query(my_query)$modules
-  # nv <- t(as.data.frame(sapply(tmp$normalizedValues, unlist)))
-  # rownames(nv) <- as.character(sapply(tmp$biofeatures, unlist))
-  # colnames(nv) <- as.character(sapply(tmp$sampleSets, unlist))
-  # nv
+  sds <- build_query(my_query)$modules$samplesDescriptionSummary
+  # sds
+
+  categories <- purrr::modify_depth(sds,1,"category")
+  details <- purrr::modify_depth(sds,1,"details") #lenght(details) 4
+  my_det<- list()
+  for (i in 1:length(details)){
+    my_det[[i]] <- details[[i]]
+  }
+
+  oId <- list()
+  tSN <-list()
+  ss <- list()
+  for (j in 1:length(my_det)){
+    oId[[j]] <- unlist(rlist::list.map(my_det[[j]], originalId))
+    tSN[[j]] <- unlist(rlist::list.map(my_det[[j]], termShortName))
+    ss[[j]] <- rlist::list.map(my_det[[j]], samples)
+  }
+
+  names(oId) <- unlist(categories)
+  names(tSN) <- unlist(categories)
+  names(ss) <- unlist(categories)
+
+  list(originalIds = oId, termShortName = tSN, samples = ss)
+
+
+  # originalId <- rlist::list.map(det_1, originalId)
+  # termShortName <- rlist::list.map(det_1,termShortName)
+  # samples <- rlist::list.map(det_1,samples)
+  # description_lst <- list()
+  # for (i in 1:length(details)){
+  #   description_lst[[i]] <- details[[i]][[1]]
+  # }
+  # names(description_lst) <- purrr::as_vector(categories)
+  # description_lst
+
+
 }
 
 
-# -----------------------------------------------------------------------------
-### TODO
-#
-#
+#' show the enrichment for ontology terms for both sampleSets and biofeatures
+#'
+#' @param compendium A string - the selected compendium
+#' @param module A matrix with valid rownames (biofeatureNames) and colnames (samplesetsNames)
+#' @param normalization A string - either 'limma' (default),'tpm' or legacy as normalization
+#'
+#' @return a list with two data.frame (PlantOntology and GeneOntology)
+#' @export
+#'
+#' @examples
+#'\dontrun{
+#' gene_names <- c('VIT_00s0246g00220','VIT_00s0332g00060','VIT_00s0332g00110',
+#' 'VIT_00s0332g00160','VIT_00s0396g00010','VIT_00s0505g00030','VIT_00s0505g00060'
+#' ,'VIT_00s0873g00020','VIT_00s0904g00010')
+#' module_1 <- create_module(biofeaturesNames=gene_names, normalization = "limma")
+#' enrich_module(module = module_1, normalization = "limma")
+#'}
+enrich_module <- function(compendium = "vespucci",
+                            module = NULL,
+                            normalization = "limma"){
+  if (is.null(module)) stop ("Provide a module.")
+  if (is.null(normalization)) stop ("Normalization has to be either 'limma','tpm' or 'legacy'.")
+  else if (normalization == "limma" | normalization == "tpm") version <- "2.0"
+  else version <- "legacy"
 
-# intersect_modules <- function(mod1, mod2){
-#   create_module(biofeaturesNames = intersect(rownames(mod1),rownames(mod2)),
-#                 samplesetNames = intersect(colnames(mod1),colnames(mod2)))
-# }
-#
-# settdiff_modules <- function(mod1, mod2){
-#   create_module(biofeaturesNames = setdiff(rownames(mod1),rownames(mod2)),
-#                 samplesetNames = setdiff(colnames(mod1),colnames(mod2)))
-# }
+  samplesetIds <- colnames(module)
+  biofeaturesIds <- rownames(module)
+  my_query <- paste0('{
+    modules(compendium:\"', compendium, '\", version:\"', version, '\", normalization:\"', normalization, '\",
+    biofeaturesIds:["', paste0(biofeaturesIds, collapse = '","'),'\"],
+    samplesetIds:["', paste0(samplesetIds, collapse = '","'),'\"]), {
+      samplesetAnnotationEnrichment(corrPValueCutoff: 0.05) {
+        ontology
+        ontologyTerm {
+          ontologyId
+          description
+          pValue
+        }
+      }
+      biofeatureAnnotationEnrichment(corrPValueCutoff: 0.05) {
+        ontology
+        ontologyTerm {
+          ontologyId
+          description
+          pValue
+        }
+      }
+    }
+  }')
+  # cat(my_query, "\n")
+  enrichment <- build_query(my_query)$modules
+  samplesetAnnotationEnrichment <- lapply(enrichment$samplesetAnnotationEnrichment[[1]],unlist)
+  PO <- data.frame(t(matrix(samplesetAnnotationEnrichment$ontologyTerm, nrow = 3,
+                            ncol = length(samplesetAnnotationEnrichment$ontologyTerm)/3,
+                            byrow = F)))
+  colnames(PO) <- c("ontologyId", "description", "pValue")
+
+
+  biofeatureAnnotationEnrichment <- lapply(enrichment$biofeatureAnnotationEnrichment[[1]],unlist)
+
+  GO <- tryCatch(data.frame(t(matrix(biofeatureAnnotationEnrichment$ontologyTerm, nrow = 3,
+                            ncol = length(biofeatureAnnotationEnrichment$ontologyTerm)/3,
+                            byrow = F))),
+                 error = function(e) {return(GO = NULL)},
+                 finally = print('There is no GO enrichment!'))
+  if(!is.null(GO))  colnames(GO) <- c("ontologyId", "description", "pValue")
+  else {}
+
+  list(PlantOntology = PO, GeneOntology = GO)
+}

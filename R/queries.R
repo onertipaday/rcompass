@@ -33,11 +33,15 @@ get_available_compendia <- function(){
     }
   }'
   tmp <- build_query(my_query)$compendia[[1]]
-  list(info = c(name =  tmp$name,
-                fullName =  tmp$fullName,
-                description =  tmp$description),
-       versions = tidyr::unite(dplyr::bind_rows(sapply(tmp$versions, unlist)),
-       "normalizationType", starts_with("databases.norm"), sep = ",", na.rm = T))
+  info <- c(name =  tmp$name,
+            fullName =  tmp$fullName,
+            description =  tmp$description)
+  versions <- list()
+    for (i in 1:length(tmp$versions)) {
+      versions[[i]] = paste(unlist(tmp$versions[[i]]), collapse =" ")
+      }
+  list(info = info, versions = unlist(versions))
+
 }
 
 
@@ -523,56 +527,6 @@ get_annotation_triples <- function(compendium = "vespucci", ids = NULL) {
   matrix(sapply(build_query(my_query)$annotationPrettyPrint$rdfTriples, unlist), ncol = 3, byrow = TRUE)
 }
 
-
-#' plot rdf network
-#'
-#' @param compendium A string - the selected compendium
-#' @param ids A string - unique id of a biofeature, a sample, etc.
-#' @param viewer A logical - if TRUE will plot the html widget
-#' @param normalization A string - 'tpm' (as default), 'limma' or 'legacy'
-#'
-#' @return Either a json, an html or a plotly htmlwidget
-#' @export
-#'
-#' @examples
-#'\dontrun{
-#' my_ids <- get_biofeature_id(id_In = c("U2FtcGxlU2V0VHlwZTo3MTA=","U2FtcGxlU2V0VHlwZToxMDI4",
-#'  "U2FtcGxlU2V0VHlwZToxMDI5"))
-#' plot_annotation_network(ids = my_ids$id, viewer = TRUE)
-#' }
-plot_annotation_network <- function(compendium = "vespucci",
-                                    ids = NULL,
-                                    normalization = "limma",
-                                    viewer = FALSE) {
-  if(normalization == "legacy") version <- "legacy"
-  else if(normalization %in% c("limma","tpm")) version <- "2.0"
-  else stop("normalization HAS TO BE either legacy, limma or tpm.")
-  if(is.null(ids)) stop("You need to provide and id")
-  type <- "html"
-  my_query <- paste0('{
-  annotationPrettyPrint(compendium:\"', compendium, '\", ids:["', paste0(ids, collapse = '","'),'\" ]) {',
-                     type,'
-    }
-  }')
-  my_html <- build_query(my_query)$annotationPrettyPrint
-  if(type == "html" && viewer){
-    h <- xml2::read_html(my_html)
-    tmpDir <- tempfile()
-    dir.create(tmpDir)
-    htmlFile <- file.path(tmpDir, "viewer.html")
-    xml2::write_html(h, tmpDir,file = htmlFile)
-    # rstudioapi::viewer(htmlFile)
-    viewer <- getOption("viewer")
-    if (!is.null(viewer))
-      viewer("http://localhost:8100")
-    else
-      utils::browseURL("http://localhost:8100")
-    viewer(htmlFile)
-  } else my_html
-}
-
-
-
 #' get_sparql_annotation_triples
 #'
 #' @param compendium A string - the selected compendium
@@ -712,6 +666,49 @@ get_ontologies <- function(compendium = "vespucci"){
   tmp <- as.data.frame(t(sapply(build_query(my_query)$ontology$edges, unlist)))
   colnames(tmp) <- c("id", "name")
   rownames(tmp) <- NULL
+  tmp
+}
+
+
+#' get_OntologyNode
+#'
+#' @param compendium A string - the selected compendium
+#' @param originalId A string - the ontology term
+#' @param ontology_Name A string - the name of the selected ontology
+#' @param normalization A string ('legacy' as default)
+#'
+#' @return A data.frame
+#' @export
+#'
+#' @examples
+#' get_OntologyNode(normalization="tpm",originalId="PO_0009005",ontology_Name="Plant ontology")
+get_OntologyNode <- function(compendium = "vespucci",
+                             normalization = "tpm",
+                             originalId =  "PO_0009005",
+                             ontology_Name = "Plant ontology"){
+  if(is.null(originalId)||is.null(ontology_Name)) stop('Provide both originalId and ontology_Name (e.g. originalId = "PO_0009005", ontology_Name = "Plant ontology"')
+  if(normalization == "legacy") version <- "legacy"
+  else if(normalization %in% c("limma","tpm")) version <- "2.0"
+  else stop("normalization HAS TO BE either legacy, limma or tpm.")
+  my_query <- paste0('{
+    ontologyNode(compendium:\"', compendium, '\", version:\"', version, '\", normalization:\"', normalization, '\", originalId:\"', originalId, '\",ontology_Name:\"',ontology_Name,'\") {
+    edges {
+      node {
+        id,
+        originalId,
+        termShortName,
+        json,
+        ontology{
+          id
+        }
+      }
+    }
+    }
+  }')
+  # cat(my_query,"\n")
+  tmp <- build_query(my_query)$ontologyNode$edges
+  # tmp <- as.data.frame(t(sapply(build_query(my_query)$sampleSets$edges, unlist)))
+  #colnames(tmp) <-  c("id","name"); rownames(tmp) <-  NULL
   tmp
 }
 
@@ -886,7 +883,8 @@ get_sampleset_id <- function(compendium = "vespucci",
     edges {
       node {
         id,
-        name
+        name,
+        shortAnnotationDescription
         }
       }
     }
@@ -898,7 +896,8 @@ get_sampleset_id <- function(compendium = "vespucci",
     edges {
       node {
         id,
-        name
+        name,
+        shortAnnotationDescription
         }
       }
     }
@@ -906,7 +905,7 @@ get_sampleset_id <- function(compendium = "vespucci",
   }
   # cat(my_query,"\n")
   tmp <- as.data.frame(t(sapply(build_query(my_query)$sampleSets$edges, unlist)))
-  colnames(tmp) <-  c("id","name"); rownames(tmp) <-  NULL
+  colnames(tmp) <-  c("id","name","shortAnnotationDescription"); rownames(tmp) <-  NULL
   tmp
 }
 
@@ -925,10 +924,22 @@ get_sampleset_id <- function(compendium = "vespucci",
 get_sampleset_by_sampleid <- function(compendium = "vespucci",
                              normalization = "tpm",
                              samples = NULL){
-  if(is.null(samples)) stop("Provide sample ids (e.g. id_In = 'U2FtcGxlVHlwZToxMzM4','U2FtcGxlVHlwZToxMzM0'")
   if(normalization == "legacy") version <- "legacy"
   else if(normalization %in% c("limma","tpm")) version <- "2.0"
   else stop("normalization HAS TO BE either legacy, limma or tpm.")
+  if(is.null(samples)){
+    my_query <- paste0('{
+    sampleSets(compendium:\"', compendium, '\", version:\"', version, '\", normalization:\"', normalization, '\") {
+    edges {
+      node {
+        id,
+        name
+        }
+      }
+    }
+  }')
+  }
+  else{
     my_query <- paste0('{
     sampleSets(compendium:\"', compendium, '\", version:\"', version, '\", normalization:\"', normalization, '\", samples:["', paste0(samples, collapse = '","'),'\"]) {
     edges {
@@ -939,8 +950,9 @@ get_sampleset_by_sampleid <- function(compendium = "vespucci",
       }
     }
   }')
+  }
   tmp <- as.data.frame(t(sapply(build_query(my_query)$sampleSets$edges, unlist)))
-  colnames(tmp) <-  c("id","name"); rownames(tmp) <-  NULL
+  colnames(tmp) <-  c("id","name")#; rownames(tmp) <-  NULL
   tmp
 }
 

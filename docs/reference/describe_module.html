@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rcompass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
       </span>
     </div>
 
@@ -99,9 +99,6 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/usecase01.html">Use Case 01</a>
-    </li>
-    <li>
-      <a href="../articles/usecase02.html">Use Case 02</a>
     </li>
   </ul>
 </li>
@@ -160,7 +157,7 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a data.frame</p>
+    <p>a list of three: "originalIds", "termShortName" and "samples"</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
@@ -168,7 +165,8 @@
 <span class='st'>'VIT_00s0332g00160'</span>,<span class='st'>'VIT_00s0396g00010'</span>,<span class='st'>'VIT_00s0505g00030'</span>,<span class='st'>'VIT_00s0505g00060'</span>
 ,<span class='st'>'VIT_00s0873g00020'</span>,<span class='st'>'VIT_00s0904g00010'</span><span class='op'>)</span>
 <span class='va'>module_1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='create_module.html'>create_module</a></span><span class='op'>(</span>biofeaturesNames<span class='op'>=</span><span class='va'>gene_names</span>, normalization <span class='op'>=</span> <span class='st'>"limma"</span><span class='op'>)</span>
-<span class='fu'>describe_module</span><span class='op'>(</span>module <span class='op'>=</span> <span class='va'>module_1</span>, normalization <span class='op'>=</span> <span class='st'>"limma"</span><span class='op'>)</span>
+<span class='va'>d_module</span> <span class='op'>&lt;-</span> <span class='fu'>describe_module</span><span class='op'>(</span>module <span class='op'>=</span> <span class='va'>module_1</span>, normalization <span class='op'>=</span> <span class='st'>"limma"</span><span class='op'>)</span>
+<span class='va'>d_module</span> <span class='co'># summary description - TODO</span>
 <span class='op'>}</span>
 </div></pre>
   </div>

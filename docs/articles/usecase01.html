@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rcompass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
       </span>
     </div>
 
@@ -58,9 +58,6 @@
   <ul class="dropdown-menu" role="menu">
 <li>
       <a href="../articles/usecase01.html">Use Case 01</a>
-    </li>
-    <li>
-      <a href="../articles/usecase02.html">Use Case 02</a>
     </li>
   </ul>
 </li>
@@ -106,13 +103,13 @@
 <code class="sourceCode R"><span class="co"># devtools::install_github("onertipaday/rcompass")</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">rcompass</span><span class="op">)</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; This is 'rCOMPASS' version 0.0.5 based on COMPASS version 0.9.1.</span></code></pre></div>
-<p>The COMPASS GraphQL endpoint might hosts different compendia. At the moment there is only the VESPUCCI compendium, but there are different version of VESPUCCI, and each version might have data normalized in different ways. In this case there are 2 versions of VESPUCCI, version 1.0 (legacy) and version 2.0 (latest). The latter has data normalized in 2 different ways, TPM normalization and LIMMA (the default one) while the legacy version has the legacy normalization only (i.e. per-sample logratios). For every query we will need to indicate the compendium we want to use, if no version, no normalization and no database is specified the 2.0, vitis_vinifera, tpm,limma (default) values will be used.</p>
+<span class="co">#&gt; This is 'rCOMPASS' version 0.0.6 based on COMPASS version 0.9.1.</span></code></pre></div>
+<p>The COMPASS GraphQL endpoint might hosts different compendia. At the moment there is only the VESPUCCI compendium, but there are different version of VESPUCCI, and each version might have data normalized in different ways. In this case there are 2 versions of VESPUCCI, version 1.0 (legacy) and version 2.0 (latest). The latter has data normalized in 2 different ways, TPM normalization and LIMMA (the default one) while the legacy version has the legacy normalization only (i.e. per-sample logratios). For every query we will need to indicate the compendium we want to use, if no version, no normalization and no database is specified the 2.0 vitis_vinifera tpm limma (default) values will be used.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"The Vitis gene expression compendium version"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_available_compendia.html">get_available_compendia</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">versions</span><span class="op">[</span><span class="fl">2</span>,<span class="op">]</span>, collapse <span class="op">=</span> <span class="st">" "</span><span class="op">)</span>,<span class="st">"normalized contains values for"</span>, <span class="fu"><a href="../reference/totalCounts.html">totalCounts</a></span><span class="op">(</span>version<span class="op">=</span><span class="st">"1.0"</span>, aggregate_type<span class="op">=</span><span class="st">"biofeatures"</span><span class="op">)</span>, <span class="st">" biological features, measured for"</span>, <span class="fu"><a href="../reference/totalCounts.html">totalCounts</a></span><span class="op">(</span>version<span class="op">=</span><span class="st">"2.0"</span>, aggregate_type<span class="op">=</span><span class="st">"sampleSets"</span><span class="op">)</span>, <span class="st">" sample sets. This corresponds to a total of"</span>, <span class="fu"><a href="../reference/totalCounts.html">totalCounts</a></span><span class="op">(</span>aggregate_type <span class="op">=</span> <span class="st">"experiments"</span><span class="op">)</span>, <span class="st">" experiments and"</span>, <span class="fu"><a href="../reference/totalCounts.html">totalCounts</a></span><span class="op">(</span>aggregate_type <span class="op">=</span> <span class="st">"samples"</span><span class="op">)</span>, <span class="st">" samples measured on"</span>, <span class="fu"><a href="../reference/totalCounts.html">totalCounts</a></span><span class="op">(</span>aggregate_type <span class="op">=</span> <span class="st">"platforms"</span><span class="op">)</span>,<span class="st">" different platforms:"</span><span class="op">)</span>
-<span class="co">#&gt; [1] "The Vitis gene expression compendium version 2.0 vitis_vinifera tpm,limma (default) normalized contains values for 29090  biological features, measured for 1689  sample sets. This corresponds to a total of 160  experiments and 4101  samples measured on 53  different platforms:"</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"The Vitis gene expression compendium version"</span>, <span class="fu"><a href="../reference/get_available_compendia.html">get_available_compendia</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">versions</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="st">"normalized contains values for"</span>, <span class="fu"><a href="../reference/totalCounts.html">totalCounts</a></span><span class="op">(</span>version<span class="op">=</span><span class="st">"1.0"</span>, aggregate_type<span class="op">=</span><span class="st">"biofeatures"</span><span class="op">)</span>, <span class="st">" biological features, measured for"</span>, <span class="fu"><a href="../reference/totalCounts.html">totalCounts</a></span><span class="op">(</span>version<span class="op">=</span><span class="st">"2.0"</span>, aggregate_type<span class="op">=</span><span class="st">"sampleSets"</span><span class="op">)</span>, <span class="st">" sample sets. This corresponds to a total of"</span>, <span class="fu"><a href="../reference/totalCounts.html">totalCounts</a></span><span class="op">(</span>aggregate_type <span class="op">=</span> <span class="st">"experiments"</span><span class="op">)</span>, <span class="st">" experiments and"</span>, <span class="fu"><a href="../reference/totalCounts.html">totalCounts</a></span><span class="op">(</span>aggregate_type <span class="op">=</span> <span class="st">"samples"</span><span class="op">)</span>, <span class="st">" samples measured on"</span>, <span class="fu"><a href="../reference/totalCounts.html">totalCounts</a></span><span class="op">(</span>aggregate_type <span class="op">=</span> <span class="st">"platforms"</span><span class="op">)</span>,<span class="st">" different platforms divided in "</span><span class="op">)</span>
+<span class="co">#&gt; [1] "The Vitis gene expression compendium version 2.0 vitis_vinifera tpm limma (default) normalized contains values for 29090  biological features, measured for 1689  sample sets. This corresponds to a total of 160  experiments and 4101  samples measured on 53  different platforms divided in "</span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_platform_information.html">get_platform_information</a></span><span class="op">(</span><span class="op">)</span>,<span class="va">source</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_platform_information.html">get_platform_information</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">source</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div id="genes" class="section level1">
 <h1 class="hasAnchor">
 <a href="#genes" class="anchor"></a>Genes</h1>
@@ -247,7 +244,7 @@
 <div id="get-ids-from-aliases-using-sparql" class="section level2">
 <h2 class="hasAnchor">
 <a href="#get-ids-from-aliases-using-sparql" class="anchor"></a>Get ids from aliases using SPARQL</h2>
-<p>Genes might have different aliases, all of which are defined in VESPUCCI as annotations. Since annotations (for both genes and samples) are represented as RDF triples using different ontologies, we can perform a <a href="https://en.wikipedia.org/wiki/SPARQL">SPARQL</a> query to retrieve all the biological features (genes here) that has an <strong><em>alias</em></strong> (<a href="https://www.ebi.ac.uk/ols/ontologies/ncit/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FNCIT_C41095">NCIT_C41095</a> term on the NCIT Ontology, <a href="http://purl.obolibrary.org/obo/" class="uri">http://purl.obolibrary.org/obo/</a>) equal to the ones specified in the list.</p>
+<p>Genes might have different aliases, all of which are defined in VESPUCCI as annotations. Since annotations (for both genes and samples) are represented as RDF triples using different ontologies, we can perform a <a href="https://en.wikipedia.org/wiki/SPARQL">SPARQL</a> query to retrieve all the biological features (genes here) that has an <strong><em>alias</em></strong> <a href="https://www.ebi.ac.uk/ols/ontologies/ncit/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FNCIT_C41095">NCIT_C41095</a> term on the NCIT Ontology, <a href="http://purl.obolibrary.org/obo/" class="uri">http://purl.obolibrary.org/obo/</a>) equal to the ones specified in the list.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_query</span> <span class="op">&lt;-</span> <span class="st">"SELECT ?s ?p ?o WHERE { {?s &lt;http://purl.obolibrary.org/obo/NCIT_C41095&gt; 'B9S8R7'} UNION {?s &lt;http://purl.obolibrary.org/obo/NCIT_C41095&gt; 'Q7M2G6'} UNION {?s &lt;http://purl.obolibrary.org/obo/NCIT_C41095&gt; 'D7SZ93'} UNION {?s &lt;http://purl.obolibrary.org/obo/NCIT_C41095&gt; 'B8XIJ8'} UNION {?s &lt;http://purl.obolibrary.org/obo/NCIT_C41095&gt; 'Vv00s0125g00280'} UNION {?s &lt;http://purl.obolibrary.org/obo/NCIT_C41095&gt; 'Vv00s0187g00140'} UNION {?s &lt;http://purl.obolibrary.org/obo/NCIT_C41095&gt; 'Vv00s0246g00010'} UNION {?s &lt;http://purl.obolibrary.org/obo/NCIT_C41095&gt; 'Vv00s0246g00080'} UNION {?s &lt;http://purl.obolibrary.org/obo/NCIT_C41095&gt; 'Vv00s0438g00020'} UNION {?s &lt;http://purl.obolibrary.org/obo/NCIT_C41095&gt; 'Vv00s0246g00200'} }"</span>
 <span class="va">sparql_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_sparql_annotation_triples.html">get_sparql_annotation_triples</a></span><span class="op">(</span>target <span class="op">=</span> <span class="st">"biofeature"</span>, query <span class="op">=</span> <span class="va">my_query</span><span class="op">)</span> 
@@ -304,23 +301,23 @@
 <col width="3%">
 <col width="3%">
 <col width="4%">
-<col width="3%">
-<col width="2%">
-<col width="3%">
 <col width="2%">
 <col width="1%">
+<col width="3%">
+<col width="3%">
 <col width="2%">
-<col width="5%">
+<col width="2%">
 <col width="4%">
-<col width="2%">
 <col width="0%">
+<col width="5%">
+<col width="2%">
+<col width="2%">
 <col width="3%">
 <col width="2%">
 <col width="2%">
 <col width="2%">
 <col width="2%">
 <col width="4%">
-<col width="2%">
 <col width="3%">
 <col width="3%">
 <col width="2%">
@@ -357,27 +354,28 @@
 <th align="right">GSE36234_THINCLUSTER_EL38-1-vs-GSE36234_CONTROL_EL35-4</th>
 <th align="right">E-MTAB-3062_rip_60dpt_nit+-7-vs-E-MTAB-3062_rip_15dpt_nit+-4</th>
 <th align="right">GSE65969_berry_el38_crtl_0hpi-3-vs-GSE65969_berry_el35_crtl_0hpi-4</th>
-<th align="right">GSE36128_flesh_PHW2m-38-vs-GSE36128_flesh_EL32-43</th>
 <th align="right">GSE49569_seed_PSH-2-vs-GSE49569_seed_PV-7</th>
-<th align="right">GSE36128_flesh_EL38-40-vs-GSE36128_flesh_EL32-43</th>
-<th align="right">GSE75498_SG_T0-3-vs-GSE75498_C_T0-21</th>
 <th align="right">cond_4-vs-cond_3</th>
+<th align="right">GSE36128_flesh_EL38-40-vs-GSE36128_flesh_EL32-43</th>
+<th align="right">GSE36128_flesh_PHW2m-38-vs-GSE36128_flesh_EL32-43</th>
+<th align="right">GSE75498_SG_T0-3-vs-GSE75498_C_T0-21</th>
 <th align="right">GSE75498_OS_T0-13-vs-GSE75498_C_T0-21</th>
-<th align="right">GSE118569_Daktulosphaira_vitifoliae_Large_Leaf-8-vs-GSE118569_WildType_Large_Leaf-3</th>
 <th align="right">GSE41633_2006_mid-ripening_AM-17-vs-GSE41633_2006_veraison_AM-18</th>
-<th align="right">GSE75498_M_T0-14-vs-GSE75498_C_T0-21</th>
 <th align="right">chardo_3</th>
-<th align="right">GSE36128_pollen_EL25-23-vs-GSE36128_flesh_EL32-43</th>
+<th align="right">GSE118569_Daktulosphaira_vitifoliae_Large_Leaf-8-vs-GSE118569_WildType_Large_Leaf-3</th>
+<th align="right">GSE75498_M_T0-14-vs-GSE75498_C_T0-21</th>
 <th align="right">GSE36128_stem_EL43-4-vs-GSE36128_stem_EL14-5</th>
+<th align="right">GSE36128_pollen_EL25-23-vs-GSE36128_flesh_EL32-43</th>
 <th align="right">GSE36128_skin_PHW1m-8-vs-GSE36128_skin_EL32-12</th>
 <th align="right">GSE36128_skin_PHW3m-6-vs-GSE36128_skin_EL32-12</th>
 <th align="right">GSE36128_leaf_EL43-29-vs-GSE36128_leaf_EL14-31</th>
-<th align="right">GSE36128_inflorescence_EL17-35-vs-GSE36128_inflorescence_EL14-36</th>
 <th align="right">GSE36128_bud_EL01-44-vs-GSE36128_bud_EL02-48</th>
+<th align="right">GSE36128_inflorescence_EL17-35-vs-GSE36128_inflorescence_EL14-36</th>
 <th align="right">GSE36128_flesh_EL35-42-vs-GSE36128_flesh_EL32-43</th>
 <th align="right">GSE36128_flesh_PHW3m-37-vs-GSE36128_flesh_EL32-43</th>
 <th align="right">GSE36128_skin_PHW2m-7-vs-GSE36128_skin_EL32-12</th>
 <th align="right">pea_5</th>
+<th align="right">pea_4</th>
 <th align="right">pea_8</th>
 <th align="right">begin_2</th>
 <th align="right">begin_8</th>
@@ -389,7 +387,6 @@
 <th align="right">dev_1</th>
 <th align="right">harvest_7</th>
 <th align="right">harvest_5</th>
-<th align="right">pea_4</th>
 <th align="right">pea_3</th>
 <th align="right">pea_2</th>
 </tr></thead>
@@ -1418,18 +1415,11 @@
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">json_selection</span> <span class="op">&lt;-</span> <span class="st">'{"sample_sets":["U2FtcGxlU2V0VHlwZToyMTg3Mg==","U2FtcGxlU2V0VHlwZToyMTg2Mg==","U2FtcGxlU2V0VHlwZToyMTAyNg==","U2FtcGxlU2V0VHlwZTo2NTU2","U2FtcGxlU2V0VHlwZToyMTAyNw==","U2FtcGxlU2V0VHlwZToyMTAyOA==","U2FtcGxlU2V0VHlwZTo1ODc2","U2FtcGxlU2V0VHlwZTo1ODg2","U2FtcGxlU2V0VHlwZToyMTAyOQ==","U2FtcGxlU2V0VHlwZTo1ODU4","U2FtcGxlU2V0VHlwZTo1ODYy","U2FtcGxlU2V0VHlwZTo1OTE3"],"biological_features":["QmlvRmVhdHVyZVR5cGU6Mjc5MDA=","QmlvRmVhdHVyZVR5cGU6Mjc4OTY=","QmlvRmVhdHVyZVR5cGU6Mjc4OTI=","QmlvRmVhdHVyZVR5cGU6Mjg1OTg=","QmlvRmVhdHVyZVR5cGU6Mjg2MDk=","QmlvRmVhdHVyZVR5cGU6Mjg2MzA="]}'</span>
 
-<span class="va">submodule_ids</span> <span class="op">&lt;-</span> <span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html">fromJSON</a></span><span class="op">(</span><span class="va">json_selection</span><span class="op">)</span>
+<span class="va">submodule_ids</span> <span class="op">&lt;-</span> <span class="fu">RJSONIO</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/RJSONIO/man/fromJSON.html">fromJSON</a></span><span class="op">(</span><span class="va">json_selection</span><span class="op">)</span>
 
 <span class="va">submodule_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_module.html">create_module</a></span><span class="op">(</span>biofeaturesNames <span class="op">=</span> <span class="va">submodule_ids</span><span class="op">$</span><span class="va">biological_features</span>,
                              samplesetNames <span class="op">=</span> <span class="va">submodule_ids</span><span class="op">$</span><span class="va">sample_sets</span>,
-                             normalization <span class="op">=</span> <span class="st">"limma"</span>, useIds <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; {</span>
-<span class="co">#&gt;     modules(compendium:"vespucci", version:"2.0", normalization:"limma",</span>
-<span class="co">#&gt;     biofeaturesIds:["QmlvRmVhdHVyZVR5cGU6Mjc5MDA=","QmlvRmVhdHVyZVR5cGU6Mjc4OTY=","QmlvRmVhdHVyZVR5cGU6Mjc4OTI=","QmlvRmVhdHVyZVR5cGU6Mjg1OTg=","QmlvRmVhdHVyZVR5cGU6Mjg2MDk=","QmlvRmVhdHVyZVR5cGU6Mjg2MzA="],</span>
-<span class="co">#&gt;     samplesetIds:["U2FtcGxlU2V0VHlwZToyMTg3Mg==","U2FtcGxlU2V0VHlwZToyMTg2Mg==","U2FtcGxlU2V0VHlwZToyMTAyNg==","U2FtcGxlU2V0VHlwZTo2NTU2","U2FtcGxlU2V0VHlwZToyMTAyNw==","U2FtcGxlU2V0VHlwZToyMTAyOA==","U2FtcGxlU2V0VHlwZTo1ODc2","U2FtcGxlU2V0VHlwZTo1ODg2","U2FtcGxlU2V0VHlwZToyMTAyOQ==","U2FtcGxlU2V0VHlwZTo1ODU4","U2FtcGxlU2V0VHlwZTo1ODYy","U2FtcGxlU2V0VHlwZTo1OTE3"]), {</span>
-<span class="co">#&gt;       normalizedValues</span>
-<span class="co">#&gt;     }</span>
-<span class="co">#&gt;   }</span></code></pre></div>
+                             normalization <span class="op">=</span> <span class="st">"limma"</span>, useIds <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>and visualize it</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/view_plot.html">view_plot</a></span><span class="op">(</span>module <span class="op">=</span> <span class="va">submodule_1</span>, 
@@ -1467,19 +1457,18 @@
 <span class="co">#&gt; QmlvRmVhdHVyZVR5cGU6Mjg2MzA=                    -4.332415</span>
 <span class="co">#&gt; QmlvRmVhdHVyZVR5cGU6Mjg2MDk=                    -7.103699</span>
 <span class="co">#&gt; QmlvRmVhdHVyZVR5cGU6Mjg1OTg=                     3.254377</span></code></pre></div>
-<p>Alternatively you can use directly any R function to cluster data and produce an heatmap, e.g.:</p>
+<p>Alternatively you can use directly any R function to cluster data and retrieve the sorted rows and columns of the matrix, e.g.:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">pheat_cl</span> <span class="op">&lt;-</span> <span class="fu">pheatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html">pheatmap</a></span><span class="op">(</span>mat <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">module_limma</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">pheat_cl</span> <span class="op">&lt;-</span> <span class="fu">pheatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html">pheatmap</a></span><span class="op">(</span>mat <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">module_limma</span><span class="op">)</span>, silent <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">module_1</span><span class="op">[</span><span class="va">pheat_cl</span><span class="op">$</span><span class="va">tree_row</span><span class="op">$</span><span class="va">order</span>,<span class="va">pheat_cl</span><span class="op">$</span><span class="va">tree_col</span><span class="op">$</span><span class="va">order</span><span class="op">]</span><span class="op">)</span></code></pre></div>
-</div>
-<div id="export-it-in-another-format" class="section level1">
-<h1 class="hasAnchor">
-<a href="#export-it-in-another-format" class="anchor"></a>Export it in another format</h1>
+<div id="export-it-in-another-format" class="section level3">
+<h3 class="hasAnchor">
+<a href="#export-it-in-another-format" class="anchor"></a>Export it in another format</h3>
 <p>Since we created a <code>data.frame</code> from the module we can now export it in another format (e.g. <code>.csv</code>, <code>.tsv</code>, etc.) and keep working with it elsewhere with different tools:</p>
 </div>
-<div id="plot-correlation-network" class="section level1">
-<h1 class="hasAnchor">
-<a href="#plot-correlation-network" class="anchor"></a>Plot correlation network</h1>
+<div id="plot-correlation-network" class="section level2">
+<h2 class="hasAnchor">
+<a href="#plot-correlation-network" class="anchor"></a>Plot correlation network</h2>
 <p>Given a module we can plot the correlation network between Biological Features (genes) by looking at the Pearson correlation coefficient of the module’s Sample Sets (contrast). The default threshold is 0.8, but it can be changed. Edges in orange represent anti-correlation.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/view_plot.html">view_plot</a></span><span class="op">(</span>module <span class="op">=</span> <span class="va">module_1</span>, 
@@ -1487,9 +1476,9 @@
           plotType <span class="op">=</span> <span class="st">"module_coexpression_network"</span>, 
           threshold <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="automatically-expand-a-module" class="section level1">
-<h1 class="hasAnchor">
-<a href="#automatically-expand-a-module" class="anchor"></a>Automatically expand a module</h1>
+<div id="automatically-expand-a-module" class="section level2">
+<h2 class="hasAnchor">
+<a href="#automatically-expand-a-module" class="anchor"></a>Automatically expand a module</h2>
 <p>One of the classic way to use VESPUCCI is to start with a set of genes selected from previous analysis, have a look at the top conditions in which they show a consistent (and strong) behavior and then look for other genes that behave the same across those same conditions. The way to do it is to plot the distribution of genes that show a similar behavior of the module’s genes across the same condition in order pick up a suitable threshold.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/view_plot.html">view_plot</a></span><span class="op">(</span>module <span class="op">=</span> <span class="va">module_1</span>, normalization <span class="op">=</span> <span class="st">"limma"</span>,
@@ -1513,6 +1502,7 @@
           plotType <span class="op">=</span> <span class="st">"module_heatmap_expression"</span>,
           alternativeColoring <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 </div>
+</div>
 <div id="annotations" class="section level1">
 <h1 class="hasAnchor">
 <a href="#annotations" class="anchor"></a>Annotations</h1>
@@ -1525,8 +1515,7 @@
 <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_annotation_triples.html">get_annotation_triples</a></span><span class="op">(</span>ids <span class="op">=</span>  <span class="fu"><a href="../reference/get_sample_by_gsm.html">get_sample_by_gsm</a></span><span class="op">(</span>sampleName_In <span class="op">=</span>  <span class="va">samples_info</span><span class="op">$</span><span class="va">sampleName</span><span class="op">)</span><span class="op">$</span><span class="va">sampleId</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Another way is to visualize the annotation is with RDF graph. Here we show the RDF graphs for indexed biofeatures.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">#plot_annotation_network(ids = samples, viewer = T)</span>
- <span class="fu"><a href="../reference/plot_annotation_network.html">plot_annotation_network</a></span><span class="op">(</span>ids <span class="op">=</span> <span class="va">my_sorted_indexes</span><span class="op">$</span><span class="va">sortedBiofeatures</span>, viewer <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"> <span class="fu"><a href="../reference/plot_annotation_network.html">plot_annotation_network</a></span><span class="op">(</span>ids <span class="op">=</span> <span class="va">my_sorted_indexes</span><span class="op">$</span><span class="va">sortedBiofeatures</span>, viewer <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></code></pre></div>
 <p>Annotations can also be used to retrieve Sample or Biological Features (gene) starting from a SPARQL query. For example we might want to select all seed Sample.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sparql</span> <span class="op">=</span> <span class="st">"SELECT ?s ?p ?o WHERE { ?s &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://purl.obolibrary.org/obo/NCIT_C19157&gt; . ?s &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://purl.obolibrary.org/obo/PO_0009010&gt;}"</span></code></pre></div>
@@ -1539,18 +1528,102 @@
 <p>Now we can collect all the Sample Sets in which these samples are used and then create a new module based on Sample Sets only leaving VESPUCCI to figure out which are the genes (Biological Feature objects) that show a consistent up or down-regulated profile.</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">seed_ss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_sampleset_by_sampleid.html">get_sampleset_by_sampleid</a></span><span class="op">(</span>normalization <span class="op">=</span> <span class="st">"limma"</span>, samples <span class="op">=</span> <span class="va">seed_samples</span><span class="op">)</span>
-<span class="va">module_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_module.html">create_module</a></span><span class="op">(</span>samplesetNames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">seed_ss</span><span class="op">$</span><span class="va">id</span><span class="op">)</span>, useIds <span class="op">=</span> <span class="cn">TRUE</span>, normalization <span class="op">=</span> <span class="st">"limma"</span><span class="op">)</span></code></pre></div>
+<span class="va">module_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_module.html">create_module</a></span><span class="op">(</span>samplesetNames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">seed_ss</span><span class="op">$</span><span class="va">id</span><span class="op">)</span>, useIds <span class="op">=</span> <span class="cn">TRUE</span>, normalization <span class="op">=</span> <span class="st">"limma"</span><span class="op">)</span>
+<span class="co">#&gt; {</span>
+<span class="co">#&gt;     modules(compendium:"vespucci", version:"2.0", normalization:"limma",</span>
+<span class="co">#&gt;     biofeaturesIds:["QmlvRmVhdHVyZVR5cGU6MTgyMTE=","QmlvRmVhdHVyZVR5cGU6MjI1MDE=","QmlvRmVhdHVyZVR5cGU6MjM3NzI=","QmlvRmVhdHVyZVR5cGU6MjIwMTg=","QmlvRmVhdHVyZVR5cGU6MTQ0MTk=","QmlvRmVhdHVyZVR5cGU6NjAzNg==","QmlvRmVhdHVyZVR5cGU6NTAxNw==","QmlvRmVhdHVyZVR5cGU6Mjg2ODA=","QmlvRmVhdHVyZVR5cGU6MTQzODQ=","QmlvRmVhdHVyZVR5cGU6MTkxMA==","QmlvRmVhdHVyZVR5cGU6MjQ1MjM=","QmlvRmVhdHVyZVR5cGU6ODU0Mw==","QmlvRmVhdHVyZVR5cGU6MTQ5MDA=","QmlvRmVhdHVyZVR5cGU6MjEzODQ=","QmlvRmVhdHVyZVR5cGU6MTA2NDE=","QmlvRmVhdHVyZVR5cGU6NDUxMw==","QmlvRmVhdHVyZVR5cGU6MTY1Mjc=","QmlvRmVhdHVyZVR5cGU6MTczMA==","QmlvRmVhdHVyZVR5cGU6MTg5NzU=","QmlvRmVhdHVyZVR5cGU6OTQzMA==","QmlvRmVhdHVyZVR5cGU6MTI4MTQ=","QmlvRmVhdHVyZVR5cGU6MTQ0NTM=","QmlvRmVhdHVyZVR5cGU6MjU2NjM=","QmlvRmVhdHVyZVR5cGU6MjcwMjY=","QmlvRmVhdHVyZVR5cGU6Mjg0OTk=","QmlvRmVhdHVyZVR5cGU6MjYwMzc=","QmlvRmVhdHVyZVR5cGU6MTc5MA==","QmlvRmVhdHVyZVR5cGU6MjA4MTk=","QmlvRmVhdHVyZVR5cGU6OTE5OA==","QmlvRmVhdHVyZVR5cGU6MTc0NTY=","QmlvRmVhdHVyZVR5cGU6MjI5OTg=","QmlvRmVhdHVyZVR5cGU6MTk1ODQ=","QmlvRmVhdHVyZVR5cGU6MTU2MzM=","QmlvRmVhdHVyZVR5cGU6MTA1NTg=","QmlvRmVhdHVyZVR5cGU6MTAyNzU=","QmlvRmVhdHVyZVR5cGU6OTI4Nw==","QmlvRmVhdHVyZVR5cGU6MjQ1NTQ=","QmlvRmVhdHVyZVR5cGU6MTM5ODE=","QmlvRmVhdHVyZVR5cGU6MTUyNQ==","QmlvRmVhdHVyZVR5cGU6MTA0MzU=","QmlvRmVhdHVyZVR5cGU6MTM5ODU=","QmlvRmVhdHVyZVR5cGU6MjEwMDM=","QmlvRmVhdHVyZVR5cGU6MTE0MTI=","QmlvRmVhdHVyZVR5cGU6MzAwNw==","QmlvRmVhdHVyZVR5cGU6MTE1MQ==","QmlvRmVhdHVyZVR5cGU6MzE4NQ==","QmlvRmVhdHVyZVR5cGU6MTI5MDQ=","QmlvRmVhdHVyZVR5cGU6Mjg3MTQ=","QmlvRmVhdHVyZVR5cGU6NDc1Ng==","QmlvRmVhdHVyZVR5cGU6MjM0NjY="],</span>
+<span class="co">#&gt;     samplesetIds:["U2FtcGxlU2V0VHlwZTo1ODY1","U2FtcGxlU2V0VHlwZTo1ODY2","U2FtcGxlU2V0VHlwZTo1ODY3","U2FtcGxlU2V0VHlwZTo1ODk4","U2FtcGxlU2V0VHlwZTo1OTky","U2FtcGxlU2V0VHlwZTo1OTkz","U2FtcGxlU2V0VHlwZTo1OTk0","U2FtcGxlU2V0VHlwZTo1OTk1","U2FtcGxlU2V0VHlwZTo1OTk2","U2FtcGxlU2V0VHlwZTo1OTk3","U2FtcGxlU2V0VHlwZTo1OTk5","U2FtcGxlU2V0VHlwZToxMDM1OA==","U2FtcGxlU2V0VHlwZToxODEzNA==","U2FtcGxlU2V0VHlwZToxOTYzNQ=="]), {</span>
+<span class="co">#&gt;       normalizedValues,</span>
+<span class="co">#&gt;       biofeatures {</span>
+<span class="co">#&gt;           edges {</span>
+<span class="co">#&gt;                 node {</span>
+<span class="co">#&gt;                   id</span>
+<span class="co">#&gt;                  }</span>
+<span class="co">#&gt;           }</span>
+<span class="co">#&gt;       },</span>
+<span class="co">#&gt;        sampleSets {</span>
+<span class="co">#&gt;           edges {</span>
+<span class="co">#&gt;                 node {</span>
+<span class="co">#&gt;                   id</span>
+<span class="co">#&gt;                 }</span>
+<span class="co">#&gt;           }</span>
+<span class="co">#&gt;         }</span>
+<span class="co">#&gt;     }</span>
+<span class="co">#&gt;   }</span></code></pre></div>
 <p>And now we can plot the heatmap</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/view_plot.html">view_plot</a></span><span class="op">(</span>module <span class="op">=</span> <span class="va">module_3</span>, 
           normalization <span class="op">=</span> <span class="st">"limma"</span>,
           plotType <span class="op">=</span> <span class="st">"module_heatmap_expression"</span>,
           alternativeColoring <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<div id="module-summary" class="section level2">
+<h2 class="hasAnchor">
+<a href="#module-summary" class="anchor"></a>Module summary</h2>
+<p>One way to have a general understanding about what is contained in a module, in terms of sample conditions, is to use the get the Module Description Summary Object.</p>
+</div>
+<div id="enrichment" class="section level2">
+<h2 class="hasAnchor">
+<a href="#enrichment" class="anchor"></a>Enrichment</h2>
+<p>Another way to have a general understanding about which genes and conditions are present in our module we can explore the Module Enrichment Object. The enrichment is calculated using an Hypergeometric test with p-values corrected for multiple testing using Benjamini-Hochberg.</p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="op">(</span><span class="va">enrichment</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/enrich_module.html">enrich_module</a></span><span class="op">(</span>module <span class="op">=</span> <span class="va">module_1</span>, normalization <span class="op">=</span> <span class="st">"limma"</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; [1] "There is no GO enrichment!"</span>
+<span class="co">#&gt; $PlantOntology</span>
+<span class="co">#&gt;   ontologyId         description               pValue</span>
+<span class="co">#&gt; 1 PO_0009010                seed 7.24417147341064e-08</span>
+<span class="co">#&gt; 2 PO_0000005 cultured plant cell  0.00296077901895786</span>
+<span class="co">#&gt; 3 PO_0009087            mesocarp 0.000642768734203543</span>
+<span class="co">#&gt; 4 PO_0025281              pollen 0.000261317024509037</span>
+<span class="co">#&gt; 5 PO_0009084            pericarp 1.78483904654624e-24</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $GeneOntology</span>
+<span class="co">#&gt;   ontologyId                                            description</span>
+<span class="co">#&gt; 1 GO_0006810                                              transport</span>
+<span class="co">#&gt; 2 GO_0022900                               electron transport chain</span>
+<span class="co">#&gt; 3 GO_0042777 plasma membrane ATP synthesis coupled proton transport</span>
+<span class="co">#&gt; 4 GO_0015979                                         photosynthesis</span>
+<span class="co">#&gt; 5 GO_0009767                photosynthetic electron transport chain</span>
+<span class="co">#&gt; 6 GO_0019684                         photosynthesis, light reaction</span>
+<span class="co">#&gt; 7 GO_0018298                            protein-chromophore linkage</span>
+<span class="co">#&gt;                 pValue</span>
+<span class="co">#&gt; 1 0.000264145647898701</span>
+<span class="co">#&gt; 2   0.0322440567063443</span>
+<span class="co">#&gt; 3   0.0142183124163457</span>
+<span class="co">#&gt; 4 2.08544038077085e-05</span>
+<span class="co">#&gt; 5  0.00117030796158772</span>
+<span class="co">#&gt; 6 2.30929722291859e-10</span>
+<span class="co">#&gt; 7  0.00204833494885588</span></code></pre></div>
+</div>
+<div id="sampleset-short-descriptions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#sampleset-short-descriptions" class="anchor"></a>SampleSet Short Descriptions</h2>
+<p>Another way to have a general descriptions of the different conditions is to use the SampleSet short description. It is calculated using Ontological Terms and tries to highlight similarities and differences between sample annotation within a SampleSet if any. In case a SampleSet is a contrast (as in limma and legacy normalizations) the description is divided by a double pipe || with similar terms between reference and test conditions on the left side and different terms on the right side.</p>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_sampleset_id.html">get_sampleset_id</a></span><span class="op">(</span>id_In <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">module_1</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, normalization <span class="op">=</span> <span class="st">"limma"</span>, useIds <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<table class="table">
+<colgroup>
+<col width="15%">
+<col width="5%">
+<col width="79%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">id</th>
+<th align="left">name</th>
+<th align="left">shortAnnotationDescription</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td align="left">U2FtcGxlU2V0VHlwZToyMTg2OA==</td>
+<td align="left">harvest_5</td>
+<td align="left">vitis_vinif|pericarp|vineyard|<a href="https://www.awri.com.au/wp-content/uploads/e-l_38%7C%7CNEBBI_CLONE_CVT18%7CNEBBI_CLONE_CVT71" class="uri">https://www.awri.com.au/wp-content/uploads/e-l_38||NEBBI_CLONE_CVT18|NEBBI_CLONE_CVT71</a>
+</td>
+</tr></tbody>
+</table>
+</div>
 </div>
 <div id="session-information" class="section level1">
 <h1 class="hasAnchor">
 <a href="#session-information" class="anchor"></a>Session information</h1>
-<pre><code>#&gt; R version 4.0.4 (2021-02-15)
+<pre><code>#&gt; R version 4.0.5 (2021-03-31)
 #&gt; Platform: x86_64-redhat-linux-gnu (64-bit)
 #&gt; Running under: Fedora 33 (Workstation Edition)
 #&gt; 
@@ -1561,24 +1634,19 @@
 #&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
 #&gt; 
 #&gt; other attached packages:
-#&gt; [1] rcompass_0.0.5
+#&gt; [1] rcompass_0.0.6
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
-#&gt;  [1] Rcpp_1.0.6        highr_0.9         pillar_1.6.0      bslib_0.2.4      
-#&gt;  [5] compiler_4.0.4    jquerylib_0.1.4   tools_4.0.4       digest_0.6.27    
-#&gt;  [9] tibble_3.1.1      lifecycle_1.0.0   jsonlite_1.7.2    evaluate_0.14    
-#&gt; [13] memoise_2.0.0     pkgconfig_2.0.3   rlang_0.4.11      rstudioapi_0.13  
-#&gt; [17] cli_2.5.0         DBI_1.1.1         crul_1.1.0        curl_4.3.1       
-#&gt; [21] yaml_2.2.1        pkgdown_1.6.1     xfun_0.22         fastmap_1.1.0    
-#&gt; [25] stringr_1.4.0     dplyr_1.0.6       knitr_1.33        desc_1.3.0       
-#&gt; [29] generics_0.1.0    fs_1.5.0          sass_0.3.1        vctrs_0.3.8      
-#&gt; [33] systemfonts_1.0.1 tidyselect_1.1.1  triebeard_0.3.0   rprojroot_2.0.2  
-#&gt; [37] glue_1.4.2        httpcode_0.3.0    R6_2.5.0          textshaping_0.3.3
-#&gt; [41] fansi_0.4.2       graphql_1.5       rmarkdown_2.7     RJSONIO_1.3-1.4  
-#&gt; [45] purrr_0.3.4       tidyr_1.1.3       magrittr_2.0.1    ellipsis_0.3.2   
-#&gt; [49] urltools_1.7.3    htmltools_0.5.1.1 assertthat_0.2.1  ragg_1.1.2       
-#&gt; [53] utf8_1.2.1        stringi_1.5.3     ghql_0.1.0        cachem_1.0.4     
-#&gt; [57] crayon_1.4.1</code></pre>
+#&gt;  [1] Rcpp_1.0.6        knitr_1.33        magrittr_2.0.1    graphql_1.5      
+#&gt;  [5] R6_2.5.0          ragg_1.1.2        rlang_0.4.11      fastmap_1.1.0    
+#&gt;  [9] highr_0.9         stringr_1.4.0     tools_4.0.5       xfun_0.22        
+#&gt; [13] jquerylib_0.1.4   htmltools_0.5.1.1 systemfonts_1.0.1 yaml_2.2.1       
+#&gt; [17] digest_0.6.27     rprojroot_2.0.2   httpcode_0.3.0    pkgdown_1.6.1    
+#&gt; [21] crayon_1.4.1      RJSONIO_1.3-1.4   textshaping_0.3.3 sass_0.3.1       
+#&gt; [25] fs_1.5.0          triebeard_0.3.0   curl_4.3.1        crul_1.1.0       
+#&gt; [29] ghql_0.1.0        memoise_2.0.0     cachem_1.0.4      evaluate_0.14    
+#&gt; [33] rmarkdown_2.7     stringi_1.5.3     compiler_4.0.5    bslib_0.2.4      
+#&gt; [37] urltools_1.7.3    desc_1.3.0        jsonlite_1.7.2</code></pre>
 </div>
   </div>
 
