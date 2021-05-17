@@ -272,9 +272,8 @@ describe_module <- function(compendium = "vespucci",
     my_det[[i]] <- details[[i]]
   }
 
-  oId <- list()
-  tSN <-list()
-  ss <- list()
+  originalId <- termShortName <- samples <- NULL
+  oId <- list(); tSN <-list(); ss <- list()
   for (j in 1:length(my_det)){
     oId[[j]] <- unlist(rlist::list.map(my_det[[j]], originalId))
     tSN[[j]] <- unlist(rlist::list.map(my_det[[j]], termShortName))
@@ -354,19 +353,18 @@ enrich_module <- function(compendium = "vespucci",
   # cat(my_query, "\n")
   enrichment <- build_query(my_query)$modules
   samplesetAnnotationEnrichment <- lapply(enrichment$samplesetAnnotationEnrichment[[1]],unlist)
-  PO <- data.frame(t(matrix(samplesetAnnotationEnrichment$ontologyTerm, nrow = 3,
+  PO <- tryCatch(data.frame(t(matrix(samplesetAnnotationEnrichment$ontologyTerm, nrow = 3,
                             ncol = length(samplesetAnnotationEnrichment$ontologyTerm)/3,
-                            byrow = F)))
-  colnames(PO) <- c("ontologyId", "description", "pValue")
-
+                            byrow = F))),
+                 error = function(e) {return(GO = NULL)})
+  if(!is.null(PO))  colnames(PO) <- c("ontologyId", "description", "pValue")
+  else {}
 
   biofeatureAnnotationEnrichment <- lapply(enrichment$biofeatureAnnotationEnrichment[[1]],unlist)
-
   GO <- tryCatch(data.frame(t(matrix(biofeatureAnnotationEnrichment$ontologyTerm, nrow = 3,
                             ncol = length(biofeatureAnnotationEnrichment$ontologyTerm)/3,
                             byrow = F))),
-                 error = function(e) {return(GO = NULL)},
-                 finally = print('There is no GO enrichment!'))
+                 error = function(e) {return(GO = NULL)})
   if(!is.null(GO))  colnames(GO) <- c("ontologyId", "description", "pValue")
   else {}
 

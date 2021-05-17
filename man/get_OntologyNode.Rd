@@ -8,7 +8,8 @@ get_OntologyNode(
   compendium = "vespucci",
   normalization = "tpm",
   originalId = "PO_0009005",
-  ontology_Name = "Plant ontology"
+  ontology_Name = "Plant ontology",
+  descendantOf = NULL
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ get_OntologyNode(
 \item{originalId}{A string - the ontology term}
 
 \item{ontology_Name}{A string - the name of the selected ontology}
+
+\item{descendantOf}{A string - the id from the ontology term}
 }
 \value{
 A data.frame
@@ -27,5 +30,8 @@ A data.frame
 get_OntologyNode
 }
 \examples{
-get_OntologyNode(normalization="tpm",originalId="PO_0009005",ontology_Name="Plant ontology")
+root <- get_OntologyNode(normalization = "tpm", originalId = "PO_0009005",
+ontology_Name = "Plant ontology")
+root_terms <- get_OntologyNode(normalization = "tpm",
+descendantOf = "T250b2xvZ3lOb2RlVHlwZToyMzg4Nzk0")
 }

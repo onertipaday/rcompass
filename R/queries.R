@@ -557,7 +557,7 @@ get_sparql_annotation_triples <- function(compendium = "vespucci",
         rdfTriples
         }
   }')
-  # cat(my_query,"\n")
+  cat(my_query,"\n")
   triples <- build_query(my_query)
   out <- as.data.frame(t(sapply(triples$sparql$rdfTriples,unlist)))
   # colnames(out) <- c("id", "name")
@@ -676,39 +676,46 @@ get_ontologies <- function(compendium = "vespucci"){
 #' @param originalId A string - the ontology term
 #' @param ontology_Name A string - the name of the selected ontology
 #' @param normalization A string ('legacy' as default)
+#' @param descendantOf A string - the id from the ontology term
 #'
 #' @return A data.frame
 #' @export
 #'
 #' @examples
-#' get_OntologyNode(normalization="tpm",originalId="PO_0009005",ontology_Name="Plant ontology")
+#' root <- get_OntologyNode(normalization = "tpm", originalId = "PO_0009005",
+#' ontology_Name = "Plant ontology")
+#' root_terms <- get_OntologyNode(normalization = "tpm",
+#' descendantOf = "T250b2xvZ3lOb2RlVHlwZToyMzg4Nzk0")
 get_OntologyNode <- function(compendium = "vespucci",
                              normalization = "tpm",
                              originalId =  "PO_0009005",
-                             ontology_Name = "Plant ontology"){
+                             ontology_Name = "Plant ontology",
+                             descendantOf = NULL){
   if(is.null(originalId)||is.null(ontology_Name)) stop('Provide both originalId and ontology_Name (e.g. originalId = "PO_0009005", ontology_Name = "Plant ontology"')
   if(normalization == "legacy") version <- "legacy"
   else if(normalization %in% c("limma","tpm")) version <- "2.0"
   else stop("normalization HAS TO BE either legacy, limma or tpm.")
+  if(is.null(descendantOf)){
+    my_query <- paste0('{
+    ontologyNode(compendium:\"', compendium, '\", version:\"', version, '\", normalization:\"', normalization, '\", originalId:\"', originalId, '\",ontology_Name:\"',ontology_Name,'\") {')
+    } else {
   my_query <- paste0('{
-    ontologyNode(compendium:\"', compendium, '\", version:\"', version, '\", normalization:\"', normalization, '\", originalId:\"', originalId, '\",ontology_Name:\"',ontology_Name,'\") {
+    ontologyNode(compendium:\"', compendium, '\", version:\"', version, '\", normalization:\"', normalization, '\",descendantOf:\"',descendantOf,'\") {')
+    }
+  my_query <- paste0(my_query,'
     edges {
       node {
         id,
         originalId,
-        termShortName,
-        json,
-        ontology{
-          id
-        }
+        termShortName
       }
     }
     }
   }')
   # cat(my_query,"\n")
-  tmp <- build_query(my_query)$ontologyNode$edges
-  # tmp <- as.data.frame(t(sapply(build_query(my_query)$sampleSets$edges, unlist)))
-  #colnames(tmp) <-  c("id","name"); rownames(tmp) <-  NULL
+  # tmp <- build_query(my_query)$ontologyNode$edges
+  tmp <- as.data.frame(t(sapply(build_query(my_query)$ontologyNode$edges, unlist)))
+  colnames(tmp) <-  c("id", "originalId", "termShortName")
   tmp
 }
 
