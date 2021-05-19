@@ -27,8 +27,10 @@ A data.frame with two columns: id and name
 get_sampleset_id
 }
 \examples{
+\dontrun{
 my_ss=c("GSE75498_OS_T0-13-vs-GSE75498_C_T0-21","harvest_4","harvest_5")
 get_sampleset_id(id_In = my_ss, normalization = "limma", useIds = FALSE)
 my_ids=c("U2FtcGxlU2V0VHlwZTo2NDE5","U2FtcGxlU2V0VHlwZToyMTg2OA==","U2FtcGxlU2V0VHlwZToyMTg2Nw==")
 get_sampleset_id(id_In = my_ids, normalization = "limma", useIds = TRUE)
+}
 }

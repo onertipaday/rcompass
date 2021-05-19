@@ -6,7 +6,7 @@
 \usage{
 get_samples_by_gse(
   compendium = "vespucci",
-  normalization = "legacy",
+  normalization = "tpm",
   experimentAccessId = NULL
 )
 }
@@ -25,6 +25,6 @@ retrieve internal id, name (GSM), description from all samples with experiment i
 }
 \examples{
 \dontrun{
-get_samples_by_gse(experimentAccessId = "GSE98923")
+get_samples_by_gse(experimentAccessId = "GSE98923", normalization = "legacy")
 }
 }

@@ -21,8 +21,10 @@ A data.frame with three columns: id, name, description
 get_biofeature_id
 }
 \examples{
+\dontrun{
 my_genes <- c("VIT_00s0332g00110","VIT_00s0332g00160","VIT_00s0396g00010","VIT_00s0505g00030")
 get_biofeature_id(id_In = my_genes, useIds = FALSE)
 my_ids <- c("QmlvRmVhdHVyZVZhbHVlVHlwZToyNzQzOQ==","QmlvRmVhdHVyZVZhbHVlVHlwZToyNzg5Mg==")
 get_biofeature_id(id_In = my_ids, useIds = TRUE)
+}
 }

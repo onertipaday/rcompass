@@ -24,7 +24,9 @@ A character vector - the ids corresponding to the provided aliases
 get_ids_from_alias
 }
 \examples{
+\dontrun{
 my_names <- c('Vv00s0125g00280','Vv00s0187g00140','Vv00s0246g00010',
 'Vv00s0246g00080','Vv00s0438g00020','Vv00s0246g00200','Q7M2G6','B9S8R7','B8XIJ8','D7SZ93')
 get_ids_from_alias(target = "biofeature", alias_names = my_names)
+}
 }

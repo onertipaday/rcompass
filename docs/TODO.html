@@ -194,6 +194,31 @@
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>compendium <span class="op">=</span> <span class="ex">connect</span>.get_compendium(<span class="st">'vespucci'</span>, version<span class="op">=</span><span class="st">'latest'</span>)</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a>compendium_legacy <span class="op">=</span> <span class="ex">connect</span>.get_compendium(<span class="st">'vespucci'</span>, version<span class="op">=</span><span class="st">'legacy'</span>)</span></code></pre></div>
 </div>
+<div id="case-studies" class="section level1">
+<h1 class="hasAnchor">
+<a href="#case-studies" class="anchor"></a>Case Studies</h1>
+<div id="use-case-stefania" class="section level2">
+<h2 class="hasAnchor">
+<a href="#use-case-stefania" class="anchor"></a>Use Case Stefania</h2>
+<p>Ciao a tutti, ho guardato il lavoro di Marco e Paolo ed è davvero molto molto bello e interessante. La parte sull’arricchimento sui samples e dell’analisi di espressione nei vari tessuti usando il ranking è veramente super! Solo per darvi un feedback, non sono riuscita a fare questo: non ho capito se il file è già fatto, ma non so dove sia, o se va rifatto ogni volta… Since getting all TPM data for thousand of samples and genes might take a while, we prepared an HDF5 file with all the data we will need. In order to see how to create such file just execute the last cells of the notebook.</p>
+<p>Def - Biotic stress is stress that occurs as a result of damage done to an organism by other living organisms</p>
+<p>Alla luce dei nostri incontri e dei due caso studio di Laura e Giulia (sull’analisi di una famiglia genica, giusto?), propongo il mio caso studio in maniera più chiara, ditemi se può completare gli altri due mostrando qualcosa di nuovo, e se si può fare.</p>
+<p>In silico expression analysis of a set of genes of interest during biotic stress: Aim is to identify in which conditions they are more modulated (which pathogen, which Vitis genotype, at which time-point after inoculation) and in which vitis genotypes these genes are more expressed at basal level (i.e. before the attack of the pathogen).</p>
+<p>1) Create a module using the genes listed below and selecting all the experiments of biotic stress (search using inoculation and infection terms?), using limma normalization</p>
+<p>gene_list = [“VIT_06s0004g01450”,“VIT_01s0010g02750”,“VIT_13s0064g01480”,“VIT_09s0002g01080”,“VIT_06s0004g01500”,“VIT_05s0020g03170”,“VIT_06s0004g01510”,“VIT_14s0128g00780”,“VIT_07s0141g00340”,“VIT_14s0128g00790”,“VIT_06s0004g01480”,“VIT_06s0004g01470”]</p>
+<p>2) Plot the module</p>
+<p>3) Identify in which contrasts (that is against which pathogen) each gene, or groups of genes, is mostly modulated and if these samples come from V. vinifera or other species.</p>
+</div>
+</div>
+<div id="oltre-alla-heatmap-sarebbe-utile-poter-isolare-il-modulo-e-scaricarlo-come-tabella-in-cui-sia-indicato-il-patogeno-il-tessuto-il-genotipo-di-vite-il-tempo-post-inoculo" class="section level1">
+<h1 class="hasAnchor">
+<a href="#oltre-alla-heatmap-sarebbe-utile-poter-isolare-il-modulo-e-scaricarlo-come-tabella-in-cui-sia-indicato-il-patogeno-il-tessuto-il-genotipo-di-vite-il-tempo-post-inoculo" class="anchor"></a>oltre alla heatmap, sarebbe utile poter isolare il modulo e scaricarlo come tabella, in cui sia indicato il patogeno, il tessuto, il genotipo di vite, il tempo post inoculo</h1>
+<p>4) Understand the basal level of expression of these genes: to do this, create a module of the control samples of the experiments identified above (using the tpm normalization) and normalize them using ranking.</p>
+<p>5) identify in which genotype (species and cultivars) they are more expressed at basal level.</p>
+<p>Senza farlo, ma solo come commento, si potrebbe dire che lo stesso si potrebbe fare selezionando campioni di stress abiotico (con quali parole chiave? water stress, heat/cold, UV-light) e diverse condizioni agronomiche (fertilizzazione, light deprivation, defoliation….). Sarebbe cioè comodo per l’utente sapere le principali categorie di esperimenti (quelle sui tessuti sono già nel caso di Laura). Forse si possono mettere nel testo o le avete già messe in quell’heatmap, non so, è solo un’idea.</p>
+<p>Ditemi pure cosa ne pensate, non mi offendo!!!!</p>
+<p>ciao!</p>
+</div>
 
 
   </div>

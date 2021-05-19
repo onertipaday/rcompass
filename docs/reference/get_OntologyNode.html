@@ -136,7 +136,8 @@
   compendium <span class='op'>=</span> <span class='st'>"vespucci"</span>,
   normalization <span class='op'>=</span> <span class='st'>"tpm"</span>,
   originalId <span class='op'>=</span> <span class='st'>"PO_0009005"</span>,
-  ontology_Name <span class='op'>=</span> <span class='st'>"Plant ontology"</span>
+  ontology_Name <span class='op'>=</span> <span class='st'>"Plant ontology"</span>,
+  descendantOf <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -158,6 +159,10 @@
       <th>ontology_Name</th>
       <td><p>A string - the name of the selected ontology</p></td>
     </tr>
+    <tr>
+      <th>descendantOf</th>
+      <td><p>A string - the id from the ontology term</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -165,95 +170,13 @@
     <p>A data.frame</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>get_OntologyNode</span><span class='op'>(</span>normalization<span class='op'>=</span><span class='st'>"tpm"</span>,originalId<span class='op'>=</span><span class='st'>"PO_0009005"</span>,ontology_Name<span class='op'>=</span><span class='st'>"Plant ontology"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [[1]]
-#&gt; [[1]]$node
-#&gt; [[1]]$node$id
-#&gt; [1] "T250b2xvZ3lOb2RlVHlwZToyMzg4Nzk2"
-#&gt; 
-#&gt; [[1]]$node$originalId
-#&gt; [1] "PO_0009005"
-#&gt; 
-#&gt; [[1]]$node$termShortName
-#&gt; [1] "root"
-#&gt; 
-#&gt; [[1]]$node$json
-#&gt; [[1]]$node$json[[1]]
-#&gt; [[1]]$node$json[[1]]$`@id`
-#&gt; [1] "http://purl.obolibrary.org/obo/po.owl#PO_0009005"
-#&gt; 
-#&gt; [[1]]$node$json[[1]]$`http://www.w3.org/2002/07/owl#id`
-#&gt; [[1]]$node$json[[1]]$`http://www.w3.org/2002/07/owl#id`[[1]]
-#&gt;       @value 
-#&gt; "PO:0009005" 
-#&gt; 
-#&gt; 
-#&gt; [[1]]$node$json[[1]]$`http://www.w3.org/2002/07/owl#hasDbXref`
-#&gt; [[1]]$node$json[[1]]$`http://www.w3.org/2002/07/owl#hasDbXref`[[1]]
-#&gt;       @value 
-#&gt; "PO_GIT:578" 
-#&gt; 
-#&gt; 
-#&gt; [[1]]$node$json[[1]]$`http://www.w3.org/2000/01/rdf-schema#label`
-#&gt; [[1]]$node$json[[1]]$`http://www.w3.org/2000/01/rdf-schema#label`[[1]]
-#&gt; @value 
-#&gt; "root" 
-#&gt; 
-#&gt; 
-#&gt; [[1]]$node$json[[1]]$`http://www.w3.org/2000/01/rdf-schema#comment`
-#&gt; [[1]]$node$json[[1]]$`http://www.w3.org/2000/01/rdf-schema#comment`[[1]]
-#&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      @value 
-#&gt; "Roots function in the absorption of water and inorganic nutrients, anchoring the plant body to the substrate and supporting it, storage of food and nutrients, and vegetative reproduction. The roots of most vascular plant species enter into symbiosis with soil-borne microorganisms. Roots are usually positively geotropic and found underground, although there are many exceptions such as the aerial roots of orchids. Roots often form secondary thickening from the root lateral meristem (PO:0006308). Commonly thought of as one of the three basic parts of the plant body, along with the shoot axis (PO:0025029) and leaves (PO:0025034)." 
-#&gt; 
-#&gt; 
-#&gt; [[1]]$node$json[[1]]$`http://www.w3.org/2002/07/owl#hasExactSynonym`
-#&gt; [[1]]$node$json[[1]]$`http://www.w3.org/2002/07/owl#hasExactSynonym`[[1]]
-#&gt;                      @value 
-#&gt; "ra&amp;#237z (Spanish, exact)" 
-#&gt; 
-#&gt; [[1]]$node$json[[1]]$`http://www.w3.org/2002/07/owl#hasExactSynonym`[[2]]
-#&gt;          @value 
-#&gt; "radix (exact)" 
-#&gt; 
-#&gt; [[1]]$node$json[[1]]$`http://www.w3.org/2002/07/owl#hasExactSynonym`[[3]]
-#&gt;                @value 
-#&gt; "9 (Japanese, exact)" 
-#&gt; 
-#&gt; [[1]]$node$json[[1]]$`http://www.w3.org/2002/07/owl#hasExactSynonym`[[4]]
-#&gt;                    @value 
-#&gt; "radices (exact, plural)" 
-#&gt; 
-#&gt; 
-#&gt; [[1]]$node$json[[1]]$`http://www.w3.org/2002/07/owl#hasOBONamespace`
-#&gt; [[1]]$node$json[[1]]$`http://www.w3.org/2002/07/owl#hasOBONamespace`[[1]]
-#&gt;          @value 
-#&gt; "plant_anatomy" 
-#&gt; 
-#&gt; 
-#&gt; [[1]]$node$json[[1]]$`http://www.w3.org/2002/07/owl#hasAlternativeId`
-#&gt; [[1]]$node$json[[1]]$`http://www.w3.org/2002/07/owl#hasAlternativeId`[[1]]
-#&gt;       @value 
-#&gt; "PO:0003006" 
-#&gt; 
-#&gt; 
-#&gt; [[1]]$node$json[[1]]$`http://www.w3.org/2002/07/owl#hasNarrowSynonym`
-#&gt; [[1]]$node$json[[1]]$`http://www.w3.org/2002/07/owl#hasNarrowSynonym`[[1]]
-#&gt;                   @value 
-#&gt; "climbing root (narrow)" 
-#&gt; 
-#&gt; [[1]]$node$json[[1]]$`http://www.w3.org/2002/07/owl#hasNarrowSynonym`[[2]]
-#&gt;                 @value 
-#&gt; "aerial root (narrow)" 
-#&gt; 
-#&gt; 
-#&gt; 
-#&gt; 
-#&gt; [[1]]$node$ontology
-#&gt;                     id 
-#&gt; "T250b2xvZ3lUeXBlOjEy" 
-#&gt; 
-#&gt; 
-#&gt; </div></pre>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>root</span> <span class='op'>&lt;-</span> <span class='fu'>get_OntologyNode</span><span class='op'>(</span>normalization <span class='op'>=</span> <span class='st'>"tpm"</span>, originalId <span class='op'>=</span> <span class='st'>"PO_0009005"</span>,
+ontology_Name <span class='op'>=</span> <span class='st'>"Plant ontology"</span><span class='op'>)</span>
+<span class='va'>root_terms</span> <span class='op'>&lt;-</span> <span class='fu'>get_OntologyNode</span><span class='op'>(</span>normalization <span class='op'>=</span> <span class='st'>"tpm"</span>,
+descendantOf <span class='op'>=</span> <span class='st'>"T250b2xvZ3lOb2RlVHlwZToyMzg4Nzk0"</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

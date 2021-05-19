@@ -30,8 +30,10 @@ A data.frame
 get_OntologyNode
 }
 \examples{
+\dontrun{
 root <- get_OntologyNode(normalization = "tpm", originalId = "PO_0009005",
 ontology_Name = "Plant ontology")
 root_terms <- get_OntologyNode(normalization = "tpm",
 descendantOf = "T250b2xvZ3lOb2RlVHlwZToyMzg4Nzk0")
+}
 }
