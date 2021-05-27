@@ -10,7 +10,7 @@ get_compendium_data_source(compendium = "vespucci")
 \item{compendium}{A string - the selected compendium}
 }
 \value{
-A vector of character strings containing the available data sources
+A data.frame
 }
 \description{
 Get compendium data sources

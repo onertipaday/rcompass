@@ -49,7 +49,7 @@ get_available_compendia <- function(){
 #'
 #' @param compendium A string - the selected compendium
 #'
-#' @return A vector of character strings containing the available data sources
+#' @return A data.frame
 #' @export
 #'
 #' @examples
@@ -65,8 +65,8 @@ get_compendium_data_source <- function(compendium = "vespucci"){
     }
   }
 }'
-  tmp <- t(as.data.frame(sapply(build_query(my_query)$dataSources$edges,unlist)))
-  colnames(tmp) <-  c("id","sourceName"); rownames(tmp) <-  NULL
+  tmp <- as.data.frame(t(sapply(build_query(my_query)$dataSources$edges,unlist)))
+  colnames(tmp) <-  c("id","sourceName")
   tmp
 }
 
@@ -102,32 +102,9 @@ get_platform_information <- function(compendium = "vespucci"){
   }
 }')
   tmp <- as.data.frame(t(sapply(build_query(my_query)$platforms$edges, unlist)))
-  colnames(tmp) <-  c("accessId","name", "description","source","type")
+  colnames(tmp) <-  c("accessId", "name", "description", "source", "type")
   rownames(tmp) <-  NULL
   tmp
-}
-
-
-#' get available platform types
-#'
-#' @param compendium A string - the selected compendium
-#'
-#' @return A vector of character strings
-#' @export
-#'
-#' @examples
-#' get_platform_types()
-get_platform_types <- function(compendium = "vespucci"){
-  my_query <- paste0('{
-  platformTypes(compendium:\"', compendium, '\") {
-    edges {
-      node {
-        name
-      }
-    }
-  }
-}')
-  as.character(sapply(build_query(my_query)$platformTypes$edges, unlist))
 }
 
 
@@ -194,6 +171,7 @@ get_samples_info <-function(compendium = "vespucci",
   rownames(tmp) <-  NULL
   tmp
 }
+
 
 #' Get experimentAccessid and experimentName from sampleName
 #'
@@ -302,6 +280,7 @@ get_experimentId_by_sampleSetId <- function(compendium = "vespucci",
   tmp
 }
 
+
 #' get annotations for either n samples or selected sampleName
 #'
 #' @param compendium A string - the selected compendium
@@ -360,6 +339,7 @@ get_sample_annotation <- function(compendium = "vespucci",
     tmp
 }
 
+
 #' retrieve internal id, name (GSM), description from all samples with experiment id (GSE)
 #'
 #' @param compendium A string - the selected compendium
@@ -399,6 +379,7 @@ get_samples_by_gse <- function(compendium = "vespucci",
   tmp
 }
 
+
 #' retrieve internal id, name (GSM), description for sample providing sampleName (GSM)
 #'
 #' @param compendium A string - the selected compendium
@@ -436,6 +417,7 @@ get_sample_by_gsm <- function(compendium = "vespucci",
   rownames(tmp) <-  NULL
   tmp
 }
+
 
 #' Get all samples id for a selected sampleSet
 #'
@@ -475,7 +457,6 @@ get_samples_by_sampleSet <- function(compendium = "vespucci",
   rownames(tmp) <-  NULL
   tmp
 }
-
 
 
 #' Get all samples measured with a given platform
@@ -548,6 +529,7 @@ get_samples <- function(compendium = "vespucci",
   tmp
 }
 
+
 #' get_annotation_triples
 #'
 #' @param compendium A string - the selected compendium
@@ -569,6 +551,7 @@ get_annotation_triples <- function(compendium = "vespucci", ids = NULL) {
   # build_query(my_query)$annotationPrettyPrint$rdfTriple
   matrix(sapply(build_query(my_query)$annotationPrettyPrint$rdfTriples, unlist), ncol = 3, byrow = TRUE)
 }
+
 
 #' get_sparql_annotation_triples
 #'
@@ -608,6 +591,7 @@ get_sparql_annotation_triples <- function(compendium = "vespucci",
   # colnames(out) <- c("id", "name")
 }
 
+
 #' get_ids_from_alias
 #'
 #' @param compendium A string - the selected compendium
@@ -635,6 +619,7 @@ get_ids_from_alias <- function(compendium = "vespucci",
   get_sparql_annotation_triples(compendium = compendium, target = target, query = my_query)[,1]
 }
 
+
 #' get_available_normalization
 #'
 #' @param compendium A string - the selected compendium
@@ -659,6 +644,7 @@ get_available_normalization <- function(compendium = "vespucci",
 }')
   as.character(sapply(build_query(my_query)$normalizations$edges, unlist))
 }
+
 
 #' get_ontology_structure
 #'
@@ -913,6 +899,7 @@ get_biofeature_id <- function(compendium = "vespucci",
   as.data.frame(tmp)
 }
 
+
 #' get_sampleset_id
 #'
 #' @param compendium A string - the selected compendium
@@ -970,6 +957,7 @@ get_sampleset_id <- function(compendium = "vespucci",
   tmp
 }
 
+
 #' get_sampleset_by_sampleid
 #'
 #' @param compendium A string - the selected compendium
@@ -1016,7 +1004,6 @@ get_sampleset_by_sampleid <- function(compendium = "vespucci",
   colnames(tmp) <-  c("id","name")#; rownames(tmp) <-  NULL
   tmp
 }
-
 
 
 #' get_ranking

@@ -183,7 +183,7 @@ create_module_ss <- function(compendium = "vespucci",
         }
     }
   }')
-  cat(my_query, "\n")
+  # cat(my_query, "\n")
   tmp <- build_query(my_query)$modules
   nv <- t(as.data.frame(sapply(tmp$normalizedValues, unlist)))
   rownames(nv) <- as.character(sapply(tmp$biofeatures, unlist))

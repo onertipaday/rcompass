@@ -136,17 +136,20 @@ view_plot(module = submodule_1,
           alternativeColoring = FALSE,
           min = -10, max = 10)
 ```
-
-
-
-
 Biological Features (genes) and Sample Sets (contrasts) have no particular order in a module. But since the heatmap is clustered we can retrieve the sorted list of Biological Features and Sample Sets respectively using the `sorted = TRUE` parameter. 
 
 ```{r}
 my_sorted_indexes <- plot_module_heatmap(module = module_1, normalization = "limma", plot = FALSE, sorted = TRUE)
 mod_tmp = module_1[match(my_sorted_indexes$sortedBiofeatures,rownames(module_1)),
                    match(my_sorted_indexes$sortedSamplesets,colnames(module_1))]
-mod_tmp[1:5,1:5]
+
+ss_tmp <- get_sampleset_id(normalization = "limma", id_In = colnames(mod_tmp), useIds = T)
+bf_tmp <- get_biofeature_id(id_In = rownames(mod_tmp))
+
+colnames(mod_tmp) <- ss_tmp[match(colnames(mod_tmp), ss_tmp$id), 2]
+row.names(mod_tmp) <- bf_tmp[match(rownames(mod_tmp),bf_tmp$id), 2]
+
+knitr::kable(mod_tmp)
 ```
 
 Alternatively you can use directly any R function to cluster data and retrieve the sorted rows and columns of the matrix, e.g.:
@@ -160,7 +163,7 @@ knitr::kable(module_1[pheat_cl$tree_row$order,pheat_cl$tree_col$order])
 Since we created a `data.frame` from the module we can now export it in another format (e.g. `.csv`, `.tsv`, etc.) and keep working with it elsewhere with different tools:
 
 ```{r save_module, echo = FALSE, eval = FALSE}
-# write.table(module_1, file="module_1.tsv", sep="\t", col.names=NA, row.names=T)
+# write.table(module_1, file="/tmp/module_1.tsv", sep="\t", col.names=NA, row.names=T)
 ```
 
 ## Plot correlation network
