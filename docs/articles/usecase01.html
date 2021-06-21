@@ -79,7 +79,7 @@
 
       
 
-      </header><script src="usecase01_files/header-attrs-2.8/header-attrs.js"></script><script src="usecase01_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="usecase01_files/header-attrs-2.9/header-attrs.js"></script><script src="usecase01_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Use Case 01</h1>
@@ -278,1142 +278,20 @@
                              top_n <span class="op">=</span> <span class="fl">50</span>,
                              useIds <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>A module can be thought as a matrix composed by BiologicalFeature objects (genes in our case) as rows and SampleSet objects (conditions contrasts in our case) as columns. Each SampleSet, as the name suggests, is composed by 1 or more Sample objects. Since we are using the legacy normalization each SampleSet is composed by 2 samples, one Test sample and one Reference sample and the value associated is the logratio between the Test and Reference for a specific gene (BiologicalFeature).</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">module_limma</span> <span class="op">&lt;-</span> <span class="va">module_1</span>
-<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">module_limma</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_sampleset_id.html">get_sampleset_id</a></span><span class="op">(</span>normalization <span class="op">=</span> <span class="st">"limma"</span>, id_In <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">module_limma</span><span class="op">)</span>, useIds <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">$</span><span class="va">name</span>
-<span class="fu"><a href="https://rdrr.io/r/base/row.names.html">row.names</a></span><span class="op">(</span><span class="va">module_limma</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_biofeature_id.html">get_biofeature_id</a></span><span class="op">(</span>id_In <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">module_limma</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">name</span>
-<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">module_limma</span>, class <span class="op">=</span> <span class="st">'cell-border stripe'</span><span class="op">)</span></code></pre></div>
-<table class="table">
-<colgroup>
-<col width="1%">
-<col width="1%">
-<col width="2%">
-<col width="2%">
-<col width="0%">
-<col width="3%">
-<col width="3%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="3%">
-<col width="3%">
-<col width="4%">
-<col width="2%">
-<col width="3%">
-<col width="3%">
-<col width="2%">
-<col width="1%">
-<col width="2%">
-<col width="4%">
-<col width="0%">
-<col width="5%">
-<col width="2%">
-<col width="2%">
-<col width="3%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="4%">
-<col width="3%">
-<col width="3%">
-<col width="2%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-<col width="0%">
-</colgroup>
-<thead><tr class="header">
-<th align="left"></th>
-<th align="right">cond_4-vs-cond_2</th>
-<th align="right">GSE49569_seed_RSH-1-vs-GSE49569_seed_PV-7</th>
-<th align="right">GSE49569_seed_GSH-3-vs-GSE49569_seed_PV-7</th>
-<th align="right">root_1</th>
-<th align="right">GSE40487_EL17DEFOLIATION_EL38-2-vs-GSE40487_CONTROL_EL35-6</th>
-<th align="right">GSE40487_CONTROL_EL37-8-vs-GSE40487_CONTROL_EL35-6</th>
-<th align="right">tissue_2</th>
-<th align="right">tissue_3</th>
-<th align="right">tissue_4</th>
-<th align="right">tissue_1</th>
-<th align="right">10_water_1</th>
-<th align="right">5_water_1</th>
-<th align="right">GSE36234_THINCLUSTER_EL38-1-vs-GSE36234_CONTROL_EL35-4</th>
-<th align="right">E-MTAB-3062_rip_60dpt_nit+-7-vs-E-MTAB-3062_rip_15dpt_nit+-4</th>
-<th align="right">GSE65969_berry_el38_crtl_0hpi-3-vs-GSE65969_berry_el35_crtl_0hpi-4</th>
-<th align="right">GSE49569_seed_PSH-2-vs-GSE49569_seed_PV-7</th>
-<th align="right">GSE36128_flesh_EL38-40-vs-GSE36128_flesh_EL32-43</th>
-<th align="right">GSE36128_flesh_PHW2m-38-vs-GSE36128_flesh_EL32-43</th>
-<th align="right">GSE75498_SG_T0-3-vs-GSE75498_C_T0-21</th>
-<th align="right">cond_4-vs-cond_3</th>
-<th align="right">GSE75498_OS_T0-13-vs-GSE75498_C_T0-21</th>
-<th align="right">GSE41633_2006_mid-ripening_AM-17-vs-GSE41633_2006_veraison_AM-18</th>
-<th align="right">chardo_3</th>
-<th align="right">GSE118569_Daktulosphaira_vitifoliae_Large_Leaf-8-vs-GSE118569_WildType_Large_Leaf-3</th>
-<th align="right">GSE75498_M_T0-14-vs-GSE75498_C_T0-21</th>
-<th align="right">GSE36128_stem_EL43-4-vs-GSE36128_stem_EL14-5</th>
-<th align="right">GSE36128_pollen_EL25-23-vs-GSE36128_flesh_EL32-43</th>
-<th align="right">GSE36128_skin_PHW1m-8-vs-GSE36128_skin_EL32-12</th>
-<th align="right">GSE36128_skin_PHW3m-6-vs-GSE36128_skin_EL32-12</th>
-<th align="right">GSE36128_leaf_EL43-29-vs-GSE36128_leaf_EL14-31</th>
-<th align="right">GSE36128_bud_EL01-44-vs-GSE36128_bud_EL02-48</th>
-<th align="right">GSE36128_inflorescence_EL17-35-vs-GSE36128_inflorescence_EL14-36</th>
-<th align="right">GSE36128_flesh_EL35-42-vs-GSE36128_flesh_EL32-43</th>
-<th align="right">GSE36128_flesh_PHW3m-37-vs-GSE36128_flesh_EL32-43</th>
-<th align="right">GSE36128_skin_PHW2m-7-vs-GSE36128_skin_EL32-12</th>
-<th align="right">pea_8</th>
-<th align="right">pea_5</th>
-<th align="right">pea_4</th>
-<th align="right">pea_3</th>
-<th align="right">pea_2</th>
-<th align="right">begin_2</th>
-<th align="right">begin_8</th>
-<th align="right">begin_5</th>
-<th align="right">harvest_6</th>
-<th align="right">harvest_5</th>
-<th align="right">harvest_4</th>
-<th align="right">harvest_3</th>
-<th align="right">dev_1</th>
-<th align="right">harvest_7</th>
-<th align="right">harvest_5</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left">VIT_00s0125g00280</td>
-<td align="right">3.0428047</td>
-<td align="right">3.0548546</td>
-<td align="right">3.1046963</td>
-<td align="right">2.7586246</td>
-<td align="right">0.7037186</td>
-<td align="right">2.244148</td>
-<td align="right">-2.8914845</td>
-<td align="right">-2.6254113</td>
-<td align="right">-1.6841978</td>
-<td align="right">2.0358033</td>
-<td align="right">-2.5680726</td>
-<td align="right">-1.528469</td>
-<td align="right">-2.8425918</td>
-<td align="right">-0.9556972</td>
-<td align="right">-1.9569784</td>
-<td align="right">-2.3095305</td>
-<td align="right">1.518884</td>
-<td align="right">-1.5800377</td>
-<td align="right">-1.2835509</td>
-<td align="right">-1.3995317</td>
-<td align="right">-1.2608935</td>
-<td align="right">-1.0326622</td>
-<td align="right">1.6220239</td>
-<td align="right">-1.4602817</td>
-<td align="right">-1.1040754</td>
-<td align="right">-3.4814196</td>
-<td align="right">0.4830462</td>
-<td align="right">-2.9289682</td>
-<td align="right">-2.4912407</td>
-<td align="right">1.8077996</td>
-<td align="right">-0.6154618</td>
-<td align="right">-1.0473793</td>
-<td align="right">3.4376924</td>
-<td align="right">-0.0252770</td>
-<td align="right">1.6208260</td>
-<td align="right">-1.1448278</td>
-<td align="right">-2.5890553</td>
-<td align="right">-1.3633384</td>
-<td align="right">2.2275858</td>
-<td align="right">0.6740465</td>
-<td align="right">-0.6873463</td>
-<td align="right">-1.6483725</td>
-<td align="right">-1.5306962</td>
-<td align="right">1.2839183</td>
-<td align="right">-0.8286850</td>
-<td align="right">1.4861727</td>
-<td align="right">2.2730868</td>
-<td align="right">-1.8752114</td>
-<td align="right">1.4885299</td>
-<td align="right">0.7414006</td>
-</tr>
-<tr class="even">
-<td align="left">VIT_00s0187g00140</td>
-<td align="right">1.5336096</td>
-<td align="right">1.3676349</td>
-<td align="right">1.0115833</td>
-<td align="right">1.2254707</td>
-<td align="right">3.8952169</td>
-<td align="right">3.286627</td>
-<td align="right">-3.2581310</td>
-<td align="right">-0.5646130</td>
-<td align="right">-1.7794609</td>
-<td align="right">0.0676036</td>
-<td align="right">-0.3992883</td>
-<td align="right">-2.411097</td>
-<td align="right">-0.4775694</td>
-<td align="right">-1.5906423</td>
-<td align="right">-2.4845688</td>
-<td align="right">-2.3793902</td>
-<td align="right">2.162673</td>
-<td align="right">-0.3343825</td>
-<td align="right">-2.4850397</td>
-<td align="right">-1.0675704</td>
-<td align="right">-1.1622982</td>
-<td align="right">-1.8721385</td>
-<td align="right">1.5555568</td>
-<td align="right">-0.2815817</td>
-<td align="right">-0.9811953</td>
-<td align="right">-1.7373041</td>
-<td align="right">2.5403135</td>
-<td align="right">-1.2061427</td>
-<td align="right">-1.7031939</td>
-<td align="right">1.8785177</td>
-<td align="right">-0.5970698</td>
-<td align="right">-0.4063378</td>
-<td align="right">3.3647392</td>
-<td align="right">-0.7596060</td>
-<td align="right">1.4654564</td>
-<td align="right">-1.6839290</td>
-<td align="right">-0.3038675</td>
-<td align="right">-0.3739902</td>
-<td align="right">0.3877429</td>
-<td align="right">1.1577358</td>
-<td align="right">-0.8960829</td>
-<td align="right">-0.3828795</td>
-<td align="right">-1.6505079</td>
-<td align="right">-0.8986189</td>
-<td align="right">-0.0511659</td>
-<td align="right">0.1779471</td>
-<td align="right">0.0926881</td>
-<td align="right">0.0339650</td>
-<td align="right">1.5983303</td>
-<td align="right">1.7452945</td>
-</tr>
-<tr class="odd">
-<td align="left">VIT_00s0207g00210</td>
-<td align="right">0.1865533</td>
-<td align="right">0.5372548</td>
-<td align="right">0.5970986</td>
-<td align="right">-0.0084319</td>
-<td align="right">3.7571492</td>
-<td align="right">3.089524</td>
-<td align="right">-2.5282030</td>
-<td align="right">-2.6383700</td>
-<td align="right">-1.2572111</td>
-<td align="right">-0.2486141</td>
-<td align="right">-1.7095233</td>
-<td align="right">-2.866376</td>
-<td align="right">-1.9895297</td>
-<td align="right">-3.1729565</td>
-<td align="right">-3.1243789</td>
-<td align="right">-1.9651690</td>
-<td align="right">2.176410</td>
-<td align="right">-1.5484124</td>
-<td align="right">-2.6189420</td>
-<td align="right">-1.2490909</td>
-<td align="right">-1.1256582</td>
-<td align="right">-3.2346339</td>
-<td align="right">1.2498683</td>
-<td align="right">-1.0569692</td>
-<td align="right">-0.6721309</td>
-<td align="right">-1.0623759</td>
-<td align="right">2.5708680</td>
-<td align="right">-0.4996956</td>
-<td align="right">-1.0397521</td>
-<td align="right">2.8348916</td>
-<td align="right">-0.8595002</td>
-<td align="right">-0.0172314</td>
-<td align="right">2.1468689</td>
-<td align="right">-1.0181645</td>
-<td align="right">2.5115895</td>
-<td align="right">-1.2922784</td>
-<td align="right">-0.1553538</td>
-<td align="right">-1.2255050</td>
-<td align="right">-0.1023265</td>
-<td align="right">2.2944720</td>
-<td align="right">-0.7603288</td>
-<td align="right">-0.4614694</td>
-<td align="right">-2.6895182</td>
-<td align="right">-1.2198683</td>
-<td align="right">-0.2634854</td>
-<td align="right">1.5892031</td>
-<td align="right">0.3804690</td>
-<td align="right">-0.0771118</td>
-<td align="right">2.4941132</td>
-<td align="right">2.2296171</td>
-</tr>
-<tr class="even">
-<td align="left">VIT_00s0246g00010</td>
-<td align="right">2.6023448</td>
-<td align="right">2.3870163</td>
-<td align="right">2.5179231</td>
-<td align="right">2.3951843</td>
-<td align="right">1.8329896</td>
-<td align="right">2.144796</td>
-<td align="right">-3.7694581</td>
-<td align="right">-2.5034451</td>
-<td align="right">-2.3969109</td>
-<td align="right">1.8994770</td>
-<td align="right">-2.0124798</td>
-<td align="right">-2.750129</td>
-<td align="right">-1.8894037</td>
-<td align="right">-0.7721184</td>
-<td align="right">-2.9819386</td>
-<td align="right">-2.9251888</td>
-<td align="right">1.553087</td>
-<td align="right">-1.7494535</td>
-<td align="right">-0.9467036</td>
-<td align="right">-1.7916204</td>
-<td align="right">-1.4162747</td>
-<td align="right">-0.5366991</td>
-<td align="right">1.0823563</td>
-<td align="right">-1.6687492</td>
-<td align="right">-0.3771524</td>
-<td align="right">-2.1842768</td>
-<td align="right">1.3561611</td>
-<td align="right">-1.9926332</td>
-<td align="right">-1.5603052</td>
-<td align="right">1.3730931</td>
-<td align="right">-0.0413495</td>
-<td align="right">-1.2026451</td>
-<td align="right">3.6603096</td>
-<td align="right">0.5704064</td>
-<td align="right">1.1958126</td>
-<td align="right">-1.5104088</td>
-<td align="right">-1.6462700</td>
-<td align="right">-1.0788169</td>
-<td align="right">2.4076610</td>
-<td align="right">1.4926116</td>
-<td align="right">-1.4912026</td>
-<td align="right">-1.3150417</td>
-<td align="right">-1.5989060</td>
-<td align="right">1.2712332</td>
-<td align="right">-0.3412652</td>
-<td align="right">1.0123522</td>
-<td align="right">0.8189216</td>
-<td align="right">-1.5609646</td>
-<td align="right">1.3639444</td>
-<td align="right">1.3428361</td>
-</tr>
-<tr class="odd">
-<td align="left">VIT_00s0246g00080</td>
-<td align="right">2.6639183</td>
-<td align="right">2.3507526</td>
-<td align="right">2.6061194</td>
-<td align="right">2.4584510</td>
-<td align="right">3.4483213</td>
-<td align="right">2.825616</td>
-<td align="right">-2.8613434</td>
-<td align="right">-2.2543404</td>
-<td align="right">-1.8734654</td>
-<td align="right">1.4831191</td>
-<td align="right">-3.2661512</td>
-<td align="right">-2.155124</td>
-<td align="right">-3.1829357</td>
-<td align="right">-3.0214674</td>
-<td align="right">-2.0406249</td>
-<td align="right">-2.0971067</td>
-<td align="right">1.888473</td>
-<td align="right">-2.6802666</td>
-<td align="right">-4.1924534</td>
-<td align="right">-2.0264947</td>
-<td align="right">-2.4819791</td>
-<td align="right">-3.1449828</td>
-<td align="right">1.1700246</td>
-<td align="right">-2.1295834</td>
-<td align="right">-1.5564575</td>
-<td align="right">-1.1849239</td>
-<td align="right">2.4026234</td>
-<td align="right">-1.1378806</td>
-<td align="right">-1.5351669</td>
-<td align="right">2.2361889</td>
-<td align="right">-0.3712491</td>
-<td align="right">-1.0786750</td>
-<td align="right">3.2748239</td>
-<td align="right">-0.8739104</td>
-<td align="right">2.2919953</td>
-<td align="right">-1.0105181</td>
-<td align="right">-0.5777858</td>
-<td align="right">-1.2827116</td>
-<td align="right">0.6400847</td>
-<td align="right">1.8641677</td>
-<td align="right">-1.1847304</td>
-<td align="right">-1.1971945</td>
-<td align="right">-2.4382315</td>
-<td align="right">0.5347663</td>
-<td align="right">-0.0032326</td>
-<td align="right">2.2687314</td>
-<td align="right">-0.7114144</td>
-<td align="right">-0.7624899</td>
-<td align="right">1.9578457</td>
-<td align="right">1.8494312</td>
-</tr>
-<tr class="even">
-<td align="left">VIT_00s0246g00200</td>
-<td align="right">1.8907733</td>
-<td align="right">1.5023420</td>
-<td align="right">1.9304765</td>
-<td align="right">1.6505688</td>
-<td align="right">1.3385787</td>
-<td align="right">1.634547</td>
-<td align="right">-2.4076602</td>
-<td align="right">-2.9026575</td>
-<td align="right">-3.3576069</td>
-<td align="right">1.5777745</td>
-<td align="right">-1.7128397</td>
-<td align="right">-1.949750</td>
-<td align="right">-1.4979842</td>
-<td align="right">-0.9292208</td>
-<td align="right">-1.8945551</td>
-<td align="right">-1.9962633</td>
-<td align="right">1.146283</td>
-<td align="right">-1.3184419</td>
-<td align="right">-1.0877262</td>
-<td align="right">-1.2519759</td>
-<td align="right">-1.2772986</td>
-<td align="right">-1.0513157</td>
-<td align="right">0.6947957</td>
-<td align="right">-0.9388044</td>
-<td align="right">-0.7191821</td>
-<td align="right">-0.4381596</td>
-<td align="right">0.9413897</td>
-<td align="right">-2.1896708</td>
-<td align="right">-2.2087350</td>
-<td align="right">0.7246878</td>
-<td align="right">0.0536024</td>
-<td align="right">-1.4166824</td>
-<td align="right">3.0837569</td>
-<td align="right">0.0476494</td>
-<td align="right">0.9097266</td>
-<td align="right">-1.1756636</td>
-<td align="right">-1.0773356</td>
-<td align="right">-1.6020833</td>
-<td align="right">2.9162047</td>
-<td align="right">-0.0348407</td>
-<td align="right">-0.5189638</td>
-<td align="right">-0.1315055</td>
-<td align="right">-1.1957027</td>
-<td align="right">0.3422347</td>
-<td align="right">-0.1239787</td>
-<td align="right">1.4661990</td>
-<td align="right">1.1115875</td>
-<td align="right">-0.4165523</td>
-<td align="right">0.8780748</td>
-<td align="right">-0.1191299</td>
-</tr>
-<tr class="odd">
-<td align="left">VIT_00s0246g00220</td>
-<td align="right">0.6253121</td>
-<td align="right">1.7994536</td>
-<td align="right">1.4597994</td>
-<td align="right">1.1600049</td>
-<td align="right">2.9474576</td>
-<td align="right">2.914496</td>
-<td align="right">-0.5246651</td>
-<td align="right">-1.8485076</td>
-<td align="right">-3.4097419</td>
-<td align="right">1.0169359</td>
-<td align="right">-2.9715614</td>
-<td align="right">-2.127311</td>
-<td align="right">-2.3461654</td>
-<td align="right">-3.6326075</td>
-<td align="right">0.1802889</td>
-<td align="right">0.0446871</td>
-<td align="right">2.385871</td>
-<td align="right">-2.0956693</td>
-<td align="right">-3.8452597</td>
-<td align="right">-1.4758925</td>
-<td align="right">-2.0444417</td>
-<td align="right">-3.3067698</td>
-<td align="right">1.7419026</td>
-<td align="right">-1.0995101</td>
-<td align="right">-3.0013804</td>
-<td align="right">-1.7432349</td>
-<td align="right">0.0186569</td>
-<td align="right">-2.9464898</td>
-<td align="right">-1.6602912</td>
-<td align="right">0.2006800</td>
-<td align="right">-2.3965061</td>
-<td align="right">-2.3396697</td>
-<td align="right">2.5985999</td>
-<td align="right">-2.5487390</td>
-<td align="right">0.1396943</td>
-<td align="right">-1.3640168</td>
-<td align="right">-3.1648798</td>
-<td align="right">-1.2444291</td>
-<td align="right">2.0377450</td>
-<td align="right">-0.2228021</td>
-<td align="right">-1.5484674</td>
-<td align="right">-1.9624902</td>
-<td align="right">-2.4074676</td>
-<td align="right">-1.3316764</td>
-<td align="right">-1.8721690</td>
-<td align="right">1.0324272</td>
-<td align="right">-1.0879614</td>
-<td align="right">-3.5870616</td>
-<td align="right">-0.0790235</td>
-<td align="right">0.4199272</td>
-</tr>
-<tr class="even">
-<td align="left">VIT_00s2608g00010</td>
-<td align="right">3.2543769</td>
-<td align="right">3.4308183</td>
-<td align="right">3.6388080</td>
-<td align="right">3.5436611</td>
-<td align="right">3.1298323</td>
-<td align="right">2.798053</td>
-<td align="right">-3.8682272</td>
-<td align="right">-2.1380963</td>
-<td align="right">-1.2494909</td>
-<td align="right">3.0908189</td>
-<td align="right">-2.2876658</td>
-<td align="right">-4.567197</td>
-<td align="right">-1.6520739</td>
-<td align="right">0.8652254</td>
-<td align="right">-4.8613315</td>
-<td align="right">-2.8085828</td>
-<td align="right">1.964923</td>
-<td align="right">-1.2281766</td>
-<td align="right">2.1411223</td>
-<td align="right">-1.6206266</td>
-<td align="right">-0.8763641</td>
-<td align="right">1.0828913</td>
-<td align="right">1.3771962</td>
-<td align="right">-1.2791666</td>
-<td align="right">0.0432215</td>
-<td align="right">-1.9326879</td>
-<td align="right">2.3971920</td>
-<td align="right">-1.7491648</td>
-<td align="right">-2.2141476</td>
-<td align="right">2.6326246</td>
-<td align="right">-0.5058107</td>
-<td align="right">0.2402907</td>
-<td align="right">1.5193845</td>
-<td align="right">0.4379335</td>
-<td align="right">2.4445081</td>
-<td align="right">-1.7527963</td>
-<td align="right">-1.8007596</td>
-<td align="right">-0.9440768</td>
-<td align="right">1.6357067</td>
-<td align="right">2.7431107</td>
-<td align="right">-0.7567291</td>
-<td align="right">-0.7475697</td>
-<td align="right">-0.9367603</td>
-<td align="right">1.8724418</td>
-<td align="right">0.1453591</td>
-<td align="right">0.9914433</td>
-<td align="right">0.7746386</td>
-<td align="right">-1.1359080</td>
-<td align="right">2.3512607</td>
-<td align="right">3.1432807</td>
-</tr>
-<tr class="odd">
-<td align="left">VIT_00s0332g00060</td>
-<td align="right">-7.1036992</td>
-<td align="right">-7.3788323</td>
-<td align="right">-6.5638552</td>
-<td align="right">-7.1068501</td>
-<td align="right">4.1300821</td>
-<td align="right">2.718972</td>
-<td align="right">2.0091739</td>
-<td align="right">-3.8217046</td>
-<td align="right">-3.2856426</td>
-<td align="right">-7.8483076</td>
-<td align="right">4.0893826</td>
-<td align="right">-1.438818</td>
-<td align="right">3.3941436</td>
-<td align="right">-3.5239177</td>
-<td align="right">3.4159062</td>
-<td align="right">1.9751271</td>
-<td align="right">1.860067</td>
-<td align="right">3.6495686</td>
-<td align="right">-8.8802271</td>
-<td align="right">4.0093374</td>
-<td align="right">4.0346551</td>
-<td align="right">-1.9319532</td>
-<td align="right">2.4940858</td>
-<td align="right">3.9814599</td>
-<td align="right">-4.0802255</td>
-<td align="right">-1.6914009</td>
-<td align="right">-2.8656461</td>
-<td align="right">-0.7959583</td>
-<td align="right">-0.9912274</td>
-<td align="right">-0.6419437</td>
-<td align="right">-5.1312876</td>
-<td align="right">-3.5393233</td>
-<td align="right">-0.0952569</td>
-<td align="right">-4.4521518</td>
-<td align="right">-0.7732892</td>
-<td align="right">-0.8784835</td>
-<td align="right">-0.6557367</td>
-<td align="right">-3.2528999</td>
-<td align="right">-3.1287220</td>
-<td align="right">-2.9945681</td>
-<td align="right">-3.2271020</td>
-<td align="right">-2.2411909</td>
-<td align="right">-0.1540212</td>
-<td align="right">-7.9618120</td>
-<td align="right">-4.8842134</td>
-<td align="right">-0.9194140</td>
-<td align="right">-4.0205636</td>
-<td align="right">-2.7828331</td>
-<td align="right">-0.6532824</td>
-<td align="right">-0.8239376</td>
-</tr>
-<tr class="even">
-<td align="left">VIT_00s0332g00110</td>
-<td align="right">-3.8049068</td>
-<td align="right">-4.3843484</td>
-<td align="right">-3.9407024</td>
-<td align="right">-3.8735712</td>
-<td align="right">3.0973988</td>
-<td align="right">2.735707</td>
-<td align="right">0.0295933</td>
-<td align="right">-6.0865045</td>
-<td align="right">-2.8781869</td>
-<td align="right">-4.1116104</td>
-<td align="right">2.1476240</td>
-<td align="right">-1.978519</td>
-<td align="right">1.7457656</td>
-<td align="right">-2.3826029</td>
-<td align="right">1.3953464</td>
-<td align="right">0.3607442</td>
-<td align="right">2.477219</td>
-<td align="right">2.0588617</td>
-<td align="right">-6.8705778</td>
-<td align="right">2.2172990</td>
-<td align="right">2.0681057</td>
-<td align="right">-1.7384077</td>
-<td align="right">2.4432540</td>
-<td align="right">2.2412090</td>
-<td align="right">-3.0623267</td>
-<td align="right">-0.9301131</td>
-<td align="right">-3.2900634</td>
-<td align="right">-0.3064517</td>
-<td align="right">-1.0723351</td>
-<td align="right">-1.8283770</td>
-<td align="right">-5.6919808</td>
-<td align="right">-2.9133234</td>
-<td align="right">-0.8685682</td>
-<td align="right">-3.3835278</td>
-<td align="right">-2.2205064</td>
-<td align="right">0.7479911</td>
-<td align="right">-1.3903556</td>
-<td align="right">-4.0137730</td>
-<td align="right">0.1437972</td>
-<td align="right">-2.2405393</td>
-<td align="right">-2.0662873</td>
-<td align="right">-2.3037870</td>
-<td align="right">0.1643070</td>
-<td align="right">-4.7587976</td>
-<td align="right">-5.6796584</td>
-<td align="right">-1.5353824</td>
-<td align="right">-2.2405603</td>
-<td align="right">-2.2971208</td>
-<td align="right">-1.7526262</td>
-<td align="right">-3.1986408</td>
-</tr>
-<tr class="odd">
-<td align="left">VIT_00s0332g00160</td>
-<td align="right">3.2202184</td>
-<td align="right">2.8991537</td>
-<td align="right">3.3004704</td>
-<td align="right">2.6762619</td>
-<td align="right">0.8161463</td>
-<td align="right">1.552162</td>
-<td align="right">-2.4011779</td>
-<td align="right">-1.3300122</td>
-<td align="right">-2.8613777</td>
-<td align="right">2.2247572</td>
-<td align="right">-3.1213012</td>
-<td align="right">-1.448537</td>
-<td align="right">-2.8267009</td>
-<td align="right">-1.8699422</td>
-<td align="right">-2.1482754</td>
-<td align="right">-1.9160815</td>
-<td align="right">1.122823</td>
-<td align="right">-2.4660943</td>
-<td align="right">-1.6671009</td>
-<td align="right">-2.6074831</td>
-<td align="right">-2.4686136</td>
-<td align="right">-1.6945971</td>
-<td align="right">1.7935976</td>
-<td align="right">-2.5063462</td>
-<td align="right">-1.2654812</td>
-<td align="right">-1.6946505</td>
-<td align="right">0.0087041</td>
-<td align="right">-3.6675253</td>
-<td align="right">-2.3789654</td>
-<td align="right">1.3167913</td>
-<td align="right">-0.0457205</td>
-<td align="right">-1.6177723</td>
-<td align="right">3.7869692</td>
-<td align="right">0.4027127</td>
-<td align="right">1.1917791</td>
-<td align="right">-1.2614914</td>
-<td align="right">-2.4125106</td>
-<td align="right">-0.3044676</td>
-<td align="right">1.9293393</td>
-<td align="right">0.5409481</td>
-<td align="right">-0.4789389</td>
-<td align="right">-2.0331385</td>
-<td align="right">-2.2127132</td>
-<td align="right">1.3430092</td>
-<td align="right">-0.0419603</td>
-<td align="right">1.8074762</td>
-<td align="right">0.8192635</td>
-<td align="right">-1.5357239</td>
-<td align="right">0.9711530</td>
-<td align="right">1.0775967</td>
-</tr>
-<tr class="even">
-<td align="left">VIT_00s0396g00010</td>
-<td align="right">0.8579792</td>
-<td align="right">0.5733259</td>
-<td align="right">1.0667318</td>
-<td align="right">0.4862750</td>
-<td align="right">2.2174459</td>
-<td align="right">2.395424</td>
-<td align="right">-1.8959699</td>
-<td align="right">-3.1902680</td>
-<td align="right">-2.2549856</td>
-<td align="right">0.0850928</td>
-<td align="right">-2.3064141</td>
-<td align="right">-2.081959</td>
-<td align="right">-2.3462365</td>
-<td align="right">-3.8541331</td>
-<td align="right">-0.7014049</td>
-<td align="right">-1.1162789</td>
-<td align="right">1.805373</td>
-<td align="right">-1.7938451</td>
-<td align="right">-3.7826521</td>
-<td align="right">-1.6283734</td>
-<td align="right">-1.9344630</td>
-<td align="right">-3.1219022</td>
-<td align="right">1.5486804</td>
-<td align="right">-1.5761403</td>
-<td align="right">-2.2240033</td>
-<td align="right">-2.5564251</td>
-<td align="right">0.2842611</td>
-<td align="right">-2.5219128</td>
-<td align="right">-1.5208858</td>
-<td align="right">0.8630221</td>
-<td align="right">-1.5851238</td>
-<td align="right">-1.7983700</td>
-<td align="right">2.3197150</td>
-<td align="right">-1.9430399</td>
-<td align="right">0.8717604</td>
-<td align="right">-0.9982705</td>
-<td align="right">-2.7455621</td>
-<td align="right">-1.6912771</td>
-<td align="right">1.4481834</td>
-<td align="right">1.0649513</td>
-<td align="right">-1.4928730</td>
-<td align="right">-1.3361313</td>
-<td align="right">-2.4664319</td>
-<td align="right">-1.2214549</td>
-<td align="right">-0.9928472</td>
-<td align="right">1.3537407</td>
-<td align="right">0.8501862</td>
-<td align="right">-2.2212999</td>
-<td align="right">0.5355647</td>
-<td align="right">0.2696009</td>
-</tr>
-<tr class="odd">
-<td align="left">VIT_00s0438g00020</td>
-<td align="right">-4.3324146</td>
-<td align="right">-4.4273915</td>
-<td align="right">-3.3029397</td>
-<td align="right">-4.1620917</td>
-<td align="right">1.1369137</td>
-<td align="right">0.661440</td>
-<td align="right">-1.3012174</td>
-<td align="right">-0.6960336</td>
-<td align="right">-1.6572601</td>
-<td align="right">-3.3051605</td>
-<td align="right">1.5093700</td>
-<td align="right">-2.001718</td>
-<td align="right">1.5615832</td>
-<td align="right">-1.5862086</td>
-<td align="right">0.0922338</td>
-<td align="right">-0.5224907</td>
-<td align="right">0.666991</td>
-<td align="right">1.1550909</td>
-<td align="right">-2.0348709</td>
-<td align="right">1.3372025</td>
-<td align="right">1.3018075</td>
-<td align="right">-1.3676802</td>
-<td align="right">1.2366937</td>
-<td align="right">1.3917128</td>
-<td align="right">-1.9930913</td>
-<td align="right">-1.0536898</td>
-<td align="right">0.5281787</td>
-<td align="right">0.0900231</td>
-<td align="right">-1.9513981</td>
-<td align="right">-0.1104655</td>
-<td align="right">-1.8667841</td>
-<td align="right">-1.3097528</td>
-<td align="right">-0.3565789</td>
-<td align="right">-1.8446212</td>
-<td align="right">-0.0451333</td>
-<td align="right">-1.5640088</td>
-<td align="right">0.1799874</td>
-<td align="right">-0.3595366</td>
-<td align="right">-0.0148699</td>
-<td align="right">-2.1444414</td>
-<td align="right">-1.0860074</td>
-<td align="right">-1.2439829</td>
-<td align="right">-0.3902228</td>
-<td align="right">-3.6191165</td>
-<td align="right">-1.6935215</td>
-<td align="right">-1.9304888</td>
-<td align="right">-1.1242917</td>
-<td align="right">-0.1840762</td>
-<td align="right">-0.0501158</td>
-<td align="right">-0.0787096</td>
-</tr>
-<tr class="even">
-<td align="left">VIT_00s0505g00030</td>
-<td align="right">-6.7211766</td>
-<td align="right">-7.0569754</td>
-<td align="right">-6.2713633</td>
-<td align="right">-6.5019917</td>
-<td align="right">4.1664939</td>
-<td align="right">2.425269</td>
-<td align="right">-0.7020801</td>
-<td align="right">-2.3593202</td>
-<td align="right">-3.0393984</td>
-<td align="right">-7.1493630</td>
-<td align="right">4.0014691</td>
-<td align="right">-3.048051</td>
-<td align="right">2.9924364</td>
-<td align="right">-4.0058837</td>
-<td align="right">0.3570256</td>
-<td align="right">-0.5459650</td>
-<td align="right">1.935482</td>
-<td align="right">3.5802245</td>
-<td align="right">-6.4820127</td>
-<td align="right">3.8779321</td>
-<td align="right">3.6825240</td>
-<td align="right">-2.5286720</td>
-<td align="right">2.2085900</td>
-<td align="right">3.8461697</td>
-<td align="right">-4.8325033</td>
-<td align="right">-1.3442359</td>
-<td align="right">-3.4612379</td>
-<td align="right">-1.5491830</td>
-<td align="right">-1.0646400</td>
-<td align="right">-2.3393991</td>
-<td align="right">-4.6042876</td>
-<td align="right">-4.1481309</td>
-<td align="right">-0.2353456</td>
-<td align="right">-4.3843765</td>
-<td align="right">-2.4924915</td>
-<td align="right">-1.0898527</td>
-<td align="right">-1.7431828</td>
-<td align="right">-2.4960327</td>
-<td align="right">-1.3122748</td>
-<td align="right">-2.4677746</td>
-<td align="right">-3.1984611</td>
-<td align="right">-3.2756879</td>
-<td align="right">-0.2537962</td>
-<td align="right">-8.2173815</td>
-<td align="right">-5.1489463</td>
-<td align="right">-1.7978065</td>
-<td align="right">-3.5572653</td>
-<td align="right">-3.6336367</td>
-<td align="right">-2.5757864</td>
-<td align="right">-0.6666711</td>
-</tr>
-<tr class="odd">
-<td align="left">VIT_00s0505g00060</td>
-<td align="right">0.3426464</td>
-<td align="right">0.2476696</td>
-<td align="right">0.2648119</td>
-<td align="right">0.2106726</td>
-<td align="right">0.2379813</td>
-<td align="right">2.438641</td>
-<td align="right">-4.1078134</td>
-<td align="right">-2.4665020</td>
-<td align="right">-0.8690605</td>
-<td align="right">0.2059495</td>
-<td align="right">-0.5065977</td>
-<td align="right">-2.116794</td>
-<td align="right">-0.4972006</td>
-<td align="right">-0.4716716</td>
-<td align="right">-0.5037120</td>
-<td align="right">-3.8862674</td>
-<td align="right">1.572060</td>
-<td align="right">-0.5800377</td>
-<td align="right">NA</td>
-<td align="right">-0.5392496</td>
-<td align="right">-0.5152628</td>
-<td align="right">-0.4050364</td>
-<td align="right">1.9240000</td>
-<td align="right">-0.5703312</td>
-<td align="right">-0.9165041</td>
-<td align="right">-2.9359040</td>
-<td align="right">0.6529782</td>
-<td align="right">-0.7057033</td>
-<td align="right">-1.0267196</td>
-<td align="right">1.9062859</td>
-<td align="right">-0.9658365</td>
-<td align="right">-0.5568161</td>
-<td align="right">NA</td>
-<td align="right">-0.8027190</td>
-<td align="right">1.7852044</td>
-<td align="right">-3.9076502</td>
-<td align="right">-0.3508815</td>
-<td align="right">-1.3941553</td>
-<td align="right">-0.0228659</td>
-<td align="right">0.0404359</td>
-<td align="right">-1.3356829</td>
-<td align="right">-1.1865057</td>
-<td align="right">-0.2400475</td>
-<td align="right">NA</td>
-<td align="right">-1.1697303</td>
-<td align="right">2.2547054</td>
-<td align="right">1.2605307</td>
-<td align="right">-0.2679475</td>
-<td align="right">1.5232358</td>
-<td align="right">0.5990309</td>
-</tr>
-<tr class="even">
-<td align="left">VIT_00s0733g00010</td>
-<td align="right">2.7636578</td>
-<td align="right">2.3945272</td>
-<td align="right">2.4559674</td>
-<td align="right">2.7606812</td>
-<td align="right">2.7390602</td>
-<td align="right">2.111339</td>
-<td align="right">-3.5909755</td>
-<td align="right">-1.6936231</td>
-<td align="right">-1.5736839</td>
-<td align="right">1.9349490</td>
-<td align="right">-2.1251345</td>
-<td align="right">-2.073118</td>
-<td align="right">-0.9908898</td>
-<td align="right">-0.2974610</td>
-<td align="right">-2.7027483</td>
-<td align="right">-2.9271524</td>
-<td align="right">1.401474</td>
-<td align="right">-1.6702535</td>
-<td align="right">-1.2673386</td>
-<td align="right">-0.8109056</td>
-<td align="right">-1.5659305</td>
-<td align="right">-0.5172669</td>
-<td align="right">1.6332679</td>
-<td align="right">-0.9628440</td>
-<td align="right">-1.2523167</td>
-<td align="right">-1.4230555</td>
-<td align="right">1.9882070</td>
-<td align="right">-0.9310166</td>
-<td align="right">-1.3302968</td>
-<td align="right">1.8261684</td>
-<td align="right">0.5729499</td>
-<td align="right">-0.8186845</td>
-<td align="right">3.2886295</td>
-<td align="right">0.6576353</td>
-<td align="right">1.5065560</td>
-<td align="right">-2.7425485</td>
-<td align="right">1.0811325</td>
-<td align="right">-1.1364545</td>
-<td align="right">1.8057638</td>
-<td align="right">0.3296620</td>
-<td align="right">-1.4499134</td>
-<td align="right">-0.8994702</td>
-<td align="right">-1.2528986</td>
-<td align="right">1.0293641</td>
-<td align="right">0.3110230</td>
-<td align="right">0.9626316</td>
-<td align="right">-0.7070258</td>
-<td align="right">0.1482225</td>
-<td align="right">1.6639394</td>
-<td align="right">1.6144303</td>
-</tr>
-<tr class="odd">
-<td align="left">VIT_00s0873g00020</td>
-<td align="right">2.0350654</td>
-<td align="right">1.6146780</td>
-<td align="right">1.9636625</td>
-<td align="right">1.9856129</td>
-<td align="right">4.1317425</td>
-<td align="right">3.507922</td>
-<td align="right">-3.9966574</td>
-<td align="right">-1.6712064</td>
-<td align="right">-2.9908288</td>
-<td align="right">1.8080360</td>
-<td align="right">-1.3902618</td>
-<td align="right">-1.766679</td>
-<td align="right">-1.5232015</td>
-<td align="right">-0.0939161</td>
-<td align="right">-2.5898378</td>
-<td align="right">-2.7364054</td>
-<td align="right">2.589858</td>
-<td align="right">-1.4676927</td>
-<td align="right">-0.7656356</td>
-<td align="right">-1.0369296</td>
-<td align="right">-0.8511339</td>
-<td align="right">-0.5060233</td>
-<td align="right">2.4754083</td>
-<td align="right">-1.4862826</td>
-<td align="right">0.5130748</td>
-<td align="right">0.1490589</td>
-<td align="right">1.6198443</td>
-<td align="right">-1.3853819</td>
-<td align="right">-0.8613040</td>
-<td align="right">1.7892945</td>
-<td align="right">0.2299798</td>
-<td align="right">-1.4813243</td>
-<td align="right">3.5531487</td>
-<td align="right">1.4010192</td>
-<td align="right">1.7283591</td>
-<td align="right">-1.7851884</td>
-<td align="right">2.4203110</td>
-<td align="right">-1.2731930</td>
-<td align="right">0.7180457</td>
-<td align="right">1.6829094</td>
-<td align="right">-2.1271617</td>
-<td align="right">-1.3338658</td>
-<td align="right">-1.3014863</td>
-<td align="right">1.4494401</td>
-<td align="right">-0.2751861</td>
-<td align="right">1.0586936</td>
-<td align="right">-2.4249086</td>
-<td align="right">0.3120275</td>
-<td align="right">1.7318797</td>
-<td align="right">1.9112896</td>
-</tr>
-<tr class="even">
-<td align="left">VIT_00s0904g00010</td>
-<td align="right">4.2457891</td>
-<td align="right">3.6742837</td>
-<td align="right">4.7302814</td>
-<td align="right">4.0893059</td>
-<td align="right">3.6878042</td>
-<td align="right">3.761006</td>
-<td align="right">-2.9984868</td>
-<td align="right">-1.7679758</td>
-<td align="right">-2.2782423</td>
-<td align="right">3.2643135</td>
-<td align="right">-3.8904390</td>
-<td align="right">-1.880473</td>
-<td align="right">-4.1266971</td>
-<td align="right">-1.2263832</td>
-<td align="right">-2.0073597</td>
-<td align="right">-2.0967767</td>
-<td align="right">2.192880</td>
-<td align="right">-2.4539387</td>
-<td align="right">-0.2618142</td>
-<td align="right">-2.6679127</td>
-<td align="right">-2.4681768</td>
-<td align="right">-0.9964943</td>
-<td align="right">2.3852689</td>
-<td align="right">-2.2727079</td>
-<td align="right">0.1571757</td>
-<td align="right">-1.0104890</td>
-<td align="right">2.4352310</td>
-<td align="right">-1.6711485</td>
-<td align="right">-2.3267467</td>
-<td align="right">2.4365988</td>
-<td align="right">-0.4030430</td>
-<td align="right">0.4630986</td>
-<td align="right">5.0047560</td>
-<td align="right">0.3773778</td>
-<td align="right">2.1697717</td>
-<td align="right">-1.7747759</td>
-<td align="right">-0.6753188</td>
-<td align="right">-1.0548574</td>
-<td align="right">2.4872994</td>
-<td align="right">2.1002908</td>
-<td align="right">-1.0074965</td>
-<td align="right">-0.6755297</td>
-<td align="right">-1.8118296</td>
-<td align="right">2.1897342</td>
-<td align="right">0.1781785</td>
-<td align="right">1.7205117</td>
-<td align="right">1.3300527</td>
-<td align="right">0.6780813</td>
-<td align="right">2.0464530</td>
-<td align="right">2.4061248</td>
-</tr>
-<tr class="odd">
-<td align="left">VIT_00s0965g00010</td>
-<td align="right">0.5450149</td>
-<td align="right">0.4540623</td>
-<td align="right">0.4261397</td>
-<td align="right">0.5669879</td>
-<td align="right">1.6479042</td>
-<td align="right">2.785610</td>
-<td align="right">-1.1489571</td>
-<td align="right">-3.0719075</td>
-<td align="right">-3.6095269</td>
-<td align="right">0.3852966</td>
-<td align="right">-0.3585364</td>
-<td align="right">-1.494370</td>
-<td align="right">-1.0158061</td>
-<td align="right">-1.8919388</td>
-<td align="right">0.2850049</td>
-<td align="right">-0.4620484</td>
-<td align="right">2.080533</td>
-<td align="right">-0.8514515</td>
-<td align="right">-2.2176604</td>
-<td align="right">-0.7396654</td>
-<td align="right">-0.5055473</td>
-<td align="right">-1.9757791</td>
-<td align="right">1.3558167</td>
-<td align="right">-0.4819992</td>
-<td align="right">-2.3981364</td>
-<td align="right">-2.4201317</td>
-<td align="right">-1.0014905</td>
-<td align="right">-2.1137049</td>
-<td align="right">-1.3270639</td>
-<td align="right">0.2497752</td>
-<td align="right">-2.3631401</td>
-<td align="right">-2.1671660</td>
-<td align="right">1.7998480</td>
-<td align="right">-2.1007826</td>
-<td align="right">0.5197635</td>
-<td align="right">-0.0112338</td>
-<td align="right">-2.6879439</td>
-<td align="right">-1.4466692</td>
-<td align="right">1.5890968</td>
-<td align="right">-0.6540849</td>
-<td align="right">-1.3073350</td>
-<td align="right">-1.8764745</td>
-<td align="right">-1.5082842</td>
-<td align="right">-0.1008611</td>
-<td align="right">-2.0022089</td>
-<td align="right">0.5648176</td>
-<td align="right">0.2808996</td>
-<td align="right">-2.3187022</td>
-<td align="right">0.0254204</td>
-<td align="right">-0.9169824</td>
-</tr>
-</tbody>
-</table>
 </div>
 <div id="plot-a-module" class="section level1">
 <h1 class="hasAnchor">
 <a href="#plot-a-module" class="anchor"></a>Plot a module</h1>
 <p>The easiest way to visualize a module is using a heatmap. The Plot object wraps a module and can return different plot type with different format (the Plotly JSON format or HTML). To see an heatmap embedded in rstudio we can retrieve the HTML code of the Plot (that uses Plotly) and display it directly into the viewer.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/view_plot.html">view_plot</a></span><span class="op">(</span>module <span class="op">=</span> <span class="va">module_1</span>, 
           normalization <span class="op">=</span> <span class="st">"limma"</span>,
           plotType <span class="op">=</span> <span class="st">"module_heatmap_expression"</span>,
           alternativeColoring <span class="op">=</span> <span class="cn">FALSE</span>,
-          min <span class="op">=</span> <span class="op">-</span><span class="fl">10</span>, max <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></code></pre></div>
+          min <span class="op">=</span> <span class="op">-</span><span class="fl">6</span>, max <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></code></pre></div>
 <p>When using the heatmap it is possible to use the button Get Module IDs in order to copy on the clipboard BioFeatures and SampleSets IDs after having selected a part of the module with the left mouse button. For example after having selected one small block of up-regulated genes and clicked the Get Module IDs button, we can paste a JSON structure to be used for create a new module:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">json_selection</span> <span class="op">&lt;-</span> <span class="st">'{"sample_sets":["U2FtcGxlU2V0VHlwZToyMTg3Mg==","U2FtcGxlU2V0VHlwZToyMTg2Mg==","U2FtcGxlU2V0VHlwZToyMTAyNg==","U2FtcGxlU2V0VHlwZTo2NTU2","U2FtcGxlU2V0VHlwZToyMTAyNw==","U2FtcGxlU2V0VHlwZToyMTAyOA==","U2FtcGxlU2V0VHlwZTo1ODc2","U2FtcGxlU2V0VHlwZTo1ODg2","U2FtcGxlU2V0VHlwZToyMTAyOQ==","U2FtcGxlU2V0VHlwZTo1ODU4","U2FtcGxlU2V0VHlwZTo1ODYy","U2FtcGxlU2V0VHlwZTo1OTE3"],"biological_features":["QmlvRmVhdHVyZVR5cGU6Mjc5MDA=","QmlvRmVhdHVyZVR5cGU6Mjc4OTY=","QmlvRmVhdHVyZVR5cGU6Mjc4OTI=","QmlvRmVhdHVyZVR5cGU6Mjg1OTg=","QmlvRmVhdHVyZVR5cGU6Mjg2MDk=","QmlvRmVhdHVyZVR5cGU6Mjg2MzA="]}'</span>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">json_selection</span> <span class="op">&lt;-</span> <span class="st">'{"sample_sets":["U2FtcGxlU2V0VHlwZToyMTg0Nw==","U2FtcGxlU2V0VHlwZToyMTg0OQ==","U2FtcGxlU2V0VHlwZToyMTg3Mg==","U2FtcGxlU2V0VHlwZToyMTg0OA==","U2FtcGxlU2V0VHlwZToyMTg1Mw==","U2FtcGxlU2V0VHlwZToyMTg1MA=="],"biological_features":["QmlvRmVhdHVyZVR5cGU6MjY0MzM=","QmlvRmVhdHVyZVR5cGU6Mjg2MDk=","QmlvRmVhdHVyZVR5cGU6MjcwOTc=","QmlvRmVhdHVyZVR5cGU6Mjg2MzA="]}'</span>
 
 <span class="va">submodule_ids</span> <span class="op">&lt;-</span> <span class="fu">RJSONIO</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/RJSONIO/man/fromJSON.html">fromJSON</a></span><span class="op">(</span><span class="va">json_selection</span><span class="op">)</span>
 
@@ -1421,14 +299,14 @@
                              samplesetNames <span class="op">=</span> <span class="va">submodule_ids</span><span class="op">$</span><span class="va">sample_sets</span>,
                              normalization <span class="op">=</span> <span class="st">"limma"</span>, useIds <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>and visualize it</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/view_plot.html">view_plot</a></span><span class="op">(</span>module <span class="op">=</span> <span class="va">submodule_1</span>, 
           normalization <span class="op">=</span> <span class="st">"limma"</span>,
           plotType <span class="op">=</span> <span class="st">"module_heatmap_expression"</span>,
           alternativeColoring <span class="op">=</span> <span class="cn">FALSE</span>,
-          min <span class="op">=</span> <span class="op">-</span><span class="fl">10</span>, max <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></code></pre></div>
+          min <span class="op">=</span> <span class="op">-</span><span class="fl">6</span>, max <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></code></pre></div>
 <p>Biological Features (genes) and Sample Sets (contrasts) have no particular order in a module. But since the heatmap is clustered we can retrieve the sorted list of Biological Features and Sample Sets respectively using the <code>sorted = TRUE</code> parameter.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_sorted_indexes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_module_heatmap.html">plot_module_heatmap</a></span><span class="op">(</span>module <span class="op">=</span> <span class="va">module_1</span>, normalization <span class="op">=</span> <span class="st">"limma"</span>, plot <span class="op">=</span> <span class="cn">FALSE</span>, sorted <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="va">mod_tmp</span> <span class="op">=</span> <span class="va">module_1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span><span class="op">(</span><span class="va">my_sorted_indexes</span><span class="op">$</span><span class="va">sortedBiofeatures</span>,<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">module_1</span><span class="op">)</span><span class="op">)</span>,
                    <span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span><span class="op">(</span><span class="va">my_sorted_indexes</span><span class="op">$</span><span class="va">sortedSamplesets</span>,<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">module_1</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>
@@ -2558,9 +1436,9 @@
 </tbody>
 </table>
 <p>Alternatively you can use directly any R function to cluster data and retrieve the sorted rows and columns of the matrix, e.g.:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">pheat_cl</span> <span class="op">&lt;-</span> <span class="fu">pheatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html">pheatmap</a></span><span class="op">(</span>mat <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">module_limma</span><span class="op">)</span>, silent <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">module_1</span><span class="op">[</span><span class="va">pheat_cl</span><span class="op">$</span><span class="va">tree_row</span><span class="op">$</span><span class="va">order</span>,<span class="va">pheat_cl</span><span class="op">$</span><span class="va">tree_col</span><span class="op">$</span><span class="va">order</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">pheat_cl</span> <span class="op">&lt;-</span> <span class="fu">pheatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html">pheatmap</a></span><span class="op">(</span>mat <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">mod_tmp</span><span class="op">)</span>, silent <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">mod_tmp</span><span class="op">[</span><span class="va">pheat_cl</span><span class="op">$</span><span class="va">tree_row</span><span class="op">$</span><span class="va">order</span>,<span class="va">pheat_cl</span><span class="op">$</span><span class="va">tree_col</span><span class="op">$</span><span class="va">order</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <div id="export-it-in-another-format" class="section level3">
 <h3 class="hasAnchor">
 <a href="#export-it-in-another-format" class="anchor"></a>Export it in another format</h3>
@@ -2570,7 +1448,7 @@
 <h2 class="hasAnchor">
 <a href="#plot-correlation-network" class="anchor"></a>Plot correlation network</h2>
 <p>Given a module we can plot the correlation network between Biological Features (genes) by looking at the Pearson correlation coefficient of the module’s Sample Sets (contrast). The default threshold is 0.8, but it can be changed. Edges in orange represent anti-correlation.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/view_plot.html">view_plot</a></span><span class="op">(</span>module <span class="op">=</span> <span class="va">module_1</span>, 
           normalization <span class="op">=</span> <span class="st">"limma"</span>,
           plotType <span class="op">=</span> <span class="st">"module_coexpression_network"</span>, 
@@ -2580,23 +1458,23 @@
 <h2 class="hasAnchor">
 <a href="#automatically-expand-a-module" class="anchor"></a>Automatically expand a module</h2>
 <p>One of the classic way to use VESPUCCI is to start with a set of genes selected from previous analysis, have a look at the top conditions in which they show a consistent (and strong) behavior and then look for other genes that behave the same across those same conditions. The way to do it is to plot the distribution of genes that show a similar behavior of the module’s genes across the same condition in order pick up a suitable threshold.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/view_plot.html">view_plot</a></span><span class="op">(</span>module <span class="op">=</span> <span class="va">module_1</span>, normalization <span class="op">=</span> <span class="st">"limma"</span>,
           plotType <span class="op">=</span> <span class="st">"biological_features_uncentered_correlation_distribution"</span><span class="op">)</span></code></pre></div>
 <p>For example, if we pick a threshold around 0.9 (looking at the top plot) we might expect to have around 15 Biological Features (genes) with a score equal or greater than that, to be added in our module. In this case let’s just pick the top 15 genes and create e new module.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">top_bf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_module_distribution.html">plot_module_distribution</a></span><span class="op">(</span>module <span class="op">=</span> <span class="va">module_1</span>, 
                                    normalization <span class="op">=</span> <span class="st">"limma"</span>,
                                    plotType <span class="op">=</span> <span class="st">"biological_features_uncentered_correlation_distribution"</span>,
                                    getRank <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>The new module is created by adding Biological Feature objects to the old module.</p>
 <p><strong>NB</strong> Being the ranking based on the full biofeatures set we remove the duplicates ids (keeping unique ids only) and create a new model.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">module_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_module.html">create_module</a></span><span class="op">(</span>biofeaturesNames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">module_1</span><span class="op">)</span>, <span class="va">top_bf</span><span class="op">$</span><span class="va">id</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">15</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>, 
                              normalization <span class="op">=</span> <span class="st">"limma"</span>, 
                              useIds <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>We can have a look at the heatmap of the new module</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/view_plot.html">view_plot</a></span><span class="op">(</span>module <span class="op">=</span> <span class="va">module_2</span>, 
           normalization <span class="op">=</span> <span class="st">"limma"</span>,
           plotType <span class="op">=</span> <span class="st">"module_heatmap_expression"</span>,
@@ -2607,30 +1485,30 @@
 <h1 class="hasAnchor">
 <a href="#annotations" class="anchor"></a>Annotations</h1>
 <p>In VESPUCCI, both Biological Feature (gene) and Sample annotations are represented using <a href="https://en.wikipedia.org/wiki/Resource_Description_Framework">RDF</a>. We can visualize annotation as a set of RDF triples.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">samples</span> <span class="op">&lt;-</span> <span class="va">my_sorted_indexes</span><span class="op">$</span><span class="va">sortedSamplesets</span>
 <span class="va">samples_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_samples_info.html">get_samples_info</a></span><span class="op">(</span>id_In <span class="op">=</span> <span class="va">samples</span>, normalization <span class="op">=</span> <span class="st">"limma"</span>, useIds <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">samples_info</span><span class="op">)</span>
 <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_sample_by_gsm.html">get_sample_by_gsm</a></span><span class="op">(</span>sampleName_In <span class="op">=</span>  <span class="va">samples_info</span><span class="op">$</span><span class="va">sampleName</span><span class="op">)</span><span class="op">)</span>
 <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_annotation_triples.html">get_annotation_triples</a></span><span class="op">(</span>ids <span class="op">=</span>  <span class="fu"><a href="../reference/get_sample_by_gsm.html">get_sample_by_gsm</a></span><span class="op">(</span>sampleName_In <span class="op">=</span>  <span class="va">samples_info</span><span class="op">$</span><span class="va">sampleName</span><span class="op">)</span><span class="op">$</span><span class="va">sampleId</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Another way is to visualize the annotation is with RDF graph. Here we show the RDF graphs for indexed biofeatures.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"> <span class="fu"><a href="../reference/plot_annotation_network.html">plot_annotation_network</a></span><span class="op">(</span>ids <span class="op">=</span> <span class="va">my_sorted_indexes</span><span class="op">$</span><span class="va">sortedBiofeatures</span>, viewer <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></code></pre></div>
 <p>Annotations can also be used to retrieve Sample or Biological Features (gene) starting from a SPARQL query. For example we might want to select all seed Sample.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sparql</span> <span class="op">=</span> <span class="st">"SELECT ?s ?p ?o WHERE { ?s &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://purl.obolibrary.org/obo/NCIT_C19157&gt; . ?s &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://purl.obolibrary.org/obo/PO_0009010&gt;}"</span></code></pre></div>
 <p>The term <a href="http://purl.obolibrary.org/obo/NCIT_C19157">NCIT_C19157</a> indicates <strong><em>specimen</em></strong> while <a href="http://purl.obolibrary.org/obo/PO_0009010">PO_0009010</a> is the Plant Ontology term for <strong><em>seed</em></strong>. To indicate a gene, instead the term <a href="http://purl.obolibrary.org/obo/NCIT_C16612">NCIT_C16612</a> is used.</p>
 <p>Here we retrieve all the samples used based on the sparql query:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">seed_samples</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_sparql_annotation_triples.html">get_sparql_annotation_triples</a></span><span class="op">(</span>target <span class="op">=</span> <span class="st">"sample"</span>, 
                                               query <span class="op">=</span> <span class="va">sparql</span>,
                                               normalization <span class="op">=</span> <span class="st">"limma"</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span></code></pre></div>
 <p>Now we can collect all the Sample Sets in which these samples are used and then create a new module based on Sample Sets only leaving VESPUCCI to figure out which are the genes (Biological Feature objects) that show a consistent up or down-regulated profile.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">seed_ss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_sampleset_by_sampleid.html">get_sampleset_by_sampleid</a></span><span class="op">(</span>normalization <span class="op">=</span> <span class="st">"limma"</span>, samples <span class="op">=</span> <span class="va">seed_samples</span><span class="op">)</span>
 <span class="va">module_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_module.html">create_module</a></span><span class="op">(</span>samplesetNames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">seed_ss</span><span class="op">$</span><span class="va">id</span><span class="op">)</span>, useIds <span class="op">=</span> <span class="cn">TRUE</span>, normalization <span class="op">=</span> <span class="st">"limma"</span><span class="op">)</span></code></pre></div>
 <p>And now we can plot the heatmap</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/view_plot.html">view_plot</a></span><span class="op">(</span>module <span class="op">=</span> <span class="va">module_3</span>, 
           normalization <span class="op">=</span> <span class="st">"limma"</span>,
           plotType <span class="op">=</span> <span class="st">"module_heatmap_expression"</span>,
@@ -2644,58 +1522,15 @@
 <h2 class="hasAnchor">
 <a href="#enrichment" class="anchor"></a>Enrichment</h2>
 <p>Another way to have a general understanding about which genes and conditions are present in our module we can explore the Module Enrichment Object. The enrichment is calculated using an Hypergeometric test with p-values corrected for multiple testing using Benjamini-Hochberg.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="op">(</span><span class="va">enrichment</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/enrich_module.html">enrich_module</a></span><span class="op">(</span>module <span class="op">=</span> <span class="va">module_1</span>, normalization <span class="op">=</span> <span class="st">"limma"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; $PlantOntology</span>
-<span class="co">#&gt;   ontologyId         description               pValue</span>
-<span class="co">#&gt; 1 PO_0009010                seed 7.24417147341064e-08</span>
-<span class="co">#&gt; 2 PO_0000005 cultured plant cell  0.00296077901895786</span>
-<span class="co">#&gt; 3 PO_0009087            mesocarp 0.000642768734203543</span>
-<span class="co">#&gt; 4 PO_0025281              pollen 0.000261317024509037</span>
-<span class="co">#&gt; 5 PO_0009084            pericarp 1.78483904654624e-24</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $GeneOntology</span>
-<span class="co">#&gt;   ontologyId                                            description</span>
-<span class="co">#&gt; 1 GO_0006810                                              transport</span>
-<span class="co">#&gt; 2 GO_0022900                               electron transport chain</span>
-<span class="co">#&gt; 3 GO_0042777 plasma membrane ATP synthesis coupled proton transport</span>
-<span class="co">#&gt; 4 GO_0015979                                         photosynthesis</span>
-<span class="co">#&gt; 5 GO_0009767                photosynthetic electron transport chain</span>
-<span class="co">#&gt; 6 GO_0019684                         photosynthesis, light reaction</span>
-<span class="co">#&gt; 7 GO_0018298                            protein-chromophore linkage</span>
-<span class="co">#&gt;                 pValue</span>
-<span class="co">#&gt; 1 0.000264145647898701</span>
-<span class="co">#&gt; 2   0.0322440567063443</span>
-<span class="co">#&gt; 3   0.0142183124163457</span>
-<span class="co">#&gt; 4 2.08544038077085e-05</span>
-<span class="co">#&gt; 5  0.00117030796158772</span>
-<span class="co">#&gt; 6 2.30929722291859e-10</span>
-<span class="co">#&gt; 7  0.00204833494885588</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="op">(</span><span class="va">enrichment</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/enrich_module.html">enrich_module</a></span><span class="op">(</span>module <span class="op">=</span> <span class="va">module_1</span>, normalization <span class="op">=</span> <span class="st">"limma"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="sampleset-short-descriptions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#sampleset-short-descriptions" class="anchor"></a>SampleSet Short Descriptions</h2>
 <p>Another way to have a general descriptions of the different conditions is to use the SampleSet short description. It is calculated using Ontological Terms and tries to highlight similarities and differences between sample annotation within a SampleSet if any. In case a SampleSet is a contrast (as in limma and legacy normalizations) the description is divided by a double pipe || with similar terms between reference and test conditions on the left side and different terms on the right side.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_sampleset_id.html">get_sampleset_id</a></span><span class="op">(</span>id_In <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">module_1</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, normalization <span class="op">=</span> <span class="st">"limma"</span>, useIds <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<table class="table">
-<colgroup>
-<col width="15%">
-<col width="5%">
-<col width="79%">
-</colgroup>
-<thead><tr class="header">
-<th align="left">id</th>
-<th align="left">name</th>
-<th align="left">shortAnnotationDescription</th>
-</tr></thead>
-<tbody><tr class="odd">
-<td align="left">U2FtcGxlU2V0VHlwZToyMTg2OA==</td>
-<td align="left">harvest_5</td>
-<td align="left">vitis_vinif|pericarp|vineyard|<a href="https://www.awri.com.au/wp-content/uploads/e-l_38%7C%7CNEBBI_CLONE_CVT18%7CNEBBI_CLONE_CVT71" class="uri">https://www.awri.com.au/wp-content/uploads/e-l_38||NEBBI_CLONE_CVT18|NEBBI_CLONE_CVT71</a>
-</td>
-</tr></tbody>
-</table>
 </div>
 </div>
 <div id="session-information" class="section level1">
@@ -2717,13 +1552,13 @@
 #&gt; loaded via a namespace (and not attached):
 #&gt;  [1] Rcpp_1.0.6        knitr_1.33        magrittr_2.0.1    graphql_1.5      
 #&gt;  [5] R6_2.5.0          ragg_1.1.3.9000   rlang_0.4.11      fastmap_1.1.0    
-#&gt;  [9] highr_0.9         stringr_1.4.0     tools_4.0.5       xfun_0.23        
+#&gt;  [9] highr_0.9         stringr_1.4.0     tools_4.0.5       xfun_0.24        
 #&gt; [13] jquerylib_0.1.4   htmltools_0.5.1.1 systemfonts_1.0.2 yaml_2.2.1       
 #&gt; [17] digest_0.6.27     rprojroot_2.0.2   httpcode_0.3.0    pkgdown_1.6.1    
 #&gt; [21] crayon_1.4.1      RJSONIO_1.3-1.4   textshaping_0.3.5 sass_0.4.0       
 #&gt; [25] fs_1.5.0          triebeard_0.3.0   curl_4.3.1        crul_1.1.0       
 #&gt; [29] ghql_0.1.0        memoise_2.0.0     cachem_1.0.5      evaluate_0.14    
-#&gt; [33] rmarkdown_2.8     stringi_1.6.2     compiler_4.0.5    bslib_0.2.5.1    
+#&gt; [33] rmarkdown_2.9     stringi_1.6.2     compiler_4.0.5    bslib_0.2.5.1    
 #&gt; [37] urltools_1.7.3    desc_1.3.0        jsonlite_1.7.2</code></pre>
 </div>
   </div>

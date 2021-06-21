@@ -98,13 +98,6 @@ module_1 <- create_module_bf(biofeaturesNames = gene_ids_module,
 
 A module can be thought as a matrix composed by BiologicalFeature objects (genes in our case) as rows and SampleSet objects (conditions contrasts in our case) as columns. Each SampleSet, as the name suggests, is composed by 1 or more Sample objects. Since we are using the legacy normalization each SampleSet is composed by 2 samples, one Test sample and one Reference sample and the value associated is the logratio between the Test and Reference for a specific gene (BiologicalFeature).
 
-```{r}
-module_limma <- module_1
-colnames(module_limma) <- get_sampleset_id(normalization = "limma", id_In = colnames(module_limma), useIds = T)$name
-row.names(module_limma) <- get_biofeature_id(id_In = rownames(module_limma))$name
-knitr::kable(module_limma, class = 'cell-border stripe')
-```
-
 # Plot a module
 The easiest way to visualize a module is using a heatmap. The Plot object wraps a module and can return different plot type with different format (the Plotly JSON format or HTML). To see an heatmap embedded in rstudio we can retrieve the HTML code of the Plot (that uses Plotly) and display it directly into the viewer.
 
@@ -113,13 +106,14 @@ view_plot(module = module_1,
           normalization = "limma",
           plotType = "module_heatmap_expression",
           alternativeColoring = FALSE,
-          min = -10, max = 10)
+          min = -6, max = 6)
 ```
 
-When using the heatmap it is possible to use the button Get Module IDs in order to copy on the clipboard BioFeatures and SampleSets IDs after having selected a part of the module with the left mouse button. For example after having selected one small block of up-regulated genes and clicked the Get Module IDs button, we can paste a JSON structure to be used for create a new module:
+When using the heatmap it is possible to use the button Get Module IDs in order to copy on the clipboard BioFeatures and SampleSets IDs after having selected a part of the module with the left mouse button. 
+For example after having selected one small block of up-regulated genes and clicked the Get Module IDs button, we can paste a JSON structure to be used for create a new module:
 
 ```{r}
-json_selection <- '{"sample_sets":["U2FtcGxlU2V0VHlwZToyMTg3Mg==","U2FtcGxlU2V0VHlwZToyMTg2Mg==","U2FtcGxlU2V0VHlwZToyMTAyNg==","U2FtcGxlU2V0VHlwZTo2NTU2","U2FtcGxlU2V0VHlwZToyMTAyNw==","U2FtcGxlU2V0VHlwZToyMTAyOA==","U2FtcGxlU2V0VHlwZTo1ODc2","U2FtcGxlU2V0VHlwZTo1ODg2","U2FtcGxlU2V0VHlwZToyMTAyOQ==","U2FtcGxlU2V0VHlwZTo1ODU4","U2FtcGxlU2V0VHlwZTo1ODYy","U2FtcGxlU2V0VHlwZTo1OTE3"],"biological_features":["QmlvRmVhdHVyZVR5cGU6Mjc5MDA=","QmlvRmVhdHVyZVR5cGU6Mjc4OTY=","QmlvRmVhdHVyZVR5cGU6Mjc4OTI=","QmlvRmVhdHVyZVR5cGU6Mjg1OTg=","QmlvRmVhdHVyZVR5cGU6Mjg2MDk=","QmlvRmVhdHVyZVR5cGU6Mjg2MzA="]}'
+json_selection <- '{"sample_sets":["U2FtcGxlU2V0VHlwZToyMTg0Nw==","U2FtcGxlU2V0VHlwZToyMTg0OQ==","U2FtcGxlU2V0VHlwZToyMTg3Mg==","U2FtcGxlU2V0VHlwZToyMTg0OA==","U2FtcGxlU2V0VHlwZToyMTg1Mw==","U2FtcGxlU2V0VHlwZToyMTg1MA=="],"biological_features":["QmlvRmVhdHVyZVR5cGU6MjY0MzM=","QmlvRmVhdHVyZVR5cGU6Mjg2MDk=","QmlvRmVhdHVyZVR5cGU6MjcwOTc=","QmlvRmVhdHVyZVR5cGU6Mjg2MzA="]}'
 
 submodule_ids <- RJSONIO::fromJSON(json_selection)
 
@@ -134,7 +128,7 @@ view_plot(module = submodule_1,
           normalization = "limma",
           plotType = "module_heatmap_expression",
           alternativeColoring = FALSE,
-          min = -10, max = 10)
+          min = -6, max = 6)
 ```
 Biological Features (genes) and Sample Sets (contrasts) have no particular order in a module. But since the heatmap is clustered we can retrieve the sorted list of Biological Features and Sample Sets respectively using the `sorted = TRUE` parameter. 
 
@@ -155,15 +149,15 @@ knitr::kable(mod_tmp)
 Alternatively you can use directly any R function to cluster data and retrieve the sorted rows and columns of the matrix, e.g.:
 
 ```{r pheatmap order, echo = TRUE, eval = FALSE}
-pheat_cl <- pheatmap::pheatmap(mat =  as.matrix(module_limma), silent = TRUE)
-knitr::kable(module_1[pheat_cl$tree_row$order,pheat_cl$tree_col$order])
+pheat_cl <- pheatmap::pheatmap(mat =  as.matrix(mod_tmp), silent = TRUE)
+knitr::kable(mod_tmp[pheat_cl$tree_row$order,pheat_cl$tree_col$order])
 ```
 
 ### Export it in another format
 Since we created a `data.frame` from the module we can now export it in another format (e.g. `.csv`, `.tsv`, etc.) and keep working with it elsewhere with different tools:
 
 ```{r save_module, echo = FALSE, eval = FALSE}
-# write.table(module_1, file="/tmp/module_1.tsv", sep="\t", col.names=NA, row.names=T)
+write.table(module_1, file="/tmp/module_1.tsv", sep="\t", col.names=NA, row.names=T)
 ```
 
 ## Plot correlation network
@@ -268,7 +262,7 @@ view_plot(module = module_3,
 One way to have a general understanding about what is contained in a module, in terms of sample conditions, is to use the get the Module Description Summary Object.
 
 ```{r description, echo = FALSE, eval = FALSE}
-(description <- describe_module(module = module_1, normalization = "limma"))
+description <- describe_module(module = module_1, normalization = "limma")
 ```
 
 ## Enrichment
@@ -276,13 +270,13 @@ One way to have a general understanding about what is contained in a module, in 
 Another way to have a general understanding about which genes and conditions are present in our module we can explore the Module Enrichment Object. The enrichment is calculated using an Hypergeometric test with p-values corrected for multiple testing using Benjamini-Hochberg.
 
 
-```{r enrichment}
+```{r enrichment, eval = FALSE}
 (enrichment <- enrich_module(module = module_1, normalization = "limma"))
 ```
 ## SampleSet Short Descriptions
 Another way to have a general descriptions of the different conditions is to use the SampleSet short description. It is calculated using Ontological Terms and tries to highlight similarities and differences between sample annotation within a SampleSet if any. In case a SampleSet is a contrast (as in limma and legacy normalizations) the description is divided by a double pipe || with similar terms between reference and test conditions on the left side and different terms on the right side.
 
-```{r SampleSet_Short_Descriptions}
+```{r SampleSet_Short_Descriptions, eval = FALSE}
 knitr::kable(get_sampleset_id(id_In = colnames(module_1)[1], normalization = "limma", useIds = TRUE))
 ```
 
