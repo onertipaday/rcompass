@@ -20,7 +20,7 @@
 #' my_ss <- get_sampleset_id(id_In = ss, normalization = "limma", useIds = FALSE)
 #' my_mod <- create_module(biofeaturesNames = my_bf$id, samplesetNames = my_ss$id,
 #' normalization = "limma", useIds = TRUE)
-#' pheatmap::pheatmap(na.omit(my_mod), col = RColorBrewer::brewer.pal(11,name="RdBu"))
+#' pheatmap::pheatmap(na.omit(Biobase::exprs(my_mod)), col = RColorBrewer::brewer.pal(11,name="RdBu"))
 #' }
 create_module <- function(compendium = "vespucci",
                           normalization = "limma",
@@ -64,7 +64,18 @@ create_module <- function(compendium = "vespucci",
   nv <- t(as.data.frame(sapply(build_query(my_query)$modules$normalizedValues, unlist)))
   rownames(nv) <- biofeaturesNames
   colnames(nv) <- samplesetNames
-  nv
+  ss_tmp <- get_sampleset_id(normalization = normalization,
+                             id_In = samplesetNames, useIds = T)
+  ssData <- ss_tmp[match(ss_tmp$id, samplesetNames),]
+  rownames(ssData) <- ssData$id
+  phenoData <- new("AnnotatedDataFrame", data = ssData)
+  bf_tmp <- get_biofeature_id(id_In = biofeaturesNames, useIds = T)
+  bsData <- bf_tmp[match(bf_tmp$id, biofeaturesNames),]
+  rownames(bsData) <- bsData$id
+  featureData <- new("AnnotatedDataFrame", data = bsData)
+  Biobase::ExpressionSet(assayData = nv,
+                         phenoData = phenoData,
+                         featureData = featureData)
 }
 
 
