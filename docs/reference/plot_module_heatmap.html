@@ -135,7 +135,7 @@
     <pre class="usage"><span class='fu'>plot_module_heatmap</span><span class='op'>(</span>
   compendium <span class='op'>=</span> <span class='st'>"vespucci"</span>,
   module <span class='op'>=</span> <span class='cn'>NULL</span>,
-  normalization <span class='op'>=</span> <span class='st'>"legacy"</span>,
+  normalization <span class='op'>=</span> <span class='st'>"tpm"</span>,
   type <span class='op'>=</span> <span class='st'>"json"</span>,
   plot <span class='op'>=</span> <span class='cn'>TRUE</span>,
   alternativeColoring <span class='op'>=</span> <span class='cn'>TRUE</span>,
@@ -193,9 +193,9 @@
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='va'>gene_names</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_biofeature_id.html'>get_biofeature_id</a></span><span class='op'>(</span>id_In <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'VIT_00s0246g00220'</span>,
 <span class='st'>'VIT_00s0332g00060'</span>,<span class='st'>'VIT_00s0332g00110'</span><span class='op'>)</span>, useIds <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span>
-<span class='va'>mod</span> <span class='op'>&lt;-</span> <span class='fu'><a href='create_module.html'>create_module</a></span><span class='op'>(</span>biofeaturesNames<span class='op'>=</span><span class='va'>gene_names</span><span class='op'>$</span><span class='va'>id</span>, normalization <span class='op'>=</span> <span class='st'>"legacy"</span>, useIds <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span>
-<span class='fu'>plot_module_heatmap</span><span class='op'>(</span>module <span class='op'>=</span> <span class='va'>mod</span>, plot <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='va'>sorted_idx</span> <span class='op'>&lt;-</span> <span class='fu'>plot_module_heatmap</span><span class='op'>(</span>mod <span class='op'>=</span> <span class='va'>module_1</span>, sorted <span class='op'>=</span> <span class='cn'>TRUE</span>, plot <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='va'>mod</span> <span class='op'>&lt;-</span> <span class='fu'><a href='create_module.html'>create_module</a></span><span class='op'>(</span>biofeaturesNames<span class='op'>=</span><span class='va'>gene_names</span><span class='op'>$</span><span class='va'>id</span>, normalization <span class='op'>=</span> <span class='st'>"tpm"</span>, useIds <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span>
+<span class='fu'>plot_module_heatmap</span><span class='op'>(</span>module <span class='op'>=</span> <span class='va'>mod</span>, normalization <span class='op'>=</span> <span class='st'>"tpm"</span>, plot <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>sorted_idx</span> <span class='op'>&lt;-</span> <span class='fu'>plot_module_heatmap</span><span class='op'>(</span>mod <span class='op'>=</span> <span class='va'>mod</span>, sorted <span class='op'>=</span> <span class='cn'>TRUE</span>, plot <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>
   </div>

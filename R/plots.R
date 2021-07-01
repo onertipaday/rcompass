@@ -236,13 +236,13 @@ plot_module_distribution <- function(compendium = "vespucci",
 #'\dontrun{
 #'gene_names <- get_biofeature_id(id_In = c('VIT_00s0246g00220',
 #' 'VIT_00s0332g00060','VIT_00s0332g00110'), useIds = F)
-#' mod <- create_module(biofeaturesNames=gene_names$id, normalization = "legacy", useIds = T)
-#' plot_module_heatmap(module = mod, plot = TRUE)
-#' sorted_idx <- plot_module_heatmap(mod = module_1, sorted = TRUE, plot = FALSE)
+#' mod <- create_module(biofeaturesNames=gene_names$id, normalization = "tpm", useIds = T)
+#' plot_module_heatmap(module = mod, normalization = "tpm", plot = TRUE)
+#' sorted_idx <- plot_module_heatmap(mod = mod, sorted = TRUE, plot = FALSE)
 #'}
 plot_module_heatmap <- function(compendium = "vespucci",
                                 module = NULL,
-                                normalization = "legacy",
+                                normalization = "tpm",
                                 type = "json",
                                 plot = TRUE,
                                 alternativeColoring = TRUE,
