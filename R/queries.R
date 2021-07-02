@@ -951,7 +951,7 @@ get_sampleset_id <- function(compendium = "vespucci",
     }
     }')
   }
-  # cat(my_query,"\n")
+  cat(my_query,"\n")
   tmp <- as.data.frame(t(sapply(build_query(my_query)$sampleSets$edges, unlist)))
   colnames(tmp) <-  c("id","name","shortAnnotationDescription"); rownames(tmp) <-  NULL
   tmp

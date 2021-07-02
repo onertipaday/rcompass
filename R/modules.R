@@ -1,5 +1,7 @@
 #' create a module providing both biological features and sample sets
 #'
+#' @import Biobase
+#' @importFrom methods new
 #' @param compendium A string - the selected compendium
 #' @param normalization A string - either 'limma' (default),'tpm' or legacy as normalization
 #' @param biofeaturesNames A character vector (gene_names)
@@ -60,17 +62,17 @@ create_module <- function(compendium = "vespucci",
     }
   }')
   }
-  # cat(my_query)
+  cat(my_query)
   nv <- t(as.data.frame(sapply(build_query(my_query)$modules$normalizedValues, unlist)))
   rownames(nv) <- biofeaturesNames
   colnames(nv) <- samplesetNames
   ss_tmp <- get_sampleset_id(normalization = normalization,
-                             id_In = samplesetNames, useIds = T)
-  ssData <- ss_tmp[match(ss_tmp$id, samplesetNames),]
+                             id_In = colnames(nv) , useIds = T)
+  ssData <- ss_tmp[match(colnames(nv),ss_tmp$id),]
   rownames(ssData) <- ssData$id
   phenoData <- new("AnnotatedDataFrame", data = ssData)
-  bf_tmp <- get_biofeature_id(id_In = biofeaturesNames, useIds = T)
-  bsData <- bf_tmp[match(bf_tmp$id, biofeaturesNames),]
+  bf_tmp <- get_biofeature_id(id_In = rownames(nv), useIds = T)
+  bsData <- bf_tmp[match(rownames(nv),bf_tmp$id),]
   rownames(bsData) <- bsData$id
   featureData <- new("AnnotatedDataFrame", data = bsData)
   Biobase::ExpressionSet(assayData = nv,
@@ -81,8 +83,6 @@ create_module <- function(compendium = "vespucci",
 
 #' create a module based on provided biological features
 #'
-#' @import Biobase
-#' @importFrom methods new
 #' @param compendium A string - the selected compendium
 #' @param biofeaturesNames A character vector (gene_names)
 #' @param normalization A string - either 'limma' (default),'tpm' or legacy as normalization
