@@ -4,7 +4,7 @@ Title: R Client for the COMPASS GrapgQL API
 Author: c(person("Paolo", "Sonego", role = c("aut", "cre"),
     email = "paolo.sonego@fmach.it")) 
 Maintainer: Paolo Sonego <paolo.sonego@fmach.it>
-Version: 0.0.7
+Version: 0.0.8
 License: GPL-3
 BugReports: https://github.com/onertipaday/rcompass/issues
 Description: Provides functions for querying data from 
@@ -18,7 +18,9 @@ Imports:
     ghql,
     RJSONIO,
     plotly,
-    xml2
+    xml2,
+    methods,
+    Biobase
 RoxygenNote: 7.1.1
 Language: en-US
 Suggests: 

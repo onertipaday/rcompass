@@ -112,8 +112,8 @@ view_plot(module = module_1,
 When using the heatmap it is possible to use the button Get Module IDs in order to copy on the clipboard BioFeatures and SampleSets IDs after having selected a part of the module with the left mouse button. 
 For example after having selected one small block of up-regulated genes and clicked the Get Module IDs button, we can paste a JSON structure to be used for create a new module:
 
-```{r}
-json_selection <- '{"sample_sets":["U2FtcGxlU2V0VHlwZToyMTg0Nw==","U2FtcGxlU2V0VHlwZToyMTg0OQ==","U2FtcGxlU2V0VHlwZToyMTg3Mg==","U2FtcGxlU2V0VHlwZToyMTg0OA==","U2FtcGxlU2V0VHlwZToyMTg1Mw==","U2FtcGxlU2V0VHlwZToyMTg1MA=="],"biological_features":["QmlvRmVhdHVyZVR5cGU6MjY0MzM=","QmlvRmVhdHVyZVR5cGU6Mjg2MDk=","QmlvRmVhdHVyZVR5cGU6MjcwOTc=","QmlvRmVhdHVyZVR5cGU6Mjg2MzA="]}'
+```{r echo = TRUE, eval = FALSE}
+json_selection <- '{"sample_sets":["U2FtcGxlU2V0VHlwZToyMTg3Mg==","U2FtcGxlU2V0VHlwZToyMTg2Mg==","U2FtcGxlU2V0VHlwZToyMTAyNg==","U2FtcGxlU2V0VHlwZTo2NTU2","U2FtcGxlU2V0VHlwZToyMTAyNw==","U2FtcGxlU2V0VHlwZToyMTAyOA==","U2FtcGxlU2V0VHlwZTo1ODc2","U2FtcGxlU2V0VHlwZTo1ODg2","U2FtcGxlU2V0VHlwZToyMTAyOQ==","U2FtcGxlU2V0VHlwZTo1ODU4","U2FtcGxlU2V0VHlwZTo1ODYy","U2FtcGxlU2V0VHlwZTo1OTE3","U2FtcGxlU2V0VHlwZToxOTEyNg==","U2FtcGxlU2V0VHlwZToyMTg1OQ=="],"biological_features":["QmlvRmVhdHVyZVR5cGU6Mjc1NTU=","QmlvRmVhdHVyZVR5cGU6Mjg1MDQ=","QmlvRmVhdHVyZVR5cGU6MjgxODM=","QmlvRmVhdHVyZVR5cGU6Mjc0Mzc=","QmlvRmVhdHVyZVR5cGU6MjgyODE=","QmlvRmVhdHVyZVR5cGU6MjgyNzg=","QmlvRmVhdHVyZVR5cGU6MjgwODE=","QmlvRmVhdHVyZVR5cGU6Mjc5MDA=","QmlvRmVhdHVyZVR5cGU6Mjc4OTY=","QmlvRmVhdHVyZVR5cGU6Mjc4OTI=","QmlvRmVhdHVyZVR5cGU6Mjg1OTg=","QmlvRmVhdHVyZVR5cGU6Mjg2MDk=","QmlvRmVhdHVyZVR5cGU6Mjg2MzA="]}'
 
 submodule_ids <- RJSONIO::fromJSON(json_selection)
 
@@ -140,8 +140,8 @@ mod_tmp = module_1[match(my_sorted_indexes$sortedBiofeatures,rownames(module_1))
 ss_tmp <- get_sampleset_id(normalization = "limma", id_In = colnames(mod_tmp), useIds = T)
 bf_tmp <- get_biofeature_id(id_In = rownames(mod_tmp))
 
-colnames(mod_tmp) <- ss_tmp[match(colnames(mod_tmp), ss_tmp$id), 2]
-row.names(mod_tmp) <- bf_tmp[match(rownames(mod_tmp),bf_tmp$id), 2]
+# colnames(mod_tmp) <- ss_tmp[match(colnames(mod_tmp), ss_tmp$id), 2]
+# row.names(mod_tmp) <- bf_tmp[match(rownames(mod_tmp),bf_tmp$id), 2]
 
 knitr::kable(mod_tmp)
 ```
@@ -149,7 +149,7 @@ knitr::kable(mod_tmp)
 Alternatively you can use directly any R function to cluster data and retrieve the sorted rows and columns of the matrix, e.g.:
 
 ```{r pheatmap order, echo = TRUE, eval = FALSE}
-pheat_cl <- pheatmap::pheatmap(mat =  as.matrix(mod_tmp), silent = TRUE)
+pheat_cl <- pheatmap::pheatmap(mat =  Biobase::exprs(mod_tmp), silent = TRUE)
 knitr::kable(mod_tmp[pheat_cl$tree_row$order,pheat_cl$tree_col$order])
 ```
 

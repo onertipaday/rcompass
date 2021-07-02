@@ -40,6 +40,6 @@ ss=c("GSE75498_OS_T0-13-vs-GSE75498_C_T0-21","harvest_4","harvest_5")
 my_ss <- get_sampleset_id(id_In = ss, normalization = "limma", useIds = FALSE)
 my_mod <- create_module(biofeaturesNames = my_bf$id, samplesetNames = my_ss$id,
 normalization = "limma", useIds = TRUE)
-pheatmap::pheatmap(na.omit(my_mod), col = RColorBrewer::brewer.pal(11,name="RdBu"))
+pheatmap::pheatmap(na.omit(Biobase::exprs(my_mod)), col = RColorBrewer::brewer.pal(11,name="RdBu"))
 }
 }

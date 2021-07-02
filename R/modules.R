@@ -81,6 +81,8 @@ create_module <- function(compendium = "vespucci",
 
 #' create a module based on provided biological features
 #'
+#' @import Biobase
+#' @importFrom methods new
 #' @param compendium A string - the selected compendium
 #' @param biofeaturesNames A character vector (gene_names)
 #' @param normalization A string - either 'limma' (default),'tpm' or legacy as normalization
@@ -137,7 +139,18 @@ create_module_bf <- function(compendium = "vespucci",
   nv <- t(as.data.frame(sapply(tmp$normalizedValues, unlist)))
   rownames(nv) <- as.character(sapply(tmp$biofeatures, unlist))
   colnames(nv) <- as.character(sapply(tmp$sampleSets, unlist))
-  nv
+  ss_tmp <- get_sampleset_id(normalization = normalization,
+                             id_In = colnames(nv), useIds = T)
+  ssData <- ss_tmp[match(colnames(nv),ss_tmp$id),]
+  rownames(ssData) <- ssData$id
+  phenoData <- new("AnnotatedDataFrame", data = ssData)
+  bf_tmp <- get_biofeature_id(id_In = rownames(nv), useIds = T)
+  bsData <- bf_tmp[match(rownames(nv),bf_tmp$id),]
+  rownames(bsData) <- bsData$id
+  featureData <- new("AnnotatedDataFrame", data = bsData)
+  Biobase::ExpressionSet(assayData = nv,
+                         phenoData = phenoData,
+                         featureData = featureData)
 }
 
 #' create a module based on provided sample sets
@@ -199,7 +212,19 @@ create_module_ss <- function(compendium = "vespucci",
   nv <- t(as.data.frame(sapply(tmp$normalizedValues, unlist)))
   rownames(nv) <- as.character(sapply(tmp$biofeatures, unlist))
   colnames(nv) <- as.character(sapply(tmp$sampleSets, unlist))
-  nv
+  ss_tmp <- get_sampleset_id(normalization = normalization,
+                             id_In = colnames(nv), useIds = T)
+  ssData <- ss_tmp[match(colnames(nv),ss_tmp$id),]
+  rownames(ssData) <- ssData$id
+  phenoData <- new("AnnotatedDataFrame", data = ssData)
+  bf_tmp <- get_biofeature_id(id_In = rownames(nv), useIds = T)
+  bsData <- bf_tmp[match(rownames(nv),bf_tmp$id),]
+  rownames(bsData) <- bsData$id
+  featureData <- new("AnnotatedDataFrame", data = bsData)
+  Biobase::ExpressionSet(assayData = nv,
+                         phenoData = phenoData,
+                         featureData = featureData)
+
 }
 
 #' describe a module
