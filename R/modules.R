@@ -1,7 +1,6 @@
 #' create a module providing both biological features and sample sets
 #'
-#' @import Biobase
-#' @importFrom methods new
+#' @importFrom S4Vectors DataFrame
 #' @param compendium A string - the selected compendium
 #' @param normalization A string - either 'limma' (default),'tpm' or legacy as normalization
 #' @param biofeaturesNames A character vector (gene_names)
@@ -62,7 +61,7 @@ create_module <- function(compendium = "vespucci",
     }
   }')
   }
-  cat(my_query)
+  # cat(my_query)
   nv <- t(as.data.frame(sapply(build_query(my_query)$modules$normalizedValues, unlist)))
   rownames(nv) <- biofeaturesNames
   colnames(nv) <- samplesetNames
@@ -70,14 +69,18 @@ create_module <- function(compendium = "vespucci",
                              id_In = colnames(nv) , useIds = T)
   ssData <- ss_tmp[match(colnames(nv),ss_tmp$id),]
   rownames(ssData) <- ssData$id
-  phenoData <- new("AnnotatedDataFrame", data = ssData)
+  # phenoData <- new("AnnotatedDataFrame", data = ssData)
   bf_tmp <- get_biofeature_id(id_In = rownames(nv), useIds = T)
-  bsData <- bf_tmp[match(rownames(nv),bf_tmp$id),]
-  rownames(bsData) <- bsData$id
-  featureData <- new("AnnotatedDataFrame", data = bsData)
-  Biobase::ExpressionSet(assayData = nv,
-                         phenoData = phenoData,
-                         featureData = featureData)
+  bfData <- bf_tmp[match(rownames(nv),bf_tmp$id),]
+  rownames(bfData) <- bfData$id
+  # featureData <- new("AnnotatedDataFrame", data = bfData)
+  # Biobase::ExpressionSet(assayData = nv,
+  #                        phenoData = phenoData,
+  #                        featureData = featureData)
+  SummarizedExperiment::SummarizedExperiment(assays=list(counts=nv),
+                       rowData=DataFrame(bfData[,2:3]),
+                       colData=DataFrame(ssData[,2:3]))
+
 }
 
 
@@ -143,14 +146,17 @@ create_module_bf <- function(compendium = "vespucci",
                              id_In = colnames(nv), useIds = T)
   ssData <- ss_tmp[match(colnames(nv),ss_tmp$id),]
   rownames(ssData) <- ssData$id
-  phenoData <- new("AnnotatedDataFrame", data = ssData)
+  # phenoData <- new("AnnotatedDataFrame", data = ssData)
   bf_tmp <- get_biofeature_id(id_In = rownames(nv), useIds = T)
-  bsData <- bf_tmp[match(rownames(nv),bf_tmp$id),]
-  rownames(bsData) <- bsData$id
-  featureData <- new("AnnotatedDataFrame", data = bsData)
-  Biobase::ExpressionSet(assayData = nv,
-                         phenoData = phenoData,
-                         featureData = featureData)
+  bfData <- bf_tmp[match(rownames(nv),bf_tmp$id),]
+  rownames(bfData) <- bfData$id
+  # featureData <- new("AnnotatedDataFrame", data = bfData)
+  # Biobase::ExpressionSet(assayData = nv,
+  #                        phenoData = phenoData,
+  #                        featureData = featureData)
+  SummarizedExperiment::SummarizedExperiment(assays=list(counts=nv),
+                                             rowData=DataFrame(bfData[,2:3]),
+                                             colData=DataFrame(ssData[,2:3]))
 }
 
 #' create a module based on provided sample sets
@@ -216,14 +222,17 @@ create_module_ss <- function(compendium = "vespucci",
                              id_In = colnames(nv), useIds = T)
   ssData <- ss_tmp[match(colnames(nv),ss_tmp$id),]
   rownames(ssData) <- ssData$id
-  phenoData <- new("AnnotatedDataFrame", data = ssData)
+  # phenoData <- new("AnnotatedDataFrame", data = ssData)
   bf_tmp <- get_biofeature_id(id_In = rownames(nv), useIds = T)
-  bsData <- bf_tmp[match(rownames(nv),bf_tmp$id),]
-  rownames(bsData) <- bsData$id
-  featureData <- new("AnnotatedDataFrame", data = bsData)
-  Biobase::ExpressionSet(assayData = nv,
-                         phenoData = phenoData,
-                         featureData = featureData)
+  bfData <- bf_tmp[match(rownames(nv),bf_tmp$id),]
+  rownames(bfData) <- bfData$id
+  # featureData <- new("AnnotatedDataFrame", data = bfData)
+  # Biobase::ExpressionSet(assayData = nv,
+  #                        phenoData = phenoData,
+  #                        featureData = featureData)
+  SummarizedExperiment::SummarizedExperiment(assays=list(counts=nv),
+                                             rowData=DataFrame(bfData[,2:3]),
+                                             colData=DataFrame(ssData[,2:3]))
 
 }
 

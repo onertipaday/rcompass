@@ -19,8 +19,8 @@ Imports:
     RJSONIO,
     plotly,
     xml2,
-    methods,
-    Biobase
+    S4Vectors,
+    SummarizedExperiment
 RoxygenNote: 7.1.1
 Language: en-US
 Suggests: 

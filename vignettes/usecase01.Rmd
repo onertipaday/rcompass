@@ -136,21 +136,14 @@ Biological Features (genes) and Sample Sets (contrasts) have no particular order
 my_sorted_indexes <- plot_module_heatmap(module = module_1, normalization = "limma", plot = FALSE, sorted = TRUE)
 mod_tmp = module_1[match(my_sorted_indexes$sortedBiofeatures,rownames(module_1)),
                    match(my_sorted_indexes$sortedSamplesets,colnames(module_1))]
-
-ss_tmp <- get_sampleset_id(normalization = "limma", id_In = colnames(mod_tmp), useIds = T)
-bf_tmp <- get_biofeature_id(id_In = rownames(mod_tmp))
-
-# colnames(mod_tmp) <- ss_tmp[match(colnames(mod_tmp), ss_tmp$id), 2]
-# row.names(mod_tmp) <- bf_tmp[match(rownames(mod_tmp),bf_tmp$id), 2]
-
-knitr::kable(mod_tmp)
 ```
 
 Alternatively you can use directly any R function to cluster data and retrieve the sorted rows and columns of the matrix, e.g.:
 
 ```{r pheatmap order, echo = TRUE, eval = FALSE}
 pheat_cl <- pheatmap::pheatmap(mat =  Biobase::exprs(mod_tmp), silent = TRUE)
-knitr::kable(mod_tmp[pheat_cl$tree_row$order,pheat_cl$tree_col$order])
+pheat_cl <- pheatmap::pheatmap(mat =  SummarizedExperiment::assay(mod_tmp), silent = TRUE)
+mod_tmp <- mod_tmp[pheat_cl$tree_row$order,pheat_cl$tree_col$order]
 ```
 
 ### Export it in another format
