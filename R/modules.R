@@ -1,13 +1,15 @@
 #' create a module providing both biological features and sample sets
 #'
 #' @importFrom S4Vectors DataFrame
+#'
 #' @param compendium A string - the selected compendium
 #' @param normalization A string - either 'limma' (default),'tpm' or legacy as normalization
 #' @param biofeaturesNames A character vector (gene_names)
 #' @param samplesetNames A character vector (sampleset names)
+#' @param sorted A logical (FALSE as default) - it returns a sorted index for both bf and ss
 #' @param useIds A logical (FALSE as default) - It allows using biofeatureIds
 #'
-#' @return A matrix - the module
+#' @return A SummarizedExperiment object
 #' @export
 #'
 #' @examples
@@ -27,6 +29,7 @@ create_module <- function(compendium = "vespucci",
                           normalization = "limma",
                           biofeaturesNames = NULL,
                           samplesetNames = NULL,
+                          sorted = FALSE,
                           useIds = FALSE){
   if(all(c(biofeaturesNames, samplesetNames) %in% NULL)) stop("You need to provide at least biofeaturesNames or samplesetsNames")
   else if (is.null(biofeaturesNames)) {
@@ -69,17 +72,20 @@ create_module <- function(compendium = "vespucci",
                              id_In = colnames(nv) , useIds = T)
   ssData <- ss_tmp[match(colnames(nv),ss_tmp$id),]
   rownames(ssData) <- ssData$id
-  # phenoData <- new("AnnotatedDataFrame", data = ssData)
   bf_tmp <- get_biofeature_id(id_In = rownames(nv), useIds = T)
   bfData <- bf_tmp[match(rownames(nv),bf_tmp$id),]
   rownames(bfData) <- bfData$id
-  # featureData <- new("AnnotatedDataFrame", data = bfData)
-  # Biobase::ExpressionSet(assayData = nv,
-  #                        phenoData = phenoData,
-  #                        featureData = featureData)
-  SummarizedExperiment::SummarizedExperiment(assays=list(counts=nv),
+  out <- SummarizedExperiment::SummarizedExperiment(assays=list(counts=nv),
                        rowData=DataFrame(bfData[,2:3]),
                        colData=DataFrame(ssData[,2:3]))
+  if(sorted){
+    my_sorted_indexes <- plot_module_heatmap(module = out,
+                                             normalization = normalization,
+                                             plot = FALSE,
+                                             sorted = TRUE)
+    return(out[match(my_sorted_indexes$sortedBiofeatures,rownames(out)),
+                       match(my_sorted_indexes$sortedSamplesets,colnames(out))])
+  } else out
 
 }
 
@@ -91,9 +97,10 @@ create_module <- function(compendium = "vespucci",
 #' @param normalization A string - either 'limma' (default),'tpm' or legacy as normalization
 #' @param rank A string ('magnitude' as default)
 #' @param top_n A numeric - an integer for selecting the top ranked samplesets
+#' @param sorted A logical (FALSE as default) - it returns a sorted index for both bf and ss
 #' @param useIds A logical (FALSE as default) - It allows using biofeatureIds
-#'b
-#' @return A matrix - the module
+#'
+#' @return A SummarizedExperiment object
 #' @export
 #'
 #' @examples
@@ -108,6 +115,7 @@ create_module_bf <- function(compendium = "vespucci",
                              normalization = "limma",
                              rank = "magnitude",
                              top_n = 50,
+                             sorted = FALSE,
                              useIds = FALSE) {
   if(is.null(biofeaturesNames)) stop("You need to provide biofeaturesNames")
   if(useIds) biofeaturesIds <- biofeaturesNames
@@ -146,17 +154,20 @@ create_module_bf <- function(compendium = "vespucci",
                              id_In = colnames(nv), useIds = T)
   ssData <- ss_tmp[match(colnames(nv),ss_tmp$id),]
   rownames(ssData) <- ssData$id
-  # phenoData <- new("AnnotatedDataFrame", data = ssData)
   bf_tmp <- get_biofeature_id(id_In = rownames(nv), useIds = T)
   bfData <- bf_tmp[match(rownames(nv),bf_tmp$id),]
   rownames(bfData) <- bfData$id
-  # featureData <- new("AnnotatedDataFrame", data = bfData)
-  # Biobase::ExpressionSet(assayData = nv,
-  #                        phenoData = phenoData,
-  #                        featureData = featureData)
-  SummarizedExperiment::SummarizedExperiment(assays=list(counts=nv),
+  out <- SummarizedExperiment::SummarizedExperiment(assays=list(counts=nv),
                                              rowData=DataFrame(bfData[,2:3]),
                                              colData=DataFrame(ssData[,2:3]))
+  if(sorted){
+    my_sorted_indexes <- plot_module_heatmap(module = out,
+                                             normalization = normalization,
+                                             plot = FALSE,
+                                             sorted = TRUE)
+    return(out[match(my_sorted_indexes$sortedBiofeatures,rownames(out)),
+               match(my_sorted_indexes$sortedSamplesets,colnames(out))])
+  } else out
 }
 
 #' create a module based on provided sample sets
@@ -166,9 +177,10 @@ create_module_bf <- function(compendium = "vespucci",
 #' @param samplesetNames A character vector (sampleset names)
 #' @param rank A string ('magnitude' as default) - use \code{\link{get_ranking}}
 #' @param top_n A numeric - an integer for selecting the top ranked samplesets
+#' @param sorted A logical (FALSE as default) - it returns a sorted index for both bf and ss
 #' @param useIds A logical (FALSE as default) - It allows using samplesetIds
 #'
-#' @return A matrix - the module
+#' @return A SummarizedExperiment object
 #' @export
 #'
 #' @examples
@@ -182,6 +194,7 @@ create_module_ss <- function(compendium = "vespucci",
                              normalization = "limma",
                              rank = "uncentered_correlation",
                              top_n = 50,
+                             sorted = FALSE,
                              useIds = FALSE){
   if(is.null(samplesetNames)) stop("You need to provide samplesetNames")
   if(useIds) samplesetIds <- samplesetNames
@@ -222,18 +235,20 @@ create_module_ss <- function(compendium = "vespucci",
                              id_In = colnames(nv), useIds = T)
   ssData <- ss_tmp[match(colnames(nv),ss_tmp$id),]
   rownames(ssData) <- ssData$id
-  # phenoData <- new("AnnotatedDataFrame", data = ssData)
   bf_tmp <- get_biofeature_id(id_In = rownames(nv), useIds = T)
   bfData <- bf_tmp[match(rownames(nv),bf_tmp$id),]
   rownames(bfData) <- bfData$id
-  # featureData <- new("AnnotatedDataFrame", data = bfData)
-  # Biobase::ExpressionSet(assayData = nv,
-  #                        phenoData = phenoData,
-  #                        featureData = featureData)
-  SummarizedExperiment::SummarizedExperiment(assays=list(counts=nv),
+  out <- SummarizedExperiment::SummarizedExperiment(assays=list(counts=nv),
                                              rowData=DataFrame(bfData[,2:3]),
                                              colData=DataFrame(ssData[,2:3]))
-
+  if(sorted){
+    my_sorted_indexes <- plot_module_heatmap(module = out,
+                                             normalization = normalization,
+                                             plot = FALSE,
+                                             sorted = TRUE)
+    return(out[match(my_sorted_indexes$sortedBiofeatures,rownames(out)),
+               match(my_sorted_indexes$sortedSamplesets,colnames(out))])
+  } else out
 }
 
 #' describe a module

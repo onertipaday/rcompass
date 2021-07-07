@@ -9,6 +9,7 @@ create_module(
   normalization = "limma",
   biofeaturesNames = NULL,
   samplesetNames = NULL,
+  sorted = FALSE,
   useIds = FALSE
 )
 }
@@ -21,10 +22,12 @@ create_module(
 
 \item{samplesetNames}{A character vector (sampleset names)}
 
+\item{sorted}{A logical (FALSE as default) - it returns a sorted index for both bf and ss}
+
 \item{useIds}{A logical (FALSE as default) - It allows using biofeatureIds}
 }
 \value{
-A matrix - the module
+A SummarizedExperiment object
 }
 \description{
 create a module providing both biological features and sample sets

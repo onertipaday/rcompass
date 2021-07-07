@@ -10,6 +10,7 @@ create_module_bf(
   normalization = "limma",
   rank = "magnitude",
   top_n = 50,
+  sorted = FALSE,
   useIds = FALSE
 )
 }
@@ -24,11 +25,12 @@ create_module_bf(
 
 \item{top_n}{A numeric - an integer for selecting the top ranked samplesets}
 
-\item{useIds}{A logical (FALSE as default) - It allows using biofeatureIds
-b}
+\item{sorted}{A logical (FALSE as default) - it returns a sorted index for both bf and ss}
+
+\item{useIds}{A logical (FALSE as default) - It allows using biofeatureIds}
 }
 \value{
-A matrix - the module
+A SummarizedExperiment object
 }
 \description{
 create a module based on provided biological features
