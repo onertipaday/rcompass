@@ -30,6 +30,5 @@ gene_names <- c('VIT_00s0246g00220','VIT_00s0332g00060','VIT_00s0332g00110',
 ,'VIT_00s0873g00020','VIT_00s0904g00010')
 module_1 <- create_module(biofeaturesNames=gene_names, normalization = "limma")
 d_module <- describe_module(module = module_1, normalization = "limma")
-d_module # summary description - TODO
 }
 }

@@ -9,7 +9,7 @@ enrich_module(compendium = "vespucci", module = NULL, normalization = "limma")
 \arguments{
 \item{compendium}{A string - the selected compendium}
 
-\item{module}{A matrix with valid rownames (biofeatureNames) and colnames (samplesetsNames)}
+\item{module}{A matrix or SummarizedExperiment with valid rownames (biofeatureNames) and colnames (samplesetsNames)}
 
 \item{normalization}{A string - either 'limma' (default),'tpm' or legacy as normalization}
 }
