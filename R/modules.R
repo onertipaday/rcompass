@@ -267,7 +267,6 @@ create_module_ss <- function(compendium = "vespucci",
 #' ,'VIT_00s0873g00020','VIT_00s0904g00010')
 #' module_1 <- create_module(biofeaturesNames=gene_names, normalization = "limma")
 #' d_module <- describe_module(module = module_1, normalization = "limma")
-#' d_module # summary description - TODO
 #'}
 describe_module <- function(compendium = "vespucci",
                                 module = NULL,
@@ -297,7 +296,7 @@ describe_module <- function(compendium = "vespucci",
   }')
   # cat(my_query, "\n")
   sds <- build_query(my_query)$modules$samplesDescriptionSummary
-  # sds
+  sds
 
   categories <- purrr::modify_depth(sds,1,"category")
   details <- purrr::modify_depth(sds,1,"details") #lenght(details) 4
@@ -306,6 +305,7 @@ describe_module <- function(compendium = "vespucci",
     my_det[[i]] <- details[[i]]
   }
 
+
   originalId <- termShortName <- samples <- NULL
   oId <- list(); tSN <-list(); ss <- list()
   for (j in 1:length(my_det)){
@@ -313,32 +313,28 @@ describe_module <- function(compendium = "vespucci",
     tSN[[j]] <- unlist(rlist::list.map(my_det[[j]], termShortName))
     ss[[j]] <- rlist::list.map(my_det[[j]], samples)
   }
-
-  names(oId) <- unlist(categories)
-  names(tSN) <- unlist(categories)
-  names(ss) <- unlist(categories)
-
-  list(originalIds = oId, termShortName = tSN, samples = ss)
-
-
-  # originalId <- rlist::list.map(det_1, originalId)
-  # termShortName <- rlist::list.map(det_1,termShortName)
-  # samples <- rlist::list.map(det_1,samples)
-  # description_lst <- list()
-  # for (i in 1:length(details)){
-  #   description_lst[[i]] <- details[[i]][[1]]
-  # }
-  # names(description_lst) <- purrr::as_vector(categories)
-  # description_lst
-
-
+  tryCatch(
+    {
+      names(oId) <- unlist(categories)
+      names(tSN) <- unlist(categories)
+      names(ss) <- unlist(categories)
+      return(list(originalIds = oId, termShortName = tSN, samples = ss))
+    },
+    error=function(error_message) {
+      message(error_message)
+      names(oId) <- unlist(categories)[1:3]
+      names(tSN) <- unlist(categories)[1:3]
+      names(ss) <- unlist(categories)[1:3]
+      return(list(originalIds = oId, termShortName = tSN, samples = ss))
+    }
+  )
 }
 
 
 #' show the enrichment for ontology terms for both sampleSets and biofeatures
 #'
 #' @param compendium A string - the selected compendium
-#' @param module A matrix with valid rownames (biofeatureNames) and colnames (samplesetsNames)
+#' @param module A matrix or SummarizedExperiment with valid rownames (biofeatureNames) and colnames (samplesetsNames)
 #' @param normalization A string - either 'limma' (default),'tpm' or legacy as normalization
 #'
 #' @return a list with two data.frame (PlantOntology and GeneOntology)

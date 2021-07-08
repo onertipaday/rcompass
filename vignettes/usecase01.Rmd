@@ -133,15 +133,20 @@ view_plot(module = submodule_1,
 Biological Features (genes) and Sample Sets (contrasts) have no particular order in a module. But since the heatmap is clustered we can retrieve the sorted list of Biological Features and Sample Sets respectively using the `sorted = TRUE` parameter. 
 
 ```{r}
-my_sorted_indexes <- plot_module_heatmap(module = module_1, normalization = "limma", plot = FALSE, sorted = TRUE)
-mod_tmp = module_1[match(my_sorted_indexes$sortedBiofeatures,rownames(module_1)),
-                   match(my_sorted_indexes$sortedSamplesets,colnames(module_1))]
+
+mod_tmp <- create_module_bf(biofeaturesNames = gene_ids_module, 
+                            normalization = "limma", 
+                            top_n = 50,
+                            sorted = TRUE,
+                            useIds = TRUE)
+# my_sorted_indexes <- plot_module_heatmap(module = module_1, normalization = "limma", plot = FALSE, sorted = TRUE)
+# mod_tmp = module_1[match(my_sorted_indexes$sortedBiofeatures,rownames(module_1)),
+#                    match(my_sorted_indexes$sortedSamplesets,colnames(module_1))]
 ```
 
 Alternatively you can use directly any R function to cluster data and retrieve the sorted rows and columns of the matrix, e.g.:
 
 ```{r pheatmap order, echo = TRUE, eval = FALSE}
-pheat_cl <- pheatmap::pheatmap(mat =  Biobase::exprs(mod_tmp), silent = TRUE)
 pheat_cl <- pheatmap::pheatmap(mat =  SummarizedExperiment::assay(mod_tmp), silent = TRUE)
 mod_tmp <- mod_tmp[pheat_cl$tree_row$order,pheat_cl$tree_col$order]
 ```
