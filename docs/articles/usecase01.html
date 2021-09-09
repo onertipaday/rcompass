@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rcompass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
       </span>
     </div>
 
@@ -79,7 +79,7 @@
 
       
 
-      </header><script src="usecase01_files/header-attrs-2.9/header-attrs.js"></script><script src="usecase01_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="usecase01_files/header-attrs-2.10/header-attrs.js"></script><script src="usecase01_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Use Case 01</h1>
@@ -103,7 +103,7 @@
 <code class="sourceCode R"><span class="co"># devtools::install_github("onertipaday/rcompass")</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">rcompass</span><span class="op">)</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; This is 'rCOMPASS' version 0.0.8 based on COMPASS version 0.9.3.</span></code></pre></div>
+<span class="co">#&gt; This is 'rCOMPASS' version 0.0.9 based on COMPASS version 0.9.4.</span></code></pre></div>
 <p>The COMPASS GraphQL endpoint might hosts different compendia. At the moment there is only the VESPUCCI compendium, but there are different version of VESPUCCI, and each version might have data normalized in different ways. In this case there are 2 versions of VESPUCCI, version 1.0 (legacy) and version 2.0 (latest). The latter has data normalized in 2 different ways, TPM normalization and LIMMA (the default one) while the legacy version has the legacy normalization only (i.e. per-sample logratios). For every query we will need to indicate the compendium we want to use, if no version, no normalization and no database is specified the 2.0 vitis_vinifera tpm limma (default) values will be used.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"The Vitis gene expression compendium version"</span>, <span class="fu"><a href="../reference/get_available_compendia.html">get_available_compendia</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">versions</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="st">"normalized contains values for"</span>, <span class="fu"><a href="../reference/totalCounts.html">totalCounts</a></span><span class="op">(</span>version<span class="op">=</span><span class="st">"1.0"</span>, aggregate_type<span class="op">=</span><span class="st">"biofeatures"</span><span class="op">)</span>, <span class="st">" biological features, measured for"</span>, <span class="fu"><a href="../reference/totalCounts.html">totalCounts</a></span><span class="op">(</span>version<span class="op">=</span><span class="st">"2.0"</span>, aggregate_type<span class="op">=</span><span class="st">"sampleSets"</span><span class="op">)</span>, <span class="st">" sample sets. This corresponds to a total of"</span>, <span class="fu"><a href="../reference/totalCounts.html">totalCounts</a></span><span class="op">(</span>aggregate_type <span class="op">=</span> <span class="st">"experiments"</span><span class="op">)</span>, <span class="st">" experiments and"</span>, <span class="fu"><a href="../reference/totalCounts.html">totalCounts</a></span><span class="op">(</span>aggregate_type <span class="op">=</span> <span class="st">"samples"</span><span class="op">)</span>, <span class="st">" samples measured on"</span>, <span class="fu"><a href="../reference/totalCounts.html">totalCounts</a></span><span class="op">(</span>aggregate_type <span class="op">=</span> <span class="st">"platforms"</span><span class="op">)</span>,<span class="st">" different platforms divided in "</span><span class="op">)</span>
@@ -428,16 +428,16 @@
 #&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
 #&gt; 
 #&gt; other attached packages:
-#&gt; [1] rcompass_0.0.8
+#&gt; [1] rcompass_0.0.9
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
-#&gt;  [1] SummarizedExperiment_1.20.0 xfun_0.24                  
-#&gt;  [3] bslib_0.2.5.1               lattice_0.20-41            
-#&gt;  [5] htmltools_0.5.1.1           stats4_4.0.5               
+#&gt;  [1] SummarizedExperiment_1.20.0 xfun_0.25                  
+#&gt;  [3] bslib_0.3.0                 lattice_0.20-41            
+#&gt;  [5] htmltools_0.5.2             stats4_4.0.5               
 #&gt;  [7] yaml_2.2.1                  rlang_0.4.11               
 #&gt;  [9] pkgdown_1.6.1               jquerylib_0.1.4            
 #&gt; [11] httpcode_0.3.0              ghql_0.1.0                 
-#&gt; [13] BiocGenerics_0.36.1         matrixStats_0.59.0         
+#&gt; [13] BiocGenerics_0.36.1         matrixStats_0.60.1         
 #&gt; [15] GenomeInfoDbData_1.2.4      stringr_1.4.0              
 #&gt; [17] MatrixGenerics_1.2.1        zlibbioc_1.36.0            
 #&gt; [19] graphql_1.5                 ragg_1.1.3.9000            
@@ -447,19 +447,19 @@
 #&gt; [27] GenomeInfoDb_1.26.7         parallel_4.0.5             
 #&gt; [29] curl_4.3.2                  urltools_1.7.3             
 #&gt; [31] triebeard_0.3.0             highr_0.9                  
-#&gt; [33] Rcpp_1.0.7                  cachem_1.0.5               
+#&gt; [33] Rcpp_1.0.7                  cachem_1.0.6               
 #&gt; [35] DelayedArray_0.16.3         S4Vectors_0.28.1           
 #&gt; [37] desc_1.3.0                  jsonlite_1.7.2             
 #&gt; [39] XVector_0.30.0              systemfonts_1.0.2          
 #&gt; [41] fs_1.5.0                    textshaping_0.3.5          
-#&gt; [43] digest_0.6.27               stringi_1.6.2              
-#&gt; [45] RJSONIO_1.3-1.4             GenomicRanges_1.42.0       
+#&gt; [43] digest_0.6.27               stringi_1.7.4              
+#&gt; [45] RJSONIO_1.3-1.5             GenomicRanges_1.42.0       
 #&gt; [47] rprojroot_2.0.2             grid_4.0.5                 
 #&gt; [49] tools_4.0.5                 bitops_1.0-7               
 #&gt; [51] magrittr_2.0.1              sass_0.4.0                 
-#&gt; [53] RCurl_1.98-1.3              crul_1.1.0                 
+#&gt; [53] RCurl_1.98-1.4              crul_1.1.0                 
 #&gt; [55] crayon_1.4.1                Matrix_1.3-2               
-#&gt; [57] rmarkdown_2.9               R6_2.5.0                   
+#&gt; [57] rmarkdown_2.10              R6_2.5.1                   
 #&gt; [59] compiler_4.0.5</code></pre>
 </div>
   </div>

@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rcompass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
       </span>
     </div>
 
@@ -79,7 +79,7 @@
 
       
 
-      </header><script src="rcompass_files/header-attrs-2.9/header-attrs.js"></script><script src="rcompass_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="rcompass_files/header-attrs-2.10/header-attrs.js"></script><script src="rcompass_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>An R interface to COMPASS, the gene expression compendia GraphQL endpoint</h1>
@@ -125,7 +125,7 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">rcompass</span><span class="op">)</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; This is 'rCOMPASS' version 0.0.8 based on COMPASS version 0.9.3.</span></code></pre></div>
+<span class="co">#&gt; This is 'rCOMPASS' version 0.0.9 based on COMPASS version 0.9.4.</span></code></pre></div>
 <p>The COMPASS GraphQL endpoint might hosts different compendia. At the moment there is only the VESPUCCI compendium, but there are different version of VESPUCCI, and each version might have data normalized in different ways. In this case there are 2 versions of VESPUCCI, version 1.0 (legacy) and version 2.0 (latest). The latter has data normalized in 2 different ways, TPM normalization and LIMMA (the default one) while the legacy version has the legacy normalization only (i.e. per-sample logratios). For every query we will need to indicate the compendium we want to use, if no version, no normalization and no database is specified the default values (version 2.0, normalization <code>limma</code>) will be used.</p>
 <p>We can use <code>rcompass</code> to retrieve some stats about VESPUCCI. The Vitis gene expression compendium version 2.0 normalized contains values for 29090 biological features (genes), measured for 1689 sample sets. This corresponds to a total of 160 experiments and 4101 samples measured on 53 different platforms.</p>
 </div>

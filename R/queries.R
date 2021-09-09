@@ -1122,3 +1122,55 @@ get_biofeature_ranking <- function(compendium = "vespucci",
 }')
   as.data.frame(sapply(build_query(my_query)$ranking,unlist))[1:top_n,]
 }
+
+
+#' get raw data for a particular sample
+#'
+#' @param compendium A string - the selected compendium
+#' @param sampleId A string - either sampleId or sampleName
+#' @param useIds A logical (TRUE as default) - It allows using sampleName
+#'
+#' @return A data.frame with five columns: biofeatures_id,
+#' biofeatures_name, biofeatureReporters, values, valueType
+#' @export
+#'
+#' @examples
+#'\dontrun{
+#' rd_01 <- get_raw_data(sampleId = "U2FtcGxlVHlwZToyMzQ=", useIds = TRUE) # MA
+#' rd_02 <- get_raw_data(sampleId = "GSM1551306.ch1", useIds = FALSE) # RNA-seq
+#' rd_03 <- get_raw_data(sampleId = "GSM287866.ch1", useIds = FALSE) # MA
+#' }
+get_raw_data <- function(compendium = "vespucci",
+                         sampleId = NULL,
+                         useIds = TRUE){
+  if(missing(sampleId)) stop("Provide at least one sampleId for the selected compendium.")
+  if(useIds){ my_query <- paste0('{
+      rawData(compendium:\"', compendium, '\", sampleId:\"', paste0(sampleId, collapse = ','), '\") {')
+
+} else {
+  my_query <- paste0('{
+      rawData(compendium:\"', compendium, '\", sampleName:\"', paste0(sampleId, collapse = ','), '\") {')
+}
+  my_query <- paste0(my_query,'
+    values
+    valueTypes
+    biofeatureReporters
+    biofeatures {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+  }
+}')
+cat(my_query,"\n")
+tmp <- build_query(my_query)$rawData
+biofeatures <- as.data.frame(t(sapply(tmp$biofeatures$edges, unlist)))
+out <- data.frame(biofeatures_id = biofeatures$node.id,
+                  biofeatures_name = biofeatures$node.name,
+                  biofeatureReporters = tmp$biofeatureReporters,
+                  values = tmp$values,
+                  valueTypes = tmp$valueTypes)
+}
